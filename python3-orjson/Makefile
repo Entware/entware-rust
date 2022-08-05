@@ -3,11 +3,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python3-orjson
-PKG_VERSION:=3.7.5
+PKG_VERSION:=3.7.8
 PKG_RELEASE:=1
 
 PYPI_NAME:=orjson
-PKG_HASH:=47c9d2b3f993b630b1efa58ad128b5d8a61cd7cd5c0cec8dad043a1ab9d02866
+PKG_HASH:=a2e824220245323bb3291bb10ccf2ba936ed0b14e5e4a6260a1d1ed048caf77e
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -15,7 +15,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
-include $(TOPDIR)/package/rust/rust.mk
+include ../rust.mk
 
 define Package/python3-orjson
   SECTION:=lang
