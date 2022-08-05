@@ -1,0 +1,276 @@
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/aarch64_openwrt_linux_gnu.rs
+@@ -0,0 +1,22 @@
++use crate::spec::{SanitizerSet, Target, TargetOptions};
++
++pub fn target() -> Target {
++    Target {
++        llvm_target: "aarch64-openwrt-linux-gnu".into(),
++        pointer_width: 64,
++        data_layout: "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128".into(),
++        arch: "aarch64".into(),
++        options: TargetOptions {
++            features: "+outline-atomics".into(),
++            mcount: "\u{1}_mcount".into(),
++            max_atomic_width: Some(128),
++            supported_sanitizers: SanitizerSet::ADDRESS
++                | SanitizerSet::CFI
++                | SanitizerSet::LEAK
++                | SanitizerSet::MEMORY
++                | SanitizerSet::THREAD
++                | SanitizerSet::HWADDRESS,
++            ..super::openwrt_linux_gnu_base::opts()
++        },
++    }
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/arm_openwrt_linux_gnueabi.rs
+@@ -0,0 +1,17 @@
++use crate::spec::{Target, TargetOptions};
++
++pub fn target() -> Target {
++    Target {
++        llvm_target: "arm-openwrt-linux-gnueabi".into(),
++        pointer_width: 32,
++        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
++        arch: "arm".into(),
++        options: TargetOptions {
++            abi: "eabi".into(),
++            features: "+soft-float,+strict-align,+v6,-neon".into(),
++            max_atomic_width: Some(64),
++            mcount: "\u{1}__gnu_mcount_nc".into(),
++            ..super::openwrt_linux_gnu_base::opts()
++        },
++    }
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/armv5te_openwrt_linux_gnueabi.rs
+@@ -0,0 +1,19 @@
++use crate::spec::{Target, TargetOptions};
++
++pub fn target() -> Target {
++    Target {
++        llvm_target: "armv5te-openwrt-linux-gnueabi".into(),
++        pointer_width: 32,
++        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
++        arch: "arm".into(),
++        options: TargetOptions {
++            abi: "eabi".into(),
++            features: "+soft-float,+strict-align".into(),
++            // Atomic operations provided by compiler-builtins
++            max_atomic_width: Some(32),
++            mcount: "\u{1}__gnu_mcount_nc".into(),
++            has_thumb_interworking: true,
++            ..super::openwrt_linux_gnu_base::opts()
++        },
++    }
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/armv7_openwrt_linux_gnueabi.rs
+@@ -0,0 +1,20 @@
++use crate::spec::{Target, TargetOptions};
++
++// This target is for glibc Linux on ARMv7 without thumb-mode, NEON or
++// hardfloat.
++
++pub fn target() -> Target {
++    Target {
++        llvm_target: "armv7-openwrt-linux-gnueabi".into(),
++        pointer_width: 32,
++        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
++        arch: "arm".into(),
++        options: TargetOptions {
++            abi: "eabi".into(),
++            features: "+v7,+thumb2,+soft-float,-neon".into(),
++            max_atomic_width: Some(64),
++            mcount: "\u{1}__gnu_mcount_nc".into(),
++            ..super::openwrt_linux_gnu_base::opts()
++        },
++    }
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/i386_openwrt_linux_gnu.rs
+@@ -0,0 +1,8 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::i686_openwrt_linux_gnu::target();
++    base.cpu = "i386".into();
++    base.llvm_target = "i386-openwrt-linux-gnu".into();
++    base
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/i486_openwrt_linux_gnu.rs
+@@ -0,0 +1,8 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::i686_openwrt_linux_gnu::target();
++    base.cpu = "i486".into();
++    base.llvm_target = "i486-openwrt-linux-gnu".into();
++    base
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/i586_openwrt_linux_gnu.rs
+@@ -0,0 +1,8 @@
++use crate::spec::Target;
++
++pub fn target() -> Target {
++    let mut base = super::i686_openwrt_linux_gnu::target();
++    base.cpu = "pentium".into();
++    base.llvm_target = "i586-openwrt-linux-gnu".into();
++    base
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/i686_openwrt_linux_gnu.rs
+@@ -0,0 +1,20 @@
++use crate::spec::{LinkerFlavor, StackProbeType, Target};
++
++pub fn target() -> Target {
++    let mut base = super::openwrt_linux_gnu_base::opts();
++    base.cpu = "pentium4".into();
++    base.max_atomic_width = Some(64);
++    base.pre_link_args.entry(LinkerFlavor::Gcc).or_default().push("-m32".into());
++    // don't use probe-stack=inline-asm until rust#83139 and rust#84667 are resolved
++    base.stack_probes = StackProbeType::Call;
++
++    Target {
++        llvm_target: "i686-openwrt-linux-gnu".into(),
++        pointer_width: 32,
++        data_layout: "e-m:e-p:32:32-p270:32:32-p271:32:32-p272:64:64-\
++            f64:32:64-f80:32-n8:16:32-S128"
++            .into(),
++        arch: "x86".into(),
++        options: base,
++    }
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/mips_openwrt_linux_gnu.rs
+@@ -0,0 +1,20 @@
++use crate::abi::Endian;
++use crate::spec::{Target, TargetOptions};
++
++pub fn target() -> Target {
++    Target {
++        llvm_target: "mips-openwrt-linux-gnu".into(),
++        pointer_width: 32,
++        data_layout: "E-m:m-p:32:32-i8:8:32-i16:16:32-i64:64-n32-S64".into(),
++        arch: "mips".into(),
++        options: TargetOptions {
++            endian: Endian::Big,
++            cpu: "mips32r2".into(),
++            features: "+mips32r2,+soft-float".into(),
++            max_atomic_width: Some(32),
++            mcount: "_mcount".into(),
++
++            ..super::openwrt_linux_gnu_base::opts()
++        },
++    }
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/mipsel_openwrt_linux_gnu.rs
+@@ -0,0 +1,19 @@
++use crate::spec::{Target, TargetOptions};
++
++pub fn target() -> Target {
++    Target {
++        llvm_target: "mipsel-openwrt-linux-gnu".into(),
++        pointer_width: 32,
++        data_layout: "e-m:m-p:32:32-i8:8:32-i16:16:32-i64:64-n32-S64".into(),
++        arch: "mips".into(),
++
++        options: TargetOptions {
++            cpu: "mips32r2".into(),
++            features: "+mips32r2,+soft-float".into(),
++            max_atomic_width: Some(32),
++            mcount: "_mcount".into(),
++
++            ..super::openwrt_linux_gnu_base::opts()
++        },
++    }
++}
+--- a/compiler/rustc_target/src/spec/mod.rs
++++ b/compiler/rustc_target/src/spec/mod.rs
+@@ -74,6 +74,8 @@ mod linux_uclibc_base;
+ mod msvc_base;
+ mod netbsd_base;
+ mod openbsd_base;
++mod openwrt_linux_base;
++mod openwrt_linux_gnu_base;
+ mod redox_base;
+ mod solaris_base;
+ mod solid_base;
+@@ -809,6 +811,18 @@ macro_rules! supported_targets {
+ }
+ 
+ supported_targets! {
++    ("aarch64-openwrt-linux-gnu", aarch64_openwrt_linux_gnu),
++    ("arm-openwrt-linux-gnueabi", arm_openwrt_linux_gnueabi),
++    ("armv5te-openwrt-linux-gnueabi", armv5te_openwrt_linux_gnueabi),
++    ("armv7-openwrt-linux-gnueabi", armv7_openwrt_linux_gnueabi),
++    ("i386-openwrt-linux-gnu", i386_openwrt_linux_gnu),
++    ("i486-openwrt-linux-gnu", i486_openwrt_linux_gnu),
++    ("i586-openwrt-linux-gnu", i586_openwrt_linux_gnu),
++    ("i686-openwrt-linux-gnu", i686_openwrt_linux_gnu),
++    ("mips-openwrt-linux-gnu", mips_openwrt_linux_gnu),
++    ("mipsel-openwrt-linux-gnu", mipsel_openwrt_linux_gnu),
++    ("x86_64-openwrt-linux-gnu", x86_64_openwrt_linux_gnu),
++
+     ("x86_64-unknown-linux-gnu", x86_64_unknown_linux_gnu),
+     ("x86_64-unknown-linux-gnux32", x86_64_unknown_linux_gnux32),
+     ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/openwrt_linux_base.rs
+@@ -0,0 +1,17 @@
++use crate::spec::{cvs, RelroLevel, TargetOptions};
++
++pub fn opts() -> TargetOptions {
++    TargetOptions {
++        os: "linux".into(),
++        vendor: "openwrt".into(),
++        dynamic_linking: true,
++        executables: true,
++        families: cvs!["unix"],
++        has_rpath: false,
++        position_independent_executables: false,
++        relro_level: RelroLevel::None,
++        has_thread_local: true,
++        crt_static_respected: true,
++        ..Default::default()
++    }
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/openwrt_linux_gnu_base.rs
+@@ -0,0 +1,5 @@
++use crate::spec::TargetOptions;
++
++pub fn opts() -> TargetOptions {
++    TargetOptions { env: "gnu".into(), ..super::openwrt_linux_base::opts() }
++}
+--- /dev/null
++++ b/compiler/rustc_target/src/spec/x86_64_openwrt_linux_gnu.rs
+@@ -0,0 +1,24 @@
++use crate::spec::{LinkerFlavor, SanitizerSet, StackProbeType, Target};
++
++pub fn target() -> Target {
++    let mut base = super::openwrt_linux_gnu_base::opts();
++    base.cpu = "x86-64".into();
++    base.max_atomic_width = Some(64);
++    base.pre_link_args.entry(LinkerFlavor::Gcc).or_default().push("-m64".into());
++    // don't use probe-stack=inline-asm until rust#83139 and rust#84667 are resolved
++    base.stack_probes = StackProbeType::Call;
++    base.supported_sanitizers = SanitizerSet::ADDRESS
++        | SanitizerSet::CFI
++        | SanitizerSet::LEAK
++        | SanitizerSet::MEMORY
++        | SanitizerSet::THREAD;
++
++    Target {
++        llvm_target: "x86_64-openwrt-linux-gnu".into(),
++        pointer_width: 64,
++        data_layout: "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-f80:128-n8:16:32:64-S128"
++            .into(),
++        arch: "x86_64".into(),
++        options: base,
++    }
++}
