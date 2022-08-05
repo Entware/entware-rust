@@ -19,7 +19,7 @@ HOST_PYTHON3_PACKAGE_BUILD_DEPENDS:=cffi ./setuptools-rust.txt # cffi>=1.12
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
-include $(TOPDIR)/package/rust/rust.mk
+include ../rust.mk
 
 define Package/python3-cryptography
   SECTION:=lang
