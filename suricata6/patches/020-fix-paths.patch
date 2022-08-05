@@ -1,0 +1,328 @@
+--- a/python/suricata/config/defaults.py
++++ b/python/suricata/config/defaults.py
+@@ -1,3 +1,3 @@
+-sysconfdir = "/usr/local/etc/suricata/"
+-datarulesdir = "/usr/local/share/suricata/rules"
+-localstatedir = "/usr/local/var/run/suricata"
++sysconfdir = "/opt/etc/suricata"
++datarulesdir = "/opt/etc/suricata/rules"
++localstatedir = "/opt/var/run/suricata"
+--- a/python/suricata/config/defaults.py.in
++++ b/python/suricata/config/defaults.py.in
+@@ -1,3 +1,3 @@
+-sysconfdir = "@e_sysconfdir@"
+-datarulesdir = "@e_datarulesdir@"
+-localstatedir = "@e_localstatedir@"
++sysconfdir = "/opt/etc/suricata"
++datarulesdir = "/opt/etc/suricata/rules"
++localstatedir = "/opt/var/run/suricata"
+--- a/src/conf.h
++++ b/src/conf.h
+@@ -51,7 +51,7 @@ typedef struct ConfNode_ {
+ #define DEFAULT_LOG_DIR "C:\\WINDOWS\\Temp"
+ #define DEFAULT_DATA_DIR "C:\\WINDOWS\\Temp"
+ #else
+-#define DEFAULT_LOG_DIR "/var/log/suricata"
++#define DEFAULT_LOG_DIR "/opt/var/log/suricata"
+ #define DEFAULT_DATA_DIR DATA_DIR
+ #endif /* OS_WIN32 */
+ 
+--- a/src/conf-yaml-loader.c
++++ b/src/conf-yaml-loader.c
+@@ -568,7 +568,7 @@ rule-files:\n\
+   - netbios.rules\n\
+   - x11.rules\n\
+ \n\
+-default-log-dir: /tmp\n\
++default-log-dir: /opt/tmp\n\
+ ";
+ 
+     ConfCreateContextBackup();
+@@ -697,7 +697,7 @@ ConfYamlNonYamlFileTest(void)
+     ConfCreateContextBackup();
+     ConfInit();
+ 
+-    if (ConfYamlLoadFile("/etc/passwd") != -1)
++    if (ConfYamlLoadFile("/opt/etc/passwd") != -1)
+         return 0;
+ 
+     ConfDeInit();
+@@ -902,8 +902,8 @@ ConfYamlOverrideTest(void)
+     char config[] =
+         "%YAML 1.1\n"
+         "---\n"
+-        "some-log-dir: /var/log\n"
+-        "some-log-dir: /tmp\n"
++        "some-log-dir: /opt/var/log\n"
++        "some-log-dir: /opt/tmp\n"
+         "\n"
+         "parent:\n"
+         "  child0:\n"
+@@ -921,7 +921,7 @@ ConfYamlOverrideTest(void)
+         return 0;
+     if (!ConfGet("some-log-dir", &value))
+         return 0;
+-    if (strcmp(value, "/tmp") != 0)
++    if (strcmp(value, "/opt/tmp") != 0)
+         return 0;
+ 
+     /* Test that parent.child0 does not exist, but child1 does. */
+@@ -951,10 +951,10 @@ ConfYamlOverrideFinalTest(void)
+     char config[] =
+         "%YAML 1.1\n"
+         "---\n"
+-        "default-log-dir: /var/log\n";
++        "default-log-dir: /opt/var/log\n";
+ 
+     /* Set the log directory as if it was set on the command line. */
+-    if (!ConfSetFinal("default-log-dir", "/tmp"))
++    if (!ConfSetFinal("default-log-dir", "/opt/tmp"))
+         return 0;
+     if (ConfYamlLoadString(config, strlen(config)) != 0)
+         return 0;
+@@ -963,7 +963,7 @@ ConfYamlOverrideFinalTest(void)
+ 
+     if (!ConfGet("default-log-dir", &default_log_dir))
+         return 0;
+-    if (strcmp(default_log_dir, "/tmp") != 0) {
++    if (strcmp(default_log_dir, "/opt/tmp") != 0) {
+         fprintf(stderr, "final value was reassigned\n");
+         return 0;
+     }
+--- a/src/log-tlsstore.c
++++ b/src/log-tlsstore.c
+@@ -56,7 +56,7 @@
+ 
+ #define MODULE_NAME "LogTlsStoreLog"
+ 
+-static char tls_logfile_base_dir[PATH_MAX] = "/tmp";
++static char tls_logfile_base_dir[PATH_MAX] = "/opt/tmp";
+ SC_ATOMIC_DECLARE(unsigned int, cert_id);
+ static char logging_dir_not_writable;
+ 
+--- a/src/stream-tcp.c
++++ b/src/stream-tcp.c
+@@ -7375,7 +7375,7 @@ static const char *dummy_conf_string =
+     "%YAML 1.1\n"
+     "---\n"
+     "\n"
+-    "default-log-dir: /var/log/eidps\n"
++    "default-log-dir: /opt/var/log/eidps\n"
+     "\n"
+     "logging:\n"
+     "\n"
+@@ -7398,7 +7398,7 @@ static const char *dummy_conf_string1 =
+     "%YAML 1.1\n"
+     "---\n"
+     "\n"
+-    "default-log-dir: /var/log/eidps\n"
++    "default-log-dir: /opt/var/log/eidps\n"
+     "\n"
+     "logging:\n"
+     "\n"
+--- a/src/suricata.h
++++ b/src/suricata.h
+@@ -74,12 +74,12 @@
+ /* workaround SPlint error (don't know __gnuc_va_list) */
+ #ifdef S_SPLINT_S
+ #  include <err.h>
+-#  define CONFIG_DIR "/etc/suricata"
++#  define CONFIG_DIR "/opt/etc/suricata"
+ #endif
+ 
+-#define DEFAULT_CONF_FILE CONFIG_DIR "/suricata.yaml"
++#define DEFAULT_CONF_FILE "/opt/etc/suricata/suricata.yaml"
+ 
+-#define DEFAULT_PID_DIR LOCAL_STATE_DIR "/run/"
++#define DEFAULT_PID_DIR "/opt/var/run/"
+ #define DEFAULT_PID_BASENAME "suricata.pid"
+ #define DEFAULT_PID_FILENAME DEFAULT_PID_DIR DEFAULT_PID_BASENAME
+ 
+--- a/src/tests/detect.c
++++ b/src/tests/detect.c
+@@ -31,7 +31,7 @@ static const char *dummy_conf_string =
+     "%YAML 1.1\n"
+     "---\n"
+     "\n"
+-    "default-log-dir: /var/log/suricata\n"
++    "default-log-dir: /opt/var/log/suricata\n"
+     "\n"
+     "logging:\n"
+     "\n"
+@@ -49,7 +49,7 @@ static const char *dummy_conf_string =
+     "    log-level: info\n"
+     "\n"
+     "  - interface: file\n"
+-    "    filename: /var/log/suricata.log\n"
++    "    filename: /opt/var/log/suricata.log\n"
+     "\n"
+     "  - interface: syslog\n"
+     "    facility: local5\n"
+--- a/src/unix-manager.c
++++ b/src/unix-manager.c
+@@ -53,7 +53,7 @@
+ # endif
+ #endif
+ 
+-#define SOCKET_PATH LOCAL_STATE_DIR "/run/suricata/"
++#define SOCKET_PATH "/opt/var/run/suricata/"
+ #define SOCKET_FILENAME "suricata-command.socket"
+ #define SOCKET_TARGET SOCKET_PATH SOCKET_FILENAME
+ 
+--- a/src/util-rule-vars.c
++++ b/src/util-rule-vars.c
+@@ -118,7 +118,7 @@ static const char *dummy_conf_string =
+     "%YAML 1.1\n"
+     "---\n"
+     "\n"
+-    "default-log-dir: /var/log/suricata\n"
++    "default-log-dir: /opt/var/log/suricata\n"
+     "\n"
+     "logging:\n"
+     "\n"
+@@ -136,7 +136,7 @@ static const char *dummy_conf_string =
+     "    log-level: info\n"
+     "\n"
+     "  - interface: file\n"
+-    "    filename: /var/log/suricata.log\n"
++    "    filename: /opt/var/log/suricata.log\n"
+     "\n"
+     "  - interface: syslog\n"
+     "    facility: local5\n"
+--- a/suricata-update/bin/suricata-update
++++ b/suricata-update/bin/suricata-update
+@@ -1,4 +1,4 @@
+-#! /usr/bin/env python
++#!/opt/bin/python
+ #
+ # Copyright (C) 2017 Open Information Security Foundation
+ #
+--- a/suricata-update/suricata/update/configs/update.yaml
++++ b/suricata-update/suricata/update/configs/update.yaml
+@@ -1,22 +1,22 @@
+ # Configuration with disable filters.
+ # - Overrided by --disable-conf
+ # - Default: /etc/suricata/disable.conf
+-disable-conf: /etc/suricata/disable.conf
++disable-conf: /opt/etc/suricata/disable.conf
+ 
+ # Configuration with enable filters.
+ # - Overrided by --enable-conf
+ # - Default: /etc/suricata/enable.conf
+-enable-conf: /etc/suricata/enable.conf
++enable-conf: /opt/etc/suricata/enable.conf
+ 
+ # Configuration with drop filters.
+ # - Overrided by --drop-conf
+ # - Default: /etc/suricata/drop.conf
+-drop-conf: /etc/suricata/drop.conf
++drop-conf: /opt/etc/suricata/drop.conf
+ 
+ # Configuration with modify filters.
+ # - Overrided by --modify-conf
+ # - Default: /etc/suricata/modify.conf
+-modify-conf: /etc/suricata/modify.conf
++modify-conf: /opt/etc/suricata/modify.conf
+ 
+ # List of files to ignore. Overrided by the --ignore command line option.
+ ignore:
+@@ -32,7 +32,7 @@ ignore:
+ # OUTPUT_DIR - The directory the rules are written to.
+ # OUTPUT_FILENAME - The name of the rule file. Will be empty if the rules
+ #                   were not merged.
+-#test-command: ${SURICATA_PATH} -T -S ${OUTPUT_FILENAME} -l /tmp
++#test-command: ${SURICATA_PATH} -T -S ${OUTPUT_FILENAME} -l /opt/tmp
+ 
+ # Provide a command to reload the Suricata rules.
+ # May be overrided by the --reload-command command line option.
+@@ -51,8 +51,8 @@ sources:
+ # directory or a wild card specification.
+ local:
+   # A directory of rules.
+-  - /etc/suricata/rules
++  - /opt/etc/suricata/rules
+   # A single rule file.
+-  - /etc/suricata/rules/app-layer-events.rules
++  - /opt/etc/suricata/rules/app-layer-events.rules
+   # A wildcard.
+-  - /etc/suricata/rules/*.rules
++  - /opt/etc/suricata/rules/*.rules
+--- a/suricata-update/suricata/update/config.py
++++ b/suricata-update/suricata/update/config.py
+@@ -31,7 +31,7 @@ except:
+ 
+ logger = logging.getLogger()
+ 
+-DEFAULT_DATA_DIRECTORY = "/var/lib/suricata"
++DEFAULT_DATA_DIRECTORY = "/opt/var/lib/suricata"
+ 
+ # Cache directory - relative to the data directory.
+ CACHE_DIRECTORY = os.path.join("update", "cache")
+@@ -54,9 +54,10 @@ DIST_RULE_DIRECTORY_KEY = "dist-rule-dir
+ if has_defaults:
+     DEFAULT_UPDATE_YAML_PATH = os.path.join(defaults.sysconfdir, "update.yaml")
+ else:
+-    DEFAULT_UPDATE_YAML_PATH = "/etc/suricata/update.yaml"
++    DEFAULT_UPDATE_YAML_PATH = "/opt/etc/suricata/update.yaml"
+ 
+ DEFAULT_SURICATA_YAML_PATH = [
++    "/opt/etc/suricata/suricata.yaml",
+     "/etc/suricata/suricata.yaml",
+     "/usr/local/etc/suricata/suricata.yaml",
+     "/etc/suricata/suricata-debian.yaml"
+@@ -65,18 +66,18 @@ DEFAULT_SURICATA_YAML_PATH = [
+ if has_defaults:
+     DEFAULT_DIST_RULE_PATH = [
+         defaults.datarulesdir,
+-        "/etc/suricata/rules",
++        "/opt/etc/suricata/rules",
+     ]
+ else:
+     DEFAULT_DIST_RULE_PATH = [
+-        "/etc/suricata/rules",
++        "/opt/etc/suricata/rules",
+     ]
+ 
+ DEFAULT_CONFIG = {
+-    "disable-conf": "/etc/suricata/disable.conf",
+-    "enable-conf": "/etc/suricata/enable.conf",
+-    "drop-conf": "/etc/suricata/drop.conf",
+-    "modify-conf": "/etc/suricata/modify.conf",
++    "disable-conf": "/opt/etc/suricata/disable.conf",
++    "enable-conf": "/opt/etc/suricata/enable.conf",
++    "drop-conf": "/opt/etc/suricata/drop.conf",
++    "modify-conf": "/opt/etc/suricata/modify.conf",
+     "sources": [],
+     LOCAL_CONF_KEY: [],
+ 
+--- a/suricata-update/suricata/update/main.py
++++ b/suricata-update/suricata/update/main.py
+@@ -1190,8 +1190,8 @@ def _main():
+         except Exception as err:
+             logger.warning(
+                 "Cache directory does not exist and could not be created. "
+-                "/var/tmp will be used instead.")
+-            config.set_cache_dir("/var/tmp")
++                "/opt/tmp will be used instead.")
++            config.set_cache_dir("/opt/tmp")
+ 
+     files = load_sources(suricata_version)
+ 
+--- a/suricata-update/suricata/update/parsers.py
++++ b/suricata-update/suricata/update/parsers.py
+@@ -41,13 +41,13 @@ global_arg = [
+       'help': "Be quiet, warning and error messages only"}),
+     (("-D", "--data-dir"),
+      {'metavar': '<directory>', 'dest': 'data_dir',
+-      'help': "Data directory (default: /var/lib/suricata)"}),
++      'help': "Data directory (default: /opt/var/lib/suricata)"}),
+     (("-c", "--config"),
+      {'metavar': '<filename>',
+       'help': "configuration file (default: %s)" % (default_update_yaml)}),
+     (("--suricata-conf",),
+      {'metavar': '<filename>',
+-      'help': "configuration file (default: /etc/suricata/suricata.yaml)"}),
++      'help': "configuration file (default: /opt/etc/suricata/suricata.yaml)"}),
+     (("--suricata",),
+      {'metavar': '<path>',
+       'help': "Path to Suricata program"}),
