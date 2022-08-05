@@ -1,0 +1,112 @@
+diff --git a/tools/Makefile b/tools/Makefile
+index 02302a70..167c317f 100644
+--- a/tools/Makefile
++++ b/tools/Makefile
+@@ -28,7 +28,7 @@ tools-y += autoconf autoconf-archive automake bc bison cmake cpio dosfstools
+ tools-y += e2fsprogs fakeroot findutils flex gengetopt
+ tools-y += go-bootstrap go-src
+ tools-y += libtool lzma m4 meson missing-macros
+-tools-y += mklibs mtools ninja
++tools-y += mklibs mtools ninja openssl
+ tools-y += patchelf pkgconf quilt sstrip xxd zip zlib zstd
+ tools-$(BUILD_ISL) += isl
+ tools-$(BUILD_TOOLCHAIN) += expat gmp mpc mpfr
+@@ -39,7 +39,7 @@ $(curdir)/autoconf/compile := $(curdir)/m4/compile
+ $(curdir)/automake/compile := $(curdir)/m4/compile $(curdir)/autoconf/compile $(curdir)/pkgconf/compile $(curdir)/xz/compile
+ $(curdir)/bc/compile := $(curdir)/bison/compile $(curdir)/libtool/compile
+ $(curdir)/bison/compile := $(curdir)/flex/compile
+-$(curdir)/cmake/compile += $(curdir)/ninja/compile
++$(curdir)/cmake/compile += $(curdir)/openssl/compile $(curdir)/ninja/compile
+ $(curdir)/dosfstools/compile := $(curdir)/autoconf/compile $(curdir)/automake/compile
+ $(curdir)/expat/compile := $(curdir)/cmake/compile
+ $(curdir)/e2fsprogs/compile := $(curdir)/libtool/compile
+@@ -57,6 +57,7 @@ $(curdir)/missing-macros/compile := $(curdir)/autoconf/compile
+ $(curdir)/mklibs/compile := $(curdir)/libtool/compile
+ $(curdir)/mpc/compile := $(curdir)/mpfr/compile $(curdir)/gmp/compile
+ $(curdir)/mpfr/compile := $(curdir)/gmp/compile
++$(curdir)/openssl/compile := $(curdir)/pkgconf/compile
+ $(curdir)/patchelf/compile := $(curdir)/libtool/compile
+ $(curdir)/pkgconf/compile := $(curdir)/meson/compile
+ $(curdir)/quilt/compile := $(curdir)/autoconf/compile $(curdir)/findutils/compile
+@@ -77,7 +78,7 @@ else
+ endif
+ 
+ ifneq ($(CONFIG_CCACHE)$(CONFIG_SDK),)
+-$(foreach tool, $(filter-out xz zstd pkgconf patch ninja meson cmake,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/ccache/compile))
++$(foreach tool, $(filter-out xz zstd pkgconf patch openssl ninja meson cmake,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/ccache/compile))
+ tools-y += ccache
+ $(curdir)/ccache/compile := $(curdir)/cmake/compile $(curdir)/zstd/compile
+ endif
+diff --git a/tools/openssl/Makefile b/tools/openssl/Makefile
+new file mode 100644
+index 00000000..8ab41d0f
+--- /dev/null
++++ b/tools/openssl/Makefile
+@@ -0,0 +1,67 @@
++#
++# Copyright (C) 2018-2022 Entware
++#
++# This is free software, licensed under the GNU General Public License v2.
++# See /LICENSE for more information.
++#
++
++include $(TOPDIR)/rules.mk
++
++PKG_NAME:=openssl
++PKG_BASE:=1.1.1
++PKG_BUGFIX:=q
++PKG_VERSION:=$(PKG_BASE)$(PKG_BUGFIX)
++PKG_RELEASE:=1
++
++PKG_CPE_ID:=cpe:/a:openssl:openssl
++
++PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
++PKG_SOURCE_URL:= \
++       http://www.openssl.org/source/ \
++       http://www.openssl.org/source/old/$(PKG_BASE)/ \
++       http://ftp.fi.muni.cz/pub/openssl/source/ \
++       http://ftp.fi.muni.cz/pub/openssl/source/old/$(PKG_BASE)/ \
++       ftp://ftp.pca.dfn.de/pub/tools/net/openssl/source/ \
++       ftp://ftp.pca.dfn.de/pub/tools/net/openssl/source/old/$(PKG_BASE)/
++
++PKG_HASH:=d7939ce614029cdff0b6c20f0e2e5703158a489a72b2507b8bd51bf8c8fd10ca
++
++HOST_BUILD_PARALLEL:=1
++
++include $(INCLUDE_DIR)/host-build.mk
++
++# default target is gcc if we don't know the host system
++OPENSSL_TARGET:=gcc
++ifeq ($(HOST_OS),Darwin)
++OPENSSL_TARGET:=darwin-$(HOST_ARCH)-cc
++endif
++ifeq ($(HOST_OS),Linux)
++OPENSSL_TARGET:=linux-$(HOST_ARCH)
++endif
++
++HOSTCC := $(HOSTCC_NOCACHE)
++HOST_CFLAGS += $(HOST_FPIC)
++OPENSSL_OPTIONS := no-shared no-hw no-asm threads
++
++define Host/Configure
++       (cd $(HOST_BUILD_DIR); \
++               ./Configure $(OPENSSL_TARGET) \
++               --prefix=$(STAGING_DIR_HOST) \
++               --libdir=lib \
++               $(HOST_CPPFLAGS) \
++               $(HOST_LDFLAGS) \
++               $(OPENSSL_OPTIONS) \
++       )
++endef
++
++define Host/Compile
++       +$(MAKE) $(PKG_JOBS) -C $(HOST_BUILD_DIR) \
++               CC="$(HOSTCC)" \
++               install_dev
++endef
++
++define Host/Install
++       :
++endef
++
++$(eval $(call HostBuild))
