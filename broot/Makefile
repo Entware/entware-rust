@@ -1,0 +1,42 @@
+# SPDX-License-Identifier: WTFPL
+
+include $(TOPDIR)/rules.mk
+
+PKG_NAME:=broot
+PKG_VERSION:=1.13.3
+PKG_RELEASE:=1
+
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/Canop/broot/tar.gz/refs/tags/v$(PKG_VERSION)?
+PKG_HASH:=a7f9e98ff1371eff065a8dabbe9e31ef42d264b7d93c18f920d6a5399016da33
+
+PKG_LICENSE:=MIT
+PKG_LICENSE_FILES:=LICENSE
+
+include $(INCLUDE_DIR)/package.mk
+include ../cargo.mk
+
+define Package/broot
+  SECTION:=utils
+  CATEGORY:=Utilities
+  SUBMENU:=Shells
+  TITLE:=A new file manager
+  URL:=https://dystroy.org/broot
+  DEPENDS:=+zlib
+  EXTRA_DEPENDS:=git-http
+endef
+
+define Package/broot/description
+  A better way to navigate directories.
+endef
+
+ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
+RUSTFLAGS += --cfg crossbeam_no_atomic_64
+endif
+
+define Package/broot/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/broot $(1)/opt/usr/bin
+endef
+
+$(eval $(call BuildPackage,broot))
