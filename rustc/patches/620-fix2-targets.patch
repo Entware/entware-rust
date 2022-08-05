@@ -1,0 +1,44 @@
+--- a/vendor/target-lexicon/src/targets.rs
++++ b/vendor/target-lexicon/src/targets.rs
+@@ -403,6 +403,7 @@ pub enum Vendor {
+     Kmc,
+     Nintendo,
+     Nvidia,
++    OpenWrt,
+     Pc,
+     Rumprun,
+     Sun,
+@@ -990,6 +991,7 @@ impl fmt::Display for Vendor {
+             Kmc => "kmc",
+             Nintendo => "nintendo",
+             Nvidia => "nvidia",
++            OpenWrt => "openwrt",
+             Pc => "pc",
+             Rumprun => "rumprun",
+             Sun => "sun",
+@@ -1017,6 +1019,7 @@ impl FromStr for Vendor {
+             "kmc" => Kmc,
+             "nintendo" => Nintendo,
+             "nvidia" => Nvidia,
++            "openwrt" => OpenWrt,
+             "pc" => Pc,
+             "rumprun" => Rumprun,
+             "sun" => Sun,
+@@ -1527,6 +1530,17 @@ mod tests {
+             "x86_64-wrs-vxworks",
+             "xtensa-esp32-espidf",
+             "riscv32imc-esp-espidf",
++            "aarch64-openwrt-linux-gnu", // Entware/OpenWrt
++            "arm-openwrt-linux-gnueabi", // Entware/OpenWrt
++            "armv5te-openwrt-linux-gnueabi", // Entware/OpenWrt
++            "armv7-openwrt-linux-gnueabi", // Entware/OpenWrt
++            "i386-openwrt-linux-gnu", // Entware/OpenWrt
++            "i486-openwrt-linux-gnu", // Entware/OpenWrt
++            "i586-openwrt-linux-gnu", // Entware/OpenWrt
++            "i686-openwrt-linux-gnu", // Entware/OpenWrt
++            "mips-openwrt-linux-gnu", // Entware/OpenWrt
++            "mipsel-openwrt-linux-gnu", // Entware/OpenWrt
++            "x86_64-openwrt-linux-gnu", // Entware/OpenWrt
+         ];
+ 
+         for target in targets.iter() {
