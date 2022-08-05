@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: WTFPL
+
 ### deps
 PKG_BUILD_DEPENDS:=rustc-dev
 
