@@ -1,0 +1,28 @@
+--- a/src/metrics.rs
++++ b/src/metrics.rs
+@@ -278,17 +278,6 @@ impl CPUTimeApp {
+         }
+     }
+ 
+-    fn get_batteries(&mut self) {
+-        debug!("Updating Batteries.");
+-        let manager = battery::Manager::new().expect("Couldn't create battery manager");
+-        self.batteries.clear();
+-        for b in manager.batteries().expect("Couldn't get batteries") {
+-            if let Ok(b) = b {
+-                self.batteries.push(b)
+-            }
+-        }
+-    }
+-
+     async fn get_nics(&mut self) {
+         debug!("Updating Network Interfaces");
+         self.network_interfaces.clear();
+@@ -693,7 +682,6 @@ impl CPUTimeApp {
+         self.update_disk(width);
+         self.get_platform().await;
+         self.get_nics().await;
+-        self.get_batteries();
+         self.get_uptime().await;
+         self.update_gfx_devices();
+         self.update_gpu_utilization();
