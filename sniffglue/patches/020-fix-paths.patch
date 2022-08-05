@@ -1,0 +1,37 @@
+--- a/sniffglue.conf
++++ b/sniffglue.conf
+@@ -1,3 +1,3 @@
+ [sandbox]
+ user = "nobody"
+-chroot = "/var/empty/"
++chroot = "/opt/var/empty/"
+--- a/src/sandbox/config.rs
++++ b/src/sandbox/config.rs
+@@ -16,8 +16,7 @@ pub struct SandboxConfig {
+ 
+ pub fn find() -> Option<String> {
+     let mut paths = vec![
+-        String::from("/etc/sniffglue.conf"),
+-        String::from("/usr/local/etc/sniffglue.conf"),
++        String::from("/opt/etc/sniffglue.conf"),
+     ];
+ 
+     if let Some(home) = dirs_next::config_dir() {
+@@ -53,7 +52,7 @@ mod tests {
+             r#"
+             [sandbox]
+             user = "foo"
+-            chroot = "/var/empty"
++            chroot = "/opt/var/empty"
+             "#,
+         ).unwrap();
+ 
+@@ -61,7 +60,7 @@ mod tests {
+             Config {
+                 sandbox: SandboxConfig {
+                     user: Some(String::from("foo")),
+-                    chroot: Some(String::from("/var/empty")),
++                    chroot: Some(String::from("/opt/var/empty")),
+                 },
+             },
+             config
