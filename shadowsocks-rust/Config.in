@@ -1,0 +1,116 @@
+if PACKAGE_shadowsocks-rust
+
+comment "Build Options"
+
+	config SS_RUST_LOCAL
+		bool "Enable local server (sslocal)"
+		default y
+
+	config SS_RUST_SERVER
+		bool "Enable remote server (ssserver)"
+		default y
+
+	config SS_RUST_MANAGER
+		bool "Enable manager server (ssmanager)"
+		default y
+
+	config SS_RUST_UTILITY
+		bool "Enable utility (ssurl)"
+		default y
+
+	config SS_RUST_SERVICE
+		bool "Enable service (ssservice)"
+		depends on SS_RUST_LOCAL && SS_RUST_SERVER && SS_RUST_MANAGER
+		default y
+
+	config SS_RUST_TRUST_DNS
+		bool "Enable trust-dns as DNS resolver"
+		default y
+
+	config SS_RUST_DNS_OVER_TLS
+		bool "Enable dns-over-tls as DNS resolver"
+		default n
+
+	config SS_RUST_DNS_OVER_HTTPS
+		bool "Enable dns-over-https as DNS resolver"
+		default n
+
+	config SS_RUST_LOGGING
+		bool "Enable logging output"
+		default y
+
+	config SS_RUST_LOCAL_DNS
+		bool "Enable DNS-relay"
+		depends on SS_RUST_LOCAL
+		default n
+
+	config SS_RUST_LOCAL_HTTP
+		depends on SS_RUST_LOCAL
+		bool "Enable HTTP protocol for sslocal"
+		default y
+
+choice
+	prompt "Enable HTTP protocol for sslocal"
+		depends on SS_RUST_LOCAL && SS_RUST_LOCAL_HTTP
+		default SS_RUST_LOCAL_HTTP_EMPTY
+
+	config SS_RUST_LOCAL_HTTP_EMPTY
+		bool "Empty (by default local-http used)"
+
+	config SS_RUST_LOCAL_HTTP_NATIVE_TLS
+		bool "Support HTTPS with native-tls"
+
+	config CONFIG_SS_RUST_LOCAL_HTTP_RUSTLS
+		bool "Support HTTPS with rustls"
+
+endchoice
+
+	config SS_RUST_LOCAL_REDIR
+		bool "Enable REDIR protocol for sslocal"
+		depends on SS_RUST_LOCAL
+		default n
+
+	config SS_RUST_LOCAL_TUNNEL
+		bool "Enable tunnel protocol for sslocal"
+		depends on SS_RUST_LOCAL
+		default y
+
+	config SS_RUST_LOCAL_SOCKS4
+		bool "Enable socks4 protocol for sslocal"
+		depends on SS_RUST_LOCAL
+		default y
+
+	config SS_RUST_LOCAL_TUN
+		bool "Enable Tun interface protocol for sslocal"
+		depends on SS_RUST_LOCAL
+		default n
+
+	config SS_RUST_MULTI_THREADED
+		bool "Enable tokio's multi-threaded runtime"
+		default y
+
+	config SS_RUST_STREAM_CIPHER
+		bool "Enable Stream Cipher Protocol"
+		default n
+
+	config SS_RUST_STREAM_CIPHER_EXTRA
+		bool "Enable extra AEAD ciphers"
+		default n
+
+	config SS_RUST_SECURITY_REPLAY_ATTACK_DETECT
+		bool "Enable detection against replay attack"
+		default n
+
+	config SS_RUST_SECURITY_IV_PRINTABLE_PREFIX
+		bool "Enable IV printable prefix"
+		default n
+
+#	config SS_RUST_ARMV8
+#		bool "Enable ARMv8 related optimizations"
+#		default n
+
+#	config SS_RUST_NEON
+#		bool "Enable NEON releated optimizations"
+#		default n
+
+endif

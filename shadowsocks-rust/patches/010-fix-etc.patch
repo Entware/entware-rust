@@ -1,0 +1,11 @@
+--- a/src/config.rs
++++ b/src/config.rs
+@@ -59,7 +59,7 @@ pub fn get_default_config_path() -> Opti
+     // UNIX global configuration file
+     #[cfg(unix)]
+     {
+-        let global_config_path = Path::new("/etc/shadowsocks-rust/config.json");
++        let global_config_path = Path::new("/opt/etc/shadowsocks-rust/config.json");
+         if global_config_path.exists() {
+             return Some(global_config_path.to_path_buf());
+         }
