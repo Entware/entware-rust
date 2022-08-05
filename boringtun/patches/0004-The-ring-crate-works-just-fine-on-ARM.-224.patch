@@ -1,0 +1,266 @@
+From 2300eecef527ffa4ba2e2bc9ae30bfd23572cf5b Mon Sep 17 00:00:00 2001
+From: Jeff Hiner <37913568+jeff-hiner@users.noreply.github.com>
+Date: Thu, 17 Feb 2022 11:48:17 -0700
+Subject: [PATCH 04/12] The ring crate works just fine on ARM. (#224)
+
+If it doesn't, let's fix it there.
+---
+ Cargo.toml                          |  4 +---
+ src/crypto/mod.rs                   |  3 ---
+ src/crypto/x25519/mod.rs            | 29 -------------------------
+ src/device/integration_tests/mod.rs |  3 +--
+ src/ffi/benchmark.rs                | 11 ----------
+ src/noise/session.rs                | 33 -----------------------------
+ 6 files changed, 2 insertions(+), 81 deletions(-)
+
+diff --git a/Cargo.toml b/Cargo.toml
+index a3458ff..49084b9 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -18,6 +18,7 @@ tracing = "0.1.29"
+ ip_network = "0.4.1"
+ ip_network_table = "0.2.0"
+ zeroize = { version = "1.5.2", features = ["zeroize_derive"]}
++ring = "0.16"
+ 
+ [dependencies.tracing-subscriber]
+ version = "0.3"
+@@ -30,9 +31,6 @@ optional = true
+ [dev-dependencies]
+ tracing-subscriber = "0.3"
+ 
+-[target.'cfg(not(target_arch="arm"))'.dependencies]
+-ring = "0.16"
+-
+ [target.'cfg(not(any(target_os="windows", target_os="ios", target_os="android")))'.dependencies]
+ clap = { version = "2.33", default-features = false, features = ["suggestions"], optional = true }
+ daemonize = { version = "0.4.1", optional = true }
+diff --git a/src/crypto/mod.rs b/src/crypto/mod.rs
+index dd0c691..5b3374b 100644
+--- a/src/crypto/mod.rs
++++ b/src/crypto/mod.rs
+@@ -11,7 +11,4 @@ pub use blake2s::{constant_time_mac_check, Blake2s};
+ pub use chacha20poly1305::ChaCha20Poly1305;
+ pub use x25519::{X25519PublicKey, X25519SecretKey};
+ 
+-#[cfg(not(target_arch = "arm"))]
+ pub use ring::rand::SystemRandom;
+-#[cfg(target_arch = "arm")]
+-pub use x25519::SystemRandom;
+diff --git a/src/crypto/x25519/mod.rs b/src/crypto/x25519/mod.rs
+index e6287d1..ba18950 100644
+--- a/src/crypto/x25519/mod.rs
++++ b/src/crypto/x25519/mod.rs
+@@ -15,40 +15,11 @@ use std::ops::Sub;
+ use std::str::FromStr;
+ use zeroize::{Zeroize, ZeroizeOnDrop};
+ 
+-#[cfg(not(target_arch = "arm"))]
+ pub use ring::rand::{SecureRandom, SystemRandom};
+ 
+ const MASK_63BITS: u128 = 0x7fff_ffff_ffff_ffff;
+ const MASK_64BITS: u128 = 0xffff_ffff_ffff_ffff;
+ 
+-#[cfg(target_arch = "arm")]
+-#[allow(non_snake_case)]
+-pub mod SystemRandom {
+-    use std::io::Read;
+-    use std::sync::Once;
+-    static INIT: Once = Once::new();
+-
+-    static mut URAND: Option<std::fs::File> = None;
+-
+-    // Workaround for ring not building nicely for arm7
+-    pub struct Urandom {}
+-
+-    pub fn new() -> Urandom {
+-        INIT.call_once(|| unsafe {
+-            URAND = Some(std::fs::File::open("/dev/urandom").unwrap());
+-        });
+-
+-        Urandom {}
+-    }
+-
+-    impl Urandom {
+-        pub fn fill(&self, dest: &mut [u8]) -> Result<(), ()> {
+-            let mut local_urand = unsafe { URAND.as_ref().unwrap().try_clone().map_err(|_| ())? };
+-            local_urand.read_exact(dest).map(|_| ()).map_err(|_| (()))
+-        }
+-    }
+-}
+-
+ #[repr(C)]
+ #[derive(Debug, Zeroize, ZeroizeOnDrop)]
+ /// A secret X25519 key.
+diff --git a/src/device/integration_tests/mod.rs b/src/device/integration_tests/mod.rs
+index 0db1836..60e714b 100644
+--- a/src/device/integration_tests/mod.rs
++++ b/src/device/integration_tests/mod.rs
+@@ -9,8 +9,7 @@ mod tests {
+     use crate::device::{DeviceConfig, DeviceHandle};
+     use base64::encode as base64encode;
+     use hex::encode;
+-    #[cfg(not(target_arch = "arm"))]
+-    pub use ring::rand::SecureRandom;
++    use ring::rand::SecureRandom;
+     use std::io::{BufRead, BufReader, Read, Write};
+     use std::net::{IpAddr, Ipv4Addr, Ipv6Addr, SocketAddr};
+     use std::os::unix::net::UnixStream;
+diff --git a/src/ffi/benchmark.rs b/src/ffi/benchmark.rs
+index 567fd6e..6c91460 100644
+--- a/src/ffi/benchmark.rs
++++ b/src/ffi/benchmark.rs
+@@ -3,9 +3,7 @@
+ 
+ /// This module implements benchmarking code for use with the FFI bindings
+ use crate::crypto::{Blake2s, ChaCha20Poly1305, X25519SecretKey};
+-#[cfg(not(target_arch = "arm"))]
+ use ring::aead::{Aad, LessSafeKey, Nonce, UnboundKey, CHACHA20_POLY1305};
+-#[cfg(not(target_arch = "arm"))]
+ use ring::{agreement, rand};
+ 
+ use std::time::Instant;
+@@ -119,7 +117,6 @@ fn bench_blake2s(name: bool, n: usize) -> String {
+     format!("{} MiB/s", format_float(result / (1024. * 1024.)))
+ }
+ 
+-#[cfg(not(target_arch = "arm"))]
+ fn bench_chacha20poly1305_ring(name: bool, n: usize) -> String {
+     if name {
+         return format!("(Ring) AEAD Seal {}B: ", n);
+@@ -160,7 +157,6 @@ fn bench_chacha20poly1305(name: bool, n: usize) -> String {
+     format!("{} MiB/s", format_float(result / (1024. * 1024.)))
+ }
+ 
+-#[cfg(not(target_arch = "arm"))]
+ fn bench_x25519_shared_key_ring(name: bool, _: usize) -> String {
+     if name {
+         return "(Ring) X25519 Shared Key: ".to_string();
+@@ -194,7 +190,6 @@ fn bench_x25519_shared_key_ring(name: bool, _: usize) -> String {
+     format!("{} ops/sec", format_float(result))
+ }
+ 
+-#[cfg(not(target_arch = "arm"))]
+ fn bench_x25519_public_key_ring(name: bool, _: usize) -> String {
+     if name {
+         return "(Ring) X25519 Public Key: ".to_string();
+@@ -217,9 +212,7 @@ pub fn do_benchmark(name: bool, idx: usize) -> Option<String> {
+     let benchmarks: Vec<(BenchFnc, usize)> = vec![
+         (bench_x25519_public_key, 0),
+         (bench_x25519_shared_key, 0),
+-        #[cfg(not(target_arch = "arm"))]
+         (bench_x25519_public_key_ring, 0),
+-        #[cfg(not(target_arch = "arm"))]
+         (bench_x25519_shared_key_ring, 0),
+         (bench_blake2s, 128),
+         (bench_blake2s, 1024),
+@@ -227,13 +220,9 @@ pub fn do_benchmark(name: bool, idx: usize) -> Option<String> {
+         (bench_chacha20poly1305, 192),
+         (bench_chacha20poly1305, 1400),
+         (bench_chacha20poly1305, 8192),
+-        #[cfg(not(target_arch = "arm"))]
+         (bench_chacha20poly1305_ring, 128),
+-        #[cfg(not(target_arch = "arm"))]
+         (bench_chacha20poly1305_ring, 192),
+-        #[cfg(not(target_arch = "arm"))]
+         (bench_chacha20poly1305_ring, 1400),
+-        #[cfg(not(target_arch = "arm"))]
+         (bench_chacha20poly1305_ring, 8192),
+     ];
+ 
+diff --git a/src/noise/session.rs b/src/noise/session.rs
+index 4fb085d..f605bae 100644
+--- a/src/noise/session.rs
++++ b/src/noise/session.rs
+@@ -2,25 +2,16 @@
+ // SPDX-License-Identifier: BSD-3-Clause
+ 
+ use super::PacketData;
+-#[cfg(target_arch = "arm")]
+-use crate::crypto::ChaCha20Poly1305;
+ use crate::noise::errors::WireGuardError;
+ use parking_lot::Mutex;
+-#[cfg(not(target_arch = "arm"))]
+ use ring::aead::{Aad, LessSafeKey, Nonce, UnboundKey, CHACHA20_POLY1305};
+ use std::sync::atomic::{AtomicUsize, Ordering};
+ 
+ pub struct Session {
+     pub(crate) receiving_index: u32,
+     sending_index: u32,
+-    #[cfg(not(target_arch = "arm"))]
+     receiver: LessSafeKey,
+-    #[cfg(not(target_arch = "arm"))]
+     sender: LessSafeKey,
+-    #[cfg(target_arch = "arm")]
+-    receiver: ChaCha20Poly1305,
+-    #[cfg(target_arch = "arm")]
+-    sender: ChaCha20Poly1305,
+     sending_key_counter: AtomicUsize,
+     receiving_key_counter: Mutex<ReceivingKeyCounterValidator>,
+ }
+@@ -163,16 +154,10 @@ impl Session {
+         Session {
+             receiving_index: local_index,
+             sending_index: peer_index,
+-            #[cfg(not(target_arch = "arm"))]
+             receiver: LessSafeKey::new(
+                 UnboundKey::new(&CHACHA20_POLY1305, &receiving_key).unwrap(),
+             ),
+-            #[cfg(not(target_arch = "arm"))]
+             sender: LessSafeKey::new(UnboundKey::new(&CHACHA20_POLY1305, &sending_key).unwrap()),
+-            #[cfg(target_arch = "arm")]
+-            receiver: ChaCha20Poly1305::new_aead(&receiving_key[..]),
+-            #[cfg(target_arch = "arm")]
+-            sender: ChaCha20Poly1305::new_aead(&sending_key[..]),
+             sending_key_counter: AtomicUsize::new(0),
+             receiving_key_counter: Mutex::new(Default::default()),
+         }
+@@ -221,7 +206,6 @@ impl Session {
+         counter.copy_from_slice(&sending_key_counter.to_le_bytes());
+ 
+         // TODO: spec requires padding to 16 bytes, but actually works fine without it
+-        #[cfg(not(target_arch = "arm"))]
+         let n = {
+             let mut nonce = [0u8; 12];
+             nonce[4..12].copy_from_slice(&sending_key_counter.to_le_bytes());
+@@ -239,14 +223,6 @@ impl Session {
+                 .unwrap()
+         };
+ 
+-        #[cfg(target_arch = "arm")]
+-        let n = self.sender.seal_wg(
+-            sending_key_counter,
+-            &[],
+-            src,
+-            &mut data[..src.len() + AEAD_SIZE],
+-        );
+-
+         &mut dst[..DATA_OFFSET + n]
+     }
+ 
+@@ -270,7 +246,6 @@ impl Session {
+         // Don't reuse counters, in case this is a replay attack we want to quickly check the counter without running expensive decryption
+         self.receiving_counter_quick_check(packet.counter)?;
+ 
+-        #[cfg(not(target_arch = "arm"))]
+         let ret = {
+             let mut nonce = [0u8; 12];
+             nonce[4..12].copy_from_slice(&packet.counter.to_le_bytes());
+@@ -284,14 +259,6 @@ impl Session {
+                 .map_err(|_| WireGuardError::InvalidAeadTag)?
+         };
+ 
+-        #[cfg(target_arch = "arm")]
+-        let ret = self.receiver.open_wg(
+-            packet.counter,
+-            &[],
+-            packet.encrypted_encapsulated_packet,
+-            dst,
+-        )?;
+-
+         // After decryption is done, check counter again, and mark as received
+         self.receiving_counter_mark(packet.counter)?;
+         Ok(ret)
+-- 
+2.30.2
+

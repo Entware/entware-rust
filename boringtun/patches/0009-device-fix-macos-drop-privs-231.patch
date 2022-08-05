@@ -1,0 +1,135 @@
+From 8116a157af4316a13906c6faaa7acc39a3043789 Mon Sep 17 00:00:00 2001
+From: Phillip Jacobs <pjacobs@xeekr.com>
+Date: Mon, 7 Mar 2022 13:07:30 -0800
+Subject: [PATCH 09/12] device: fix macos drop privs (#231)
+
+---
+ Cargo.lock                              | 29 +++++++++++++++++++
+ boringtun/Cargo.toml                    |  3 ++
+ boringtun/src/device/drop_privileges.rs | 38 ++++++++++++++++---------
+ 3 files changed, 57 insertions(+), 13 deletions(-)
+
+diff --git a/Cargo.lock b/Cargo.lock
+index 8a65d4a..6884900 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -22,6 +22,12 @@ dependencies = [
+  "winapi",
+ ]
+ 
++[[package]]
++name = "autocfg"
++version = "1.1.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
++
+ [[package]]
+ name = "base64"
+ version = "0.13.0"
+@@ -44,6 +50,7 @@ dependencies = [
+  "ip_network_table",
+  "jni",
+  "libc",
++ "nix",
+  "parking_lot",
+  "ring",
+  "tracing",
+@@ -263,6 +270,28 @@ version = "2.4.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "308cc39be01b73d0d18f82a0e7b2a3df85245f84af96fdddc5d202d27e47b86a"
+ 
++[[package]]
++name = "memoffset"
++version = "0.6.5"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "5aa361d4faea93603064a027415f07bd8e1d5c88c9fbf68bf56a285428fd79ce"
++dependencies = [
++ "autocfg",
++]
++
++[[package]]
++name = "nix"
++version = "0.23.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "9f866317acbd3a240710c63f065ffb1e4fd466259045ccb504130b7f668f35c6"
++dependencies = [
++ "bitflags",
++ "cc",
++ "cfg-if",
++ "libc",
++ "memoffset",
++]
++
+ [[package]]
+ name = "num_threads"
+ version = "0.1.3"
+diff --git a/boringtun/Cargo.toml b/boringtun/Cargo.toml
+index 6fa32bd..96078b6 100644
+--- a/boringtun/Cargo.toml
++++ b/boringtun/Cargo.toml
+@@ -26,6 +26,9 @@ tracing-subscriber = "0.3"
+ [target.'cfg(target_os="android")'.dependencies]
+ jni = "0.19.0"
+ 
++[target.'cfg(target_os="macos")'.dependencies]
++nix = "0.23.1"
++
+ [[example]]
+ name = "benchmarks"
+ path = "src/benchmarks_example.rs"
+diff --git a/boringtun/src/device/drop_privileges.rs b/boringtun/src/device/drop_privileges.rs
+index b454d52..7784623 100644
+--- a/boringtun/src/device/drop_privileges.rs
++++ b/boringtun/src/device/drop_privileges.rs
+@@ -5,23 +5,35 @@ use crate::device::errno_str;
+ use crate::device::Error;
+ use libc::*;
+ 
++#[cfg(target_os = "macos")]
++use nix::unistd::User;
++
+ pub fn get_saved_ids() -> Result<(uid_t, gid_t), Error> {
+     // Get the user name of the sudoer
+-    let uname = unsafe { getlogin() };
+-    if uname.is_null() {
+-        return Err(Error::DropPrivileges("NULL from getlogin".to_owned()));
++    #[cfg(target_os = "macos")]
++    {
++        let uname: &'static str = env!("USER");
++        let user = User::from_name(uname).unwrap().expect("a user");
++        return Ok((uid_t::from(user.uid), gid_t::from(user.gid)));
+     }
+-    let userinfo = unsafe { getpwnam(uname) };
+-    if userinfo.is_null() {
+-        return Err(Error::DropPrivileges("NULL from getpwnam".to_owned()));
++    #[cfg(not(target_os = "macos"))]
++    {
++        let uname = unsafe { getlogin() };
++        if uname.is_null() {
++            return Err(Error::DropPrivileges("NULL from getlogin".to_owned()));
++        }
++        let userinfo = unsafe { getpwnam(uname) };
++        if userinfo.is_null() {
++            return Err(Error::DropPrivileges("NULL from getpwnam".to_owned()));
++        }
++
++        // Saved group ID
++        let saved_gid = unsafe { (*userinfo).pw_gid };
++        // Saved user ID
++        let saved_uid = unsafe { (*userinfo).pw_uid };
++
++        return Ok((saved_uid, saved_gid));
+     }
+-
+-    // Saved group ID
+-    let saved_gid = unsafe { (*userinfo).pw_gid };
+-    // Saved user ID
+-    let saved_uid = unsafe { (*userinfo).pw_uid };
+-
+-    Ok((saved_uid, saved_gid))
+ }
+ 
+ pub fn drop_privileges() -> Result<(), Error> {
+-- 
+2.30.2
+

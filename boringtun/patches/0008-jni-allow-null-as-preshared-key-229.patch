@@ -1,0 +1,33 @@
+From 36f4e4b458e2be89c1dc7cbccd64a53644d9304c Mon Sep 17 00:00:00 2001
+From: an-p <80103802+an-p@users.noreply.github.com>
+Date: Thu, 3 Mar 2022 20:05:23 +0100
+Subject: [PATCH 08/12] jni: allow null as preshared key (#229)
+
+---
+ boringtun/src/jni.rs | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
+
+diff --git a/boringtun/src/jni.rs b/boringtun/src/jni.rs
+index 6fde567..ecf6040 100644
+--- a/boringtun/src/jni.rs
++++ b/boringtun/src/jni.rs
+@@ -146,9 +146,13 @@ pub unsafe extern "C" fn create_new_tunnel(
+         Err(_) => return 0,
+     };
+ 
+-    let preshared_key = match env.get_string_utf_chars(arg_preshared_key) {
+-        Ok(v) => v,
+-        Err(_) => return 0,
++    let preshared_key = if arg_preshared_key.is_null() {
++        ptr::null_mut()
++    } else {
++        match env.get_string_utf_chars(arg_preshared_key) {
++            Ok(v) => v,
++            Err(_) => return 0,
++        }
+     };
+ 
+     let tunnel = new_tunnel(
+-- 
+2.30.2
+
