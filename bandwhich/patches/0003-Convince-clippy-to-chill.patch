@@ -1,0 +1,78 @@
+From 1f508ddfb69e4bdedbb7fa3ba7034f8938eacbd9 Mon Sep 17 00:00:00 2001
+From: Brooks J Rady <b.j.rady@gmail.com>
+Date: Sun, 27 Dec 2020 00:17:15 +0000
+Subject: [PATCH 3/4] Convince clippy to chill
+
+---
+ src/display/ui.rs       |  6 ++++--
+ src/display/ui_state.rs | 10 +++++-----
+ src/os/shared.rs        |  8 +++++---
+ 3 files changed, 14 insertions(+), 10 deletions(-)
+
+diff --git a/src/display/ui.rs b/src/display/ui.rs
+index d37ab31..24de083 100644
+--- a/src/display/ui.rs
++++ b/src/display/ui.rs
+@@ -31,8 +31,10 @@ where
+         let mut terminal = Terminal::new(terminal_backend).unwrap();
+         terminal.clear().unwrap();
+         terminal.hide_cursor().unwrap();
+-        let mut state: UIState = Default::default();
+-        state.cumulative_mode = opts.total_utilization;
++        let state = UIState {
++            cumulative_mode: opts.total_utilization,
++            ..Default::default()
++        };
+         Ui {
+             terminal,
+             state,
+diff --git a/src/display/ui_state.rs b/src/display/ui_state.rs
+index 8872cd8..8601a5c 100644
+--- a/src/display/ui_state.rs
++++ b/src/display/ui_state.rs
+@@ -79,10 +79,10 @@ pub struct UIState {
+     pub total_bytes_downloaded: u128,
+     pub total_bytes_uploaded: u128,
+     pub cumulative_mode: bool,
+-    utilization_data: VecDeque<UtilizationData>,
+-    processes_map: HashMap<String, NetworkData>,
+-    remote_addresses_map: HashMap<IpAddr, NetworkData>,
+-    connections_map: HashMap<Connection, ConnectionData>,
++    pub utilization_data: VecDeque<UtilizationData>,
++    pub processes_map: HashMap<String, NetworkData>,
++    pub remote_addresses_map: HashMap<IpAddr, NetworkData>,
++    pub connections_map: HashMap<Connection, ConnectionData>,
+ }
+ 
+ impl UIState {
+@@ -168,7 +168,7 @@ impl UIState {
+             }
+         }
+         let divide_by = if self.utilization_data.is_empty() {
+-            1 as u128
++            1_u128
+         } else {
+             self.utilization_data.len() as u128
+         };
+diff --git a/src/os/shared.rs b/src/os/shared.rs
+index 4ef25a9..ae42022 100644
+--- a/src/os/shared.rs
++++ b/src/os/shared.rs
+@@ -35,9 +35,11 @@ impl Iterator for TerminalEvents {
+ pub(crate) fn get_datalink_channel(
+     interface: &NetworkInterface,
+ ) -> Result<Box<dyn DataLinkReceiver>, GetInterfaceErrorKind> {
+-    let mut config = Config::default();
+-    config.read_timeout = Some(time::Duration::new(1, 0));
+-    config.read_buffer_size = 65536;
++    let config = Config {
++        read_timeout: Some(time::Duration::new(1, 0)),
++        read_buffer_size: 65536,
++        ..Default::default()
++    };
+ 
+     match datalink::channel(interface, config) {
+         Ok(Ethernet(_tx, rx)) => Ok(rx),
+-- 
+2.30.2
+
