@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: WTFPL
 
-# FIXME LINUX_2_6; see readme.txt
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata
