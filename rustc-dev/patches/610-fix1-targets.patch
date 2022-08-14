@@ -191,7 +191,7 @@
 +}
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -74,6 +74,8 @@ mod linux_uclibc_base;
+@@ -77,6 +77,8 @@ mod linux_uclibc_base;
  mod msvc_base;
  mod netbsd_base;
  mod openbsd_base;
@@ -200,7 +200,7 @@
  mod redox_base;
  mod solaris_base;
  mod solid_base;
-@@ -809,6 +811,18 @@ macro_rules! supported_targets {
+@@ -815,6 +817,18 @@ macro_rules! supported_targets {
  }
  
  supported_targets! {

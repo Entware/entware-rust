@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc-dev
-PKG_VERSION:=1.62.0
+PKG_VERSION:=1.63.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=rustc-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=6c00ef115c894c2645e60b5049a4f5dacf1dc0c993f3074f7ae4fdf4c755dd5e
+PKG_HASH:=8f44af6dc44cc4146634a4dd5e4cc5470b3052a2337019b870c0e025e8987e0c
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
@@ -18,6 +18,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 HOST_BUILD_DEPENDS:=python3/host
 PKG_BUILD_DEPENDS:=rustc-dev/host
+PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
@@ -115,23 +116,6 @@ RUST_TARGET_TRIPLE=$(REAL_GNU_TARGET_NAME)
 #endif
 #endif
 
-# XXX saved ~ 20 min (skip LLVM)
-define Build/Prepare
-	$(call Build/Prepare/Default)
-
-	$(INSTALL_DIR) $(PKG_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)
-	$(LN) $(HOST_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)/llvm \
-		$(PKG_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)
-
-	$(INSTALL_DIR) $(STAGING_DIR)/host/bin $(STAGING_DIR)/host/lib/rustlib
-	$(CP) $(HOST_BUILD_DIR)/install/bin/{cargo,clippy,rustc,rustd,rustf}* \
-		 $(STAGING_DIR)/host/bin
-
-	$(CP) $(HOST_BUILD_DIR)/install/lib/lib* $(STAGING_DIR)/host/lib
-	$(CP) $(HOST_BUILD_DIR)/install/lib/rustlib/$(RUST_HOST_TRIPLE) \
-		 $(STAGING_DIR)/host/lib/rustlib
-endef
-
 define Build/Configure
 	( \
 		echo 'changelog-seen = 2'; \
@@ -180,10 +164,21 @@ define Build/Configure
 	) > $(PKG_BUILD_DIR)/config.toml
 endef
 
-# XXX saved ~ 10 min
 Build/Compile:=:
 
 define Build/Install
+	$(INSTALL_DIR) $(PKG_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)
+	$(LN) $(HOST_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)/llvm \
+		$(PKG_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)
+
+	$(INSTALL_DIR) $(STAGING_DIR)/host/bin $(STAGING_DIR)/host/lib/rustlib
+	$(CP) $(HOST_BUILD_DIR)/install/bin/{cargo,clippy,rustc,rustd,rustf}* \
+		 $(STAGING_DIR)/host/bin
+
+	$(CP) $(HOST_BUILD_DIR)/install/lib/lib* $(STAGING_DIR)/host/lib
+	$(CP) $(HOST_BUILD_DIR)/install/lib/rustlib/$(RUST_HOST_TRIPLE) \
+		 $(STAGING_DIR)/host/lib/rustlib
+
 	( cd $(PKG_BUILD_DIR); \
 		HOST_PKG_CONFIG_PATH="$(STAGING_DIR_HOST)/lib/pkgconfig:$(STAGING_DIR_HOSTPKG)/lib/pkgconfig" \
 		PKG_CONFIG_ALLOW_CROSS=1 \
