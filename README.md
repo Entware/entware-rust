@@ -17,15 +17,16 @@ echo 'src-git-full rust https://github.com/The-BB/entware-rust.git' >> feeds.con
 
 4. Патчим tools/Makefile (при желании, создаём его копию (backup)):
 ```
-patch -p1 -d . < ./feeds/rust/entware-rust.patch
-```
-```
 cp tools/Makefile tools/Makefile.orig
+```
+```
+patch -p1 -d . < ./feeds/rust/entware-rust.patch
 ```
 5. Удаляем (или патчим python-cryptography):
 ```
 rm -rf ./feeds/packages/lang/python/python-cryptography
 ```
+или
 ```
 patch -p1 -d ./feeds/packages < ./feeds/rust/py-cryptography.patch
 ```
