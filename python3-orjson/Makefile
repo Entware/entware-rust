@@ -29,9 +29,10 @@ define Package/python3-orjson/description
   Fast, correct Python JSON library supporting dataclasses, datetimes, and numpy.
 endef
 
-RUSTFLAGS += -C relocation-model=pic
 CARGO_ARGS += -Z unstable-options
 RUSTC_VARS += PYO3_CROSS_PYTHON_VERSION=$(PYTHON3_VERSION)
+RUSTFLAGS += -C relocation-model=pic
+TARGET_CFLAGS += $(FPIC)
 
 define Build/Install/Cargo
 	( cd $(PKG_BUILD_DIR); \
