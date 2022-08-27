@@ -7,7 +7,7 @@
 \ No newline at end of file
 --- a/vendor/crossbeam-utils/no_atomic.rs
 +++ b/vendor/crossbeam-utils/no_atomic.rs
-@@ -61,6 +61,11 @@
+@@ -61,6 +61,11 @@ const NO_ATOMIC_64: &[&str] = &[
      "thumbv8m.base-none-eabi",
      "thumbv8m.main-none-eabi",
      "thumbv8m.main-none-eabihf",
