@@ -1,7 +1,7 @@
 From adb0daee8d0f1cdd0b2a65dc1d165679ae710b4a Mon Sep 17 00:00:00 2001
 From: Brooks J Rady <b.j.rady@gmail.com>
 Date: Sat, 26 Dec 2020 17:13:55 +0000
-Subject: [PATCH 2/4] Upgrade resolv-conf version
+Subject: [PATCH 2/3] Upgrade resolv-conf version
 
 ---
  Cargo.lock | 1632 ++++++++++++++++++++++++++--------------------------

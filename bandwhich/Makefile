@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: WTFPL
 
-# FIXME mips/mipsel: expected `u64`, found `u32`; see readme.txt
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bandwhich
@@ -23,7 +21,6 @@ define Package/bandwhich
   CATEGORY:=Network
   TITLE:=Terminal bandwidth utilization tool
   URL:=https://github.com/imsnif/bandwhich
-  DEPENDS:=@!(mips||mipsel)
 endef
 
 define Package/bandwhich/description
