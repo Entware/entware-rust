@@ -1,16 +1,14 @@
 # SPDX-License-Identifier: WTFPL
 
-# FIXME mips/mipsel: expected `u64`, found `u32`; see readme.txt
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
-PKG_VERSION:=0.65.0
+PKG_VERSION:=0.67.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=72a608c82f765ec3906b343752907ff68fffbd859ee0a5c82e17ad4237cb0109
+PKG_HASH:=a8c4c092087d035805781dff11000f2b7c4a44ae487b013f9d0a59c4dc610546
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -31,7 +29,6 @@ endef
 define Package/nushell
   $(call Package/nushell/Default)
   DEPENDS:=+libopenssl +zlib
-  DEPENDS+=@!(mips||mipsel)
   EXTRA_DEPENDS:=git-http
   MENU:=1
 endef
@@ -82,11 +79,6 @@ CARGO_ARGS += \
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
-
-# XXX mips(be) rustix
-ifeq ($(CONFIG_mips),y)
-RUSTFLAGS += --cfg rustix_use_libc
 endif
 
 define Package/nushell/install
