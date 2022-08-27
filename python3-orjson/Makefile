@@ -12,6 +12,9 @@ PKG_HASH:=a2e824220245323bb3291bb10ccf2ba936ed0b14e5e4a6260a1d1ed048caf77e
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
+HOST_PYTHON3_PACKAGE_BUILD_DEPENDS:=./tomli.txt
+PKG_BUILD_DEPENDS:=maturin/host
+
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
@@ -29,27 +32,33 @@ define Package/python3-orjson/description
   Fast, correct Python JSON library supporting dataclasses, datetimes, and numpy.
 endef
 
-CARGO_ARGS += -Z unstable-options
-RUSTC_VARS += PYO3_CROSS_PYTHON_VERSION=$(PYTHON3_VERSION)
+RUSTC_VARS += \
+	PYO3_CROSS_LIB_DIR=$(STAGING_DIR)/opt/lib \
+	PYO3_CROSS_PYTHON_VERSION=$(PYTHON3_VERSION)
+
 RUSTFLAGS += -C relocation-model=pic
 TARGET_CFLAGS += $(FPIC)
+TARGET_LDFLAGS += $(FPIC)
 
-define Build/Install/Cargo
+define Build/Compile/Maturin
 	( cd $(PKG_BUILD_DIR); \
-		$(RUSTC_VARS) RUSTFLAGS="$(RUSTFLAGS)" \
-		cargo build $(CARGO_ARGS) --release \
-		--manifest-path $(PKG_BUILD_DIR)/Cargo.toml \
-		--out-dir $(PKG_BUILD_DIR) \
+		$(RUSTC_VARS) \
+		RUSTFLAGS="$(RUSTFLAGS)" \
+		maturin build --release --strip \
+			--features=yyjson \
+			-i $(HOST_PYTHON3_BIN) \
+			--target=$(RUST_TARGET_TRIPLE) \
 	)
+	# XXX skip
+	touch $(PKG_BUILD_DIR)/setup.py
 endef
 
 define Build/Compile
 	$(call Py3Build/InstallBuildDepends)
-	$(call Build/Install/Cargo)
-	$(INSTALL_DIR) $(PKG_INSTALL_DIR)$(PYTHON3_PKG_DIR)/$(PYPI_NAME)
-	$(CP) $(PKG_BUILD_DIR)/liborjson.so \
-		$(PKG_INSTALL_DIR)$(PYTHON3_PKG_DIR)/$(PYPI_NAME)/$(PYPI_NAME).cpython-310.so
-	$(call Py3Build/Compile/Default)
+	$(call Build/Compile/Maturin)
+	$(INSTALL_DIR) $(PKG_INSTALL_DIR)$(PYTHON3_PKG_DIR)
+	unzip $(CARGO_TARGET_DIR)/wheels/$(PYPI_NAME)-$(PKG_VERSION)-*.whl \
+		-d $(PKG_INSTALL_DIR)$(PYTHON3_PKG_DIR)
 endef
 
 $(eval $(call Py3Package,python3-orjson))
