@@ -1,0 +1,58 @@
+--- a/src/target.rs
++++ b/src/target.rs
+@@ -64,6 +64,7 @@ pub enum Arch {
+     S390X,
+     Wasm32,
+     Riscv64,
++    Mips,
+     Mips64el,
+     Mipsel,
+     Sparc64,
+@@ -83,6 +84,7 @@ impl fmt::Display for Arch {
+             Arch::S390X => write!(f, "s390x"),
+             Arch::Wasm32 => write!(f, "wasm32"),
+             Arch::Riscv64 => write!(f, "riscv64"),
++            Arch::Mips => write!(f, "mips"),
+             Arch::Mips64el => write!(f, "mips64el"),
+             Arch::Mipsel => write!(f, "mipsel"),
+             Arch::Sparc64 => write!(f, "sparc64"),
+@@ -104,6 +106,7 @@ fn get_supported_architectures(os: &Os)
+             Arch::X86,
+             Arch::X86_64,
+             Arch::Riscv64,
++            Arch::Mips,
+             Arch::Mips64el,
+             Arch::Mipsel,
+             Arch::Sparc64,
+@@ -191,6 +194,7 @@ impl Target {
+             Architecture::S390x => Arch::S390X,
+             Architecture::Wasm32 => Arch::Wasm32,
+             Architecture::Riscv64(_) => Arch::Riscv64,
++            Architecture::Mips32(Mips32Architecture::Mips) => Arch::Mips,
+             Architecture::Mips64(Mips64Architecture::Mips64el) => Arch::Mips64el,
+             Architecture::Mips32(Mips32Architecture::Mipsel) => Arch::Mipsel,
+             Architecture::Sparc64 => Arch::Sparc64,
+@@ -385,6 +389,7 @@ impl Target {
+             Arch::Wasm32 => "wasm32",
+             Arch::Riscv64 => "riscv64",
+             // It's kinda surprising that Python doesn't include the `el` suffix
++            Arch::Mips => "mips",
+             Arch::Mips64el => "mips64",
+             Arch::Mipsel => "mips",
+             Arch::Sparc64 => "sparc64",
+@@ -426,6 +431,7 @@ impl Target {
+             Arch::Armv6L
+             | Arch::Wasm32
+             | Arch::Riscv64
++            | Arch::Mips
+             | Arch::Mips64el
+             | Arch::Mipsel
+             | Arch::Powerpc
+@@ -448,6 +454,7 @@ impl Target {
+             | Arch::Armv7L
+             | Arch::X86
+             | Arch::Wasm32
++            | Arch::Mips
+             | Arch::Mipsel
+             | Arch::Powerpc => 32,
+         }
