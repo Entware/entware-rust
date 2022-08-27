@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dust
-PKG_VERSION:=0.8.1-alpha.2
+PKG_VERSION:=0.8.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/bootandy/dust/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=5004f23f01a9d3e8c09c7d66f48455d865ce0c3de2f57ab1bdc70bebce3c1cce
+PKG_HASH:=9f3b5e93c62bb54139479ac4396549fc62389ac9a7d300b088cdf51cd0e90e22
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
