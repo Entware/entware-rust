@@ -29,10 +29,12 @@ comment "Build Options"
 
 	config SS_RUST_DNS_OVER_TLS
 		bool "Enable dns-over-tls as DNS resolver"
+		depends on !(mips||mipsel) # depends on "ring"
 		default n
 
 	config SS_RUST_DNS_OVER_HTTPS
 		bool "Enable dns-over-https as DNS resolver"
+		depends on !(mips||mipsel)  # depends on "ring"
 		default n
 
 	config SS_RUST_LOGGING
@@ -105,12 +107,14 @@ endchoice
 		bool "Enable IV printable prefix"
 		default n
 
-#	config SS_RUST_ARMV8
-#		bool "Enable ARMv8 related optimizations"
-#		default n
+	config SS_RUST_ARMV8
+		bool "Enable ARMv8 related optimizations"
+		depends on aarch64
+		default n
 
-#	config SS_RUST_NEON
-#		bool "Enable NEON releated optimizations"
-#		default n
+	config SS_RUST_NEON
+		bool "Enable NEON releated optimizations"
+		depends on (aarch64||arm)
+		default n
 
 endif

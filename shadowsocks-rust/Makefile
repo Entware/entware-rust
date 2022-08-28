@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: WTFPL
 
-# FIXME aarch64: src/aarch64.S: Assembler messages; see readme.txt
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-rust
@@ -37,10 +35,9 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_SS_RUST_STREAM_CIPHER \
 	CONFIG_SS_RUST_STREAM_CIPHER_EXTRA \
 	CONFIG_SS_RUST_SECURITY_REPLAY_ATTACK_DETECT \
-	CONFIG_SS_RUST_SECURITY_IV_PRINTABLE_PREFIX
-
-#	CONFIG_SS_RUST_ARMV8 \
-#	CONFIG_SS_RUST_NEON
+	CONFIG_SS_RUST_SECURITY_IV_PRINTABLE_PREFIX \
+	CONFIG_SS_RUST_ARMV8 \
+	CONFIG_SS_RUST_NEON
 
 include $(INCLUDE_DIR)/package.mk
 include ../cargo.mk
@@ -51,7 +48,7 @@ define Package/shadowsocks-rust
   SUBMENU:=Web Servers/Proxies
   TITLE:=A Rust port of shadowsocks
   URL:=https://github.com/shadowsocks/shadowsocks-rust
-  DEPENDS:=@!aarch64 +SS_RUST_LOCAL_HTTP_NATIVE_TLS:libopenssl
+  DEPENDS:=+SS_RUST_LOCAL_HTTP_NATIVE_TLS:libopenssl
   MENU:=1
 endef
 
@@ -91,12 +88,15 @@ FEATURES:= \
 	$(if $(CONFIG_SS_RUST_STREAM_CIPHER),stream-cipher) \
 	$(if $(CONFIG_SS_RUST_STREAM_CIPHER_EXTRA),aead-cipher-extra) \
 	$(if $(CONFIG_SS_RUST_SECURITY_REPLAY_ATTACK_DETECT),security-replay-attack-detect) \
-	$(if $(CONFIG_SS_RUST_SECURITY_IV_PRINTABLE_PREFIX),security-iv-printable-prefix)
-
-#	$(if $(CONFIG_SS_RUST_ARMV8),armv8) \
-#	$(if $(CONFIG_SS_RUST_NEON),neon)
+	$(if $(CONFIG_SS_RUST_SECURITY_IV_PRINTABLE_PREFIX),security-iv-printable-prefix) \
+	$(if $(CONFIG_SS_RUST_ARMV8),armv8) \
+	$(if $(CONFIG_SS_RUST_NEON),neon)
 
 CARGO_ARGS += --no-default-features --features "$(FEATURES)"
+
+ifeq ($(CONFIG_aarch64),y)
+TARGET_CFLAGS := $(filter-out -mcpu%,$(TARGET_CFLAGS))
+endif
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
