@@ -4,12 +4,15 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=findutils-rs
 PKG_VERSION:=0.3.0
-PKG_RELEASE:=2
+PKG_RELEASE:=3
+PKG_SOURCE_DATE:=2022-08-17
+PKG_SOURCE_VERSION:=45632896896b9b13eb4bc6646e6dcdcf013fdd8c
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=2defcbeacc78645e0e198e6e2145cf1bd6f1e72b
-PKG_SOURCE_URL:=https://github.com/uutils/findutils.git
-PKG_MIRROR_HASH:=34ebb6a0cfebdef8d28ed9a48639e5e67b2d681eae6bc95d888df4843bdc0537
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_URL:=https://github.com/uutils/findutils
+PKG_MIRROR_HASH:=b80e9cd544cc39f61bf9040b20de2b77f69bcf384d8f979b4b83025fffd617b7
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -30,8 +33,7 @@ endef
 
 define Package/findutils-rs/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/find $(1)/opt/usr/bin/find-rs
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/xargs $(1)/opt/usr/bin/xargs-rs
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/{find,xargs} $(1)/opt/usr/bin
 endef
 
 $(eval $(call BuildPackage,findutils-rs))
