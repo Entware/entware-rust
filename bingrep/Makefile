@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bingrep
-PKG_VERSION:=0.10.0
+PKG_VERSION:=0.10.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/m4b/bingrep/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=3bc4ebaf179d72b82277e7130d44c15e2cc646d388124d0acdb2ca5f33e93af6
+PKG_HASH:=e27c7e073420a5feebb3497efafad343df597b613f6e31613af1a03558c5a3e6
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
