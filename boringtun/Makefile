@@ -22,6 +22,7 @@ define Package/boringtun
   SUBMENU:=VPN
   TITLE:=Userspace WireGuard Implementation in Rust
   URL:=https://github.com/cloudflare/boringtun
+  DEPENDS:=@(mips||mipsel)
 endef
 
 define Package/boringtun/description
@@ -29,7 +30,6 @@ define Package/boringtun/description
   for portability and speed.
 endef
 
-#CARGO_SOURCE_SUBDIR=boringtun-cli
 CARGO_ARGS += --workspace
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
