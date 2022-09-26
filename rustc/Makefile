@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.63.0
+PKG_VERSION:=1.64.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=8f44af6dc44cc4146634a4dd5e4cc5470b3052a2337019b870c0e025e8987e0c
+PKG_HASH:=e8170d318fac9d2fc17d5c3e648e7068f56e8db8d233d864aeffbef7c6542eac
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -129,10 +129,13 @@ define Package/rustc/install
 	$(INSTALL_DIR) $(1)/opt/libexec
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/libexec/cargo-credential-1password \
 		$(1)/opt/libexec
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/libexec/rust-analyzer-proc-macro-srv \
+		$(1)/opt/libexec
 
 	# FIXME dynlink (host vs target)
 	patchelf --set-interpreter /opt/lib/$(DYNLINKER) \
-		$(1)/opt/libexec/cargo-credential-1password
+		$(1)/opt/libexec/cargo-credential-1password \
+		$(1)/opt/libexec/rust-analyzer-proc-macro-srv
 endef
 
 define Package/rustc/postinst

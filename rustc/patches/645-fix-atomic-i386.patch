@@ -2,7 +2,7 @@
 
 --- a/compiler/rustc_llvm/build.rs
 +++ b/compiler/rustc_llvm/build.rs
-@@ -342,7 +342,7 @@ fn main() {
+@@ -338,7 +338,7 @@ fn main() {
      // atomic operations. FreeBSD uses Clang as its system
      // compiler and provides no libatomic in its base system so
      // does not want this.
