@@ -1,0 +1,15 @@
+--- a/src/firewall_backend/iptables.rs
++++ b/src/firewall_backend/iptables.rs
+@@ -6,9 +6,9 @@ use std::future::Future;
+ use std::net::IpAddr;
+ use std::pin::Pin;
+ 
+-const IPTABLES: &str = "/usr/sbin/iptables";
+-const IP6TABLES: &str = "/usr/sbin/ip6tables";
+-const IPSET: &str = "/usr/sbin/ipset";
++const IPTABLES: &str = "/opt/sbin/iptables";
++const IP6TABLES: &str = "/opt/sbin/ip6tables";
++const IPSET: &str = "/opt/sbin/ipset";
+ const IP4_SET_SUFFIX: &str = "-ipv4-allow";
+ const IP6_SET_SUFFIX: &str = "-ipv6-allow";
+ const IP4_LOCAL_SET_SUFFIX: &str = "-ipv4-allow-local";
