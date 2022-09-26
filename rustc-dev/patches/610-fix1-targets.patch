@@ -200,22 +200,22 @@
  mod redox_base;
  mod solaris_base;
  mod solid_base;
-@@ -815,6 +817,18 @@ macro_rules! supported_targets {
+@@ -818,6 +820,18 @@ macro_rules! supported_targets {
  }
  
  supported_targets! {
-+    ("aarch64-openwrt-linux-gnu", aarch64_openwrt_linux_gnu),
-+    ("arm-openwrt-linux-gnueabi", arm_openwrt_linux_gnueabi),
-+    ("armv5te-openwrt-linux-gnueabi", armv5te_openwrt_linux_gnueabi),
-+    ("armv7-openwrt-linux-gnueabi", armv7_openwrt_linux_gnueabi),
-+    ("i386-openwrt-linux-gnu", i386_openwrt_linux_gnu),
-+    ("i486-openwrt-linux-gnu", i486_openwrt_linux_gnu),
-+    ("i586-openwrt-linux-gnu", i586_openwrt_linux_gnu),
-+    ("i686-openwrt-linux-gnu", i686_openwrt_linux_gnu),
-+    ("mips-openwrt-linux-gnu", mips_openwrt_linux_gnu),
-+    ("mipsel-openwrt-linux-gnu", mipsel_openwrt_linux_gnu),
-+    ("x86_64-openwrt-linux-gnu", x86_64_openwrt_linux_gnu),
-+
++    ("aarch64-openwrt-linux-gnu", aarch64_openwrt_linux_gnu), // Entware/OpenWrt
++    ("arm-openwrt-linux-gnueabi", arm_openwrt_linux_gnueabi), // Entware/OpenWrt
++    ("armv5te-openwrt-linux-gnueabi", armv5te_openwrt_linux_gnueabi), // Entware/OpenWrt
++    ("armv7-openwrt-linux-gnueabi", armv7_openwrt_linux_gnueabi), // Entware/OpenWrt
++    ("i386-openwrt-linux-gnu", i386_openwrt_linux_gnu), // Entware/OpenWrt
++    ("i486-openwrt-linux-gnu", i486_openwrt_linux_gnu), // Entware/OpenWrt
++    ("i586-openwrt-linux-gnu", i586_openwrt_linux_gnu), // Entware/OpenWrt
++    ("i686-openwrt-linux-gnu", i686_openwrt_linux_gnu), // Entware/OpenWrt
++    ("mips-openwrt-linux-gnu", mips_openwrt_linux_gnu), // Entware/OpenWrt
++    ("mipsel-openwrt-linux-gnu", mipsel_openwrt_linux_gnu), // Entware/OpenWrt
++    ("x86_64-openwrt-linux-gnu", x86_64_openwrt_linux_gnu), // Entware/OpenWrt
++    //
      ("x86_64-unknown-linux-gnu", x86_64_unknown_linux_gnu),
      ("x86_64-unknown-linux-gnux32", x86_64_unknown_linux_gnux32),
      ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
