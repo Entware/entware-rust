@@ -1,0 +1,29 @@
+--- a/src/app.rs
++++ b/src/app.rs
+@@ -9,7 +9,6 @@ use netraffic::{Filter, Traffic};
+ use crate::runner::InputMode;
+ 
+ enum Advance {
+-    Byte2TB = 1000 * 1000 * 1000 * 1000,
+     Byte2GB = 1000 * 1000 * 1000,
+     Byte2MB = 1000 * 1000,
+     Byte2KB = 1000,
+@@ -107,17 +106,10 @@ impl Apps {
+     }
+ 
+     pub fn format_speed(byte: f64, is_second: bool) -> String {
+-        let byte_to_tb = Advance::Byte2TB as isize as f64;
+         let byte_to_gb = Advance::Byte2GB as isize as f64;
+         let byte_to_mb = Advance::Byte2MB as isize as f64;
+         let byte_to_kb = Advance::Byte2KB as isize as f64;
+-        if byte >= byte_to_tb {
+-            format!(
+-                "{:.2} TB{}",
+-                byte / byte_to_tb,
+-                if is_second { "/s" } else { "" }
+-            )
+-        } else if byte >= byte_to_gb {
++        if byte >= byte_to_gb {
+             format!(
+                 "{:.2} GB{}",
+                 byte / byte_to_gb,
