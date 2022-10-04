@@ -4,15 +4,15 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=static-web-server
 PKG_VERSION ?=
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 # XXX ^2.x depends on "ring"
 ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
   PKG_VERSION:=1.19.3
   PKG_HASH:=483a3abda885248dd72203dfc2725cffd5257533becb0c410105223952d9ccf3
 else
-  PKG_VERSION:=2.11.0
-  PKG_HASH:=6f0910d2295f407f39262b61a2102003905dc89f5c6ea2fc4f0b6d183722a2f2
+  PKG_VERSION:=2.12.0
+  PKG_HASH:=4e683bd5486aa11db5ff328feb04a4ef99b5168430c3db4f050ac073eb383859
 endif
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
@@ -36,6 +36,9 @@ endef
 define Package/static-web-server/description
   A blazing fast and asynchronous web server for static files-serving.
 endef
+
+RUSTC_VARS += \
+	OPENSSL_NO_VENDOR=1
 
 define Package/static-web-server/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
