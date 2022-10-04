@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=termscp
 PKG_VERSION:=0.9.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/veeso/termscp/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -31,6 +31,13 @@ define Package/termscp/description
   termscp is a feature rich terminal file transfer
   and explorer with support for SCP/SFTP/FTP/S3.
 endef
+
+RUSTC_VARS += \
+	OPENSSL_NO_VENDOR=1
+
+ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
+RUSTFLAGS += --cfg crossbeam_no_atomic_64
+endif
 
 define Package/termscp/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
