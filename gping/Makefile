@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gping
-PKG_VERSION:=1.3.2
+PKG_VERSION:=1.4.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/orf/gping/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
-PKG_HASH:=1ab71ca45cb5da317d77774eff96d5868486d03ea1cedff008cbafcaf880332b
+PKG_HASH:=f68735ee9f6f3fde6881b727c518550d9c486a4259c0a2a2d261971715b77970
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -23,14 +23,13 @@ define Package/gping
   CATEGORY:=Network
   TITLE:=ping written in Rust
   URL:=https://github.com/orf/gping
-  DEPENDS:=+iputils-ping
+  EXTRA_DEPENDS:=+iputils-ping
 endef
 
 define Package/gping/description
   Ping, but with a graph.
 endef
 
-#CARGO_SOURCE_SUBDIR=gping
 CARGO_ARGS += --workspace
 
 define Package/gping/install
