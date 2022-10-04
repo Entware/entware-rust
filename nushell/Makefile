@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
-PKG_VERSION:=0.68.1
+PKG_VERSION:=0.69.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=d3719f5b3eca5dee6215e39fe1da1b559d49837f0baf18c7edc14f1719c986bb
+PKG_HASH:=963d8e26fd919a2246f9ef01f9e8d5110f0f947525c39842c440edcb17938631
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -33,6 +33,12 @@ define Package/nushell
   MENU:=1
 endef
 
+define Package/nu_plugin_custom_values
+  $(call Package/nushell/Default)
+  TITLE:=CustomValue plugin for Nushell
+  DEPENDS:=nushell
+endef
+
 define Package/nu_plugin_gstat
   $(call Package/nushell/Default)
   TITLE:=Git stat plugin for Nushell
@@ -53,6 +59,10 @@ endef
 
 define Package/nushell/description
   A new type of shell.
+endef
+
+define Package/nu_plugin_custom_values/description
+  CustomValue plugin for Nushell.
 endef
 
 define Package/nu_plugin_gstat/description
@@ -86,6 +96,12 @@ define Package/nushell/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/nu $(1)/opt/usr/bin
 endef
 
+define Package/nu_plugin_custom_values/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin/nu_plugins
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/nu_plugin_custom_values \
+		$(1)/opt/usr/bin/nu_plugins
+endef
+
 define Package/nu_plugin_gstat/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin/nu_plugins
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/nu_plugin_gstat \
@@ -105,6 +121,13 @@ define Package/nu_plugin_query/install
 endef
 
 ### capnp: https://github.com/nushell/nushell/issues/5023
+define Package/nu_plugin_custom_values/postinst
+#!/bin/sh
+
+echo -e "\n\tTo register (from inside Nushell):\n"
+echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_custom_values --encoding json'\n"
+endef
+
 define Package/nu_plugin_gstat/postinst
 #!/bin/sh
 
@@ -127,6 +150,7 @@ echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_query --encoding json'\n"
 endef
 
 $(eval $(call BuildPackage,nushell))
+$(eval $(call BuildPackage,nu_plugin_custom_values))
 $(eval $(call BuildPackage,nu_plugin_gstat))
 $(eval $(call BuildPackage,nu_plugin_inc))
 $(eval $(call BuildPackage,nu_plugin_query))
