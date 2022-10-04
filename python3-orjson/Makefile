@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python3-orjson
 PKG_VERSION:=3.7.11
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PYPI_NAME:=orjson
 PKG_HASH:=b4e6517861a397d9a1c72e7f8e8c72d6baf96d732a64637fb090ea49ead6042c
@@ -13,12 +13,13 @@ PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 HOST_PYTHON3_PACKAGE_BUILD_DEPENDS:=./tomli.txt
-PKG_BUILD_DEPENDS:=maturin/host
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
 include ../rust.mk
+
+PKG_BUILD_DEPENDS:=maturin/host
 
 define Package/python3-orjson
   SECTION:=lang
