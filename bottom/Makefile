@@ -1,16 +1,23 @@
 # SPDX-License-Identifier: WTFPL
 
-# FIXME mips/mipsel: expected `u64`, found `u32`; see readme.txt
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bottom
-PKG_VERSION:=0.6.8
+PKG_VERSION:=0.6.9
 PKG_RELEASE:=1
+PKG_SOURCE_DATE:=2022-10-02
+PKG_SOURCE_VERSION:=f44aac189c1e83174b4ae132157901f3d3c5e0b7
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/ClementTsang/bottom/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=4e4eb251972a7af8c46dd36bcf1335fea334fb670569434fbfd594208905b2d9
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
+PKG_SOURCE_SUBDIR:=$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_URL:=https://github.com/ClementTsang/bottom
+PKG_MIRROR_HASH:=81006413e92b7b77f27ec683758b0af26e82409f15c875e1ea3c6ac38392eb5f
+
+#PKG_VERSION:=0.6.8
+#PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+#PKG_SOURCE_URL:=https://codeload.github.com/ClementTsang/bottom/tar.gz/refs/tags/$(PKG_VERSION)?
+#PKG_HASH:=4e4eb251972a7af8c46dd36bcf1335fea334fb670569434fbfd594208905b2d9
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -25,7 +32,6 @@ define Package/bottom
   CATEGORY:=Utilities
   TITLE:=Yet another graphical process/system monitor
   URL:=https://clementtsang.github.io/bottom/
-  DEPENDS:=@!(mips||mipsel)
 endef
 
 define Package/bottom/description
