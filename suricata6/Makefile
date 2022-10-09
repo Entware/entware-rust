@@ -3,17 +3,18 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata
-PKG_VERSION:=6.0.6
+PKG_VERSION:=6.0.8
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://www.openinfosecfoundation.org/download
-PKG_HASH:=00173634fa76aee636e38a90b1c02616c903e42173107d47b4114960b5fbe839
+PKG_HASH:=253ce3cc0df967ad9371d6ea8d4eed91ec593df3ed04e08229c7cf85780c91a3
 
+PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
 PYTHON3_PKG_BUILD:=0
 
-HOST_PYTHON3_PACKAGE_BUILD_DEPENDS:=PyYAML
+#HOST_PYTHON3_PACKAGE_BUILD_DEPENDS:=PyYAML
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -178,38 +179,28 @@ define Package/suricata6-python/install
 	$(INSTALL_DIR) $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/suricata{ctl,sc} $(1)/opt/bin
 
-	$(INSTALL_DIR) $(1)$(PYTHON3_PKG_DIR)
-	$(CP) \
-		$(PKG_INSTALL_DIR)$(PYTHON3_PKG_DIR)/* $(1)$(PYTHON3_PKG_DIR)
+	$(INSTALL_DIR) $(1)/opt/lib/suricata
+	$(CP) $(PKG_INSTALL_DIR)/opt/lib/suricata/python $(1)/opt/lib/suricata/
 	# Entware specific: fix exec path in scripts
 	$(call Python3/FixShebang, \
 		$(1)/opt/bin/suricatactl \
 		$(1)/opt/bin/suricatasc \
-		$(1)$(PYTHON3_PKG_DIR)/suricata/sc/suricatasc.py \
+		$(1)/opt/lib/suricata/python/suricata/sc/suricatasc.py \
 	)
-	# rm __pycache__
-	$(FIND) $(1)$(PYTHON3_PKG_DIR)/ -path '*/__pycache__/*' -delete
-	$(FIND) $(1)$(PYTHON3_PKG_DIR)/ -type d -name __pycache__ -delete
 endef
 
 define Package/suricata6-update/install
 	$(INSTALL_DIR) $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/suricata-update $(1)/opt/bin
 
-	$(INSTALL_DIR) $(1)$(PYTHON3_PKG_DIR)/suricata
+	$(INSTALL_DIR) $(1)/opt/lib/suricata/python/suricata
 	$(CP) \
-		$(PKG_INSTALL_DIR)$(PYTHON3_PKG_DIR)/suricata/update \
-			$(1)$(PYTHON3_PKG_DIR)/suricata
-	$(CP) \
-		$(PKG_INSTALL_DIR)$(PYTHON3_PKG_DIR)/suricata_update* \
-			$(1)$(PYTHON3_PKG_DIR)
+		$(PKG_INSTALL_DIR)/opt/lib/suricata/python/suricata/update \
+			$(1)/opt/lib/suricata/python/suricata
 	# Entware specific: fix exec path in scripts
 	$(call Python3/FixShebang, \
 		$(1)/opt/bin/suricata-update
 	)
-	# rm __pycache__
-	$(FIND) $(1)$(PYTHON3_PKG_DIR)/ -path '*/__pycache__/*' -delete
-	$(FIND) $(1)$(PYTHON3_PKG_DIR)/ -type d -name __pycache__ -delete
 endef
 
 
