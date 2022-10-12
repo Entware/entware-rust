@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=coreutils-rs
-PKG_VERSION:=0.0.15
+PKG_VERSION:=0.0.16
 PKG_RELEASE:=1
 
 PKG_SOURCE:=coreutils-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/uutils/coreutils/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=67abc3ed547537afdbe95aaa7cabf551afebfeee5f015874013fa5d7403ec3e4
+PKG_HASH:=1bdc2838e34b6ca8275cb8e3bac5074ca59158ea077e3195fb91ec0cc6b594f6
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
