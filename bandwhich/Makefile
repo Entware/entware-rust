@@ -21,6 +21,7 @@ define Package/bandwhich
   CATEGORY:=Network
   TITLE:=Terminal bandwidth utilization tool
   URL:=https://github.com/imsnif/bandwhich
+  DEPENDS:=@BROKEN
 endef
 
 define Package/bandwhich/description
