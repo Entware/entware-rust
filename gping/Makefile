@@ -23,7 +23,7 @@ define Package/gping
   CATEGORY:=Network
   TITLE:=ping written in Rust
   URL:=https://github.com/orf/gping
-  EXTRA_DEPENDS:=+iputils-ping
+  EXTRA_DEPENDS:=iputils-ping
 endef
 
 define Package/gping/description
