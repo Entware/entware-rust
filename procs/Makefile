@@ -21,6 +21,7 @@ define Package/procs
   CATEGORY:=Utilities
   TITLE:=A modern replacement for ps
   URL:=https://github.com/dalance/procs
+  EXTRA_DEPENDS:=less
 endef
 
 define Package/procs/description
