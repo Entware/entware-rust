@@ -120,33 +120,32 @@ define Package/nu_plugin_query/install
 		$(1)/opt/usr/bin/nu_plugins
 endef
 
-### capnp: https://github.com/nushell/nushell/issues/5023
 define Package/nu_plugin_custom_values/postinst
 #!/bin/sh
 
 echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_custom_values --encoding json'\n"
+echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_custom_values'\n"
 endef
 
 define Package/nu_plugin_gstat/postinst
 #!/bin/sh
 
 echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_gstat --encoding json'\n"
+echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_gstat'\n"
 endef
 
 define Package/nu_plugin_inc/postinst
 #!/bin/sh
 
 echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_inc --encoding json'\n"
+echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_inc'\n"
 endef
 
 define Package/nu_plugin_query/postinst
 #!/bin/sh
 
 echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_query --encoding json'\n"
+echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_query'\n"
 endef
 
 $(eval $(call BuildPackage,nushell))
