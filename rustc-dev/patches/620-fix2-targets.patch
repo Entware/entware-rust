@@ -1,6 +1,6 @@
 --- a/vendor/target-lexicon/src/targets.rs
 +++ b/vendor/target-lexicon/src/targets.rs
-@@ -403,6 +403,7 @@ pub enum Vendor {
+@@ -404,6 +404,7 @@ pub enum Vendor {
      Kmc,
      Nintendo,
      Nvidia,
@@ -8,7 +8,7 @@
      Pc,
      Rumprun,
      Sun,
-@@ -990,6 +991,7 @@ impl fmt::Display for Vendor {
+@@ -993,6 +994,7 @@ impl fmt::Display for Vendor {
              Kmc => "kmc",
              Nintendo => "nintendo",
              Nvidia => "nvidia",
@@ -16,7 +16,7 @@
              Pc => "pc",
              Rumprun => "rumprun",
              Sun => "sun",
-@@ -1017,6 +1019,7 @@ impl FromStr for Vendor {
+@@ -1020,6 +1022,7 @@ impl FromStr for Vendor {
              "kmc" => Kmc,
              "nintendo" => Nintendo,
              "nvidia" => Nvidia,
@@ -24,7 +24,7 @@
              "pc" => Pc,
              "rumprun" => Rumprun,
              "sun" => Sun,
-@@ -1527,6 +1530,17 @@ mod tests {
+@@ -1531,6 +1534,17 @@ mod tests {
              "x86_64-wrs-vxworks",
              "xtensa-esp32-espidf",
              "riscv32imc-esp-espidf",
