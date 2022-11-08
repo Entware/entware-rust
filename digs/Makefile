@@ -34,6 +34,9 @@ endif
 define Package/digs/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/digs $(1)/opt/usr/bin
+
+	$(INSTALL_DIR) $(1)/opt/usr/share/digs
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/docs/digs.example.toml $(1)/opt/usr/share/digs
 endef
 
 $(eval $(call BuildPackage,digs))
