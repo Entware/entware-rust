@@ -8,7 +8,7 @@ PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/cloudflare/boringtun/tar.gz/refs/tags/$(PKG_NAME)-$(PKG_VERSION)?
-PKG_HASH:=skip
+PKG_HASH:=0b457ed40767760f992803aa56a095958313b46a51605a3c82a942a6c5b8b8cb
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
