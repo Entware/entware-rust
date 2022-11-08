@@ -200,7 +200,7 @@
  mod redox_base;
  mod solaris_base;
  mod solid_base;
-@@ -818,6 +820,18 @@ macro_rules! supported_targets {
+@@ -906,6 +908,18 @@ macro_rules! supported_targets {
  }
  
  supported_targets! {

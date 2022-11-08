@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.64.0
+PKG_VERSION:=1.65.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=e8170d318fac9d2fc17d5c3e648e7068f56e8db8d233d864aeffbef7c6542eac
+PKG_HASH:=2d6aa2ea3fedd55acbbd65f78349385f9daa9c14e25db7a8df5d015588eee1cf
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -30,7 +30,7 @@ define Package/rustc
   CATEGORY:=Development
   TITLE:=Rust
   URL:=https://www.rust-lang.org
-  DEPENDS:=+libopenssl +libstdcpp +zlib +TARGET_x86_2_6:libatomic
+  DEPENDS:=+libatomic +libopenssl +libstdcpp +zlib
 endef
 
 define Package/rustc/description
