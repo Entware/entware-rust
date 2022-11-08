@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustscan
-PKG_VERSION:=2.1.0
+PKG_VERSION:=2.1.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/RustScan/RustScan/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=10958957148544da780c1be4004b906e94bafe02a19f0224f6026828fb77a8cc
+PKG_HASH:=51244a5bde278b25de030bd91e4ebe1d4b87269b2d0f7f601565caef4fb5749a
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/RustScan-$(PKG_VERSION)
 
