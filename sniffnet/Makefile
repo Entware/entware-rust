@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sniffnet
-PKG_VERSION:=0.5.0
+PKG_VERSION:=1.0.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/GyulyVGC/sniffnet/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=4a791e9c1bbcc1b805312699224b16da637bfc62c552d1414610f6ceb3863ddf
+PKG_HASH:=c957a372b324aa8349820458202d291f64831b90aeae5b73d822e74e7739876d
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -21,7 +21,7 @@ define Package/sniffnet
   CATEGORY:=Network
   TITLE:=application to analyze and filter network traffic
   URL:=https://github.com/GyulyVGC/sniffnet
-  DEPENDS:=+fontconfig +libpcap
+  DEPENDS:=+fontconfig +libpcap +libstdcpp
 endef
 
 define Package/sniffnet/description
