@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gitui
-PKG_VERSION:=0.21.0
+PKG_VERSION:=0.22.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/extrawurst/gitui/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=da99defad08bd455c12398438e846aa71c160acfbcc60d06b9c852c5d7ef1d99
+PKG_HASH:=285e86c136ee7f410fdd52c5284ccf0d19011cc5f7709e5e10bb02f439a218ea
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
