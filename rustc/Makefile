@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.65.0
+PKG_VERSION:=1.66.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=2d6aa2ea3fedd55acbbd65f78349385f9daa9c14e25db7a8df5d015588eee1cf
+PKG_HASH:=0dc176e34fae9871f855a6ba4cb30fa19d69c5b4428d29281a07419c4950715c
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -90,7 +90,6 @@ define Build/Configure
 	) > $(PKG_BUILD_DIR)/config.toml
 endef
 
-# XXX skipping compile will save some time
 Build/Compile:=:
 
 define Build/Install

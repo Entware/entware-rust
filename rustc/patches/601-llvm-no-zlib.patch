@@ -1,0 +1,35 @@
+# $(ARCH)-openwrt-linux-gnu: undefined reference to `uncompress'/`compress2'/`crc32'/`compressBound'
+
+--- a/src/llvm-project/llvm/cmake/config-ix.cmake
++++ b/src/llvm-project/llvm/cmake/config-ix.cmake
+@@ -133,7 +133,7 @@ if(LLVM_ENABLE_ZLIB)
+       message(FATAL_ERROR "Failed to configure zlib")
+     endif()
+   endif()
+-  set(LLVM_ENABLE_ZLIB "${HAVE_ZLIB}")
++  set(LLVM_ENABLE_ZLIB 0)
+ else()
+   set(LLVM_ENABLE_ZLIB 0)
+ endif()
+--- a/src/llvm-project/llvm/cmake/modules/LLVMConfig.cmake.in
++++ b/src/llvm-project/llvm/cmake/modules/LLVMConfig.cmake.in
+@@ -67,7 +67,7 @@ set(LLVM_ENABLE_THREADS @LLVM_ENABLE_THR
+ 
+ set(LLVM_ENABLE_UNWIND_TABLES @LLVM_ENABLE_UNWIND_TABLES@)
+ 
+-set(LLVM_ENABLE_ZLIB @LLVM_ENABLE_ZLIB@)
++set(LLVM_ENABLE_ZLIB OFF)
+ if(LLVM_ENABLE_ZLIB)
+   set(ZLIB_ROOT @ZLIB_ROOT@)
+   find_package(ZLIB)
+--- a/src/llvm-project/llvm/CMakeLists.txt
++++ b/src/llvm-project/llvm/CMakeLists.txt
+@@ -442,7 +442,7 @@ else()
+   option(LLVM_ENABLE_THREADS "Use threads if available." ON)
+ endif()
+ 
+-set(LLVM_ENABLE_ZLIB "ON" CACHE STRING "Use zlib for compression/decompression if available. Can be ON, OFF, or FORCE_ON")
++set(LLVM_ENABLE_ZLIB "OFF" CACHE STRING "Use zlib for compression/decompression if available. Can be ON, OFF, or FORCE_ON")
+ 
+ set(LLVM_ENABLE_ZSTD "ON" CACHE STRING "Use zstd for compression/decompression if available. Can be ON, OFF, or FORCE_ON")
+ 

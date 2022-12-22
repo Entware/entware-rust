@@ -10,13 +10,13 @@
 +        data_layout: "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128".into(),
 +        arch: "aarch64".into(),
 +        options: TargetOptions {
-+            features: "+outline-atomics".into(),
 +            mcount: "\u{1}_mcount".into(),
 +            max_atomic_width: Some(128),
 +            supported_sanitizers: SanitizerSet::ADDRESS
 +                | SanitizerSet::CFI
 +                | SanitizerSet::LEAK
 +                | SanitizerSet::MEMORY
++                | SanitizerSet::MEMTAG
 +                | SanitizerSet::THREAD
 +                | SanitizerSet::HWADDRESS,
 +            ..super::openwrt_linux_gnu_base::opts()
@@ -124,15 +124,15 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/i686_openwrt_linux_gnu.rs
 @@ -0,0 +1,20 @@
-+use crate::spec::{LinkerFlavor, StackProbeType, Target};
++use crate::spec::{Cc, LinkerFlavor, Lld, SanitizerSet, StackProbeType, Target};
 +
 +pub fn target() -> Target {
 +    let mut base = super::openwrt_linux_gnu_base::opts();
 +    base.cpu = "pentium4".into();
 +    base.max_atomic_width = Some(64);
-+    base.pre_link_args.entry(LinkerFlavor::Gcc).or_default().push("-m32".into());
-+    // don't use probe-stack=inline-asm until rust#83139 and rust#84667 are resolved
-+    base.stack_probes = StackProbeType::Call;
++    base.supported_sanitizers = SanitizerSet::ADDRESS;
++    base.add_pre_link_args(LinkerFlavor::Gnu(Cc::Yes, Lld::No), &["-m32"]);
++    base.stack_probes = StackProbeType::X86;
 +
 +    Target {
 +        llvm_target: "i686-openwrt-linux-gnu".into(),
@@ -200,7 +200,7 @@
  mod redox_base;
  mod solaris_base;
  mod solid_base;
-@@ -906,6 +908,18 @@ macro_rules! supported_targets {
+@@ -1011,6 +1013,18 @@ macro_rules! supported_targets {
  }
  
  supported_targets! {
@@ -221,21 +221,26 @@
      ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/openwrt_linux_base.rs
-@@ -0,0 +1,17 @@
-+use crate::spec::{cvs, RelroLevel, TargetOptions};
+@@ -0,0 +1,22 @@
++use crate::spec::{cvs, RelroLevel, SplitDebuginfo, TargetOptions};
++use std::borrow::Cow;
 +
 +pub fn opts() -> TargetOptions {
 +    TargetOptions {
 +        os: "linux".into(),
 +        vendor: "openwrt".into(),
 +        dynamic_linking: true,
-+        executables: true,
 +        families: cvs!["unix"],
 +        has_rpath: false,
 +        position_independent_executables: false,
 +        relro_level: RelroLevel::None,
 +        has_thread_local: true,
 +        crt_static_respected: true,
++        supported_split_debuginfo: Cow::Borrowed(&[
++            SplitDebuginfo::Packed,
++            SplitDebuginfo::Unpacked,
++            SplitDebuginfo::Off,
++        ]),
 +        ..Default::default()
 +    }
 +}
@@ -250,15 +255,15 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/x86_64_openwrt_linux_gnu.rs
 @@ -0,0 +1,24 @@
-+use crate::spec::{LinkerFlavor, SanitizerSet, StackProbeType, Target};
++use crate::spec::{Cc, LinkerFlavor, Lld, SanitizerSet, StackProbeType, Target};
 +
 +pub fn target() -> Target {
 +    let mut base = super::openwrt_linux_gnu_base::opts();
 +    base.cpu = "x86-64".into();
 +    base.max_atomic_width = Some(64);
-+    base.pre_link_args.entry(LinkerFlavor::Gcc).or_default().push("-m64".into());
-+    // don't use probe-stack=inline-asm until rust#83139 and rust#84667 are resolved
-+    base.stack_probes = StackProbeType::Call;
++    base.add_pre_link_args(LinkerFlavor::Gnu(Cc::Yes, Lld::No), &["-m64"]);
++    base.stack_probes = StackProbeType::X86;
++    base.static_position_independent_executables = false;
 +    base.supported_sanitizers = SanitizerSet::ADDRESS
 +        | SanitizerSet::CFI
 +        | SanitizerSet::LEAK
@@ -274,3 +279,67 @@
 +        options: base,
 +    }
 +}
+--- a/src/tools/build-manifest/src/main.rs
++++ b/src/tools/build-manifest/src/main.rs
+@@ -52,6 +52,17 @@ static HOSTS: &[&str] = &[
+ ];
+ 
+ static TARGETS: &[&str] = &[
++    "aarch64-openwrt-linux-gnu", // Entware/OpenWrt
++    "arm-openwrt-linux-gnueabi", // Entware/OpenWrt
++    "armv5te-openwrt-linux-gnueabi", // Entware/OpenWrt
++    "armv7-openwrt-linux-gnueabi", // Entware/OpenWrt
++    "i386-openwrt-linux-gnu", // Entware/OpenWrt
++    "i486-openwrt-linux-gnu", // Entware/OpenWrt
++    "i586-openwrt-linux-gnu", // Entware/OpenWrt
++    "i686-openwrt-linux-gnu", // Entware/OpenWrt
++    "mips-openwrt-linux-gnu", // Entware/OpenWrt
++    "mipsel-openwrt-linux-gnu", // Entware/OpenWrt
++    "x86_64-openwrt-linux-gnu", // Entware/OpenWrt
+     "aarch64-apple-darwin",
+     "aarch64-apple-ios",
+     "aarch64-apple-ios-sim",
+--- a/vendor/target-lexicon/src/targets.rs
++++ b/vendor/target-lexicon/src/targets.rs
+@@ -404,6 +404,7 @@ pub enum Vendor {
+     Kmc,
+     Nintendo,
+     Nvidia,
++    OpenWrt,
+     Pc,
+     Rumprun,
+     Sun,
+@@ -993,6 +994,7 @@ impl fmt::Display for Vendor {
+             Kmc => "kmc",
+             Nintendo => "nintendo",
+             Nvidia => "nvidia",
++            OpenWrt => "openwrt",
+             Pc => "pc",
+             Rumprun => "rumprun",
+             Sun => "sun",
+@@ -1020,6 +1022,7 @@ impl FromStr for Vendor {
+             "kmc" => Kmc,
+             "nintendo" => Nintendo,
+             "nvidia" => Nvidia,
++            "openwrt" => OpenWrt,
+             "pc" => Pc,
+             "rumprun" => Rumprun,
+             "sun" => Sun,
+@@ -1531,6 +1534,17 @@ mod tests {
+             "x86_64-wrs-vxworks",
+             "xtensa-esp32-espidf",
+             "riscv32imc-esp-espidf",
++            "aarch64-openwrt-linux-gnu", // Entware/OpenWrt
++            "arm-openwrt-linux-gnueabi", // Entware/OpenWrt
++            "armv5te-openwrt-linux-gnueabi", // Entware/OpenWrt
++            "armv7-openwrt-linux-gnueabi", // Entware/OpenWrt
++            "i386-openwrt-linux-gnu", // Entware/OpenWrt
++            "i486-openwrt-linux-gnu", // Entware/OpenWrt
++            "i586-openwrt-linux-gnu", // Entware/OpenWrt
++            "i686-openwrt-linux-gnu", // Entware/OpenWrt
++            "mips-openwrt-linux-gnu", // Entware/OpenWrt
++            "mipsel-openwrt-linux-gnu", // Entware/OpenWrt
++            "x86_64-openwrt-linux-gnu", // Entware/OpenWrt
+         ];
+ 
+         for target in targets.iter() {
