@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=netop
-PKG_VERSION:=0.1.0
+PKG_VERSION:=0.1.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ZingerLittleBee/netop/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=0ba2648394eb816276a42a91170d073dada0875cf653c590cdc74bf3bd8d5dc6
+PKG_HASH:=e1036dccad34b3b7aab1fa66dc411c7337c81ea44502245a61cf81c63d60375f
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
