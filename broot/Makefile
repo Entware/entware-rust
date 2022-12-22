@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=broot
-PKG_VERSION:=1.16.2
+PKG_VERSION:=1.17.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Canop/broot/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=5a84bc72e861e9f2e70eb278e0bb26424e249448cf1d67884f419aacc98fec06
+PKG_HASH:=acde4ddfff0875506c4f91346895c5b554d44a91f46a6918de6086d3884857d7
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -23,7 +23,7 @@ define Package/broot
   TITLE:=A new file manager
   URL:=https://dystroy.org/broot
   DEPENDS:=+zlib
-  EXTRA_DEPENDS:=git-http
+  EXTRA_DEPENDS:=git
 endef
 
 define Package/broot/description
