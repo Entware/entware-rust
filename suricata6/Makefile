@@ -73,7 +73,7 @@ define Package/suricata6-python
   $(call Package/suricata6/Default)
   TITLE:=Suricata control tools (python)
   VARIANT:=python
-  DEPENDS:=+python3 +python3-simplejson #+python3-argparse
+  DEPENDS:=+python3 #+python3-simplejson #+python3-argparse
 endef
 
 define Package/suricata6-update
