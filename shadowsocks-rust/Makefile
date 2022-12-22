@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-rust
-PKG_VERSION:=1.14.3
-PKG_RELEASE:=2
+PKG_VERSION:=1.15.1
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/shadowsocks/shadowsocks-rust/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=a41437cdae1279914f11c07a584ab8b2b21e9b08bd732ef11fb447c765202215
+PKG_HASH:=afa6edd6532501583d1abb5c2767c3c7993e458e06c9787d0c5cecfaa6ed5e5f
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -33,11 +33,10 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_SS_RUST_LOCAL_TUN \
 	CONFIG_SS_RUST_MULTI_THREADED \
 	CONFIG_SS_RUST_STREAM_CIPHER \
-	CONFIG_SS_RUST_STREAM_CIPHER_EXTRA \
-	CONFIG_SS_RUST_SECURITY_REPLAY_ATTACK_DETECT \
-	CONFIG_SS_RUST_SECURITY_IV_PRINTABLE_PREFIX \
-	CONFIG_SS_RUST_ARMV8 \
-	CONFIG_SS_RUST_NEON
+	CONFIG_SS_RUST_AEAD_CIPHER_EXTRA \
+	CONFIG_SS_RUST_AEAD_CIPHER_2022 \
+	CONFIG_SS_RUST_AEAD_CIPHER_2022_EXTRA \
+	CONFIG_SS_RUST_SECURITY_REPLAY_ATTACK_DETECT
 
 include $(INCLUDE_DIR)/package.mk
 include ../cargo.mk
@@ -86,17 +85,12 @@ FEATURES:= \
 	$(if $(CONFIG_SS_RUST_LOCAL_TUN),local-tun) \
 	$(if $(CONFIG_SS_RUST_MULTI_THREADED),multi-threaded) \
 	$(if $(CONFIG_SS_RUST_STREAM_CIPHER),stream-cipher) \
-	$(if $(CONFIG_SS_RUST_STREAM_CIPHER_EXTRA),aead-cipher-extra) \
-	$(if $(CONFIG_SS_RUST_SECURITY_REPLAY_ATTACK_DETECT),security-replay-attack-detect) \
-	$(if $(CONFIG_SS_RUST_SECURITY_IV_PRINTABLE_PREFIX),security-iv-printable-prefix) \
-	$(if $(CONFIG_SS_RUST_ARMV8),armv8) \
-	$(if $(CONFIG_SS_RUST_NEON),neon)
+	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_EXTRA),aead-cipher-extra) \
+	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_2022),aead-cipher-2022) \
+	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_2022_EXTRA),aead-cipher-2022-extra) \
+	$(if $(CONFIG_SS_RUST_SECURITY_REPLAY_ATTACK_DETECT),security-replay-attack-detect)
 
 CARGO_ARGS += --no-default-features --features "$(FEATURES)"
-
-ifeq ($(CONFIG_aarch64),y)
-TARGET_CFLAGS := $(filter-out -mcpu%,$(TARGET_CFLAGS))
-endif
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
@@ -107,26 +101,26 @@ define Package/shadowsocks-rust/install
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/examples/config*.json \
 		$(1)/opt/etc/shadowsocks-rust
 
-ifeq ($(CONFIG_SS_RUST_LOCAL),y)
+  ifeq ($(CONFIG_SS_RUST_LOCAL),y)
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/sslocal $(1)/opt/usr/bin
-endif
-ifeq ($(CONFIG_SS_RUST_MANAGER),y)
+  endif
+  ifeq ($(CONFIG_SS_RUST_MANAGER),y)
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/ssmanager $(1)/opt/usr/bin
-endif
-ifeq ($(CONFIG_SS_RUST_SERVER),y)
+  endif
+  ifeq ($(CONFIG_SS_RUST_SERVER),y)
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/ssserver $(1)/opt/usr/bin
-endif
-ifeq ($(CONFIG_SS_RUST_SERVICE),y)
+  endif
+  ifeq ($(CONFIG_SS_RUST_SERVICE),y)
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/ssservice $(1)/opt/usr/bin
-endif
-ifeq ($(CONFIG_SS_RUST_UTILITY),y)
+  endif
+  ifeq ($(CONFIG_SS_RUST_UTILITY),y)
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/ssurl $(1)/opt/usr/bin
-endif
+  endif
 endef
 
 $(eval $(call BuildPackage,shadowsocks-rust))

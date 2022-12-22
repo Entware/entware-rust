@@ -62,7 +62,7 @@ choice
 	config SS_RUST_LOCAL_HTTP_NATIVE_TLS
 		bool "Support HTTPS with native-tls"
 
-	config CONFIG_SS_RUST_LOCAL_HTTP_RUSTLS
+	config SS_RUST_LOCAL_HTTP_RUSTLS
 		bool "Support HTTPS with rustls"
 
 endchoice
@@ -95,26 +95,20 @@ endchoice
 		bool "Enable Stream Cipher Protocol"
 		default n
 
-	config SS_RUST_STREAM_CIPHER_EXTRA
+	config SS_RUST_AEAD_CIPHER_EXTRA
 		bool "Enable extra AEAD ciphers"
+		default n
+
+	config SS_RUST_AEAD_CIPHER_2022
+		bool "Enable AEAD 2022"
+		default y
+
+	config SS_RUST_AEAD_CIPHER_2022_EXTRA
+		bool "Enable AEAD 2022 with extra ciphers"
 		default n
 
 	config SS_RUST_SECURITY_REPLAY_ATTACK_DETECT
 		bool "Enable detection against replay attack"
-		default n
-
-	config SS_RUST_SECURITY_IV_PRINTABLE_PREFIX
-		bool "Enable IV printable prefix"
-		default n
-
-	config SS_RUST_ARMV8
-		bool "Enable ARMv8 related optimizations"
-		depends on aarch64
-		default n
-
-	config SS_RUST_NEON
-		bool "Enable NEON releated optimizations"
-		depends on (aarch64||arm)
 		default n
 
 endif
