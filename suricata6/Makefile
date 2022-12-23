@@ -3,18 +3,21 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata
-PKG_VERSION:=6.0.8
+PKG_VERSION:=6.0.9
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://www.openinfosecfoundation.org/download
-PKG_HASH:=253ce3cc0df967ad9371d6ea8d4eed91ec593df3ed04e08229c7cf85780c91a3
+PKG_HASH:=3225edcbd0277545b7128df7b71652e6816f3b4978347d2f4fe297d55ed070e8
 
 PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
 PYTHON3_PKG_BUILD:=0
 
-#HOST_PYTHON3_PACKAGE_BUILD_DEPENDS:=PyYAML
+HOST_PYTHON3_PACKAGE_BUILD_DEPENDS:=PyYAML
+
+PKG_CONFIG_DEPENDS:= \
+	CONFIG_SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
@@ -23,24 +26,29 @@ include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
 define Package/suricata6/Default
   SECTION:=net
   CATEGORY:=Network
-  DEPENDS:=+jansson +libatomic +libmagic +libpcap +libpcre +libyaml +zlib $(ICONV_DEPENDS) 
   TITLE:=OISF Suricata IDS
   URL:=https://www.openinfosecfoundation.org/
+  DEPENDS:=+jansson +libatomic +libmagic +libpcap +libpcre +libyaml +zlib $(ICONV_DEPENDS) 
+  DEPENDS+= \
+	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-light \
+	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-logging \
+	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-readline
 endef
 
 define Package/suricata6
   $(call Package/suricata6/Default)
   TITLE+= (reccommended)
   VARIANT:=reccommended
-  DEPENDS+=+libcap-ng +libevent2 +libevent2-pthreads +libhiredis +liblua +liblz4 +libnet-1.2.x
+  DEPENDS+=+libcap-ng +libevent2 +libevent2-pthreads +libhiredis +liblua +liblz4
+  DEPENDS+=+libmaxminddb +libnet-1.2.x
 endef
 
 define Package/suricata6-extra
   $(call Package/suricata6/Default)
   TITLE+= (extra)
   VARIANT:=extra
-  DEPENDS+=+libcap-ng +libevent2 +libevent2-pthreads +libhiredis +liblz4 +libnet-1.2.x +luajit
-  DEPENDS+=+libnetfilter-log +libnetfilter-queue +libnss +nspr
+  DEPENDS+=+libcap-ng +libevent2 +libevent2-pthreads +libhiredis +libmaxminddb +liblz4
+  DEPENDS+=+libnet-1.2.x +luajit +libnetfilter-log +libnetfilter-queue +libnss +nspr
 endef
 
 define Package/suricata6-mini
@@ -69,41 +77,33 @@ endef
 Package/suricata6-extra/conffiles=$(call Package/suricata6/conffiles)
 Package/suricata6-mini/conffiles=$(call Package/suricata6/conffiles)
 
-define Package/suricata6-python
-  $(call Package/suricata6/Default)
-  TITLE:=Suricata control tools (python)
-  VARIANT:=python
-  DEPENDS:=+python3 #+python3-simplejson #+python3-argparse
+define Package/suricata6/config/Defauilt
+  source "$(SOURCE)/Config-$(1).in"
 endef
 
-define Package/suricata6-update
-  $(call Package/suricata6/Default)
-  TITLE:=Suricata Update Tool (python)
-  VARIANT:=update
-  DEPENDS:=+python3 +python3-yaml
-endef
-
-Package/suricata6-python/description=$(call Package/suricata6/description)
-Package/suricata6-update/description=$(call Package/suricata6/description)
+Package/suricata6-extra/config=$(call Package/suricata6/config/Defauilt,e)
+Package/suricata6-mini/config=$(call Package/suricata6/config/Defauilt,m)
+Package/suricata6/config=$(call Package/suricata6/config/Defauilt,r)
 
 TARGET_LDFLAGS += -latomic
 
 CONFIGURE_ARGS += \
 	--host=$(REAL_GNU_TARGET_NAME) \
+	--disable-suricata-update \
 	--enable-http2-decompression \
+	--$(if $(CONFIG_SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT),en,dis)able-python \
 	CARGO_HOME="$(STAGING_DIR)/host/share/cargo"
 
 ifeq ($(BUILD_VARIANT),extra)
 CONFIGURE_ARGS += \
 	--disable-lua \
-	--disable-suricata-update \
+	--enable-geoip \
 	--enable-hiredis \
 	--enable-nspr \
 	--enable-nss \
 	--enable-luajit \
 	--enable-nflog \
 	--enable-nfqueue \
-	--disable-python \
 	--with-libnet-includes=$(STAGING_DIR)/opt/include \
 	--with-libnet-libraries=$(STAGING_DIR)/opt/lib
 
@@ -115,21 +115,11 @@ CONFIGURE_ARGS += \
 	--disable-lua \
 	--disable-luajit \
 	--disable-nflog \
-	--disable-nfqueue \
-	--disable-python \
-	--disable-suricata-update
+	--disable-nfqueue
 
 CONFIGURE_VARS += \
 	ac_cv_lib_cap_ng_capng_clear=no \
 	ac_cv_lib_lz4_LZ4F_createCompressionContext=no
-
-else ifeq ($(BUILD_VARIANT),python)
-CONFIGURE_ARGS += \
-	--disable-suricata-update
-
-else ifeq ($(BUILD_VARIANT),update)
-CONFIGURE_ARGS += \
-	--enable-suricata-update
 
 else  # reccommended
 CONFIGURE_ARGS += \
@@ -138,8 +128,7 @@ CONFIGURE_ARGS += \
 	--disable-nfqueue \
 	--disable-nspr \
 	--disable-nss \
-	--disable-python \
-	--disable-suricata-update \
+	--enable-geoip \
 	--enable-hiredis \
 	--enable-lua \
 	--with-libnet-includes=$(STAGING_DIR)/opt/include \
@@ -170,12 +159,7 @@ define Package/suricata6/install
 	$(INSTALL_DIR) $(1)/opt/var/lib/suricata/rules
 	$(INSTALL_DIR) $(1)/opt/var/log/suricata/{certs,files}
 	$(INSTALL_DIR) $(1)/opt/var/run/suricata
-endef
-
-Package/suricata6-extra/install=$(Package/suricata6/install)
-Package/suricata6-mini/install=$(Package/suricata6/install)
-
-define Package/suricata6-python/install
+  ifeq ($(CONFIG_SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT),y)
 	$(INSTALL_DIR) $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/suricata{ctl,sc} $(1)/opt/bin
 
@@ -187,21 +171,11 @@ define Package/suricata6-python/install
 		$(1)/opt/bin/suricatasc \
 		$(1)/opt/lib/suricata/python/suricata/sc/suricatasc.py \
 	)
+  endif
 endef
 
-define Package/suricata6-update/install
-	$(INSTALL_DIR) $(1)/opt/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/suricata-update $(1)/opt/bin
-
-	$(INSTALL_DIR) $(1)/opt/lib/suricata/python/suricata
-	$(CP) \
-		$(PKG_INSTALL_DIR)/opt/lib/suricata/python/suricata/update \
-			$(1)/opt/lib/suricata/python/suricata
-	# Entware specific: fix exec path in scripts
-	$(call Python3/FixShebang, \
-		$(1)/opt/bin/suricata-update
-	)
-endef
+Package/suricata6-extra/install=$(Package/suricata6/install)
+Package/suricata6-mini/install=$(Package/suricata6/install)
 
 
 define Package/suricata6/postinst
@@ -218,5 +192,3 @@ Package/suricata6-mini/postinst=$(Package/suricata6/postinst)
 $(eval $(call BuildPackage,suricata6))
 $(eval $(call BuildPackage,suricata6-extra))
 $(eval $(call BuildPackage,suricata6-mini))
-$(eval $(call BuildPackage,suricata6-python))
-$(eval $(call BuildPackage,suricata6-update))

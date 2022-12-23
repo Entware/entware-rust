@@ -1,0 +1,7 @@
+if PACKAGE_suricata6
+
+config SURICATA_reccommended_PYTHON_SUPPORT
+	bool "Enable python"
+	default n
+
+endif
