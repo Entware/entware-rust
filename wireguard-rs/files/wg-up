@@ -1,0 +1,15 @@
+#!/bin/sh
+
+WG=wg0
+
+[ -f /opt/etc/wireguard/wg-iface ] && . /opt/etc/wireguard/wg-iface
+
+/opt/usr/bin/wireguard-rs $WG
+wg setconf $WG /opt/etc/wireguard/$WG.conf
+ip address add dev $WG 10.8.0.2/32
+ip link set up dev $WG
+ifconfig $WG mtu 1420
+ifconfig $WG txqueuelen 1000
+iptables -A FORWARD -o $WG -j ACCEPT
+iptables -A OUTPUT -o $WG  -j ACCEPT
+iptables -t nat -I POSTROUTING -o $WG -j MASQUERADE

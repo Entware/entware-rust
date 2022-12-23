@@ -1,0 +1,77 @@
+#!/bin/sh
+
+# color
+ansi_std="\033[m";
+ansi_green="\033[1;32m";
+ansi_red="\033[1;31m";
+ansi_white="\033[1;37m";
+ansi_yellow="\033[1;33m";
+
+WG=wg0
+
+[ -f /opt/etc/wireguard/wg-iface ] && . /opt/etc/wireguard/wg-iface
+
+WG_BIN="wireguard-rs"
+WG_CFG="/opt/etc/wireguard/$WG.conf"
+WG_DOWN="/opt/etc/wireguard/wg-down"
+WG_UP="/opt/etc/wireguard/wg-up"
+
+[ -f "$WG_CFG" ] || echo -e "$ansi_red Not configured. Exit. $ansi_std"
+[ ! -f "$WG_CFG" ] && exit 1
+
+check()
+{
+  echo -e "$ansi_white Checking WireGuard service... $ansi_std"
+  if [ -n "$(pidof $WG_BIN)" ]; then
+	echo -e "	$ansi_white $WG_BIN $ansi_yellow already running. $ansi_std"
+	return 0
+  else
+	echo -e "	$ansi_white $WG_BIN $ansi_red not running. $ansi_std"
+	return 1
+  fi
+}
+
+start()
+{
+  if [ -z "$(pidof $WG_BIN)" ]; then
+	echo -e -n "$ansi_white Starting WireGuard service... $ansi_std"
+	$WG_UP
+	echo -e "	$ansi_green done. $ansi_std"
+  else
+	echo -e "	$ansi_white $WG_BIN $ansi_yellow already running. $ansi_std"
+  fi
+}
+
+stop()
+{
+  if [ -n "$(pidof $WG_BIN)" ]; then
+	echo -e -n "$ansi_white Stopping WireGuard service... $ansi_std"
+	$WG_DOWN
+	echo -e "	$ansi_green done. $ansi_std"
+  else
+	echo -e "	$ansi_white $WG_BIN $ansi_red not running. $ansi_std"
+  fi
+}
+
+case "$1" in
+	start)
+		start
+	;;
+	stop)
+		stop
+	;;
+	restart)
+		stop
+		sleep 2
+		start
+	;;
+	check|status)
+		check
+	;;
+	*)
+		echo -e "$ansi_white Usage: $0 (start|stop|restart|status) $ansi_std"
+		exit 1
+	;;
+esac
+
+exit 0
