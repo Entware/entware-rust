@@ -28,7 +28,7 @@ define Package/suricata6/Default
   CATEGORY:=Network
   TITLE:=OISF Suricata IDS
   URL:=https://www.openinfosecfoundation.org/
-  DEPENDS:=+jansson +libatomic +libmagic +libpcap +libpcre +libyaml +zlib $(ICONV_DEPENDS) 
+  DEPENDS:=+file +jansson +libatomic +libpcap +libpcre +libyaml +zlib $(ICONV_DEPENDS) 
   DEPENDS+= \
 	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-light \
 	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-logging \
