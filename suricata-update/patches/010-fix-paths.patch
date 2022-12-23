@@ -1,0 +1,133 @@
+--- a/suricata/update/config.py
++++ b/suricata/update/config.py
+@@ -31,7 +31,7 @@ except:
+ 
+ logger = logging.getLogger()
+ 
+-DEFAULT_DATA_DIRECTORY = "/var/lib/suricata"
++DEFAULT_DATA_DIRECTORY = "/opt/var/lib/suricata"
+ 
+ # Cache directory - relative to the data directory.
+ CACHE_DIRECTORY = os.path.join("update", "cache")
+@@ -54,9 +54,10 @@ DIST_RULE_DIRECTORY_KEY = "dist-rule-dir
+ if has_defaults:
+     DEFAULT_UPDATE_YAML_PATH = os.path.join(defaults.sysconfdir, "update.yaml")
+ else:
+-    DEFAULT_UPDATE_YAML_PATH = "/etc/suricata/update.yaml"
++    DEFAULT_UPDATE_YAML_PATH = "/opt/etc/suricata/update.yaml"
+ 
+ DEFAULT_SURICATA_YAML_PATH = [
++    "/opt/etc/suricata/suricata.yaml",
+     "/etc/suricata/suricata.yaml",
+     "/usr/local/etc/suricata/suricata.yaml",
+     "/etc/suricata/suricata-debian.yaml"
+@@ -65,18 +66,20 @@ DEFAULT_SURICATA_YAML_PATH = [
+ if has_defaults:
+     DEFAULT_DIST_RULE_PATH = [
+         defaults.datarulesdir,
++        "/opt/etc/suricata/rules",
+         "/etc/suricata/rules",
+     ]
+ else:
+     DEFAULT_DIST_RULE_PATH = [
++        "/opt/etc/suricata/rules",
+         "/etc/suricata/rules",
+     ]
+ 
+ DEFAULT_CONFIG = {
+-    "disable-conf": "/etc/suricata/disable.conf",
+-    "enable-conf": "/etc/suricata/enable.conf",
+-    "drop-conf": "/etc/suricata/drop.conf",
+-    "modify-conf": "/etc/suricata/modify.conf",
++    "disable-conf": "/opt/etc/suricata/disable.conf",
++    "enable-conf": "/opt/etc/suricata/enable.conf",
++    "drop-conf": "/opt/etc/suricata/drop.conf",
++    "modify-conf": "/opt/etc/suricata/modify.conf",
+     "sources": [],
+     LOCAL_CONF_KEY: [],
+ 
+--- a/suricata/update/configs/update.yaml
++++ b/suricata/update/configs/update.yaml
+@@ -1,22 +1,22 @@
+ # Configuration with disable filters.
+ # - Overrided by --disable-conf
+-# - Default: /etc/suricata/disable.conf
+-disable-conf: /etc/suricata/disable.conf
++# - Default: /opt/etc/suricata/disable.conf
++disable-conf: /opt/etc/suricata/disable.conf
+ 
+ # Configuration with enable filters.
+ # - Overrided by --enable-conf
+-# - Default: /etc/suricata/enable.conf
+-enable-conf: /etc/suricata/enable.conf
++# - Default: /opt/etc/suricata/enable.conf
++enable-conf: /opt/etc/suricata/enable.conf
+ 
+ # Configuration with drop filters.
+ # - Overrided by --drop-conf
+-# - Default: /etc/suricata/drop.conf
+-drop-conf: /etc/suricata/drop.conf
++# - Default: /opt/etc/suricata/drop.conf
++drop-conf: /opt/etc/suricata/drop.conf
+ 
+ # Configuration with modify filters.
+ # - Overrided by --modify-conf
+-# - Default: /etc/suricata/modify.conf
+-modify-conf: /etc/suricata/modify.conf
++# - Default: /opt/etc/suricata/modify.conf
++modify-conf: /opt/etc/suricata/modify.conf
+ 
+ # List of files to ignore. Overrided by the --ignore command line option.
+ ignore:
+@@ -32,7 +32,7 @@ ignore:
+ # OUTPUT_DIR - The directory the rules are written to.
+ # OUTPUT_FILENAME - The name of the rule file. Will be empty if the rules
+ #                   were not merged.
+-#test-command: ${SURICATA_PATH} -T -S ${OUTPUT_FILENAME} -l /tmp
++#test-command: ${SURICATA_PATH} -T -S ${OUTPUT_FILENAME} -l /opt/tmp
+ 
+ # Provide a command to reload the Suricata rules.
+ # May be overrided by the --reload-command command line option.
+@@ -51,8 +51,8 @@ sources:
+ # directory or a wild card specification.
+ local:
+   # A directory of rules.
+-  - /etc/suricata/rules
++  - /opt/etc/suricata/rules
+   # A single rule file.
+-  - /etc/suricata/rules/app-layer-events.rules
++  - /opt/etc/suricata/rules/app-layer-events.rules
+   # A wildcard.
+-  - /etc/suricata/rules/*.rules
++  - /opt/etc/suricata/rules/*.rules
+--- a/suricata/update/main.py
++++ b/suricata/update/main.py
+@@ -1191,8 +1191,8 @@ def _main():
+         except Exception as err:
+             logger.warning(
+                 "Cache directory does not exist and could not be created. "
+-                "/var/tmp will be used instead.")
+-            config.set_cache_dir("/var/tmp")
++                "/opt/tmp will be used instead.")
++            config.set_cache_dir("/opt/tmp")
+ 
+     files = load_sources(suricata_version)
+ 
+--- a/suricata/update/parsers.py
++++ b/suricata/update/parsers.py
+@@ -41,13 +41,13 @@ global_arg = [
+       'help': "Be quiet, warning and error messages only"}),
+     (("-D", "--data-dir"),
+      {'metavar': '<directory>', 'dest': 'data_dir',
+-      'help': "Data directory (default: /var/lib/suricata)"}),
++      'help': "Data directory (default: /opt/var/lib/suricata)"}),
+     (("-c", "--config"),
+      {'metavar': '<filename>',
+       'help': "configuration file (default: %s)" % (default_update_yaml)}),
+     (("--suricata-conf",),
+      {'metavar': '<filename>',
+-      'help': "configuration file (default: /etc/suricata/suricata.yaml)"}),
++      'help': "configuration file (default: /opt/etc/suricata/suricata.yaml)"}),
+     (("--suricata",),
+      {'metavar': '<path>',
+       'help': "Path to Suricata program"}),
