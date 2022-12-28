@@ -30,12 +30,10 @@ comment "Build Options"
 	config SS_RUST_DNS_OVER_TLS
 		bool "Enable dns-over-tls as DNS resolver"
 		depends on !(mips||mipsel) # depends on "ring"
-		default n
 
 	config SS_RUST_DNS_OVER_HTTPS
 		bool "Enable dns-over-https as DNS resolver"
 		depends on !(mips||mipsel)  # depends on "ring"
-		default n
 
 	config SS_RUST_LOGGING
 		bool "Enable logging output"
@@ -44,7 +42,6 @@ comment "Build Options"
 	config SS_RUST_LOCAL_DNS
 		bool "Enable DNS-relay"
 		depends on SS_RUST_LOCAL
-		default n
 
 	config SS_RUST_LOCAL_HTTP
 		depends on SS_RUST_LOCAL
@@ -64,13 +61,13 @@ choice
 
 	config SS_RUST_LOCAL_HTTP_RUSTLS
 		bool "Support HTTPS with rustls"
+		depends on !(mips||mipsel)  # depends on "ring"
 
 endchoice
 
 	config SS_RUST_LOCAL_REDIR
 		bool "Enable REDIR protocol for sslocal"
 		depends on SS_RUST_LOCAL
-		default n
 
 	config SS_RUST_LOCAL_TUNNEL
 		bool "Enable tunnel protocol for sslocal"
@@ -85,7 +82,6 @@ endchoice
 	config SS_RUST_LOCAL_TUN
 		bool "Enable Tun interface protocol for sslocal"
 		depends on SS_RUST_LOCAL
-		default n
 
 	config SS_RUST_MULTI_THREADED
 		bool "Enable tokio's multi-threaded runtime"
@@ -93,11 +89,9 @@ endchoice
 
 	config SS_RUST_STREAM_CIPHER
 		bool "Enable Stream Cipher Protocol"
-		default n
 
 	config SS_RUST_AEAD_CIPHER_EXTRA
 		bool "Enable extra AEAD ciphers"
-		default n
 
 	config SS_RUST_AEAD_CIPHER_2022
 		bool "Enable AEAD 2022"
@@ -105,10 +99,8 @@ endchoice
 
 	config SS_RUST_AEAD_CIPHER_2022_EXTRA
 		bool "Enable AEAD 2022 with extra ciphers"
-		default n
 
 	config SS_RUST_SECURITY_REPLAY_ATTACK_DETECT
 		bool "Enable detection against replay attack"
-		default n
 
 endif
