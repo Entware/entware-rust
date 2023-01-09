@@ -29,9 +29,12 @@ define Package/netop/description
   the filter network traffic rule.
 endef
 
+PCAP_PKG=$(TOPDIR)/package/libs/libpcap/Makefile
+PCAP_VER=$(shell grep '^PKG_VERSION' $(PCAP_PKG) | cut -f2 -d'=')
+
 RUSTC_VARS += \
 	LIBPCAP_LIBDIR=$(STAGING_DIR)/opt/lib \
-	LIBPCAP_VER=1.10.1
+	LIBPCAP_VER="$(PCAP_VER)"
 
 define Package/netop/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
