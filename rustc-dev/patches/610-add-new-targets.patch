@@ -191,16 +191,16 @@
 +}
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -77,6 +77,8 @@ mod linux_uclibc_base;
- mod msvc_base;
+@@ -78,6 +78,8 @@ mod msvc_base;
  mod netbsd_base;
+ mod nto_qnx_base;
  mod openbsd_base;
 +mod openwrt_linux_base;
 +mod openwrt_linux_gnu_base;
  mod redox_base;
  mod solaris_base;
  mod solid_base;
-@@ -1011,6 +1013,18 @@ macro_rules! supported_targets {
+@@ -1012,6 +1014,18 @@ macro_rules! supported_targets {
  }
  
  supported_targets! {
@@ -281,7 +281,7 @@
 +}
 --- a/src/tools/build-manifest/src/main.rs
 +++ b/src/tools/build-manifest/src/main.rs
-@@ -52,6 +52,17 @@ static HOSTS: &[&str] = &[
+@@ -48,6 +48,17 @@ static HOSTS: &[&str] = &[
  ];
  
  static TARGETS: &[&str] = &[
