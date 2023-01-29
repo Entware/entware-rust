@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
-PKG_VERSION:=0.73.0
+PKG_VERSION:=0.74.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=02e63edb99e50c32a334a157bc82486990aebfd6bdae03d6852c30612bb39c22
+PKG_HASH:=7483fabd62e121d93f4a07c154d2f77d0a1f319b6aba996d94d86b157a206078
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -83,9 +83,10 @@ endef
 #/opt/root/.config/nushell/plugin.nu
 #endef
 
+# XXX mips(el): error[E0425]: cannot find function `write_str_simd` in this scope
 CARGO_ARGS += \
 	--workspace \
-	--features extra
+	$(if $(or $(CONFIG_mips),$(CONFIG_mipsel)),,--features dataframe)
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
