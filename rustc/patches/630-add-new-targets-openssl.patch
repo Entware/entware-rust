@@ -3,33 +3,26 @@
 @@ -1 +1 @@
 -{"files":{"Cargo.lock":"ad8c068c0dffdd9d57068d1e8ddb5cb0354070e06087bef5b37fdda87b1a9ef9","Cargo.toml":"386e7ac7a1a7bc851e9e611e14396b6b3ead5bea731fac8866bd5db79f77943e","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397","README.md":"92bce73b5b1e41134e103fc07974aeab78866c7e0335a613436d3de85f0f8d04","examples/probe.rs":"78fd7274bd050c3d53b0c855be121d2388d4b8ac2fa0e52160a55ddc65e2c2f0","src/lib.rs":"7915d920e7e388586a93376fc8860b4eb5117da2f53f78d7bffa4e08e9f3426a"},"package":"ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"}
 \ No newline at end of file
-+{"files":{"Cargo.lock":"ad8c068c0dffdd9d57068d1e8ddb5cb0354070e06087bef5b37fdda87b1a9ef9","Cargo.toml":"386e7ac7a1a7bc851e9e611e14396b6b3ead5bea731fac8866bd5db79f77943e","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397","README.md":"92bce73b5b1e41134e103fc07974aeab78866c7e0335a613436d3de85f0f8d04","examples/probe.rs":"78fd7274bd050c3d53b0c855be121d2388d4b8ac2fa0e52160a55ddc65e2c2f0","src/lib.rs":"19c852ff4a3f12c05ec92dd1cc9e6c290c7ded2bd884f084d2d5301aada88d17"},"package":"ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"}
++{"files":{"Cargo.lock":"ad8c068c0dffdd9d57068d1e8ddb5cb0354070e06087bef5b37fdda87b1a9ef9","Cargo.toml":"386e7ac7a1a7bc851e9e611e14396b6b3ead5bea731fac8866bd5db79f77943e","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397","README.md":"92bce73b5b1e41134e103fc07974aeab78866c7e0335a613436d3de85f0f8d04","examples/probe.rs":"78fd7274bd050c3d53b0c855be121d2388d4b8ac2fa0e52160a55ddc65e2c2f0","src/lib.rs":"366f022d6a888c2c5a93a10fc79c49303be98f62183ade225dea6326cd6befb1"},"package":"ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"}
 \ No newline at end of file
 --- a/vendor/openssl-probe/src/lib.rs
 +++ b/vendor/openssl-probe/src/lib.rs
-@@ -24,22 +24,7 @@ pub fn find_certs_dirs() -> Vec<PathBuf>
+@@ -24,6 +24,7 @@ pub fn find_certs_dirs() -> Vec<PathBuf>
  fn cert_dirs_iter() -> impl Iterator<Item = &'static Path> {
      // see http://gagravarr.org/writing/openssl-certs/others.shtml
      [
--        "/var/ssl",
--        "/usr/share/ssl",
--        "/usr/local/ssl",
--        "/usr/local/openssl",
--        "/usr/local/etc/openssl",
--        "/usr/local/share",
--        "/usr/lib/ssl",
--        "/usr/ssl",
--        "/etc/openssl",
--        "/etc/pki/ca-trust/extracted/pem",
--        "/etc/pki/tls",
--        "/etc/ssl",
--        "/etc/certs",
-         "/opt/etc/ssl", // Entware
--        "/data/data/com.termux/files/usr/etc/tls",
--        "/boot/system/data/ssl",
++        "/opt/etc/ssl", // Entware
+         "/var/ssl",
+         "/usr/share/ssl",
+         "/usr/local/ssl",
+@@ -37,7 +38,6 @@ fn cert_dirs_iter() -> impl Iterator<Ite
+         "/etc/pki/tls",
+         "/etc/ssl",
+         "/etc/certs",
+-        "/opt/etc/ssl", // Entware
+         "/data/data/com.termux/files/usr/etc/tls",
+         "/boot/system/data/ssl",
      ]
-     .iter().map(Path::new).filter(|p| p.exists())
- }
 --- a/vendor/openssl-src/.cargo-checksum.json
 +++ b/vendor/openssl-src/.cargo-checksum.json
 @@ -1 +1 @@

@@ -1,6 +1,6 @@
 --- a/src/llvm-project/llvm/CMakeLists.txt
 +++ b/src/llvm-project/llvm/CMakeLists.txt
-@@ -622,23 +622,23 @@ endif()
+@@ -624,23 +624,23 @@ endif()
  # components which may not strictly be necessary (tools, examples, and tests).
  #
  # This is primarily to support building smaller or faster project files.
@@ -31,7 +31,7 @@
  
  if(LLVM_BUILD_EXAMPLES)
    add_definitions(-DBUILD_EXAMPLES)
-@@ -646,19 +646,19 @@ endif(LLVM_BUILD_EXAMPLES)
+@@ -648,19 +648,19 @@ endif(LLVM_BUILD_EXAMPLES)
  
  option(LLVM_BUILD_TESTS
    "Build LLVM unit tests. If OFF, just generate build targets." OFF)
