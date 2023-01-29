@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=coreutils-rs
-PKG_VERSION:=0.0.16
+PKG_VERSION:=0.0.17
 PKG_RELEASE:=1
 
 PKG_SOURCE:=coreutils-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/uutils/coreutils/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=1bdc2838e34b6ca8275cb8e3bac5074ca59158ea077e3195fb91ec0cc6b594f6
+PKG_HASH:=a133449db283c145483e7945c925104007294d600b75991c5dad2cc91dc11d2e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -49,12 +49,13 @@ COREUTILS_APPS:= \
 define Package/coreutils-rs/Default
   SECTION:=utils
   CATEGORY:=Utilities
-  TITLE:=Cross-platform Rust rewrite of the GNU coreutils
+  TITLE:=The GNU coreutils, written in Rust
   URL:=https://github.com/uutils/coreutils
 endef
 
 define Package/coreutils-apps
   $(call Package/coreutils-rs/Default)
+  TITLE+=(multicall)
   VARIANT:=apps
 endef
 
@@ -82,6 +83,7 @@ $(foreach b,$(COREUTILS_APPS),$(eval $(call GenBins,coreutils-full-$(b),$(b))))
 define Package/coreutils-apps/description
   uutils is an attempt at writing universal (as in cross-platform)
   CLI utilities in Rust.
+  (multicall)
 endef
 
 ifeq ($(BUILD_VARIANT),apps)
