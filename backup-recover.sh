@@ -11,6 +11,7 @@ PATCH_BUILDROOT="$PATCH_DIR/tools-openssl-add-as-dependency.patch"
 STAMP_BUILDROOT="$PATCH_DIR/.buildroot-patched"
 STAMP_PACKAGES="$PATCH_DIR/.packages-patched"
 
+PY_BCRYPT="$PACKAGES_FEED/lang/python/bcrypt"
 PY_CRYPT="$PACKAGES_FEED/lang/python/python-cryptography"
 
 backup()
@@ -23,6 +24,7 @@ fi
 # python-cryptography
 if [ ! -f $STAMP_PACKAGES ]; then
 #  patch -p1 -b -d $PACKAGES_FEED < $PATCH_PACKAGES
+  mv $PY_BCRYPT/Makefile $PY_BCRYPT/Makefile.orig
   mv $PY_CRYPT/Makefile $PY_CRYPT/Makefile.orig
   touch $STAMP_PACKAGES
 fi
@@ -47,6 +49,7 @@ fi
 if [ -f $STAMP_PACKAGES ]; then
 #  patch -p1 -R -d $PACKAGES_FEED < $PATCH_PACKAGES
   rm $STAMP_PACKAGES
+  mv $PY_BCRYPT/Makefile.orig $PY_BCRYPT/Makefile
   mv $PY_CRYPT/Makefile.orig $PY_CRYPT/Makefile
 fi
 }
