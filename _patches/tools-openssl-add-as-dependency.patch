@@ -1,61 +1,60 @@
-From 06094d80e8ee7ac4dfb568f75d44bfdb2bb5aa87 Mon Sep 17 00:00:00 2001
+From 12f06f96423d0a95fa1ddaa33ae903a4731a91f5 Mon Sep 17 00:00:00 2001
 From: The-BB <tun.chen.bo@gmail.com>
-Date: Sun, 11 Dec 2022 13:26:18 +0300
+Date: Thu, 2 Mar 2023 10:34:43 +0300
 Subject: [PATCH] tools/openssl: add as dependency
 
 ---
- tools/Makefile         |  7 ++--
+ tools/Makefile         |  6 ++--
  tools/openssl/Makefile | 73 ++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 77 insertions(+), 3 deletions(-)
+ 2 files changed, 77 insertions(+), 2 deletions(-)
  create mode 100644 tools/openssl/Makefile
 
 diff --git a/tools/Makefile b/tools/Makefile
-index c8705e37..5eeef2fe 100644
+index b3251c74..a949e2fc 100644
 --- a/tools/Makefile
 +++ b/tools/Makefile
-@@ -28,7 +28,7 @@ tools-y += autoconf autoconf-archive automake bc bison cmake cpio dosfstools
- tools-y += e2fsprogs fakeroot findutils flex gengetopt
- tools-y += go-bootstrap go-src
- tools-y += libtool lzma m4 meson missing-macros
--tools-y += mklibs mtools ninja
-+tools-y += mklibs mtools ninja openssl
- tools-y += patchelf pkgconf quilt sstrip zip zlib zstd
- tools-$(BUILD_ISL) += isl
- tools-$(BUILD_TOOLCHAIN) += expat gmp mpc mpfr
-@@ -39,7 +39,7 @@ $(curdir)/autoconf/compile := $(curdir)/m4/compile
- $(curdir)/automake/compile := $(curdir)/m4/compile $(curdir)/autoconf/compile $(curdir)/pkgconf/compile $(curdir)/xz/compile
+@@ -57,6 +57,7 @@ tools-y += mklibs
+ tools-y += mtd-utils
+ tools-y += mtools
+ tools-y += ninja
++tools-y += openssl
+ #tools-y += padjffs2
+ #tools-y += patch-image
+ tools-y += patchelf
+@@ -91,7 +92,7 @@ $(curdir)/automake/compile := $(curdir)/autoconf/compile $(curdir)/pkgconf/compi
  $(curdir)/bc/compile := $(curdir)/bison/compile $(curdir)/libtool/compile
  $(curdir)/bison/compile := $(curdir)/flex/compile
--$(curdir)/cmake/compile += $(curdir)/ninja/compile
-+$(curdir)/cmake/compile += $(curdir)/openssl/compile $(curdir)/ninja/compile
- $(curdir)/dosfstools/compile := $(curdir)/autoconf/compile $(curdir)/automake/compile
- $(curdir)/expat/compile := $(curdir)/cmake/compile
+ #$(curdir)/cbootimage/compile += $(curdir)/automake/compile
+-$(curdir)/cmake/compile += $(curdir)/ninja/compile $(curdir)/expat/compile $(curdir)/xz/compile $(curdir)/zlib/compile $(curdir)/zstd/compile
++$(curdir)/cmake/compile += $(curdir)/openssl/compile $(curdir)/ninja/compile $(curdir)/expat/compile $(curdir)/xz/compile $(curdir)/zlib/compile $(curdir)/zstd/compile
+ $(curdir)/dosfstools/compile := $(curdir)/automake/compile
  $(curdir)/e2fsprogs/compile := $(curdir)/libtool/compile
-@@ -57,6 +57,7 @@ $(curdir)/missing-macros/compile := $(curdir)/autoconf/compile
- $(curdir)/mklibs/compile := $(curdir)/libtool/compile
+ $(curdir)/fakeroot/compile := $(curdir)/libtool/compile
+@@ -117,6 +118,7 @@ $(curdir)/mklibs/compile := $(curdir)/libtool/compile
  $(curdir)/mpc/compile := $(curdir)/mpfr/compile $(curdir)/gmp/compile
  $(curdir)/mpfr/compile := $(curdir)/gmp/compile
+ $(curdir)/mtd-utils/compile := $(curdir)/libtool/compile $(curdir)/e2fsprogs/compile $(curdir)/zlib/compile
 +$(curdir)/openssl/compile := $(curdir)/pkgconf/compile
+ #$(curdir)/padjffs2/compile := $(curdir)/findutils/compile
  $(curdir)/patchelf/compile := $(curdir)/libtool/compile
  $(curdir)/pkgconf/compile := $(curdir)/meson/compile
- $(curdir)/quilt/compile := $(curdir)/autoconf/compile $(curdir)/findutils/compile
-@@ -77,7 +78,7 @@ else
+@@ -140,7 +142,7 @@ else
  endif
  
  ifneq ($(CONFIG_CCACHE)$(CONFIG_SDK),)
--$(foreach tool, $(filter-out xz zstd pkgconf patch ninja meson cmake,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/ccache/compile))
-+$(foreach tool, $(filter-out xz zstd pkgconf patch openssl ninja meson cmake,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/ccache/compile))
+-$(foreach tool, $(filter-out zstd zlib xz pkgconf patch ninja meson libressl expat cmake,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/ccache/compile))
++$(foreach tool, $(filter-out zstd zlib xz pkgconf patch openssl ninja meson expat cmake,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/ccache/compile))
  tools-y += ccache
- $(curdir)/ccache/compile := $(curdir)/cmake/compile $(curdir)/zstd/compile
+ $(curdir)/ccache/compile := $(curdir)/cmake/compile
  endif
 diff --git a/tools/openssl/Makefile b/tools/openssl/Makefile
 new file mode 100644
-index 00000000..fb6cc774
+index 00000000..eabbed70
 --- /dev/null
 +++ b/tools/openssl/Makefile
 @@ -0,0 +1,73 @@
 +#
-+# Copyright (C) 2018-2022 Entware
++# Copyright (C) 2018-2023 Entware
 +#
 +# This is free software, licensed under the GNU General Public License v2.
 +# See /LICENSE for more information.
@@ -65,7 +64,7 @@ index 00000000..fb6cc774
 +
 +PKG_NAME:=openssl
 +PKG_BASE:=1.1.1
-+PKG_BUGFIX:=s
++PKG_BUGFIX:=t
 +PKG_VERSION:=$(PKG_BASE)$(PKG_BUGFIX)
 +PKG_RELEASE:=1
 +
@@ -78,7 +77,7 @@ index 00000000..fb6cc774
 +	ftp://ftp.pca.dfn.de/pub/tools/net/openssl/source/ \
 +	ftp://ftp.pca.dfn.de/pub/tools/net/openssl/source/old/$(PKG_BASE)/
 +
-+PKG_HASH:=c5ac01e760ee6ff0dab61d6b2bbd30146724d063eb322180c6f18a6f74e4b6aa
++PKG_HASH:=8dee9b24bdb1dcbf0c3d1e9b02fb8f6bf22165e807f45adeb7c9677536859d3b
 +
 +PKG_LICENSE:=OpenSSL
 +PKG_LICENSE_FILES:=LICENSE
@@ -106,24 +105,24 @@ index 00000000..fb6cc774
 +OPENSSL_OPTIONS := no-shared no-hw no-asm threads
 +
 +define Host/Configure
-+       (cd $(HOST_BUILD_DIR); \
-+               ./Configure $(OPENSSL_TARGET) \
-+               --prefix=$(STAGING_DIR_HOST) \
-+               --libdir=lib \
-+               $(HOST_CPPFLAGS) \
-+               $(HOST_LDFLAGS) \
-+               $(OPENSSL_OPTIONS) \
-+       )
++	(cd $(HOST_BUILD_DIR); \
++		./Configure $(OPENSSL_TARGET) \
++		--prefix=$(STAGING_DIR_HOST) \
++		--libdir=lib \
++		$(HOST_CPPFLAGS) \
++		$(HOST_LDFLAGS) \
++		$(OPENSSL_OPTIONS) \
++	)
 +endef
 +
 +define Host/Compile
-+       +$(MAKE) $(PKG_JOBS) -C $(HOST_BUILD_DIR) \
-+               CC="$(HOSTCC)" \
-+               install_dev
++	+$(MAKE) $(PKG_JOBS) -C $(HOST_BUILD_DIR) \
++		CC="$(HOSTCC)" \
++		install_dev
 +endef
 +
 +define Host/Install
-+       :
++	:
 +endef
 +
 +$(eval $(call HostBuild))
