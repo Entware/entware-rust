@@ -40,7 +40,7 @@
              Architecture::Mips64(Mips64Architecture::Mips64el) => Arch::Mips64el,
              Architecture::Mips32(Mips32Architecture::Mipsel) => Arch::Mipsel,
              Architecture::Sparc64 => Arch::Sparc64,
-@@ -430,6 +435,7 @@ impl Target {
+@@ -418,6 +423,7 @@ impl Target {
              Arch::Wasm32 => "wasm32",
              Arch::Riscv64 => "riscv64",
              // It's kinda surprising that Python doesn't include the `el` suffix
@@ -48,7 +48,7 @@
              Arch::Mips64el => "mips64",
              Arch::Mipsel => "mips",
              Arch::Sparc64 => "sparc64",
-@@ -473,6 +479,7 @@ impl Target {
+@@ -461,6 +467,7 @@ impl Target {
              Arch::Armv6L
              | Arch::Wasm32
              | Arch::Riscv64
@@ -56,7 +56,7 @@
              | Arch::Mips64el
              | Arch::Mipsel
              | Arch::Powerpc
-@@ -495,6 +502,7 @@ impl Target {
+@@ -483,6 +490,7 @@ impl Target {
              | Arch::Armv7L
              | Arch::X86
              | Arch::Wasm32
