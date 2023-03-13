@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fclones
-PKG_VERSION:=0.29.1
+PKG_VERSION:=0.30.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pkolaczk/fclones/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=0c135b045fb03c224c26f77eb147a238f0aa74257c963d84f9f9f6dfaad09e09
+PKG_HASH:=d22eec734dbc7c4b179d650c3e259c6682e923b72e596978adac5cd6f2fccbb2
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
