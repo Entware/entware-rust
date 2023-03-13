@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc-dev
-PKG_VERSION:=1.67.0
+PKG_VERSION:=1.67.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=rustc-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=9ef8cf88a1d35d319808daf2f193aadca9ed9bcae1d4d5db8946a448c9432c6d
+PKG_HASH:=77e0615011f887d9533d5374bf9c15c590c3caf32bbb035b392d1c2ae502a682
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
@@ -18,7 +18,6 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 HOST_BUILD_DEPENDS:=python3/host
 PKG_BUILD_DEPENDS:=rustc-dev/host
-PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
@@ -94,9 +93,9 @@ endef
 
 define Host/Clean
 	$(call Host/Clean/Default)
-	$(RM) $(STAGING_DIR)/host/bin/{cargo,clippy,rust}*
-	$(RM) -r $(STAGING_DIR)/host/lib/rustlib/$(RUST_HOST_TRIPLE)
-	$(RM) $(STAGING_DIR)/host/lib/lib{rust,std,test}*.so
+	rm -f $(STAGING_DIR)/host/bin/{cargo,clippy,rust}*
+	rm -rf $(STAGING_DIR)/host/lib/rustlib/$(RUST_HOST_TRIPLE)
+	rm -f $(STAGING_DIR)/host/lib/lib{rust,std,test}*.so
 endef
 
 # target
