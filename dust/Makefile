@@ -1,14 +1,16 @@
 # SPDX-License-Identifier: WTFPL
+#
+# XXX since v0.8.4: mips(el): AtomicU64 not supported
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dust
-PKG_VERSION:=0.8.3
+PKG_VERSION:=0.8.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/bootandy/dust/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=1e07203546274276503a4510adcf5dc6eacd5d1e20604fcd55a353b3b63c1213
+PKG_HASH:=611f2da80ef5b1d4423bcda159a65e9436692357b686b91b1dd8245a76eed589
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -24,6 +26,7 @@ define Package/dust
   SUBMENU:=Disc
   TITLE:=A more intuitive version of du
   URL:=https://crates.io/crates/du-dust
+  DEPENDS:=@!(mips||mipsel)
 endef
 
 define Package/dust/description
