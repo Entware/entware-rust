@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.67.0
-PKG_RELEASE:=2
+PKG_VERSION:=1.67.1
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=9ef8cf88a1d35d319808daf2f193aadca9ed9bcae1d4d5db8946a448c9432c6d
+PKG_HASH:=77e0615011f887d9533d5374bf9c15c590c3caf32bbb035b392d1c2ae502a682
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -109,16 +109,25 @@ define Build/Install
 	)
 endef
 
+# FIXME dynlink
+define FixPostInstall
+	for f in cargo* clippy-driver rustc rustdoc rustfmt; do \
+		patchelf --set-interpreter /opt/lib/$(DYNLINKER) \
+		$(PKG_INSTALL_DIR)/opt/bin/$$$$f; \
+	done
+
+	patchelf --set-interpreter /opt/lib/$(DYNLINKER) \
+		$(PKG_INSTALL_DIR)/opt/libexec/cargo-credential-1password \
+		$(PKG_INSTALL_DIR)/opt/libexec/rust-analyzer-proc-macro-srv
+endef
+
+Hooks/Install/Post += FixPostInstall
+
 define Package/rustc/install
 	$(INSTALL_DIR) $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/cargo{,-clippy,-fmt} $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/clippy-driver $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/rust{c,doc,fmt} $(1)/opt/bin
-
-	# FIXME dynlink (host vs target)
-	for f in cargo* clip* rust*; do \
-		patchelf --set-interpreter /opt/lib/$(DYNLINKER) $(1)/opt/bin/$$$$f; \
-	done
 
 	$(INSTALL_DIR) $(1)/opt/lib/rustlib/$(RUST_TARGET_TRIPLE)
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/lib*.so $(1)/opt/lib
@@ -130,11 +139,6 @@ define Package/rustc/install
 		$(1)/opt/libexec
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/libexec/rust-analyzer-proc-macro-srv \
 		$(1)/opt/libexec
-
-	# FIXME dynlink (host vs target)
-	patchelf --set-interpreter /opt/lib/$(DYNLINKER) \
-		$(1)/opt/libexec/cargo-credential-1password \
-		$(1)/opt/libexec/rust-analyzer-proc-macro-srv
 endef
 
 define Package/rustc/postinst
