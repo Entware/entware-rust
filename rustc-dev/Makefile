@@ -99,21 +99,19 @@ define Host/Clean
 endef
 
 # target
-#RUST_TARGET_TRIPLE:=
+RUST_TARGET_TRIPLE:=$(REAL_GNU_TARGET_NAME)
 
-#ifeq ($(CONFIG_TARGET_armv5_3_2),y)
-#RUST_TARGET_TRIPLE=armv5te-openwrt-linux-gnueabi
-#else
-#ifeq ($(or $(CONFIG_TARGET_armv7_2_6),$(CONFIG_TARGET_armv7_3_2)),y)
-#RUST_TARGET_TRIPLE=armv7-openwrt-linux-gnueabi
-#else
-#ifeq ($(CONFIG_TARGET_x86_2_6),y)
-#RUST_TARGET_TRIPLE=i486-openwrt-linux-gnu
-#else
-RUST_TARGET_TRIPLE=$(REAL_GNU_TARGET_NAME)
-#endif
-#endif
-#endif
+ifeq ($(CONFIG_TARGET_armv5_3_2),y)
+RUST_TARGET_TRIPLE:=$(subst arm,armv5te,$(RUST_TARGET_TRIPLE))
+endif
+
+ifeq ($(or $(CONFIG_TARGET_armv7_2_6),$(CONFIG_TARGET_armv7_3_2)),y)
+RUST_TARGET_TRIPLE:=$(subst arm,armv7,$(RUST_TARGET_TRIPLE))
+endif
+
+ifeq ($(CONFIG_TARGET_x86_2_6),y)
+RUST_TARGET_TRIPLE:=$(subst i486,i586,$(RUST_TARGET_TRIPLE))
+endif
 
 define Build/Configure
 	( \
