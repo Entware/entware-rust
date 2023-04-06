@@ -2,7 +2,7 @@
 
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -589,9 +589,9 @@ checksum = "b7e5500299e16ebb147ae15a00a9
+@@ -595,9 +595,9 @@ checksum = "b7e5500299e16ebb147ae15a00a9
  
  [[package]]
  name = "onig"
@@ -14,7 +14,7 @@
  dependencies = [
   "bitflags",
   "libc",
-@@ -601,11 +601,10 @@ dependencies = [
+@@ -607,11 +607,10 @@ dependencies = [
  
  [[package]]
  name = "onig_sys"
