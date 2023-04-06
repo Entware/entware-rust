@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.68.1
+PKG_VERSION:=1.68.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=5b8ea94085b65e75c1fa6310e2f90bd706fa80bfcb3544fe26f4037b911d9fb2
+PKG_HASH:=ce1a115f6aafa912b4622906a92b626354973afa9288e2c7750df4dcf3390fc0
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -42,8 +42,6 @@ endef
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/rustc-dev-$(PKG_VERSION)
 RUST_HOST_TRIPLE:=$(HOST_ARCH)-unknown-linux-gnu
 
-LINK_JOBS:=$(shell nproc)
-
 define Build/Configure
 	( \
 		echo 'changelog-seen = 2'; \
@@ -54,7 +52,6 @@ define Build/Configure
 		echo 'skip-rebuild = true'; \
 		echo 'allow-old-toolchain = true'; \
 		echo 'link-shared = false'; \
-		echo 'link-jobs = $(LINK_JOBS)'; \
 		echo 'cflags = "-pthread"'; \
 		echo 'cxxflags = "-pthread"'; \
 		echo 'ldflags = "-lz -latomic -lpthread -ldl"'; \
