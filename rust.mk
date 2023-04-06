@@ -45,25 +45,25 @@ RUSTC_VARS += \
 	PKG_CONFIG_PATH="$(STAGING_DIR)/opt/lib/pkgconfig:$(STAGING_DIR)/opt/share/pkgconfig" \
 	PKG_CONFIG_SYSROOT_DIR="$(STAGING_DIR)/opt" \
 	TARGET="$(RUST_TARGET_TRIPLE)" \
-	AR="${TARGET_AR}" \
-	CC="${TARGET_CC}" \
-	CXX="${TARGET_CXX}" \
-	CFLAGS="${TARGET_CFLAGS}" \
-	CXXFLAGS="${TARGET_CXXFLAGS}" \
-	TARGET_AR="${TARGET_AR}" \
-	TARGET_CC="${TARGET_CC}" \
-	TARGET_CXX="${TARGET_CXX}" \
-	TARGET_CFLAGS="${TARGET_CFLAGS}" \
-	TARGET_CXXFLAGS="${TARGET_CXXFLAGS}" \
-	HOST_AR="${AR}" \
-	HOST_CC="${HOSTCC}" \
-	HOST_CXX="${HOSTCXX}" \
-	HOST_CFLAGS="${HOST_CFLAGS}" \
-	HOST_CXXFLAGS="${HOST_CFLAGS}"
+	AR="$(TARGET_AR)" \
+	CC="$(TARGET_CC)" \
+	CXX="$(TARGET_CXX)" \
+	CFLAGS="$(TARGET_CFLAGS)" \
+	CXXFLAGS="$(TARGET_CXXFLAGS)" \
+	TARGET_AR="$(TARGET_AR)" \
+	TARGET_CC="$(TARGET_CC)" \
+	TARGET_CXX="$(TARGET_CXX)" \
+	TARGET_CFLAGS="$(TARGET_CFLAGS)" \
+	TARGET_CXXFLAGS="$(TARGET_CXXFLAGS)" \
+	HOST_AR="$(AR)" \
+	HOST_CC="$(HOSTCC)" \
+	HOST_CXX="$(HOSTCXX)" \
+	HOST_CFLAGS="$(HOST_CFLAGS)" \
+	HOST_CXXFLAGS="$(HOST_CFLAGS)"
 
 RUSTFLAGS += \
-	-C link-arg=-Wl,--dynamic-linker=/opt/lib/$(DYNLINKER) \
-	-C linker=$(TARGET_CROSS)gcc
+	-C linker=$(TARGET_CROSS)gcc \
+	-C link-arg=-Wl,--dynamic-linker=/opt/lib/$(DYNLINKER)
 
 ### the package size shrinks a bit ~42%
 RUST_OPT_SIZE ?= 1
