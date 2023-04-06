@@ -36,7 +36,7 @@
 +        arch: "arm".into(),
 +        options: TargetOptions {
 +            abi: "eabi".into(),
-+            features: "+soft-float,+strict-align,+v6,-neon".into(),
++            features: "+soft-float,+strict-align,+v6".into(),
 +            max_atomic_width: Some(64),
 +            mcount: "\u{1}__gnu_mcount_nc".into(),
 +            ..super::openwrt_linux_gnu_base::opts()
@@ -232,10 +232,10 @@
 +        dynamic_linking: true,
 +        families: cvs!["unix"],
 +        has_rpath: false,
-+        position_independent_executables: false,
++        position_independent_executables: true,
 +        relro_level: RelroLevel::None,
 +        has_thread_local: true,
-+        crt_static_respected: true,
++        crt_static_respected: false,
 +        supported_split_debuginfo: Cow::Borrowed(&[
 +            SplitDebuginfo::Packed,
 +            SplitDebuginfo::Unpacked,
