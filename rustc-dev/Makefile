@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc-dev
-PKG_VERSION:=1.68.0
+PKG_VERSION:=1.68.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=rustc-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=8651245e8708f11d0f65ba9fdb394c4b9300d603d318045664b371729da9eac4
+PKG_HASH:=5b8ea94085b65e75c1fa6310e2f90bd706fa80bfcb3544fe26f4037b911d9fb2
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
@@ -16,11 +16,12 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
-HOST_BUILD_DEPENDS:=python3/host
+HOST_BUILD_DEPENDS:=libiconv-full/host python3/host
 PKG_BUILD_DEPENDS:=rustc-dev/host
 
-include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
+include $(INCLUDE_DIR)/package.mk
+include $(INCLUDE_DIR)/nls.mk
 include $(INCLUDE_DIR)/cmake.mk
 
 HOST_UNPACK:=$(HOST_TAR) -C $(HOST_BUILD_DIR) --strip-components=1 -xJf $(DL_DIR)/$(PKG_SOURCE)
@@ -41,6 +42,8 @@ endef
 # host
 RUST_HOST_TRIPLE:=$(HOST_ARCH)-unknown-linux-gnu
 
+LINK_JOBS:=$(shell nproc)
+
 define Host/Configure
 	( \
 		echo 'changelog-seen = 2'; \
@@ -48,6 +51,19 @@ define Host/Configure
 		echo 'targets = "AArch64;ARM;Mips;X86"'; \
 		echo 'experimental-targets = ""'; \
 		echo 'link-shared = false'; \
+		echo 'link-jobs = $(LINK_JOBS)'; \
+		echo 'cflags = "-pthread"'; \
+		echo 'cxxflags = "-pthread"'; \
+		echo 'ldflags = "-lpthread -ldl"'; \
+		echo 'build-config = \
+		{ \
+			LLVM_ENABLE_BINDINGS="OFF", \
+			LLVM_ENABLE_OCAMLDOC="OFF", \
+			LLVM_INCLUDE_BENCHMARKS="OFF", \
+			LLVM_INCLUDE_DOCS="OFF", \
+			LLVM_INCLUDE_EXAMPLES="OFF", \
+			LLVM_INCLUDE_TESTS="OFF" \
+		}'; \
 		echo '[build]'; \
 		echo 'test-stage = 0'; \
 		echo 'dist-stage = 0'; \
@@ -74,8 +90,8 @@ define Host/Configure
 		echo 'codegen-tests = false'; \
 		echo 'dist-src = false'; \
 		echo '[target.$(RUST_HOST_TRIPLE)]'; \
-		echo 'cc = "$(HOSTCC)"'; \
-		echo 'cxx = "$(HOSTCXX)"'; \
+		echo 'cc = "$(HOSTCC_NOCACHE)"'; \
+		echo 'cxx = "$(HOSTCXX_NOCACHE)"'; \
 		echo '[dist]'; \
 		echo 'src-tarball = false'; \
 		echo 'compression-formats = ["gz"]'; \
@@ -121,7 +137,6 @@ define Build/Configure
 		echo 'download-ci-llvm = false'; \
 		echo 'skip-rebuild = true'; \
 		echo 'allow-old-toolchain = true'; \
-		echo 'link-shared = false'; \
 		echo '[build]'; \
 		echo 'host = ["$(RUST_TARGET_TRIPLE)"]'; \
 		echo 'target = ["$(RUST_TARGET_TRIPLE)"]'; \
@@ -150,11 +165,11 @@ define Build/Configure
 		echo 'codegen-tests = false'; \
 		echo 'dist-src = false'; \
 		echo '[target.$(RUST_TARGET_TRIPLE)]'; \
+		echo 'ar = "$(TARGET_CROSS)ar"'; \
 		echo 'cc = "$(TARGET_CROSS)gcc"'; \
 		echo 'cxx = "$(TARGET_CROSS)g++"'; \
-		echo 'ar = "$(TARGET_CROSS)ar"'; \
-		echo 'ranlib = "$(TARGET_CROSS)ranlib"'; \
 		echo 'linker = "$(TARGET_CROSS)gcc"'; \
+		echo 'ranlib = "$(TARGET_CROSS)ranlib"'; \
 		echo '[dist]'; \
 		echo 'src-tarball = false'; \
 		echo 'compression-formats = ["gz"]'; \
@@ -163,9 +178,11 @@ endef
 
 Build/Compile:=:
 
-define Build/Install
+define FixPreInstall
 	$(INSTALL_DIR) $(PKG_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)
 	$(LN) $(HOST_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)/llvm \
+		$(PKG_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)
+	$(LN) $(HOST_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)/stage0-bootstrap-tools \
 		$(PKG_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)
 
 	$(INSTALL_DIR) $(STAGING_DIR)/host/bin $(STAGING_DIR)/host/lib/rustlib
@@ -175,13 +192,17 @@ define Build/Install
 	$(CP) $(HOST_BUILD_DIR)/install/lib/lib* $(STAGING_DIR)/host/lib
 	$(CP) $(HOST_BUILD_DIR)/install/lib/rustlib/$(RUST_HOST_TRIPLE) \
 		 $(STAGING_DIR)/host/lib/rustlib
+endef
 
+Hooks/Compile/Post += FixPreInstall
+
+define Build/Install
 	( cd $(PKG_BUILD_DIR); \
 		HOST_PKG_CONFIG_PATH="$(STAGING_DIR_HOST)/lib/pkgconfig:$(STAGING_DIR_HOSTPKG)/lib/pkgconfig" \
 		PKG_CONFIG_ALLOW_CROSS=1 \
 		DESTDIR=$(PKG_INSTALL_DIR) \
 		$(STAGING_DIR_HOSTPKG)/bin/python3 x.py install \
-		library/std --stage 1 \
+		library/std --stage 1; \
 	)
 endef
 
