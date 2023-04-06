@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=trippy
-PKG_VERSION:=0.6.0
+PKG_VERSION:=0.7.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/fujiapple852/trippy/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=4da57c19f4b6a6f3b4426ea066278ad0b0df2d2addae548b839a17fb20c464ae
+PKG_HASH:=a3fa2902fd062516011d733def61941f867da3f9d6b84743ba4eff631bf8db18
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
