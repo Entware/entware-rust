@@ -1,6 +1,6 @@
 --- a/rust/Makefile.in
 +++ b/rust/Makefile.in
-@@ -241,6 +241,7 @@ PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
+@@ -242,6 +242,7 @@ PKG_CONFIG_PATH = @PKG_CONFIG_PATH@
  POW_LIB = @POW_LIB@
  RANLIB = @RANLIB@
  RUSTC = @RUSTC@
@@ -8,7 +8,7 @@
  RUSTUP_HOME_PATH = @RUSTUP_HOME_PATH@
  RUST_FEATURES = @RUST_FEATURES@ $(am__append_2) $(am__append_3) \
  	$(am__append_4) $(am__append_5)
-@@ -546,6 +547,7 @@ all-local:
+@@ -547,6 +548,7 @@ all-local:
  @HAVE_CYGPATH_TRUE@		$(CARGO) build $(RELEASE) \
  @HAVE_CYGPATH_TRUE@			--features "$(RUST_FEATURES)" $(RUST_TARGET)
  @HAVE_CYGPATH_FALSE@	@rustup_home@ \
@@ -16,7 +16,7 @@
  @HAVE_CYGPATH_FALSE@		CARGO_HOME="$(CARGO_HOME)" \
  @HAVE_CYGPATH_FALSE@		CARGO_TARGET_DIR="$(abs_top_builddir)/rust/target" \
  @HAVE_CYGPATH_FALSE@		$(CARGO) build $(RELEASE) $(NIGHTLY_ARGS) \
-@@ -567,6 +569,7 @@ maintainerclean-local:
+@@ -568,6 +570,7 @@ maintainerclean-local:
  	rm -rf vendor gen
  
  check:
@@ -24,7 +24,7 @@
  	CARGO_HOME="$(CARGO_HOME)" @rustup_home@ \
  		CARGO_TARGET_DIR="$(abs_top_builddir)/rust/target" \
  		$(CARGO) test $(RELEASE) --features "$(RUST_FEATURES)"
-@@ -582,6 +585,7 @@ check:
+@@ -583,6 +586,7 @@ check:
  @HAVE_CBINDGEN_FALSE@gen/rust-bindings.h:
  
  doc:
