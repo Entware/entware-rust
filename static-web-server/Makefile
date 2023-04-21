@@ -1,24 +1,16 @@
 # SPDX-License-Identifier: WTFPL
 
+# XXX ^2.x depends on "ring"
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=static-web-server
-PKG_VERSION ?=
-PKG_RELEASE ?=
-
-# XXX ^2.x depends on "ring"
-ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
-  PKG_VERSION:=1.19.4
-  PKG_RELEASE:=1
-  PKG_HASH:=f4c3c773963b49bb026d0ba15c7d8a67a3e377ccd81b1f786c117cb292f11aa3
-else
-  PKG_VERSION:=2.15.0
-  PKG_RELEASE:=1
-  PKG_HASH:=23ed292de7f8e6e172b4badfe2e409d3ea316b916de2b26c0e3361b7626e6e81
-endif
+PKG_VERSION:=2.15.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/joseluisq/static-web-server/tar.gz/refs/tags/v$(PKG_VERSION)?
+PKG_HASH:=23ed292de7f8e6e172b4badfe2e409d3ea316b916de2b26c0e3361b7626e6e81
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -32,7 +24,7 @@ define Package/static-web-server
   SUBMENU:=Web Servers/Proxies
   TITLE:=Static Web Server
   URL:=https://sws.joseluisq.net/
-  DEPENDS:=+libopenssl
+  DEPENDS:=@!(mips||mipsel) +libopenssl
 endef
 
 define Package/static-web-server/description
