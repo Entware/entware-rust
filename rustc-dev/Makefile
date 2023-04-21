@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc-dev
-PKG_VERSION:=1.68.2
+PKG_VERSION:=1.69.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=rustc-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=ce1a115f6aafa912b4622906a92b626354973afa9288e2c7750df4dcf3390fc0
+PKG_HASH:=e533c903820b0c2ba10491b70105149d2243348f3b5e26bd7b6bdd022c7dbe75
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
@@ -186,10 +186,10 @@ define FixPreInstall
 		$(PKG_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)
 
 	$(INSTALL_DIR) $(STAGING_DIR)/host/bin $(STAGING_DIR)/host/lib/rustlib
-	$(CP) $(HOST_BUILD_DIR)/install/bin/{cargo,clippy,rustc,rustd,rustf}* \
+	$(CP) $(HOST_BUILD_DIR)/install/bin/{cargo,clippy,rustc,rustfmt}* \
 		 $(STAGING_DIR)/host/bin
 
-	$(CP) $(HOST_BUILD_DIR)/install/lib/lib* $(STAGING_DIR)/host/lib
+	$(CP) $(HOST_BUILD_DIR)/install/lib/lib*.so $(STAGING_DIR)/host/lib
 	$(CP) $(HOST_BUILD_DIR)/install/lib/rustlib/$(RUST_HOST_TRIPLE) \
 		 $(STAGING_DIR)/host/lib/rustlib
 endef
