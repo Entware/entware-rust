@@ -1,6 +1,11 @@
 # SPDX-License-Identifier: WTFPL
 
-# XXX depends on "ring"
+# mips(el):
+#	error: failed to run custom build command for `ring v0.16.20`
+# armv5:
+#	error[E0432]: unresolved imports `core::sync::atomic::AtomicI64`, `core::sync::atomic::AtomicU64`
+#	error[E0412]: cannot find type `AtomicU64` in module `core::sync::atomic`
+#	error: could not compile `crossbeam-utils` due to 3 previous errors
 
 include $(TOPDIR)/rules.mk
 
@@ -24,12 +29,23 @@ define Package/atuin
   SUBMENU:=Shells
   TITLE:=magical shell history
   URL:=https://atuin.sh
-  DEPENDS:=@!(mips||mipsel)
+  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2)
 endef
 
 define Package/atuin/description
   Magical shell history.
 endef
+
+# FIXME
+# i386/x86_64:
+#	undefined reference to `__stack_chk_guard'
+ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+endif
+
+ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
+RUSTFLAGS += --cfg crossbeam_no_atomic_64
+endif
 
 define Package/atuin/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
