@@ -1,6 +1,11 @@
 # SPDX-License-Identifier: WTFPL
-#
-# XXX mips(el): AtomicU64 not supported; breaks coarsetime
+
+# mips(el)/armv5:
+#	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
+#	error: could not compile `coarsetime` due to previous error
+# x86:
+#	error[E0277]: the trait bound `[core::arch::x86::__m128i; 11]: Zeroize` is not satisfied
+#	error: could not compile `aes` due to 6 previous errors
 
 include $(TOPDIR)/rules.mk
 
@@ -25,7 +30,7 @@ define Package/arti
   CATEGORY:=Network
   TITLE:=reimplementing Tor in Rust
   URL:=https://gitlab.torproject.org/tpo/core/arti/-/wikis/home
-  DEPENDS:=@!(mips||mipsel) +liblzma +libopenssl +libsqlite3
+  DEPENDS:=@!(i386||mips||mipsel||TARGET_armv5_3_2) +liblzma +libopenssl +libsqlite3
 endef
 
 define Package/arti/description
