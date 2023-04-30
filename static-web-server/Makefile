@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: WTFPL
 
-# XXX ^2.x depends on "ring"
+# mips(el):
+#	error: failed to run custom build command for `ring v0.16.20`
 
 include $(TOPDIR)/rules.mk
 
@@ -31,8 +32,16 @@ define Package/static-web-server/description
   A blazing fast and asynchronous web server for static files-serving.
 endef
 
-RUSTC_VARS += \
-	OPENSSL_NO_VENDOR=1
+# FIXME
+#	error: failed to run custom build command for `openssl-sys v0.9.87`
+RUSTC_VARS += OPENSSL_NO_VENDOR=1
+
+# FIXME
+# i386/x86_64:
+#	undefined reference to `__stack_chk_guard'
+ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+endif
 
 define Package/static-web-server/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
