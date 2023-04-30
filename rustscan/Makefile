@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: WTFPL
 
-# XXX depends on "ring"
+# mips(el):
+#	error: failed to run custom build command for `ring v0.16.20`
 
 include $(TOPDIR)/rules.mk
 
@@ -32,6 +33,13 @@ endef
 define Package/rustscan/description
   The Modern Port Scanner.
 endef
+
+# FIXME
+# i386/x86_64:
+#	undefined reference to `__stack_chk_guard'
+ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+endif
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
