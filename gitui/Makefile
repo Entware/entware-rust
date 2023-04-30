@@ -30,8 +30,9 @@ define Package/gitui/description
   GitUI provides you with the comfort of a git GUI but right in your terminal.
 endef
 
-RUSTC_VARS += \
-	OPENSSL_NO_VENDOR=1
+# FIXME
+#	error: failed to run custom build command for `openssl-sys v0.9.87`
+RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
