@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: WTFPL
-#
-# XXX downgrade: v1.0.0+ wants libX11.so
+
+# XXX since 1.0.0 needs libX11.so
 
 include $(TOPDIR)/rules.mk
 
