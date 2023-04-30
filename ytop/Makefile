@@ -2,6 +2,8 @@
 
 # XXX repository has been archived by the owner
 
+# FIXME armv7-2.6: (crashed) src/widgets/mem.rs, line 71
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ytop
@@ -25,6 +27,7 @@ define Package/ytop
   CATEGORY:=Utilities
   TITLE:=A TUI system monitor
   URL:=https://github.com/cjbassi/ytop
+  DEPENDS:=@!TARGET_armv7_2_6
 endef
 
 define Package/ytop/description
