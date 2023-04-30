@@ -1,5 +1,8 @@
 # SPDX-License-Identifier: WTFPL
 
+# mips(el):
+#	error: failed to run custom build command for `ring v0.16.20`
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=termscp
@@ -32,8 +35,16 @@ define Package/termscp/description
   and explorer with support for SCP/SFTP/FTP/S3.
 endef
 
-RUSTC_VARS += \
-	OPENSSL_NO_VENDOR=1
+# FIXME
+#	error: failed to run custom build command for `openssl-sys v0.9.87`
+RUSTC_VARS += OPENSSL_NO_VENDOR=1
+
+# FIXME
+# i386/x86_64:
+#	undefined reference to `__stack_chk_guard'
+ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+endif
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
