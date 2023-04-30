@@ -31,9 +31,18 @@ define Package/miniserve/description
   allows you to just grab the binary and serve some file(s) via HTTP. 
 endef
 
-# XXX "ring"
+# FIXME
+# mips(el):
+#	error: failed to run custom build command for `ring v0.16.20`
 ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
-  CARGO_ARGS += --no-default-features
+CARGO_ARGS += --no-default-features
+endif
+
+# FIXME
+# i386/x86_64:
+#	undefined reference to `__stack_chk_guard'
+ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 
 define Package/miniserve/install
