@@ -29,9 +29,18 @@ define Package/tealdeer/description
   Full featured offline client with caching support.
 endef
 
-# XXX "ring"
+# FIXME
+# mips(el):
+#	error: failed to run custom build command for `ring v0.16.20`
 ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
-  CARGO_ARGS += --no-default-features --features=native-tls
+CARGO_ARGS += --no-default-features --features=native-tls
+endif
+
+# FIXME
+# i386/x86_64:
+#	undefined reference to `__stack_chk_guard'
+ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
