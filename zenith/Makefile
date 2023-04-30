@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: WTFPL
-#
-# XXX since v0.13.0 need libclang*.so*
+
+# XXX since 0.13.0 needs libclang*.so*
 
 include $(TOPDIR)/rules.mk
 
