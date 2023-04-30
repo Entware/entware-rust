@@ -1,0 +1,48 @@
+--- a/rust/Makefile.am
++++ b/rust/Makefile.am
+@@ -32,7 +32,7 @@ RUST_FEATURES +=	decompression
+ endif
+ 
+ if RUST_CROSS_COMPILE 
+-RUST_TARGET = --target $(host_triplet)
++RUST_TARGET = --target $(CARGO_BUILD_TARGET)
+ endif
+ 
+ all-local:
+--- a/rust/Makefile.in
++++ b/rust/Makefile.in
+@@ -341,7 +341,7 @@ EXTRA_DIST = src .cargo/config.in cbindg
+ 	$(am__append_1)
+ @DEBUG_FALSE@RELEASE = --release
+ @RUST_BUILD_STD_TRUE@NIGHTLY_ARGS = -Z build-std
+-@RUST_CROSS_COMPILE_TRUE@RUST_TARGET = --target $(host_triplet)
++@RUST_CROSS_COMPILE_TRUE@RUST_TARGET = --target $(CARGO_BUILD_TARGET)
+ all: all-am
+ 
+ .SUFFIXES:
+--- a/configure
++++ b/configure
+@@ -29138,8 +29138,8 @@ esac
+     have_rust_vendor="no"
+ 
+     if test "x$cross_compiling" = "xyes"; then
+-      RUST_SURICATA_LIB_XC_DIR="${host_alias}/"
+-    else
++#      RUST_SURICATA_LIB_XC_DIR="${host_alias}/"
++#    else
+       if test "x$CARGO_BUILD_TARGET" = "x"; then
+         RUST_SURICATA_LIB_XC_DIR=
+       else
+--- a/configure.ac
++++ b/configure.ac
+@@ -2511,8 +2511,8 @@ fi
+     have_rust_vendor="no"
+ 
+     if test "x$cross_compiling" = "xyes"; then
+-      RUST_SURICATA_LIB_XC_DIR="${host_alias}/"
+-    else
++#      RUST_SURICATA_LIB_XC_DIR="${host_alias}/"
++#    else
+       if test "x$CARGO_BUILD_TARGET" = "x"; then
+         RUST_SURICATA_LIB_XC_DIR=
+       else

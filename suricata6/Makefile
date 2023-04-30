@@ -28,7 +28,8 @@ define Package/suricata6/Default
   CATEGORY:=Network
   TITLE:=OISF Suricata IDS
   URL:=https://www.openinfosecfoundation.org/
-  DEPENDS:=+file +jansson +libatomic +libpcap +libpcre +libyaml +zlib $(ICONV_DEPENDS) 
+  DEPENDS:=+file +jansson +libatomic +libpcap +libcap-ng +liblz4 +libpcre
+  DEPENDS+=+libyaml +zlib $(ICONV_DEPENDS)
   DEPENDS+= \
 	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-light \
 	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-logging \
@@ -39,16 +40,16 @@ define Package/suricata6
   $(call Package/suricata6/Default)
   TITLE+= (reccommended)
   VARIANT:=reccommended
-  DEPENDS+=+libcap-ng +libevent2 +libevent2-pthreads +libhiredis +liblua +liblz4
-  DEPENDS+=+libmaxminddb +libnet-1.2.x
+  DEPENDS+=+libevent2 +libevent2-pthreads +libhiredis +liblua +libmaxminddb
+  DEPENDS+=+libnet-1.2.x
 endef
 
 define Package/suricata6-extra
   $(call Package/suricata6/Default)
   TITLE+= (extra)
   VARIANT:=extra
-  DEPENDS+=+libcap-ng +libevent2 +libevent2-pthreads +libhiredis +libmaxminddb +liblz4
-  DEPENDS+=+libnet-1.2.x +luajit +libnetfilter-log +libnetfilter-queue +libnss +nspr
+  DEPENDS+=+libevent2 +libevent2-pthreads +libhiredis +libmaxminddb +libnet-1.2.x
+  DEPENDS+=+luajit +libnetfilter-log +libnetfilter-queue +libnss +nspr
 endef
 
 define Package/suricata6-mini
@@ -85,14 +86,28 @@ Package/suricata6-extra/config=$(call Package/suricata6/config/Defauilt,e)
 Package/suricata6-mini/config=$(call Package/suricata6/config/Defauilt,m)
 Package/suricata6/config=$(call Package/suricata6/config/Defauilt,r)
 
+RUST_TARGET_TRIPLE:=$(REAL_GNU_TARGET_NAME)
+
+ifeq ($(CONFIG_TARGET_armv5_3_2),y)
+RUST_TARGET_TRIPLE:=$(subst arm,armv5te,$(RUST_TARGET_TRIPLE))
+endif
+
+ifeq ($(or $(CONFIG_TARGET_armv7_2_6),$(CONFIG_TARGET_armv7_3_2)),y)
+RUST_TARGET_TRIPLE:=$(subst arm,armv7,$(RUST_TARGET_TRIPLE))
+endif
+
+ifeq ($(CONFIG_TARGET_x86_2_6),y)
+RUST_TARGET_TRIPLE:=$(subst i486,i586,$(RUST_TARGET_TRIPLE))
+endif
+
 TARGET_LDFLAGS += -latomic
 
 CONFIGURE_ARGS += \
-	--host=$(REAL_GNU_TARGET_NAME) \
 	--disable-suricata-update \
 	--enable-http2-decompression \
 	--$(if $(CONFIG_SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT),en,dis)able-python \
-	CARGO_HOME="$(STAGING_DIR)/host/share/cargo"
+	CARGO_HOME="$(STAGING_DIR)/host/share/cargo" \
+	CARGO_BUILD_TARGET="$(RUST_TARGET_TRIPLE)"
 
 ifeq ($(BUILD_VARIANT),extra)
 CONFIGURE_ARGS += \
