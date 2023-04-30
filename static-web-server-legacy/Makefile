@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: WTFPL
 
+# XXX since 2.0.0:
+# mips(el):
+#	error: failed to run custom build command for `ring v0.16.20`
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=static-web-server
@@ -30,8 +34,9 @@ define Package/static-web-server-legacy/description
   A blazing fast and asynchronous web server for static files-serving.
 endef
 
-RUSTC_VARS += \
-	OPENSSL_NO_VENDOR=1
+# FIXME
+#	error: failed to run custom build command for `openssl-sys v0.9.87`
+RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
 define Package/static-web-server-legacy/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
