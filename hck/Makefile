@@ -1,5 +1,8 @@
 # SPDX-License-Identifier: WTFPL
 
+# armv5/armv7:
+#	error: failed to run custom build command for `libz-sys v1.1.8`
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hck
@@ -21,6 +24,7 @@ define Package/hck
   CATEGORY:=Utilities
   TITLE:=a sharp cut(1) clone
   URL:=https://github.com/sstadick/hck
+  DEPENDS:=@!arm
 endef
 
 define Package/hck/description
