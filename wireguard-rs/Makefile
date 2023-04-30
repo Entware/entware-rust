@@ -1,6 +1,10 @@
 # SPDX-License-Identifier: WTFPL
 
-# XXX depends on "ring"
+# mips(el):
+#	error: failed to run custom build command for `ring v0.16.20`
+# armv5:
+#	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
+#	error: could not compile `wireguard-rs` due to 10 previous errors; 2 warnings emitted
 
 include $(TOPDIR)/rules.mk
 
@@ -25,7 +29,7 @@ define Package/wireguard-rs
   SUBMENU:=VPN
   TITLE:=fast, modern, secure vpn tunnel
   URL:=https://www.wireguard.com/
-  DEPENDS:=@!(mips||mipsel)
+  DEPENDS:=@!(mips||mipsel||LINUX_2_6_36||TARGET_armv5_3_2)
 endef
 
 define Package/wireguard-rs/description
