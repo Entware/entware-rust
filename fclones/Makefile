@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: WTFPL
 
+# armv5:
+#	error[E0432]: unresolved imports `std::sync::atomic::AtomicI64`, `std::sync::atomic::AtomicU64`
+#	error: could not compile `sled` due to previous error
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fclones
@@ -23,6 +27,7 @@ define Package/fclones
   CATEGORY:=Utilities
   TITLE:=Finds duplicate, unique, under- or over-replicated files
   URL:=https://github.com/pkolaczk/fclones
+  DEPENDS:=@!TARGET_armv5_3_2
 endef
 
 define Package/fclones/description
