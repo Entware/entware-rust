@@ -1,6 +1,9 @@
 # SPDX-License-Identifier: WTFPL
-#
-# XXX since v0.8.4: mips(el): AtomicU64 not supported
+
+# XXX since 0.8.4:
+# mips(el)/armv5:
+#	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
+#	error: could not compile `du-dust` due to previous error
 
 include $(TOPDIR)/rules.mk
 
@@ -26,7 +29,7 @@ define Package/dust
   SUBMENU:=Disc
   TITLE:=A more intuitive version of du
   URL:=https://crates.io/crates/du-dust
-  DEPENDS:=@!(mips||mipsel)
+  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2)
 endef
 
 define Package/dust/description
