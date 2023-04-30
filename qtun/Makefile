@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: WTFPL
 
-# XXX depends on "ring"
+# mips(el):
+#	error: failed to run custom build command for `ring v0.16.20`
 
 include $(TOPDIR)/rules.mk
 
@@ -43,6 +44,13 @@ endef
 
 Package/qtun-client/description=$(call Package/qtun/description/Default)
 Package/qtun-server/description=$(call Package/qtun/description/Default)
+
+# FIXME
+# i386/x86_64:
+#	undefined reference to `__stack_chk_guard'
+ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+endif
 
 define Package/qtun-client/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
