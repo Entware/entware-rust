@@ -1,6 +1,8 @@
 # SPDX-License-Identifier: WTFPL
-#
-# XXX depends on "ring" since 0.10.0
+
+# XXX since 0.10.0:
+# mips(el):
+#	error: failed to run custom build command for `ring v0.16.20`
 
 include $(TOPDIR)/rules.mk
 
@@ -34,8 +36,9 @@ define Package/termscp-legacy/description
   and explorer with support for SCP/SFTP/FTP/S3.
 endef
 
-RUSTC_VARS += \
-	OPENSSL_NO_VENDOR=1
+# FIXME
+#	error: failed to run custom build command for `openssl-sys v0.9.87`
+RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
