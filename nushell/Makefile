@@ -83,10 +83,14 @@ endef
 #/opt/root/.config/nushell/plugin.nu
 #endef
 
-# XXX mips(el): error[E0425]: cannot find function `write_str_simd` in this scope
+# FIXME
+# mips(el)/armv(5/7)
+#	Some errors have detailed explanations: E0412, E0425, E0432, E0433, E0599.
+#	For more information about an error, try `rustc --explain E0412`.
+#	error: could not compile `simd-json` due to 149 previous errors
 CARGO_ARGS += \
-	--workspace \
-	$(if $(or $(CONFIG_mips),$(CONFIG_mipsel)),,--features dataframe)
+       --workspace \
+       $(if $(or $(CONFIG_arm),$(CONFIG_mips),$(CONFIG_mipsel)),,--features dataframe)
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
