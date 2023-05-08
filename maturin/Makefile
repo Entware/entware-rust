@@ -3,17 +3,17 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=maturin
-PKG_VERSION:=0.14.17
+PKG_VERSION:=0.15.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/PyO3/maturin/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=d47bd483c2748a64d245b4ee34d32d869a30bc7683f2603487dcd54ff08cf846
+PKG_HASH:=d61cfa18e5dffdd7f49975ceb8099cdd5968a937f853020fdf2ba2c5c46bf567
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=license-apache license-mit
 
-HOST_BUILD_DEPENDS:=python3/host rustc-dev/host
+HOST_BUILD_DEPENDS:=rustc-dev python3/host
 
 PKG_HOST_ONLY:=1
 
