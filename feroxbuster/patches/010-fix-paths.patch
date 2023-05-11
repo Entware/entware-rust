@@ -1,0 +1,79 @@
+--- a/src/config/container.rs
++++ b/src/config/container.rs
+@@ -572,7 +572,7 @@ impl Configuration {
+ 
+         // merge a config found at /etc/feroxbuster/ferox-config.toml
+         let config_file = PathBuf::new()
+-            .join("/etc/feroxbuster")
++            .join("/opt/etc/feroxbuster")
+             .join(DEFAULT_CONFIG_NAME);
+         Self::parse_and_merge_config(config_file, config)?;
+ 
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -69,12 +69,12 @@ pub(crate) const DEFAULT_IGNORED_EXTENSI
+ /// - `.\seclists\Discovery\Web-Content\raft-medium-directories.txt`
+ #[cfg(not(target_os = "windows"))]
+ pub const DEFAULT_WORDLIST: &str =
+-    "/usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt";
++    "/opt/share/seclists/Discovery/Web-Content/raft-medium-directories.txt";
+ #[cfg(target_os = "windows")]
+ pub const DEFAULT_WORDLIST: &str =
+     ".\\SecLists\\Discovery\\Web-Content\\raft-medium-directories.txt";
+ pub const SECONDARY_WORDLIST: &str =
+-    "/usr/local/share/seclists/Discovery/Web-Content/raft-medium-directories.txt";
++    "/opt/usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt";
+ 
+ /// Number of milliseconds to wait between polls of `PAUSE_SCAN` when user pauses a scan
+ pub(crate) const SLEEP_DURATION: u64 = 500;
+@@ -189,7 +189,7 @@ mod tests {
+     fn default_wordlist() {
+         assert_eq!(
+             DEFAULT_WORDLIST,
+-            "/usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt"
++            "/opt/share/seclists/Discovery/Web-Content/raft-medium-directories.txt"
+         );
+     }
+ 
+--- a/src/scan_manager/tests.rs
++++ b/src/scan_manager/tests.rs
+@@ -440,7 +440,7 @@ fn feroxstates_feroxserialize_implementa
+         r#""num_requests":0"#,
+         r#""config""#,
+         r#""type":"configuration""#,
+-        r#""wordlist":"/usr/share/seclists/Discovery/Web-Content/raft-medium-directories.txt""#,
++        r#""wordlist":"/opt/share/seclists/Discovery/Web-Content/raft-medium-directories.txt""#,
+         r#""config""#,
+         r#""proxy":"""#,
+         r#""replay_proxy":"""#,
+--- a/src/utils.rs
++++ b/src/utils.rs
+@@ -976,7 +976,7 @@ mod tests {
+     /// provide a denier from which we can't check a host, which results in no comparison, expect false
+     fn should_deny_url_doesnt_compare_non_domains() {
+         let scan_url = "https://testdomain.com/";
+-        let deny_url = "unix:/run/foo.socket";
++        let deny_url = "unix:/opt/var/run/foo.socket";
+         let tested_url = Url::parse("https://testdomain.com/denied/").unwrap();
+ 
+         let scans = Arc::new(FeroxScans::default());
+@@ -1025,7 +1025,7 @@ mod tests {
+     /// new expected behavior
+     fn should_deny_url_doesnt_compare_non_domains_in_scanned() {
+         let deny_url = "https://testdomain.com/";
+-        let scan_url = "unix:/run/foo.socket";
++        let scan_url = "unix:/opt/var/run/foo.socket";
+         let tested_url = Url::parse("https://testdomain.com/denied/").unwrap();
+ 
+         let scans = Arc::new(FeroxScans::default());
+--- a/ferox-config.toml.example
++++ b/ferox-config.toml.example
+@@ -25,7 +25,7 @@
+ # auto_bail = true
+ # json = true
+ # output = "/targets/ellingson_mineral_company/gibson.txt"
+-# debug_log = "/var/log/find-the-derp.log"
++# debug_log = "/opt/var/log/find-the-derp.log"
+ # user_agent = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:47.0) Gecko/20100101 Firefox/47.0"
+ # random_agent = false
+ # redirects = true
