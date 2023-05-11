@@ -1,0 +1,105 @@
+--- a/systeroid-core/src/config.rs
++++ b/systeroid-core/src/config.rs
+@@ -244,7 +244,7 @@ mod tests {
+             config.display_deprecated
+         );
+         assert_eq!(
+-            Some(PathBuf::from("/usr/share/doc/linux")),
++            Some(PathBuf::from("/opt/share/doc/linux")),
+             config.kernel_docs
+         );
+         assert_eq!(Config::default().cli.display_type, config.cli.display_type);
+--- a/systeroid-core/src/parsers.rs
++++ b/systeroid-core/src/parsers.rs
+@@ -7,10 +7,10 @@ use std::path::Path;
+ 
+ /// Possible locations for the Linux kernel documentation.
+ pub const KERNEL_DOCS_PATH: &[&str] = &[
+-    "/usr/share/doc/linux/*",
+-    "/usr/share/doc/linux-doc/*",
+-    "/usr/share/doc/linux-docs/*",
+-    "/usr/share/doc/kernel-doc-*/Documentation/*",
++    "/opt/share/doc/linux/*",
++    "/opt/share/doc/linux-doc/*",
++    "/opt/share/doc/linux-docs/*",
++    "/opt/share/doc/kernel-doc-*/Documentation/*",
+ ];
+ 
+ lazy_static! {
+--- a/systeroid-core/src/sysctl/mod.rs
++++ b/systeroid-core/src/sysctl/mod.rs
+@@ -14,15 +14,13 @@ pub mod parameter;
+ pub(crate) const PROC_PATH: &str = "/proc/sys/";
+ 
+ /// Default configuration file to preload values from.
+-pub const DEFAULT_PRELOAD: &str = "/etc/sysctl.conf";
++pub const DEFAULT_PRELOAD: &str = "/opt/etc/sysctl.conf";
+ 
+ /// Default system configuration files to preload values from.
+ pub const SYSTEM_PRELOAD: &[&str] = &[
+-    "/etc/sysctl.d",
+-    "/run/sysctl.d",
+-    "/usr/local/lib/sysctl.d",
+-    "/usr/lib/sysctl.d",
+-    "/lib/sysctl.d",
++    "/opt/etc/sysctl.d",
++    "/opt/var/run/sysctl.d",
++    "/opt/lib/sysctl.d",
+     DEFAULT_PRELOAD,
+ ];
+ 
+--- a/systeroid-core/src/sysctl/parameter.rs
++++ b/systeroid-core/src/sysctl/parameter.rs
+@@ -226,7 +226,7 @@ mod tests {
+             value: String::from("1"),
+             description: Some(String::from("This is a fictional parameter for testing")),
+             section: Section::Kernel,
+-            docs_path: PathBuf::from("/etc/cosmos"),
++            docs_path: PathBuf::from("/opt/etc/cosmos"),
+             docs_title: String::from("Test Parameter"),
+         };
+         assert_eq!(Some("test_param"), parameter.get_absolute_name());
+@@ -285,7 +285,7 @@ mod tests {
+             This is a fictional parameter for testing
+             -
+             Parameter: kernel.fictional.test_param
+-            Reference: /etc/cosmos\n\n\n"
++            Reference: /opt/etc/cosmos\n\n\n"
+                 .lines()
+                 .map(|line| line.trim_start())
+                 .collect::<Vec<&str>>()
+--- a/systeroid-core/src/sysctl/section.rs
++++ b/systeroid-core/src/sysctl/section.rs
+@@ -97,10 +97,10 @@ mod tests {
+         assert_eq!(Section::Unknown, Section::from_name(String::from("test")));
+         assert_eq!(Section::Sunrpc, Section::from(String::from("sunrpc")));
+         assert_eq!(Section::Unknown, Section::from(String::from("test")));
+-        assert_eq!(Section::Vm, Section::from(Path::new("/etc/vm.txt")));
++        assert_eq!(Section::Vm, Section::from(Path::new("/opt/etc/vm.txt")));
+         assert_eq!(
+             Section::Kernel,
+-            Section::from(Path::new("/etc/kernel.tar.gz"))
++            Section::from(Path::new("/opt/etc/kernel.tar.gz"))
+         );
+         assert_eq!(Section::Net, Section::from(Path::new("/networking/abc")));
+         assert_eq!(Section::Unknown, Section::from(Path::new("test")));
+--- a/systeroid-tui/tests/integration_test.rs
++++ b/systeroid-tui/tests/integration_test.rs
+@@ -45,7 +45,7 @@ fn test_render_tui() -> Result<()> {
+                 value: String::from("0"),
+                 description: Some(String::from("This is a fictional parameter for testing")),
+                 section: Section::Kernel,
+-                docs_path: PathBuf::from("/etc/cosmos"),
++                docs_path: PathBuf::from("/opt/etc/cosmos"),
+                 docs_title: String::from("Test Parameter"),
+             },
+             Parameter {
+@@ -55,7 +55,7 @@ fn test_render_tui() -> Result<()> {
+                     "The time interval between which vm statistics are updated",
+                 )),
+                 section: Section::Vm,
+-                docs_path: PathBuf::from("/usr/share/doc/linux/admin-guide/sysctl/vm.rst"),
++                docs_path: PathBuf::from("/opt/share/doc/linux/admin-guide/sysctl/vm.rst"),
+                 docs_title: String::from("stat_interval"),
+             },
+         ],
