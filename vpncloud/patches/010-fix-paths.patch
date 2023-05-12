@@ -1,0 +1,214 @@
+--- a/src/config.rs
++++ b/src/config.rs
+@@ -662,8 +662,8 @@ peer-timeout: 600
+ keepalive: 840
+ switch-timeout: 300
+ beacon:
+-  store: /run/vpncloud.beacon.out
+-  load: /run/vpncloud.beacon.in
++  store: /opt/var/run/vpncloud.beacon.out
++  load: /opt/var/run/vpncloud.beacon.in
+   interval: 3600
+   password: test123
+ mode: normal
+@@ -672,8 +672,8 @@ claims:
+ port-forwarding: true
+ user: nobody
+ group: nogroup
+-pid-file: /run/vpncloud.run
+-stats-file: /var/log/vpncloud.stats
++pid-file: /opt/var/run/vpncloud.run
++stats-file: /opt/var/log/vpncloud.stats
+ statsd:
+   server: example.com:1234
+   prefix: prefix
+@@ -697,8 +697,8 @@ statsd:
+             peer_timeout: Some(600),
+             keepalive: Some(840),
+             beacon: Some(ConfigFileBeacon {
+-                store: Some("/run/vpncloud.beacon.out".to_string()),
+-                load: Some("/run/vpncloud.beacon.in".to_string()),
++                store: Some("/opt/var/run/vpncloud.beacon.out".to_string()),
++                load: Some("/opt/var/run/vpncloud.beacon.in".to_string()),
+                 interval: Some(3600),
+                 password: Some("test123".to_string())
+             }),
+@@ -709,8 +709,8 @@ statsd:
+             port_forwarding: Some(true),
+             user: Some("nobody".to_string()),
+             group: Some("nogroup".to_string()),
+-            pid_file: Some("/run/vpncloud.run".to_string()),
+-            stats_file: Some("/var/log/vpncloud.stats".to_string()),
++            pid_file: Some("/opt/var/run/vpncloud.run".to_string()),
++            stats_file: Some("/opt/var/log/vpncloud.stats".to_string()),
+             statsd: Some(ConfigFileStatsd {
+                 server: Some("example.com:1234".to_string()),
+                 prefix: Some("prefix".to_string())
+@@ -746,8 +746,8 @@ fn config_merge() {
+         peer_timeout: Some(600),
+         keepalive: Some(840),
+         beacon: Some(ConfigFileBeacon {
+-            store: Some("/run/vpncloud.beacon.out".to_string()),
+-            load: Some("/run/vpncloud.beacon.in".to_string()),
++            store: Some("/opt/var/run/vpncloud.beacon.out".to_string()),
++            load: Some("/opt/var/run/vpncloud.beacon.in".to_string()),
+             interval: Some(7200),
+             password: Some("test123".to_string()),
+         }),
+@@ -758,8 +758,8 @@ fn config_merge() {
+         port_forwarding: Some(true),
+         user: Some("nobody".to_string()),
+         group: Some("nogroup".to_string()),
+-        pid_file: Some("/run/vpncloud.run".to_string()),
+-        stats_file: Some("/var/log/vpncloud.stats".to_string()),
++        pid_file: Some("/opt/var/run/vpncloud.run".to_string()),
++        stats_file: Some("/opt/var/log/vpncloud.stats".to_string()),
+         statsd: Some(ConfigFileStatsd {
+             server: Some("example.com:1234".to_string()),
+             prefix: Some("prefix".to_string()),
+@@ -782,8 +782,8 @@ fn config_merge() {
+             peer_timeout: 600,
+             keepalive: Some(840),
+             switch_timeout: 300,
+-            beacon_store: Some("/run/vpncloud.beacon.out".to_string()),
+-            beacon_load: Some("/run/vpncloud.beacon.in".to_string()),
++            beacon_store: Some("/opt/var/run/vpncloud.beacon.out".to_string()),
++            beacon_load: Some("/opt/var/run/vpncloud.beacon.in".to_string()),
+             beacon_interval: 7200,
+             beacon_password: Some("test123".to_string()),
+             mode: Mode::Normal,
+@@ -791,8 +791,8 @@ fn config_merge() {
+             claims: vec!["10.0.1.0/24".to_string()],
+             user: Some("nobody".to_string()),
+             group: Some("nogroup".to_string()),
+-            pid_file: Some("/run/vpncloud.run".to_string()),
+-            stats_file: Some("/var/log/vpncloud.stats".to_string()),
++            pid_file: Some("/opt/var/run/vpncloud.run".to_string()),
++            stats_file: Some("/opt/var/log/vpncloud.stats".to_string()),
+             statsd_server: Some("example.com:1234".to_string()),
+             statsd_prefix: Some("prefix".to_string()),
+             ..Default::default()
+@@ -809,8 +809,8 @@ fn config_merge() {
+         peer_timeout: Some(1801),
+         keepalive: Some(850),
+         switch_timeout: Some(301),
+-        beacon_store: Some("/run/vpncloud.beacon.out2".to_string()),
+-        beacon_load: Some("/run/vpncloud.beacon.in2".to_string()),
++        beacon_store: Some("/opt/var/run/vpncloud.beacon.out2".to_string()),
++        beacon_load: Some("/opt/var/run/vpncloud.beacon.in2".to_string()),
+         beacon_interval: Some(3600),
+         beacon_password: Some("test1234".to_string()),
+         mode: Some(Mode::Switch),
+@@ -818,8 +818,8 @@ fn config_merge() {
+         peers: vec!["another:3210".to_string()],
+         no_port_forwarding: true,
+         daemon: true,
+-        pid_file: Some("/run/vpncloud-mynet.run".to_string()),
+-        stats_file: Some("/var/log/vpncloud-mynet.stats".to_string()),
++        pid_file: Some("/opt/var/run/vpncloud-mynet.run".to_string()),
++        stats_file: Some("/opt/var/log/vpncloud-mynet.stats".to_string()),
+         statsd_server: Some("example.com:2345".to_string()),
+         statsd_prefix: Some("prefix2".to_string()),
+         user: Some("root".to_string()),
+@@ -848,8 +848,8 @@ fn config_merge() {
+             peer_timeout: 1801,
+             keepalive: Some(850),
+             switch_timeout: 301,
+-            beacon_store: Some("/run/vpncloud.beacon.out2".to_string()),
+-            beacon_load: Some("/run/vpncloud.beacon.in2".to_string()),
++            beacon_store: Some("/opt/var/run/vpncloud.beacon.out2".to_string()),
++            beacon_load: Some("/opt/var/run/vpncloud.beacon.in2".to_string()),
+             beacon_interval: 3600,
+             beacon_password: Some("test1234".to_string()),
+             mode: Mode::Switch,
+@@ -858,8 +858,8 @@ fn config_merge() {
+             auto_claim: true,
+             user: Some("root".to_string()),
+             group: Some("root".to_string()),
+-            pid_file: Some("/run/vpncloud-mynet.run".to_string()),
+-            stats_file: Some("/var/log/vpncloud-mynet.stats".to_string()),
++            pid_file: Some("/opt/var/run/vpncloud-mynet.run".to_string()),
++            stats_file: Some("/opt/var/log/vpncloud-mynet.stats".to_string()),
+             statsd_server: Some("example.com:2345".to_string()),
+             statsd_prefix: Some("prefix2".to_string()),
+             daemonize: true,
+--- a/src/installer.rs
++++ b/src/installer.rs
+@@ -21,26 +21,26 @@ fn systemctl_daemon_reload() {
+ 
+ pub fn install() -> Result<(), Error> {
+     env::current_exe()
+-        .and_then(|p| fs::copy(p, "/usr/bin/vpncloud"))
++        .and_then(|p| fs::copy(p, "/opt/usr/bin/vpncloud"))
+         .map_err(|e| Error::FileIo("Failed to copy binary", e))?;
+-    fs::set_permissions("/usr/bin/vpncloud", fs::Permissions::from_mode(0o755))
++    fs::set_permissions("/opt/usr/bin/vpncloud", fs::Permissions::from_mode(0o755))
+         .map_err(|e| Error::FileIo("Failed to set permissions for binary", e))?;
+-    fs::create_dir_all("/etc/vpncloud").map_err(|e| Error::FileIo("Failed to create config folder", e))?;
+-    fs::set_permissions("/etc/vpncloud", fs::Permissions::from_mode(0o700))
++    fs::create_dir_all("/opt/etc/vpncloud").map_err(|e| Error::FileIo("Failed to create config folder", e))?;
++    fs::set_permissions("/opt/etc/vpncloud", fs::Permissions::from_mode(0o700))
+         .map_err(|e| Error::FileIo("Failed to set permissions for config folder", e))?;
+-    File::create("/etc/vpncloud/example.net.disabled")
++    File::create("/opt/etc/vpncloud/example.net.disabled")
+         .and_then(|mut f| f.write_all(EXAMPLE_CONFIG))
+         .map_err(|e| Error::FileIo("Failed to create example config", e))?;
+-    File::create("/usr/share/man/man1/vpncloud.1.gz")
++    File::create("/opt/share/man/man1/vpncloud.1.gz")
+         .and_then(|mut f| f.write_all(MANPAGE))
+         .map_err(|e| Error::FileIo("Failed to create manpage", e))?;
+-    File::create("/lib/systemd/system/vpncloud@.service")
++    File::create("/opt/lib/systemd/system/vpncloud@.service")
+         .and_then(|mut f| f.write_all(SERVICE_FILE))
+         .map_err(|e| Error::FileIo("Failed to create service file", e))?;
+-    File::create("/lib/systemd/system/vpncloud.target")
++    File::create("/opt/lib/systemd/system/vpncloud.target")
+         .and_then(|mut f| f.write_all(TARGET_FILE))
+         .map_err(|e| Error::FileIo("Failed to create service target file", e))?;
+-    File::create("/lib/systemd/system/vpncloud-wsproxy.service")
++    File::create("/opt/lib/systemd/system/vpncloud-wsproxy.service")
+         .and_then(|mut f| f.write_all(WS_PROXY_SERVICE_FILE))
+         .map_err(|e| Error::FileIo("Failed to create wsporxy service file", e))?;
+     systemctl_daemon_reload();
+@@ -49,15 +49,15 @@ pub fn install() -> Result<(), Error> {
+ }
+ 
+ pub fn uninstall() -> Result<(), Error> {
+-    fs::remove_file("/etc/vpncloud/example.net.disabled").map_err(|e| Error::FileIo("Failed to remove binary", e))?;
+-    fs::remove_file("/usr/share/man/man1/vpncloud.1.gz").map_err(|e| Error::FileIo("Failed to remove manpage", e))?;
+-    fs::remove_file("/lib/systemd/system/vpncloud@.service")
++    fs::remove_file("/opt/etc/vpncloud/example.net.disabled").map_err(|e| Error::FileIo("Failed to remove binary", e))?;
++    fs::remove_file("/opt/share/man/man1/vpncloud.1.gz").map_err(|e| Error::FileIo("Failed to remove manpage", e))?;
++    fs::remove_file("/opt/lib/systemd/system/vpncloud@.service")
+         .map_err(|e| Error::FileIo("Failed to remove service file", e))?;
+-    fs::remove_file("/lib/systemd/system/vpncloud.target")
++    fs::remove_file("/opt/lib/systemd/system/vpncloud.target")
+         .map_err(|e| Error::FileIo("Failed to remove service target file", e))?;
+-    fs::remove_file("/lib/systemd/system/vpncloud-wsproxy.service")
++    fs::remove_file("/opt/lib/systemd/system/vpncloud-wsproxy.service")
+         .map_err(|e| Error::FileIo("Failed to remove wsproxy service file", e))?;
+-    fs::remove_file("/usr/bin/vpncloud").map_err(|e| Error::FileIo("Failed to remove binary", e))?;
++    fs::remove_file("/opt/usr/bin/vpncloud").map_err(|e| Error::FileIo("Failed to remove binary", e))?;
+     systemctl_daemon_reload();
+     info!("Uninstall successful");
+     Ok(())
+--- a/src/wizard.rs
++++ b/src/wizard.rs
+@@ -446,7 +446,7 @@ pub fn configure(name: Option<String>) -
+         name
+     } else {
+         let mut names = vec![];
+-        for file in fs::read_dir("/etc/vpncloud")? {
++        for file in fs::read_dir("/opt/etc/vpncloud")? {
+             names.push(file?.path().file_stem().unwrap().to_str().unwrap().to_string());
+         }
+         let selection =
+@@ -459,7 +459,7 @@ pub fn configure(name: Option<String>) -
+     };
+ 
+     let mut config = Config::default();
+-    let file = Path::new("/etc/vpncloud").join(format!("{}.net", name));
++    let file = Path::new("/opt/etc/vpncloud").join(format!("{}.net", name));
+     if file.exists() {
+         let f = fs::File::open(&file)?;
+         let config_file = serde_yaml::from_reader(f)
