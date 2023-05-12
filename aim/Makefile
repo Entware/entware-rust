@@ -36,6 +36,13 @@ endef
 #	error: failed to run custom build command for `openssl-sys v0.9.87`
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
+# FIXME
+# i386/x86_64:
+#	undefined reference to `__stack_chk_guard'
+ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+endif
+
 define Package/aim/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/aim $(1)/opt/usr/bin
