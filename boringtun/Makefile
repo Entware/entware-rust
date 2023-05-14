@@ -22,7 +22,7 @@ define Package/boringtun
   SUBMENU:=VPN
   TITLE:=Userspace WireGuard Implementation in Rust
   URL:=https://github.com/cloudflare/boringtun
-  DEPENDS:=@(mips||mipsel)
+  DEPENDS:=@(mips||mipsel||TARGET_armv5_3_2)
 endef
 
 define Package/boringtun/description
