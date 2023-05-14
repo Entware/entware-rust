@@ -35,7 +35,7 @@ define Package/ox/conffiles
 endef
 
 define Package/ox/install
-	$(INSTALL_DIR) $(1)/opt/etc/ox
+	$(INSTALL_DIR) $(1)/opt/etc
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/config/ox.ron $(1)/opt/etc
 
 	$(INSTALL_DIR) $(1)/opt/usr/bin
