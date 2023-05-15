@@ -1,0 +1,31 @@
+--- a/boringtun-cli/src/main.rs
++++ b/boringtun-cli/src/main.rs
+@@ -70,7 +70,7 @@ fn main() {
+                 .short('l')
+                 .env("WG_LOG_FILE")
+                 .help("Log file")
+-                .default_value("/tmp/boringtun.out"),
++                .default_value("/opt/tmp/boringtun.out"),
+             Arg::new("disable-drop-privileges")
+                 .long("disable-drop-privileges")
+                 .env("WG_SUDO")
+@@ -119,7 +119,7 @@ fn main() {
+             .init();
+ 
+         let daemonize = Daemonize::new()
+-            .working_directory("/tmp")
++            .working_directory("/opt/tmp")
+             .exit_action(move || {
+                 let mut b = [0u8; 1];
+                 if sock2.recv(&mut b).is_ok() && b[0] == 1 {
+--- a/boringtun/src/device/api.rs
++++ b/boringtun/src/device/api.rs
+@@ -14,7 +14,7 @@ use std::os::unix::io::{AsRawFd, FromRaw
+ use std::os::unix::net::{UnixListener, UnixStream};
+ use std::sync::atomic::Ordering;
+ 
+-const SOCK_DIR: &str = "/var/run/wireguard/";
++const SOCK_DIR: &str = "/opt/var/run/wireguard";
+ 
+ fn create_sock_dir() {
+     let _ = create_dir(SOCK_DIR); // Create the directory if it does not exist
