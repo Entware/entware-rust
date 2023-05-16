@@ -30,6 +30,20 @@ endef
 define Package/hl/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/hl $(1)/opt/usr/bin
+
+	$(INSTALL_DIR) $(1)/opt/share
+	$(CP) $(PKG_BUILD_DIR)/etc/defaults $(1)/opt/share/hl
+endef
+
+define Package/hl/postinst
+#!/bin/sh
+
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_std="\033[0;0m"
+
+printf "\t$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "create a symlink in \$$HOME, e.g.:"
+printf "\t$$ansi_white %s $$ansi_std\n" "ln -s /opt/share/hl ~/.config/hl"
 endef
 
 $(eval $(call BuildPackage,hl))
