@@ -1,7 +1,5 @@
 # SPDX-License-Identifier: WTFPL
 
-# TODO: add post-inst info
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=helix
@@ -38,6 +36,17 @@ define Package/helix/install
 	$(INSTALL_DIR) $(1)/opt/share/helix
 	$(CP) $(PKG_BUILD_DIR)/runtime $(1)/opt/share/helix
 	rm -fr $(1)/opt/share/helix/runtime/grammars/sources
+endef
+
+define Package/helix/postinst
+#!/bin/sh
+
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_std="\033[0;0m"
+
+printf "\t$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "create a symlink in \$$HOME, e.g.:"
+printf "\t$$ansi_white %s $$ansi_std\n" "ln -s /opt/share/helix ~/.config/helix"
 endef
 
 $(eval $(call BuildPackage,helix))
