@@ -1,0 +1,57 @@
+--- a/src/stream/mod.rs
++++ b/src/stream/mod.rs
+@@ -1,8 +1,9 @@
++use std::convert::TryInto;
+ use std::ops::Range;
+ #[cfg(feature = "download")]
+ use std::path::{Path, PathBuf};
+ use std::sync::Arc;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ 
+ use chrono::{DateTime, Utc};
+ use mime::Mime;
+@@ -63,7 +64,7 @@ pub struct Stream {
+     pub bitrate: Option<u64>,
+     pub color_info: Option<ColorInfo>,
+     #[derivative(PartialEq(compare_with = "atomic_u64_is_eq"))]
+-    content_length: Arc<AtomicU64>,
++    content_length: Arc<AtomicUsize>,
+     pub fps: u8,
+     pub height: Option<u64>,
+     pub high_replication: Option<bool>,
+@@ -103,7 +104,7 @@ impl Stream {
+             average_bitrate: raw_format.average_bitrate,
+             bitrate: raw_format.bitrate,
+             color_info: raw_format.color_info,
+-            content_length: Arc::new(AtomicU64::new(raw_format.content_length.unwrap_or(0))),
++            content_length: Arc::new(AtomicUsize::new(raw_format.content_length.unwrap_or(0).try_into().unwrap())),
+             fps: raw_format.fps,
+             height: raw_format.height,
+             high_replication: raw_format.high_replication,
+@@ -138,7 +139,7 @@ impl Stream {
+     #[inline]
+     pub async fn content_length(&self) -> Result<u64> {
+         let cl = self.content_length.load(Ordering::SeqCst);
+-        if cl != 0 { return Ok(cl); }
++        if cl != 0 { return Ok(cl.try_into().unwrap()); }
+ 
+         self.client
+             .head(self.signature_cipher.url.as_str())
+@@ -151,7 +152,7 @@ impl Stream {
+             .and_then(|cl| cl.parse::<u64>().ok())
+             .map(|cl| {
+                 log::trace!("content length of {:?} is {}", self, cl);
+-                self.content_length.store(cl, Ordering::SeqCst);
++                self.content_length.store(cl.try_into().unwrap(), Ordering::SeqCst);
+                 cl
+             })
+             .ok_or_else(|| Error::UnexpectedResponse(
+@@ -437,6 +438,6 @@ fn is_progressive(codecs: &[String]) ->
+ }
+ 
+ #[inline]
+-fn atomic_u64_is_eq(lhs: &Arc<AtomicU64>, rhs: &Arc<AtomicU64>) -> bool {
++fn atomic_u64_is_eq(lhs: &Arc<AtomicUsize>, rhs: &Arc<AtomicUsize>) -> bool {
+     lhs.load(Ordering::Acquire) == rhs.load(Ordering::Acquire)
+ }
