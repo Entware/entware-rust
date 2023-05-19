@@ -1,0 +1,39 @@
+From 206d03ce4a8c426852c84cd37bf4d787927c1db9 Mon Sep 17 00:00:00 2001
+From: Saluki <saluki@gmx.fr>
+Date: Tue, 2 May 2023 15:00:54 +0200
+Subject: [PATCH 6/6] Moving CI to Rust 1.64
+
+---
+ .semaphore/Dockerfile    | 2 +-
+ .semaphore/semaphore.yml | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/.semaphore/Dockerfile b/.semaphore/Dockerfile
+index e0f8f25..4dbc30d 100644
+--- a/.semaphore/Dockerfile
++++ b/.semaphore/Dockerfile
+@@ -1,4 +1,4 @@
+-FROM rust:1.61.0-slim
++FROM rust:1.64.0-slim
+ 
+ # Install SemaphoreCI dependencies
+ # https://docs.semaphoreci.com/ci-cd-environment/custom-ci-cd-environment-with-docker/
+diff --git a/.semaphore/semaphore.yml b/.semaphore/semaphore.yml
+index 34698cc..79b3c74 100644
+--- a/.semaphore/semaphore.yml
++++ b/.semaphore/semaphore.yml
+@@ -5,9 +5,9 @@ agent:
+     type: e1-standard-2
+     os_image: ubuntu2004
+   containers:
+-    # Rust 1.56 (2021 edition) is currently not supported in Semaphore
++    # Rust 1.64 (2021 edition) is currently not supported in Semaphore
+     - name: main
+-      image: 'saluki/rust-ci:1.61'
++      image: 'saluki/rust-ci:1.64'
+ blocks:
+   - name: Test release
+     task:
+-- 
+2.30.2
+

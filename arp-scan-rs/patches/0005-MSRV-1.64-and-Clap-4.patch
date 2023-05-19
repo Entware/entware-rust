@@ -1,0 +1,864 @@
+From e3eff701530c7b3872b59bc030592e137ac83924 Mon Sep 17 00:00:00 2001
+From: Saluki <saluki@gmx.fr>
+Date: Thu, 20 Apr 2023 13:55:41 +0200
+Subject: [PATCH 5/6] MSRV 1.64 and Clap 4
+
+---
+ Cargo.lock     | 327 ++++++++++++++++++++++++++++++++++++-------------
+ Cargo.toml     |   9 +-
+ src/args.rs    |  62 +++++-----
+ src/main.rs    |   2 +-
+ src/network.rs |   4 +-
+ src/time.rs    |   2 +-
+ 6 files changed, 284 insertions(+), 122 deletions(-)
+
+diff --git a/Cargo.lock b/Cargo.lock
+index 22efbb6..3f3fd2a 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -20,6 +20,55 @@ dependencies = [
+  "winapi",
+ ]
+ 
++[[package]]
++name = "anstream"
++version = "0.3.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "9e579a7752471abc2a8268df8b20005e3eadd975f585398f17efcfd8d4927371"
++dependencies = [
++ "anstyle",
++ "anstyle-parse",
++ "anstyle-query",
++ "anstyle-wincon",
++ "colorchoice",
++ "is-terminal",
++ "utf8parse",
++]
++
++[[package]]
++name = "anstyle"
++version = "1.0.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "41ed9a86bf92ae6580e0a31281f65a1b1d867c0cc68d5346e2ae128dddfa6a7d"
++
++[[package]]
++name = "anstyle-parse"
++version = "0.2.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "e765fd216e48e067936442276d1d57399e37bce53c264d6fefbe298080cb57ee"
++dependencies = [
++ "utf8parse",
++]
++
++[[package]]
++name = "anstyle-query"
++version = "1.0.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "5ca11d4be1bab0c8bc8734a9aa7bf4ee8316d462a08c6ac5052f888fef5b494b"
++dependencies = [
++ "windows-sys 0.48.0",
++]
++
++[[package]]
++name = "anstyle-wincon"
++version = "1.0.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "4bcd8291a340dd8ac70e18878bc4501dd7b4ff970cfa21c207d36ece51ea88fd"
++dependencies = [
++ "anstyle",
++ "windows-sys 0.48.0",
++]
++
+ [[package]]
+ name = "arp-scan"
+ version = "0.13.1"
+@@ -38,17 +87,6 @@ dependencies = [
+  "serde_yaml",
+ ]
+ 
+-[[package]]
+-name = "atty"
+-version = "0.2.14"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d9b39be18770d11421cdb1b9947a45dd3f37e93092cbf377614828a319d5fee8"
+-dependencies = [
+- "hermit-abi",
+- "libc",
+- "winapi",
+-]
+-
+ [[package]]
+ name = "autocfg"
+ version = "1.1.0"
+@@ -61,6 +99,12 @@ version = "1.3.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
+ 
++[[package]]
++name = "cc"
++version = "1.0.79"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "50d30906286121d95be3d479533b458f87493b30a4b5f79a607db8f5d11aa91f"
++
+ [[package]]
+ name = "cfg-if"
+ version = "1.0.0"
+@@ -69,27 +113,37 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
+ 
+ [[package]]
+ name = "clap"
+-version = "3.2.23"
++version = "4.2.4"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "956ac1f6381d8d82ab4684768f89c0ea3afe66925ceadb4eeb3fc452ffc55d62"
++dependencies = [
++ "clap_builder",
++]
++
++[[package]]
++name = "clap_builder"
++version = "4.2.4"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "71655c45cb9845d3270c9d6df84ebe72b4dad3c2ba3f7023ad47c144e4e473a5"
++checksum = "84080e799e54cff944f4b4a4b0e71630b0e0443b25b985175c7dddc1a859b749"
+ dependencies = [
+- "atty",
++ "anstream",
++ "anstyle",
+  "bitflags",
+  "clap_lex",
+- "indexmap",
+  "strsim",
+- "termcolor",
+- "textwrap",
+ ]
+ 
+ [[package]]
+ name = "clap_lex"
+-version = "0.2.4"
++version = "0.4.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "2850f2f5a82cbf437dd5af4d49848fbdfc27c157c3d010345776f952765261c5"
+-dependencies = [
+- "os_str_bytes",
+-]
++checksum = "8a2dd5a6fe8c6e3502f568a6353e5273bbb15193ad9a89e457b9970798efbea1"
++
++[[package]]
++name = "colorchoice"
++version = "1.0.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "acbf1af155f9b9ef647e42cdc158db4b64a1b61f743629225fde6f3e0be2a7c7"
+ 
+ [[package]]
+ name = "csv"
+@@ -119,7 +173,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "bbcf33c2a618cbe41ee43ae6e9f2e48368cd9f9db2896f10167d8d762679f639"
+ dependencies = [
+  "nix",
+- "windows-sys",
++ "windows-sys 0.45.0",
+ ]
+ 
+ [[package]]
+@@ -134,6 +188,27 @@ dependencies = [
+  "winapi",
+ ]
+ 
++[[package]]
++name = "errno"
++version = "0.3.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "4bcfec3a70f97c962c307b2d2c56e358cf1d00b558d74262b5f929ee8cc7e73a"
++dependencies = [
++ "errno-dragonfly",
++ "libc",
++ "windows-sys 0.48.0",
++]
++
++[[package]]
++name = "errno-dragonfly"
++version = "0.1.2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "aa68f1b12764fab894d2755d2518754e71b4fd80ecfb822714a1206c2aab39bf"
++dependencies = [
++ "cc",
++ "libc",
++]
++
+ [[package]]
+ name = "getrandom"
+ version = "0.2.9"
+@@ -159,12 +234,9 @@ checksum = "8a9ee70c43aaf417c914396645a0fa852624801b24ebb7ae78fe8272889ac888"
+ 
+ [[package]]
+ name = "hermit-abi"
+-version = "0.1.19"
++version = "0.3.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "62b467343b94ba476dcb2500d242dadbb39557df889310ac77c5d99100aaac33"
+-dependencies = [
+- "libc",
+-]
++checksum = "fed44880c466736ef9a5c5b5facefb5ed0785676d0c02d612db14e54f0d84286"
+ 
+ [[package]]
+ name = "indexmap"
+@@ -176,15 +248,38 @@ dependencies = [
+  "hashbrown",
+ ]
+ 
++[[package]]
++name = "io-lifetimes"
++version = "1.0.10"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "9c66c74d2ae7e79a5a8f7ac924adbe38ee42a859c6539ad869eb51f0b52dc220"
++dependencies = [
++ "hermit-abi",
++ "libc",
++ "windows-sys 0.48.0",
++]
++
+ [[package]]
+ name = "ipnetwork"
+-version = "0.19.0"
++version = "0.20.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "1f84f1612606f3753f205a4e9a2efd6fe5b4c573a6269b2cc6c3003d44a0d127"
++checksum = "bf466541e9d546596ee94f9f69590f89473455f88372423e0008fc1a7daf100e"
+ dependencies = [
+  "serde",
+ ]
+ 
++[[package]]
++name = "is-terminal"
++version = "0.4.7"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "adcf93614601c8129ddf72e2d5633df827ba6551541c6d8c59520a371475be1f"
++dependencies = [
++ "hermit-abi",
++ "io-lifetimes",
++ "rustix",
++ "windows-sys 0.48.0",
++]
++
+ [[package]]
+ name = "itoa"
+ version = "1.0.6"
+@@ -197,6 +292,12 @@ version = "0.2.141"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "3304a64d199bb964be99741b7a14d26972741915b3649639149b2479bb46f4b5"
+ 
++[[package]]
++name = "linux-raw-sys"
++version = "0.3.3"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "9b085a4f2cde5781fc4b1717f2e86c62f5cda49de7ba99a7c2eae02b61c9064c"
++
+ [[package]]
+ name = "memchr"
+ version = "2.5.0"
+@@ -221,38 +322,34 @@ version = "0.6.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "43794a0ace135be66a25d3ae77d41b91615fb68ae937f904090203e81f755b65"
+ 
+-[[package]]
+-name = "os_str_bytes"
+-version = "6.5.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ceedf44fb00f2d1984b0bc98102627ce622e083e49a5bacdb3e514fa4238e267"
+-
+ [[package]]
+ name = "pnet"
+-version = "0.31.0"
++version = "0.33.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "0caaf5b11fd907ff15cf14a4477bfabca4b37ab9e447a4f8dead969a59cdafad"
++checksum = "cd959a8268165518e2bf5546ba84c7b3222744435616381df3c456fe8d983576"
+ dependencies = [
++ "ipnetwork",
+  "pnet_base",
+  "pnet_datalink",
+  "pnet_packet",
++ "pnet_sys",
+  "pnet_transport",
+ ]
+ 
+ [[package]]
+ name = "pnet_base"
+-version = "0.31.0"
++version = "0.33.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f9d3a993d49e5fd5d4d854d6999d4addca1f72d86c65adf224a36757161c02b6"
++checksum = "872e46346144ebf35219ccaa64b1dffacd9c6f188cd7d012bd6977a2a838f42e"
+ dependencies = [
+  "no-std-net",
+ ]
+ 
+ [[package]]
+ name = "pnet_datalink"
+-version = "0.31.0"
++version = "0.33.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "e466faf03a98ad27f6e15cd27a2b7cc89e73e640a43527742977bc503c37f8aa"
++checksum = "c302da22118d2793c312a35fb3da6846cb0fab6c3ad53fd67e37809b06cdafce"
+ dependencies = [
+  "ipnetwork",
+  "libc",
+@@ -263,9 +360,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "pnet_macros"
+-version = "0.31.0"
++version = "0.33.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "48dd52a5211fac27e7acb14cfc9f30ae16ae0e956b7b779c8214c74559cef4c3"
++checksum = "2a780e80005c2e463ec25a6e9f928630049a10b43945fea83207207d4a7606f4"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+@@ -275,18 +372,18 @@ dependencies = [
+ 
+ [[package]]
+ name = "pnet_macros_support"
+-version = "0.31.0"
++version = "0.33.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "89de095dc7739349559913aed1ef6a11e73ceade4897dadc77c5e09de6740750"
++checksum = "e6d932134f32efd7834eb8b16d42418dac87086347d1bc7d142370ef078582bc"
+ dependencies = [
+  "pnet_base",
+ ]
+ 
+ [[package]]
+ name = "pnet_packet"
+-version = "0.31.0"
++version = "0.33.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "bc3b5111e697c39c8b9795b9fdccbc301ab696699e88b9ea5a4e4628978f495f"
++checksum = "8bde678bbd85cb1c2d99dc9fc596e57f03aa725f84f3168b0eaf33eeccb41706"
+ dependencies = [
+  "glob",
+  "pnet_base",
+@@ -296,9 +393,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "pnet_sys"
+-version = "0.31.0"
++version = "0.33.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "328e231f0add6d247d82421bf3790b4b33b39c8930637f428eef24c4c6a90805"
++checksum = "faf7a58b2803d818a374be9278a1fe8f88fce14b936afbe225000cfcd9c73f16"
+ dependencies = [
+  "libc",
+  "winapi",
+@@ -306,9 +403,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "pnet_transport"
+-version = "0.31.0"
++version = "0.33.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ff597185e6f1f5671b3122e4dba892a1c73e17c17e723d7669bd9299cbe7f124"
++checksum = "813d1c0e4defbe7ee22f6fe1755f122b77bfb5abe77145b1b5baaf463cab9249"
+ dependencies = [
+  "libc",
+  "pnet_base",
+@@ -387,6 +484,20 @@ version = "0.6.29"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "f162c6dd7b008981e4d40210aca20b4bd0f9b60ca9271061b07f78537722f2e1"
+ 
++[[package]]
++name = "rustix"
++version = "0.37.13"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "f79bef90eb6d984c72722595b5b1348ab39275a5e5123faca6863bf07d75a4e0"
++dependencies = [
++ "bitflags",
++ "errno",
++ "io-lifetimes",
++ "libc",
++ "linux-raw-sys",
++ "windows-sys 0.48.0",
++]
++
+ [[package]]
+ name = "ryu"
+ version = "1.0.13"
+@@ -481,21 +592,6 @@ dependencies = [
+  "unicode-ident",
+ ]
+ 
+-[[package]]
+-name = "termcolor"
+-version = "1.2.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "be55cf8942feac5c765c2c993422806843c9a9a45d4d5c407ad6dd2ea95eb9b6"
+-dependencies = [
+- "winapi-util",
+-]
+-
+-[[package]]
+-name = "textwrap"
+-version = "0.16.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "222a222a5bfe1bba4a77b45ec488a741b3cb8872e5e499451fd7d0129c9c7c3d"
+-
+ [[package]]
+ name = "unicode-ident"
+ version = "1.0.8"
+@@ -508,6 +604,12 @@ version = "0.2.8"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "1865806a559042e51ab5414598446a5871b561d21b6764f2eabb0dd481d880a6"
+ 
++[[package]]
++name = "utf8parse"
++version = "0.2.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "711b9620af191e0cdc7468a8d14e709c3dcdb115b36f838e601583af800a370a"
++
+ [[package]]
+ name = "wasi"
+ version = "0.11.0+wasi-snapshot-preview1"
+@@ -530,15 +632,6 @@ version = "0.4.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6"
+ 
+-[[package]]
+-name = "winapi-util"
+-version = "0.1.5"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "70ec6ce85bb158151cae5e5c87f95a8e97d2c0c4b001223f33a334e3ce5de178"
+-dependencies = [
+- "winapi",
+-]
+-
+ [[package]]
+ name = "winapi-x86_64-pc-windows-gnu"
+ version = "0.4.0"
+@@ -551,7 +644,16 @@ version = "0.45.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "75283be5efb2831d37ea142365f009c02ec203cd29a3ebecbc093d52315b66d0"
+ dependencies = [
+- "windows-targets",
++ "windows-targets 0.42.2",
++]
++
++[[package]]
++name = "windows-sys"
++version = "0.48.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "677d2418bec65e3338edb076e806bc1ec15693c5d0104683f2efe857f61056a9"
++dependencies = [
++ "windows-targets 0.48.0",
+ ]
+ 
+ [[package]]
+@@ -560,13 +662,28 @@ version = "0.42.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "8e5180c00cd44c9b1c88adb3693291f1cd93605ded80c250a75d472756b4d071"
+ dependencies = [
+- "windows_aarch64_gnullvm",
+- "windows_aarch64_msvc",
+- "windows_i686_gnu",
+- "windows_i686_msvc",
+- "windows_x86_64_gnu",
+- "windows_x86_64_gnullvm",
+- "windows_x86_64_msvc",
++ "windows_aarch64_gnullvm 0.42.2",
++ "windows_aarch64_msvc 0.42.2",
++ "windows_i686_gnu 0.42.2",
++ "windows_i686_msvc 0.42.2",
++ "windows_x86_64_gnu 0.42.2",
++ "windows_x86_64_gnullvm 0.42.2",
++ "windows_x86_64_msvc 0.42.2",
++]
++
++[[package]]
++name = "windows-targets"
++version = "0.48.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "7b1eb6f0cd7c80c79759c929114ef071b87354ce476d9d94271031c0497adfd5"
++dependencies = [
++ "windows_aarch64_gnullvm 0.48.0",
++ "windows_aarch64_msvc 0.48.0",
++ "windows_i686_gnu 0.48.0",
++ "windows_i686_msvc 0.48.0",
++ "windows_x86_64_gnu 0.48.0",
++ "windows_x86_64_gnullvm 0.48.0",
++ "windows_x86_64_msvc 0.48.0",
+ ]
+ 
+ [[package]]
+@@ -575,38 +692,80 @@ version = "0.42.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "597a5118570b68bc08d8d59125332c54f1ba9d9adeedeef5b99b02ba2b0698f8"
+ 
++[[package]]
++name = "windows_aarch64_gnullvm"
++version = "0.48.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "91ae572e1b79dba883e0d315474df7305d12f569b400fcf90581b06062f7e1bc"
++
+ [[package]]
+ name = "windows_aarch64_msvc"
+ version = "0.42.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "e08e8864a60f06ef0d0ff4ba04124db8b0fb3be5776a5cd47641e942e58c4d43"
+ 
++[[package]]
++name = "windows_aarch64_msvc"
++version = "0.48.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "b2ef27e0d7bdfcfc7b868b317c1d32c641a6fe4629c171b8928c7b08d98d7cf3"
++
+ [[package]]
+ name = "windows_i686_gnu"
+ version = "0.42.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "c61d927d8da41da96a81f029489353e68739737d3beca43145c8afec9a31a84f"
+ 
++[[package]]
++name = "windows_i686_gnu"
++version = "0.48.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "622a1962a7db830d6fd0a69683c80a18fda201879f0f447f065a3b7467daa241"
++
+ [[package]]
+ name = "windows_i686_msvc"
+ version = "0.42.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "44d840b6ec649f480a41c8d80f9c65108b92d89345dd94027bfe06ac444d1060"
+ 
++[[package]]
++name = "windows_i686_msvc"
++version = "0.48.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "4542c6e364ce21bf45d69fdd2a8e455fa38d316158cfd43b3ac1c5b1b19f8e00"
++
+ [[package]]
+ name = "windows_x86_64_gnu"
+ version = "0.42.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "8de912b8b8feb55c064867cf047dda097f92d51efad5b491dfb98f6bbb70cb36"
+ 
++[[package]]
++name = "windows_x86_64_gnu"
++version = "0.48.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "ca2b8a661f7628cbd23440e50b05d705db3686f894fc9580820623656af974b1"
++
+ [[package]]
+ name = "windows_x86_64_gnullvm"
+ version = "0.42.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "26d41b46a36d453748aedef1486d5c7a85db22e56aff34643984ea85514e94a3"
+ 
++[[package]]
++name = "windows_x86_64_gnullvm"
++version = "0.48.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "7896dbc1f41e08872e9d5e8f8baa8fdd2677f29468c4e156210174edc7f7b953"
++
+ [[package]]
+ name = "windows_x86_64_msvc"
+ version = "0.42.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "9aec5da331524158c6d1a4ac0ab1541149c0b9505fde06423b02f5ef0106b9f0"
++
++[[package]]
++name = "windows_x86_64_msvc"
++version = "0.48.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "1a515f5799fe4961cb532f983ce2b23082366b898e52ffbce459c86f67c8378a"
+diff --git a/Cargo.toml b/Cargo.toml
+index 8591f96..51da0f0 100644
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -11,19 +11,20 @@ repository = "https://github.com/Saluki/arp-scan-rs"
+ keywords = ["arp", "scan", "network", "security"]
+ categories = ["command-line-utilities"]
+ exclude = ["/.semaphore", "/data", "/release.sh", ".*"]
++rust-version = "1.64"
+ 
+ [dependencies]
+ 
+ # CLI & utilities
+-clap = { version = "3.2", default-features = false, features = ["std", "suggestions", "color"] }
++clap = { version = "4.2", default-features = false, features = ["std", "suggestions", "color", "help"] }
+ ansi_term = "0.12"
+ rand = "0.8"
+ ctrlc = "3.2"
+ 
+ # Network
+-pnet = "0.31"
+-pnet_datalink = "0.31"
+-ipnetwork = "0.19"
++pnet = "0.33"
++pnet_datalink = "0.33"
++ipnetwork = "0.20"
+ dns-lookup = "1.0"
+ 
+ # Parsing & exports
+diff --git a/src/args.rs b/src/args.rs
+index e324cdd..8f27aa3 100644
+--- a/src/args.rs
++++ b/src/args.rs
+@@ -5,7 +5,7 @@ use std::sync::Arc;
+ use std::path::Path;
+ use std::fs;
+ 
+-use clap::{Arg, ArgMatches, Command};
++use clap::{Arg, ArgMatches, Command, ArgAction};
+ use ipnetwork::IpNetwork;
+ use pnet_datalink::MacAddr;
+ use pnet::packet::arp::{ArpHardwareType, ArpOperation};
+@@ -44,126 +44,128 @@ const EXAMPLES_HELP: &str = "EXAMPLES:
+  * This function groups together all exposed CLI arguments to the end-users
+  * with clap. Other CLI details (version, ...) should be grouped there as well.
+  */
+-pub fn build_args<'a>() -> Command<'a> {
++pub fn build_args() -> Command {
+ 
+     Command::new("arp-scan")
+         .version(CLI_VERSION)
+         .about("A minimalistic ARP scan tool written in Rust")
+         .arg(
+             Arg::new("profile").short('p').long("profile")
+-                .takes_value(true).value_name("PROFILE_NAME")
++                .value_name("PROFILE_NAME")
+                 .help("Scan profile")
+         )
+         .arg(
+             Arg::new("interface").short('i').long("interface")
+-                .takes_value(true).value_name("INTERFACE_NAME")
++                .value_name("INTERFACE_NAME")
+                 .help("Network interface")
+         )
+         .arg(
+             Arg::new("network").short('n').long("network")
+-                .takes_value(true).value_name("NETWORK_RANGE")
++                .value_name("NETWORK_RANGE")
+                 .help("Network range to scan")
+         )
+         .arg(
+             Arg::new("file").short('f').long("file")
+-                .takes_value(true).value_name("FILE_PATH")
++                .value_name("FILE_PATH")
+                 .conflicts_with("network")
+                 .help("Read IPv4 addresses from a file")
+         )
+         .arg(
+             Arg::new("timeout").short('t').long("timeout")
+-                .takes_value(true).value_name("TIMEOUT_DURATION")
++                .value_name("TIMEOUT_DURATION")
+                 .help("ARP response timeout")
+         )
+         .arg(
+             Arg::new("source_ip").short('S').long("source-ip")
+-                .takes_value(true).value_name("SOURCE_IPV4")
++                .value_name("SOURCE_IPV4")
+                 .help("Source IPv4 address for requests")
+         )
+         .arg(
+             Arg::new("destination_mac").short('M').long("dest-mac")
+-                .takes_value(true).value_name("DESTINATION_MAC")
++                .value_name("DESTINATION_MAC")
+                 .help("Destination MAC address for requests")
+         )
+         .arg(
+             Arg::new("source_mac").long("source-mac")
+-                .takes_value(true).value_name("SOURCE_MAC")
++                .value_name("SOURCE_MAC")
+                 .help("Source MAC address for requests")
+         )
+         .arg(
+             Arg::new("numeric").long("numeric")
+-                .takes_value(false)
++                .action(ArgAction::SetTrue)
+                 .help("Numeric mode, no hostname resolution")
+         )
+         .arg(
+             Arg::new("vlan").short('Q').long("vlan")
+-                .takes_value(true).value_name("VLAN_ID")
++                .value_name("VLAN_ID")
+                 .help("Send using 802.1Q with VLAN ID")
+         )
+         .arg(
+             Arg::new("retry_count").short('r').long("retry")
+-                .takes_value(true).value_name("RETRY_COUNT")
++                .value_name("RETRY_COUNT")
+                 .help("Host retry attempt count")
+         )
+         .arg(
+             Arg::new("random").short('R').long("random")
+-                .takes_value(false)
++                .action(ArgAction::SetTrue)
+                 .help("Randomize the target list")
+         )
+         .arg(
+             Arg::new("interval").short('I').long("interval")
+-                .takes_value(true).value_name("INTERVAL_DURATION")
++                .value_name("INTERVAL_DURATION")
+                 .help("Milliseconds between ARP requests")
+         )
+         .arg(
+             Arg::new("bandwidth").short('B').long("bandwidth")
+-                .takes_value(true).value_name("BITS")
++                .value_name("BITS")
+                 .conflicts_with("interval")
+                 .help("Limit scan bandwidth (bits/second)")
+         )
+         .arg(
+             Arg::new("oui-file").long("oui-file")
+-                .takes_value(true).value_name("FILE_PATH")
++                .value_name("FILE_PATH")
+                 .help("Path to custom IEEE OUI CSV file")
+         )
+         .arg(
+             Arg::new("list").short('l').long("list")
+-                .takes_value(false)
++                .action(ArgAction::SetTrue)
++                .exclusive(true)
+                 .help("List network interfaces")
+         )
+         .arg(
+             Arg::new("output").short('o').long("output")
+-                .takes_value(true).value_name("FORMAT")
++                .value_name("FORMAT")
+                 .help("Define output format")
+         )
+         .arg(
+             Arg::new("hw_type").long("hw-type")
+-                .takes_value(true).value_name("HW_TYPE")
++                .value_name("HW_TYPE")
+                 .help("Custom ARP hardware field")
+         )
+         .arg(
+             Arg::new("hw_addr").long("hw-addr")
+-                .takes_value(true).value_name("ADDRESS_LEN")
++                .value_name("ADDRESS_LEN")
+                 .help("Custom ARP hardware address length")
+         )
+         .arg(
+             Arg::new("proto_type").long("proto-type")
+-                .takes_value(true).value_name("PROTO_TYPE")
++                .value_name("PROTO_TYPE")
+                 .help("Custom ARP proto type")
+         )
+         .arg(
+             Arg::new("proto_addr").long("proto-addr")
+-                .takes_value(true).value_name("ADDRESS_LEN")
++                .value_name("ADDRESS_LEN")
+                 .help("Custom ARP proto address length")
+         )
+         .arg(
+             Arg::new("arp_operation").long("arp-op")
+-                .takes_value(true).value_name("OPERATION_ID")
++                .value_name("OPERATION_ID")
+                 .help("Custom ARP operation ID")
+         )
+         .arg(
+             Arg::new("packet_help").long("packet-help")
+-                .takes_value(false)
++                .action(ArgAction::SetTrue)
++                .exclusive(true)
+                 .help("Print details about an ARP packet")
+         )
+         .after_help(EXAMPLES_HELP)
+@@ -208,7 +210,7 @@ pub struct ScanOptions {
+     pub proto_type: Option<EtherType>,
+     pub proto_addr: Option<u8>,
+     pub arp_operation: Option<ArpOperation>,
+-    pub packet_help: bool
++    pub packet_help: bool,
+ }
+ 
+ impl ScanOptions {
+@@ -336,7 +338,7 @@ impl ScanOptions {
+         };
+ 
+         // Hostnames will not be resolved in numeric mode or stealth profile
+-        let resolve_hostname = !matches.contains_id("numeric") && !matches!(profile, ProfileType::Stealth);
++        let resolve_hostname = !matches.get_flag("numeric") && !matches!(profile, ProfileType::Stealth);
+ 
+         let source_ipv4: Option<Ipv4Addr> = match matches.get_one::<String>("source_ip") {
+             Some(source_ip) => {
+@@ -430,7 +432,7 @@ impl ScanOptions {
+             None => OutputFormat::Plain
+         };
+ 
+-        let randomize_targets = matches.contains_id("random") || matches!(profile, ProfileType::Stealth | ProfileType::Chaos);
++        let randomize_targets = matches.get_flag("random") || matches!(profile, ProfileType::Stealth | ProfileType::Chaos);
+ 
+         let oui_file: String = match matches.get_one::<String>("oui-file") {
+             Some(file) => file.to_string(),
+@@ -507,7 +509,7 @@ impl ScanOptions {
+             None => None
+         };
+ 
+-        let packet_help = matches.contains_id("packet_help");
++        let packet_help = matches.get_flag("packet_help");
+     
+         Arc::new(ScanOptions {
+             profile,
+@@ -529,7 +531,7 @@ impl ScanOptions {
+             proto_type,
+             proto_addr,
+             arp_operation,
+-            packet_help
++            packet_help,
+         })
+     }
+ 
+diff --git a/src/main.rs b/src/main.rs
+index 5b40a2b..3d3a1f0 100644
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -27,7 +27,7 @@ fn main() {
+ 
+     let interfaces = pnet_datalink::interfaces();
+ 
+-    if matches.contains_id("list") {
++    if matches.get_flag("list") {
+         utils::show_interfaces(&interfaces);
+         process::exit(0);
+     }
+diff --git a/src/network.rs b/src/network.rs
+index 70ffa4b..0b2edda 100644
+--- a/src/network.rs
++++ b/src/network.rs
+@@ -136,7 +136,7 @@ pub fn compute_scan_estimation(host_count: u128, options: &Arc<ScanOptions>) ->
+         ScanTiming::Bandwidth(bandwidth) => {
+ 
+             let bandwidth_lg: u128 = bandwidth.into();
+-            let request_phase_ms: u128 = (request_size * 1000) as u128 / bandwidth_lg;
++            let request_phase_ms: u128 = (request_size * 1000) / bandwidth_lg;
+             let interval_ms: u128 = (request_phase_ms/retry_count/host_count) - avg_arp_request_ms;
+             
+             (interval_ms.try_into().unwrap(), bandwidth_lg, request_phase_ms)
+@@ -432,7 +432,7 @@ pub fn receive_arp_responses(rx: &mut Box<dyn DataLinkReceiver>, options: Arc<Sc
+ 
+     // For each target found, enhance each item with additional results
+     // results such as the hostname & MAC vendor.
+-    let target_details = discover_map.into_iter().map(|(_, mut target_detail)| {
++    let target_details = discover_map.into_values().map(|mut target_detail| {
+ 
+         if options.resolve_hostname {
+             target_detail.hostname = find_hostname(target_detail.ipv4);
+diff --git a/src/time.rs b/src/time.rs
+index 8f7f25c..ae662ef 100644
+--- a/src/time.rs
++++ b/src/time.rs
+@@ -66,7 +66,7 @@ pub fn format_milliseconds(milliseconds: u128) -> String {
+     }
+ 
+     let hours: u128 = milliseconds / 1000 / 60 / 60;
+-    return format!("{}h", hours);
++    format!("{}h", hours)
+ }
+ 
+ #[cfg(test)]
+-- 
+2.30.2
+
