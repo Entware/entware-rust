@@ -1,0 +1,22 @@
+# DB builds ~20h
+
+--- a/build.rs
++++ b/build.rs
+@@ -164,7 +164,7 @@ fn save_to_database(
+     target_directory_path: &Path,
+     unicode_char_data_map: BTreeMap<u32, UnicodeCharData>,
+ ) {
+-    let database_path = target_directory_path.join(DATABASE_FILE_NAME);
++    let database_path = "chr.db";
+     let database = Connection::open(database_path).expect("Database could not be created");
+ 
+     database
+@@ -213,7 +213,7 @@ fn save_to_database(
+ }
+ 
+ fn compress_database(target_directory_path: &Path) {
+-    let database_path = target_directory_path.join(DATABASE_FILE_NAME);
++    let database_path = "chr.db";
+     let database_file =
+         File::open(database_path).expect("Database file could not be opened for compression");
+     let mut database_reader = BufReader::new(database_file);
