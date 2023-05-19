@@ -1,0 +1,34 @@
+--- a/src/arch_linux/mod.rs
++++ b/src/arch_linux/mod.rs
+@@ -18,10 +18,10 @@ use wg_dev_linuxkernel::WireguardDeviceL
+ pub struct ArchitectureLinux {}
+ impl Architecture for ArchitectureLinux {
+     fn default_path_to_network_yaml() -> &'static str {
+-        "/etc/wg_netmanager/network.yaml"
++        "/opt/etc/wg_netmanager/network.yaml"
+     }
+     fn default_path_to_peer_yaml() -> &'static str {
+-        "/etc/wg_netmanager/peer.yaml"
++        "/opt/etc/wg_netmanager/peer.yaml"
+     }
+     fn ipv4v6_socket_setup() -> (bool, bool, bool) {
+         // for sysctl net.ipv6.bindv6only=0 systems like linux: ipv6 socket reads/sends ipv4 messages
+@@ -35,6 +35,7 @@ impl Architecture for ArchitectureLinux
+     }
+     fn command_install(matches: &ArgMatches, static_config: StaticConfiguration) -> BoxResult<()> {
+         let kill_candidates = [
++            "/opt/bin/kill",
+             "/run/current-system/sw/bin/kill",
+             "/bin/kill",
+             "/usr/bin/kill",
+--- a/src/arch_linux/wg_dev_linuxkernel.rs
++++ b/src/arch_linux/wg_dev_linuxkernel.rs
+@@ -78,7 +78,7 @@ impl WireguardDeviceLinux {
+         debug!(target: "wireguard", "Update configuration: {}", conf);
+         let wg_cmd = if set_new { "setconf" } else { "syncconf" };
+ 
+-        let args = vec!["mktemp", "/tmp/wg_XXXXXXXXXX"];
++        let args = vec!["mktemp", "/opt/tmp/wg_XXXXXXXXXX"];
+         let output = self.execute_command(args, None)?;
+         let tmpfname = String::from_utf8_lossy(&output.stdout);
+         let fname = tmpfname.trim();
