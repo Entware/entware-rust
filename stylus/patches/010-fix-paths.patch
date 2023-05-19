@@ -1,0 +1,66 @@
+--- a/src/config/mod.rs
++++ b/src/config/mod.rs
+@@ -220,21 +220,21 @@ mod test {
+     #[test]
+     fn deserialize_monitor_test() -> Result<(), Box<dyn Error>> {
+         let config = parse_monitor_config_string(
+-            &Path::new("/tmp/test.yaml"),
++            &Path::new("/opt/tmp/test.yaml"),
+             r#"
+ # Explicitly set the id here
+ id: router
+ test:
+     interval: 60s
+     timeout: 30s
+-    command: /bin/sleep
++    command: /opt/bin/sleep
+           "#
+             .into(),
+         )?;
+ 
+         match config.root {
+             MonitorDirRootConfig::Test(test) => {
+-                assert_eq!(test.command, Path::new("/bin/sleep").canonicalize()?)
++                assert_eq!(test.command, Path::new("/opt/bin/sleep").canonicalize()?)
+             }
+             _ => panic!(""),
+         }
+@@ -245,7 +245,7 @@ test:
+     #[test]
+     fn deserialize_monitor_group() -> Result<(), Box<dyn Error>> {
+         let config = parse_monitor_config_string(
+-            &Path::new("/tmp/test.yaml"),
++            &Path::new("/opt/tmp/test.yaml"),
+             r#"
+ # Explicitly set the id here
+ id: router
+@@ -257,14 +257,14 @@ group:
+     test:
+         interval: 60s
+         timeout: 30s
+-        command: /bin/sleep
++        command: /opt/bin/sleep
+           "#
+             .into(),
+         )?;
+ 
+         match config.root {
+             MonitorDirRootConfig::Group(group) => {
+-                assert_eq!(group.test.command, Path::new("/bin/sleep").canonicalize()?)
++                assert_eq!(group.test.command, Path::new("/opt/bin/sleep").canonicalize()?)
+             }
+             _ => panic!(""),
+         }
+--- a/src/worker/mod.rs
++++ b/src/worker/mod.rs
+@@ -293,8 +293,8 @@ mod tests {
+         let (tx, rx) = channel();
+         monitor_thread_impl(
+             &"test".to_owned(),
+-            Path::new("/bin/sleep"),
+-            Path::new("/tmp"),
++            Path::new("/opt/bin/sleep"),
++            Path::new("/opt/tmp"),
+             Some(&["10"]),
+             Duration::from_millis(250),
+             &mut |_, m| {
