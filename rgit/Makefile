@@ -3,6 +3,9 @@
 # mips(el)/armv5:
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 #	error: could not compile `moka` due to previous error
+# i386:
+#	error[E0599]: no function or associated item named `new` found for struct `CpuId` in the current scope
+#	error: could not compile `quanta` due to 2 previous errors
 
 include $(TOPDIR)/rules.mk
 
@@ -27,7 +30,7 @@ define Package/rgit
   SUBMENU:=Version Control Systems
   TITLE:=a gitweb interface written in rust
   URL:=https://github.com/w4/rgit
-  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2) +libopenssl +zlib
+  DEPENDS:=@!(i386||mips||mipsel||TARGET_armv5_3_2) +libopenssl +zlib
 endef
 
 define Package/rgit/description
