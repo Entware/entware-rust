@@ -7,23 +7,25 @@ fi
 PACKAGES_FEED="./feeds/packages"
 PATCH_DIR="./feeds/rust/_patches"
 PATCH_BUILDROOT="$PATCH_DIR/tools-openssl-add-as-dependency.patch"
-#PATCH_PACKAGES="$PATCH_DIR/lang-python-python-cryptography-disable.patch"
 STAMP_BUILDROOT="$PATCH_DIR/.buildroot-patched"
 STAMP_PACKAGES="$PATCH_DIR/.packages-patched"
 
+OWRT_MATURIN="$PACKAGES_FEED/lang/maturin"
+OWRT_RIPGREP="$PACKAGES_FEED/utils/ripgrep"
 PY_BCRYPT="$PACKAGES_FEED/lang/python/bcrypt"
 PY_CRYPT="$PACKAGES_FEED/lang/python/python-cryptography"
 
 backup()
 {
-# openssl
+# tools/{Makefile,cmake,openssl}
 if [ ! -f $STAMP_BUILDROOT ]; then
   patch -p1 -b -d . < $PATCH_BUILDROOT
   touch $STAMP_BUILDROOT
 fi
-# python-cryptography
+# bcrypt maturin python-cryptography ripgrep
 if [ ! -f $STAMP_PACKAGES ]; then
-#  patch -p1 -b -d $PACKAGES_FEED < $PATCH_PACKAGES
+  mv $OWRT_MATURIN/Makefile $OWRT_MATURIN/Makefile.orig
+  mv $OWRT_RIPGREP/Makefile $OWRT_RIPGREP/Makefile.orig
   mv $PY_BCRYPT/Makefile $PY_BCRYPT/Makefile.orig
   mv $PY_CRYPT/Makefile $PY_CRYPT/Makefile.orig
   touch $STAMP_PACKAGES
@@ -32,23 +34,23 @@ fi
 
 check()
 {
-# openssl
+# tools/{Makefile,cmake,openssl}
 patch -p1 --dry-run -d . < $PATCH_BUILDROOT
-# python-cryptography
-#patch -p1 --dry-run -d $PACKAGES_FEED < $PATCH_PACKAGES
 }
 
 recovery()
 {
-# openssl
+# tools/{Makefile,cmake,openssl}
 if [ -f $STAMP_BUILDROOT ]; then
   patch -p1 -R -d . < $PATCH_BUILDROOT
   rm -fr $STAMP_BUILDROOT ./tools/openssl ./tools/Makefile.orig
+  rm -f ./tools/cmake/patches/500-curl-fix-libdl-linking.patch.orig
 fi
-# python-cryptography 
+# bcrypt maturin python-cryptography ripgrep
 if [ -f $STAMP_PACKAGES ]; then
-#  patch -p1 -R -d $PACKAGES_FEED < $PATCH_PACKAGES
   rm $STAMP_PACKAGES
+  mv $OWRT_MATURIN/Makefile.orig $OWRT_MATURIN/Makefile
+  mv $OWRT_RIPGREP/Makefile.orig $OWRT_RIPGREP/Makefile
   mv $PY_BCRYPT/Makefile.orig $PY_BCRYPT/Makefile
   mv $PY_CRYPT/Makefile.orig $PY_CRYPT/Makefile
 fi
