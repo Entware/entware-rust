@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python3-cryptography
 PKG_VERSION:=40.0.2
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PYPI_NAME:=cryptography
 PKG_HASH:=c33c0d32b8594fa647d2e01dbccc303478e16fdd7cf98652d5b3ed11aa5e5c99
@@ -12,14 +12,16 @@ PKG_HASH:=c33c0d32b8594fa647d2e01dbccc303478e16fdd7cf98652d5b3ed11aa5e5c99
 PKG_LICENSE:=Apache-2.0 BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE LICENSE.APACHE LICENSE.BSD LICENSE.PSF
 
-PKG_BUILD_DEPENDS:=libffi/host
-
-HOST_PYTHON3_PACKAGE_BUILD_DEPENDS:=cffi ./setuptools-rust.txt # cffi>=1.12
-
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
 include ../rust.mk
+
+PKG_BUILD_DEPENDS += \
+	libffi/host \
+	python-cffi/host \
+	python-setuptools-rust/host \
+	python-wheel/host
 
 define Package/python3-cryptography
   SECTION:=lang
@@ -46,7 +48,9 @@ RUSTFLAGS += -C relocation-model=pic
 PYTHON3_PKG_SETUP_VARS += \
 	CARGO_BUILD_TARGET="$(RUST_TARGET_TRIPLE)" \
 	CARGO_HOME="$(CARGO_HOME)" \
-	RUSTFLAGS="$(RUSTFLAGS)"
+	RUSTFLAGS="$(RUSTFLAGS)" \
+	PYO3_CROSS_LIB_DIR=$(STAGING_DIR)/opt/lib \
+	PYO3_CROSS_PYTHON_VERSION=$(PYTHON3_VERSION)
 
 $(eval $(call Py3Package,python3-cryptography))
 $(eval $(call BuildPackage,python3-cryptography))
