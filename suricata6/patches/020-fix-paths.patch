@@ -102,7 +102,7 @@
  
 --- a/src/stream-tcp.c
 +++ b/src/stream-tcp.c
-@@ -7647,7 +7647,7 @@ static const char *dummy_conf_string =
+@@ -7650,7 +7650,7 @@ static const char *dummy_conf_string =
      "%YAML 1.1\n"
      "---\n"
      "\n"
@@ -111,7 +111,7 @@
      "\n"
      "logging:\n"
      "\n"
-@@ -7670,7 +7670,7 @@ static const char *dummy_conf_string1 =
+@@ -7673,7 +7673,7 @@ static const char *dummy_conf_string1 =
      "%YAML 1.1\n"
      "---\n"
      "\n"
