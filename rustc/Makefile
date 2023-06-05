@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.69.0
+PKG_VERSION:=1.70.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=e533c903820b0c2ba10491b70105149d2243348f3b5e26bd7b6bdd022c7dbe75
+PKG_HASH:=bb8e9c564566b2d3228d95de9063a9254182446a161353f1d843bfbaf5c34639
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -49,7 +49,6 @@ define Build/Configure
 		echo 'targets = "AArch64;ARM;Mips;X86"'; \
 		echo 'experimental-targets = ""'; \
 		echo 'download-ci-llvm = false'; \
-		echo 'skip-rebuild = true'; \
 		echo 'allow-old-toolchain = true'; \
 		echo 'link-shared = false'; \
 		echo 'cflags = "-pthread"'; \
@@ -79,7 +78,8 @@ define Build/Configure
 		echo 'vendor = true'; \
 		echo 'full-bootstrap = false'; \
 		echo 'extended = true'; \
-		echo 'tools = ["cargo", "clippy", "rustfmt"]'; \
+		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt",]'; \
+		echo 'cargo-native-static = true'; \
 		echo 'verbose = 0'; \
 		echo 'local-rebuild = false'; \
 		echo '[install]'; \
@@ -129,30 +129,15 @@ define Build/Install
 	)
 endef
 
-# FIXME dynlink
-define FixPostInstall
-	for f in cargo* clippy-driver rustc rustfmt; do \
-		patchelf --set-interpreter /opt/lib/$(DYNLINKER) \
-		$(PKG_INSTALL_DIR)/opt/bin/$$$$f; \
-	done
-
-	patchelf --set-interpreter /opt/lib/$(DYNLINKER) \
-		$(PKG_INSTALL_DIR)/opt/libexec/cargo-credential-1password
-endef
-
-Hooks/Install/Post += FixPostInstall
-
 define Package/rustc/install
 	$(INSTALL_DIR) $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/cargo{,-clippy,-fmt} $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/clippy-driver $(1)/opt/bin
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/rust{c,fmt} $(1)/opt/bin
-
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/rust{c,doc,fmt} $(1)/opt/bin
 	$(INSTALL_DIR) $(1)/opt/lib/rustlib/$(RUST_TARGET_TRIPLE)
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/lib*.so $(1)/opt/lib
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/rustlib/$(RUST_TARGET_TRIPLE)/lib \
 		$(1)/opt/lib/rustlib/$(RUST_TARGET_TRIPLE)
-
 	$(INSTALL_DIR) $(1)/opt/libexec
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/libexec/cargo-credential-1password \
 		$(1)/opt/libexec
