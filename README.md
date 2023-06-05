@@ -5,7 +5,7 @@ Rust packages feed
 
 1. Добавляем фид в конфиг:
 ```
-echo 'src-git-full rust https://github.com/The-BB/entware-rust.git' >> feeds.conf
+echo 'src-git rust https://github.com/The-BB/entware-rust.git' >> feeds.conf
 ```
 2. Обновляем фид:
 ```
