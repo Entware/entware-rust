@@ -2,16 +2,16 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=rustc-dev
-PKG_VERSION:=1.69.0
+PKG_NAME:=rustc
+PKG_VERSION:=1.70.0
 PKG_RELEASE:=1
 
-PKG_SOURCE:=rustc-$(PKG_VERSION)-src.tar.xz
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=e533c903820b0c2ba10491b70105149d2243348f3b5e26bd7b6bdd022c7dbe75
+PKG_HASH:=bb8e9c564566b2d3228d95de9063a9254182446a161353f1d843bfbaf5c34639
 
-HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-$(PKG_VERSION)
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-dev-$(PKG_VERSION)
+PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-dev-$(PKG_VERSION)
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -135,7 +135,6 @@ define Build/Configure
 		echo 'profile = "library"'; \
 		echo '[llvm]'; \
 		echo 'download-ci-llvm = false'; \
-		echo 'skip-rebuild = true'; \
 		echo 'allow-old-toolchain = true'; \
 		echo '[build]'; \
 		echo 'host = ["$(RUST_TARGET_TRIPLE)"]'; \
