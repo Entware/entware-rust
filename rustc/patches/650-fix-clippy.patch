@@ -1,0 +1,24 @@
+duplicate artifacts found when compiling a tool, this typically means that something was recompiled
+because a transitive dependency has different features activated than in a previous build:
+
+the following dependencies have different features:
+  syn 2.0.8 (registry+https://github.com/rust-lang/crates.io-index)
+    `clippy-driver` additionally enabled features {"full"} at ".../stage2-tools/*/libsyn-*.rlib"
+    `cargo` additionally enabled features {} at ".../stage2-tools/*/libsyn-*.rlib"
+
+to fix this you will probably want to edit the local src/tools/rustc-workspace-hack/Cargo.toml crate,
+as that will update the dependency graph to ensure that these crates all share the same feature set
+thread 'main' panicked at 'tools should not compile multiple copies of the same crate', tool.rs:250:13
+
+
+--- a/src/bootstrap/tool.rs
++++ b/src/bootstrap/tool.rs
+@@ -124,7 +124,7 @@ impl Step for ToolBuild {
+         let is_expected = compile::stream_cargo(builder, cargo, vec![], &mut |msg| {
+             // Only care about big things like the RLS/Cargo for now
+             match tool {
+-                "rls" | "cargo" | "clippy-driver" | "miri" | "rustfmt" => {}
++                "rls" | "cargo" | "clippy" | "miri" | "rustfmt" => {}
+ 
+                 _ => return,
+             }

@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
 PKG_VERSION:=1.70.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
@@ -79,7 +79,6 @@ define Build/Configure
 		echo 'full-bootstrap = false'; \
 		echo 'extended = true'; \
 		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt",]'; \
-		echo 'cargo-native-static = true'; \
 		echo 'verbose = 0'; \
 		echo 'local-rebuild = false'; \
 		echo '[install]'; \
