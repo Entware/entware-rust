@@ -1,8 +1,5 @@
 # SPDX-License-Identifier: WTFPL
 
-# armv5/armv7:
-#	error: failed to run custom build command for `libz-sys v1.1.8`
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hck
@@ -24,12 +21,15 @@ define Package/hck
   CATEGORY:=Utilities
   TITLE:=a sharp cut(1) clone
   URL:=https://github.com/sstadick/hck
-  DEPENDS:=@!arm
 endef
 
 define Package/hck/description
   hck is a shortening of hack, a rougher form of cut.
 endef
+
+ifeq ($(CONFIG_arm),y)
+TARGET_CFLAGS += -mfloat-abi=softfp
+endif
 
 define Package/hck/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
