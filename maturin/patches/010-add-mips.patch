@@ -8,7 +8,7 @@
      Mips64el,
      Mipsel,
      Sparc64,
-@@ -89,6 +90,7 @@ impl fmt::Display for Arch {
+@@ -90,6 +91,7 @@ impl fmt::Display for Arch {
              Arch::S390X => write!(f, "s390x"),
              Arch::Wasm32 => write!(f, "wasm32"),
              Arch::Riscv64 => write!(f, "riscv64"),
@@ -16,7 +16,7 @@
              Arch::Mips64el => write!(f, "mips64el"),
              Arch::Mipsel => write!(f, "mipsel"),
              Arch::Sparc64 => write!(f, "sparc64"),
-@@ -110,6 +112,7 @@ impl Arch {
+@@ -112,6 +114,7 @@ impl Arch {
              Arch::X86 => "i386",
              Arch::X86_64 => "amd64",
              Arch::Riscv64 => "riscv",
@@ -24,7 +24,7 @@
              Arch::Mips64el | Arch::Mipsel => "mips",
              // sparc64 is unsupported since FreeBSD 13.0
              Arch::Sparc64 => "sparc64",
-@@ -133,6 +136,7 @@ fn get_supported_architectures(os: &Os)
+@@ -136,6 +139,7 @@ fn get_supported_architectures(os: &Os)
              Arch::X86,
              Arch::X86_64,
              Arch::Riscv64,
@@ -32,7 +32,7 @@
              Arch::Mips64el,
              Arch::Mipsel,
              Arch::Sparc64,
-@@ -240,6 +244,7 @@ impl Target {
+@@ -244,6 +248,7 @@ impl Target {
              Architecture::S390x => Arch::S390X,
              Architecture::Wasm32 => Arch::Wasm32,
              Architecture::Riscv64(_) => Arch::Riscv64,
@@ -40,7 +40,7 @@
              Architecture::Mips64(Mips64Architecture::Mips64el) => Arch::Mips64el,
              Architecture::Mips32(Mips32Architecture::Mipsel) => Arch::Mipsel,
              Architecture::Sparc64 => Arch::Sparc64,
-@@ -320,6 +325,7 @@ impl Target {
+@@ -325,6 +330,7 @@ impl Target {
              Arch::Wasm32 => "wasm32",
              Arch::Riscv64 => "riscv64",
              // It's kinda surprising that Python doesn't include the `el` suffix
@@ -48,7 +48,7 @@
              Arch::Mips64el => "mips64",
              Arch::Mipsel => "mips",
              Arch::Sparc64 => "sparc64",
-@@ -363,6 +369,7 @@ impl Target {
+@@ -369,6 +375,7 @@ impl Target {
              Arch::Armv6L
              | Arch::Wasm32
              | Arch::Riscv64
@@ -56,7 +56,7 @@
              | Arch::Mips64el
              | Arch::Mipsel
              | Arch::Powerpc
-@@ -385,6 +392,7 @@ impl Target {
+@@ -393,6 +400,7 @@ impl Target {
              | Arch::Armv7L
              | Arch::X86
              | Arch::Wasm32
