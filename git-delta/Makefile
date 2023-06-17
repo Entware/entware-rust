@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=delta
-PKG_VERSION:=0.15.1
+PKG_VERSION:=0.16.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/dandavison/delta/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=b9afd2f80ae1d57991a19832d6979c7080a568d42290a24e59d6a2a82cbc1728
+PKG_HASH:=00d4740e9da4f543f34a2a0503615f8190d307d1180dfb753b6911aa6940197f
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -24,7 +24,7 @@ define Package/git-delta
   TITLE:=a syntax-highlighting pager for git
   URL:=https://github.com/dandavison/delta
   DEPENDS:=+zlib
-  EXTRA_DEPENDS:=git less
+  EXTRA_DEPENDS:=git, less
 endef
 
 define Package/git-delta/description
