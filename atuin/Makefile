@@ -3,19 +3,18 @@
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
 # armv5:
-#	error[E0432]: unresolved imports `core::sync::atomic::AtomicI64`, `core::sync::atomic::AtomicU64`
-#	error[E0412]: cannot find type `AtomicU64` in module `core::sync::atomic`
-#	error: could not compile `crossbeam-utils` due to 3 previous errors
+#	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
+#	error: could not compile `sqlx-core` (lib) due to previous error
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=atuin
-PKG_VERSION:=14.0.1
+PKG_VERSION:=15.0.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ellie/atuin/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=00ba6eea19f11b3f73652e71af69b3dc7eb221761519f3b9680047f5476915b4
+PKG_HASH:=ad5236aa1352b469ed108486efa448bd73ea2670432cf66de043aabfadb04b89
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
