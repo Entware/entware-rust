@@ -2,21 +2,19 @@
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=coreutils-rs
-PKG_VERSION:=0.0.18
+PKG_NAME:=coreutils
+PKG_VERSION:=0.0.19
 PKG_RELEASE:=1
 
-PKG_SOURCE:=coreutils-$(PKG_VERSION).tar.gz
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/uutils/coreutils/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=1eed6317763c2fad1283bac057b25eae81a61fd8f364b814f20e1aaa32d16f8d
+PKG_HASH:=c21564fbbe0d4742290f98badaebfec54177c42dbfe755c30997a088d9897060
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 include ../cargo.mk
-
-PKG_UNPACK:=$(HOST_TAR) -C "$(PKG_BUILD_DIR)" --strip-components=1 -xzf "$(DL_DIR)/$(PKG_SOURCE)"
 
 # XXX without:  chcon & runcon (depends on SELinux);
 #		stdbuf (fail to compile on several platforms).
@@ -46,43 +44,45 @@ COREUTILS_APPS:= \
 	wc who whoami \
 	yes
 
-define Package/coreutils-rs/Default
+define Package/uutils-coreutils/Default
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=The GNU coreutils, written in Rust
   URL:=https://github.com/uutils/coreutils
 endef
 
-define Package/coreutils-apps
-  $(call Package/coreutils-rs/Default)
+define Package/uutils-coreutils-apps
+  $(call Package/uutils-coreutils/Default)
   TITLE+=(multicall)
   VARIANT:=apps
 endef
 
-define Package/coreutils-full
-  $(call Package/coreutils-rs/Default)
+define Package/uutils-coreutils-full
+  $(call Package/uutils-coreutils/Default)
   MENU:=1
   VARIANT:=full
 endef
 
 define GenBins
  define Package/$(1)
-  $$(call Package/coreutils-rs/Default)
-   DEPENDS:=coreutils-full
+  $$(call Package/uutils-coreutils/Default)
+   DEPENDS:=uutils-coreutils-full
    TITLE:=Utility $(2) from the Rust coreutils
  endef
 
  define Package/$(1)/description
-  uutils is an attempt at writing universal (as in cross-platform)
-  CLI utilities in Rust.
+  uutils coreutils is a cross-platform reimplementation of the GNU coreutils
+  in Rust. While all programs have been implemented, some options might be
+  missing or different behavior might be experienced.
  endef
 endef
 
-$(foreach b,$(COREUTILS_APPS),$(eval $(call GenBins,coreutils-full-$(b),$(b))))
+$(foreach b,$(COREUTILS_APPS),$(eval $(call GenBins,uutils-coreutils-$(b),$(b))))
 
-define Package/coreutils-apps/description
-  uutils is an attempt at writing universal (as in cross-platform)
-  CLI utilities in Rust.
+define Package/uutils-coreutils-apps/description
+  uutils coreutils is a cross-platform reimplementation of the GNU coreutils
+  in Rust. While all programs have been implemented, some options might be
+  missing or different behavior might be experienced.
   (multicall)
 endef
 
@@ -95,7 +95,7 @@ RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
 
 ifeq ($(BUILD_VARIANT),apps)
-  define Package/coreutils-apps/install
+  define Package/uutils-coreutils-apps/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/coreutils $(1)/opt/usr/bin
 
@@ -115,7 +115,7 @@ else
 	done
   endef
 
-  define Package/coreutils-full/install
+  define Package/uutils-coreutils-full/install
 	true
   endef
 
@@ -129,7 +129,7 @@ else
   endef
 endif
 
-$(eval $(call BuildPackage,coreutils-full))
-$(foreach b,$(COREUTILS_APPS),$(eval $(call InstallBins,coreutils-full-$(b),$(b))))
+$(eval $(call BuildPackage,uutils-coreutils-full))
+$(foreach b,$(COREUTILS_APPS),$(eval $(call InstallBins,uutils-coreutils-$(b),$(b))))
 
-$(eval $(call BuildPackage,coreutils-apps))
+$(eval $(call BuildPackage,uutils-coreutils-apps))
