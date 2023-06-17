@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=helix
-PKG_VERSION:=23.03
+PKG_VERSION:=23.05
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/helix-editor/helix/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=5f9df93c8d98fd4bd13329c0aaf978e74887a0f6022d699ff6161dcee78e8655
+PKG_HASH:=65da9de40ebd275a9be9a2491b7ec35f1aec9e9259e95216ad7f812d2b8627f9
 
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
