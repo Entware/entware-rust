@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
-PKG_VERSION:=0.79.0
+PKG_VERSION:=0.81.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=cbabc26ce509c672db943f3ac6d44d1e3efbafc3b5929411ac209afe14848ef7
+PKG_HASH:=7618f98c0ad7d824e8899351c394e77df1ca72f440a80f854b215a7a581fa2be
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
