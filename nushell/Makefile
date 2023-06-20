@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: WTFPL
 
+# XXX mips(el)/arm:
+#	Some errors have detailed explanations: E0412, E0425, E0432, E0433, E0599.
+#	For more information about an error, try `rustc --explain E0412`.
+#	error: could not compile `simd-json` (lib) due to 149 previous errors
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
@@ -28,7 +33,7 @@ endef
 
 define Package/nushell
   $(call Package/nushell/Default)
-  DEPENDS:=+libopenssl +zlib
+  DEPENDS:=+libopenssl +zlib @!(arm||mips||mipsel)
   EXTRA_DEPENDS:=git-http
   MENU:=1
 endef
@@ -93,14 +98,9 @@ endef
 #/opt/root/.config/nushell/plugin.nu
 #endef
 
-# FIXME
-# mips(el)/armv(5/7)
-#	Some errors have detailed explanations: E0412, E0425, E0432, E0433, E0599.
-#	For more information about an error, try `rustc --explain E0412`.
-#	error: could not compile `simd-json` due to 149 previous errors
 CARGO_ARGS += \
 	--workspace \
-	$(if $(or $(CONFIG_arm),$(CONFIG_mips),$(CONFIG_mipsel)),,--features dataframe)
+	--features dataframe
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
