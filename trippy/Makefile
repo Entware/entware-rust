@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: WTFPL
 
+# XXX mips(el)/armv5:
+#	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
+#	error: could not compile `tracing-chrome` (lib) due to previous error
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=trippy
@@ -21,6 +25,7 @@ define Package/trippy
   CATEGORY:=Network
   TITLE:=A network diagnostic tool
   URL:=https://github.com/fujiapple852/trippy
+  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2)
 endef
 
 define Package/trippy/description
