@@ -1,0 +1,14 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -9,8 +9,8 @@ version = "0.2.5"
+ 
+ [dependencies]
+ nu-ansi-term = "0.46.0"
+-nu-plugin = "0.76.0"
+-nu-protocol = { version = "0.76.0", features = ["plugin"]}
+-nu-engine = "0.76.0"
++nu-plugin = { path = "../nushell/crates/nu-plugin" }
++nu-protocol = { path = "../nushell/crates/nu-protocol", features = ["plugin"] }
++nu-engine = { path = "../nushell/crates/nu-engine" }
+ indexmap = "1.9.2"
+ periodic-table-on-an-enum = "0.3.2"
