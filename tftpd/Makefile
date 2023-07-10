@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tftpd
-PKG_VERSION:=0.2.2
+PKG_VERSION:=0.2.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/altugbakan/rs-tftpd/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=1673371cc6a9b5997abc80f23db04bd7d7942106ad9af320186f2fe4fc3b36d6
+PKG_HASH:=da6121c6e9e4a470beff32d2ac7034e9d2106df72035f0a59a5392630f8bf5e0
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
