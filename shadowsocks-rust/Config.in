@@ -58,10 +58,11 @@ choice
 
 	config SS_RUST_LOCAL_HTTP_NATIVE_TLS
 		bool "Support HTTPS with native-tls"
+		depends on SS_RUST_LOCAL_HTTP
 
 	config SS_RUST_LOCAL_HTTP_RUSTLS
 		bool "Support HTTPS with rustls"
-		depends on !(mips||mipsel)  # depends on "ring"
+		depends on SS_RUST_LOCAL_HTTP && !(mips||mipsel) # depends on "ring"
 
 endchoice
 
