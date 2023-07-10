@@ -16,9 +16,9 @@ PKG_RELEASE:=1
 PKG_HASH:=6331fe7abeee87b7188639c0ed18ebdb288f188a6de1d12b9f4f046f595cf8ce
 PATCH_DIR:=
 else
-PKG_VERSION:=0.81.0
+PKG_VERSION:=0.82.0
 PKG_RELEASE:=1
-PKG_HASH:=7618f98c0ad7d824e8899351c394e77df1ca72f440a80f854b215a7a581fa2be
+PKG_HASH:=587847feeb9fc06eb2a9da5ff05ffea5238fe5928ebea944c042838d8ad136e8
 endif
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
@@ -105,7 +105,7 @@ config NU_0_80_0
 	bool
 	default y if !(aarch64||i386||x86_64)
 
-config NU_0_81_0
+config NU_0_82_0
 	bool
 	default y if !(arm||mips||mipsel)
 endef
@@ -124,7 +124,7 @@ Hooks/Compile/Post += NushellDir
 
 CARGO_ARGS += \
 	--workspace \
-	$(if $(CONFIG_NU_0_81_0),--features dataframe)
+	$(if $(CONFIG_NU_0_82_0),--features dataframe)
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
