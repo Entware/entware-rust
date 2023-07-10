@@ -6,12 +6,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=termscp
-PKG_VERSION:=0.12.0
+PKG_VERSION:=0.12.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/veeso/termscp/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=27e0823b1d2a015b2cf4f2188dd699a80c00832f086a96dcec2e777deff6c9e6
+PKG_HASH:=6c0ae86db982cc537564bd8a4b9746365f96d3a7f6f5b002da61fcc382e852e6
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -34,6 +34,11 @@ define Package/termscp/description
   termscp is a feature rich terminal file transfer
   and explorer with support for SCP/SFTP/FTP/S3.
 endef
+
+# FIXME
+#	error: failed to run custom build command for `pavao v0.2.3`
+#	error: could not find system library 'smbclient' required by the 'pavao' crate
+CARGO_ARGS += --no-default-features --features with-keyring
 
 # FIXME
 #	error: failed to run custom build command for `openssl-sys v0.9.87`
