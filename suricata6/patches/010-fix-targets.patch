@@ -11,7 +11,7 @@
  all-local:
 --- a/rust/Makefile.in
 +++ b/rust/Makefile.in
-@@ -341,7 +341,7 @@ EXTRA_DIST = src .cargo/config.in cbindg
+@@ -342,7 +342,7 @@ EXTRA_DIST = src .cargo/config.in cbindg
  	$(am__append_1)
  @DEBUG_FALSE@RELEASE = --release
  @RUST_BUILD_STD_TRUE@NIGHTLY_ARGS = -Z build-std
@@ -22,7 +22,7 @@
  .SUFFIXES:
 --- a/configure
 +++ b/configure
-@@ -29130,8 +29130,8 @@ esac
+@@ -29131,8 +29131,8 @@ esac
      have_rust_vendor="no"
  
      if test "x$cross_compiling" = "xyes"; then
