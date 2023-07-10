@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=felix
-PKG_VERSION:=2.3.0
+PKG_VERSION:=2.4.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kyoheiu/felix/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=83295fc62b4ad5009b736a0f13c99fa50b210f188c55c8ce3978b7051aa7f8ce
+PKG_HASH:=e35e9b9661246bcc9c3c9bc1311925c495fbf096d8e9446bf6c3b8cbbff7ac11
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
