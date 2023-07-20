@@ -1,6 +1,6 @@
 --- a/rust/Makefile.am
 +++ b/rust/Makefile.am
-@@ -32,7 +32,7 @@ RUST_FEATURES +=	decompression
+@@ -25,7 +25,7 @@ RUST_FEATURES +=	debug-validate
  endif
  
  if RUST_CROSS_COMPILE 
@@ -8,11 +8,11 @@
 +RUST_TARGET = --target $(CARGO_BUILD_TARGET)
  endif
  
- all-local:
+ all-local: Cargo.toml
 --- a/rust/Makefile.in
 +++ b/rust/Makefile.in
-@@ -342,7 +342,7 @@ EXTRA_DIST = src .cargo/config.in cbindg
- 	$(am__append_1)
+@@ -338,7 +338,7 @@ EXTRA_DIST = src derive \
+ 
  @DEBUG_FALSE@RELEASE = --release
  @RUST_BUILD_STD_TRUE@NIGHTLY_ARGS = -Z build-std
 -@RUST_CROSS_COMPILE_TRUE@RUST_TARGET = --target $(host_triplet)
@@ -22,7 +22,7 @@
  .SUFFIXES:
 --- a/configure
 +++ b/configure
-@@ -29131,8 +29131,8 @@ esac
+@@ -29951,8 +29951,8 @@ printf "%s\n" "yes" >&6; }
      have_rust_vendor="no"
  
      if test "x$cross_compiling" = "xyes"; then
@@ -35,7 +35,7 @@
        else
 --- a/configure.ac
 +++ b/configure.ac
-@@ -2507,8 +2507,8 @@ fi
+@@ -2298,8 +2298,8 @@ fi
      have_rust_vendor="no"
  
      if test "x$cross_compiling" = "xyes"; then

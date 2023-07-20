@@ -29,7 +29,7 @@
  
 --- a/src/conf-yaml-loader.c
 +++ b/src/conf-yaml-loader.c
-@@ -568,7 +568,7 @@ rule-files:\n\
+@@ -603,7 +603,7 @@ rule-files:\n\
    - netbios.rules\n\
    - x11.rules\n\
  \n\
@@ -38,36 +38,36 @@
  ";
  
      ConfCreateContextBackup();
-@@ -697,7 +697,7 @@ ConfYamlNonYamlFileTest(void)
+@@ -709,7 +709,7 @@ ConfYamlNonYamlFileTest(void)
      ConfCreateContextBackup();
      ConfInit();
  
--    if (ConfYamlLoadFile("/etc/passwd") != -1)
-+    if (ConfYamlLoadFile("/opt/etc/passwd") != -1)
-         return 0;
+-    FAIL_IF(ConfYamlLoadFile("/etc/passwd") != -1);
++    FAIL_IF(ConfYamlLoadFile("/opt/etc/passwd") != -1);
  
      ConfDeInit();
-@@ -902,8 +902,8 @@ ConfYamlOverrideTest(void)
-     char config[] =
-         "%YAML 1.1\n"
-         "---\n"
--        "some-log-dir: /var/log\n"
--        "some-log-dir: /tmp\n"
-+        "some-log-dir: /opt/var/log\n"
-+        "some-log-dir: /opt/tmp\n"
-         "\n"
-         "parent:\n"
-         "  child0:\n"
-@@ -921,7 +921,7 @@ ConfYamlOverrideTest(void)
-         return 0;
-     if (!ConfGet("some-log-dir", &value))
-         return 0;
--    if (strcmp(value, "/tmp") != 0)
-+    if (strcmp(value, "/opt/tmp") != 0)
-         return 0;
+     ConfRestoreContextBackup();
+@@ -883,8 +883,8 @@ ConfYamlOverrideTest(void)
+ {
+     char config[] = "%YAML 1.1\n"
+                     "---\n"
+-                    "some-log-dir: /var/log\n"
+-                    "some-log-dir: /tmp\n"
++                    "some-log-dir: /opt/var/log\n"
++                    "some-log-dir: /opt/tmp\n"
+                     "\n"
+                     "parent:\n"
+                     "  child0:\n"
+@@ -904,7 +904,7 @@ ConfYamlOverrideTest(void)
+ 
+     FAIL_IF(ConfYamlLoadString(config, strlen(config)) != 0);
+     FAIL_IF_NOT(ConfGet("some-log-dir", &value));
+-    FAIL_IF(strcmp(value, "/tmp") != 0);
++    FAIL_IF(strcmp(value, "/opt/tmp") != 0);
  
      /* Test that parent.child0 does not exist, but child1 does. */
-@@ -951,10 +951,10 @@ ConfYamlOverrideFinalTest(void)
+     FAIL_IF_NOT_NULL(ConfGetNode("parent.child0"));
+@@ -948,16 +948,16 @@ ConfYamlOverrideFinalTest(void)
      char config[] =
          "%YAML 1.1\n"
          "---\n"
@@ -75,23 +75,21 @@
 +        "default-log-dir: /opt/var/log\n";
  
      /* Set the log directory as if it was set on the command line. */
--    if (!ConfSetFinal("default-log-dir", "/tmp"))
-+    if (!ConfSetFinal("default-log-dir", "/opt/tmp"))
-         return 0;
-     if (ConfYamlLoadString(config, strlen(config)) != 0)
-         return 0;
-@@ -963,7 +963,7 @@ ConfYamlOverrideFinalTest(void)
+-    FAIL_IF_NOT(ConfSetFinal("default-log-dir", "/tmp"));
++    FAIL_IF_NOT(ConfSetFinal("default-log-dir", "/opt/tmp"));
+     FAIL_IF(ConfYamlLoadString(config, strlen(config)) != 0);
  
-     if (!ConfGet("default-log-dir", &default_log_dir))
-         return 0;
--    if (strcmp(default_log_dir, "/tmp") != 0) {
-+    if (strcmp(default_log_dir, "/opt/tmp") != 0) {
-         fprintf(stderr, "final value was reassigned\n");
-         return 0;
-     }
+     const char *default_log_dir;
+ 
+     FAIL_IF_NOT(ConfGet("default-log-dir", &default_log_dir));
+-    FAIL_IF(strcmp(default_log_dir, "/tmp") != 0);
++    FAIL_IF(strcmp(default_log_dir, "/opt/tmp") != 0);
+ 
+     ConfDeInit();
+     ConfRestoreContextBackup();
 --- a/src/log-tlsstore.c
 +++ b/src/log-tlsstore.c
-@@ -56,7 +56,7 @@
+@@ -43,7 +43,7 @@
  
  #define MODULE_NAME "LogTlsStoreLog"
  
@@ -100,29 +98,9 @@
  SC_ATOMIC_DECLARE(unsigned int, cert_id);
  static char logging_dir_not_writable;
  
---- a/src/stream-tcp.c
-+++ b/src/stream-tcp.c
-@@ -7634,7 +7634,7 @@ static const char *dummy_conf_string =
-     "%YAML 1.1\n"
-     "---\n"
-     "\n"
--    "default-log-dir: /var/log/eidps\n"
-+    "default-log-dir: /opt/var/log/eidps\n"
-     "\n"
-     "logging:\n"
-     "\n"
-@@ -7657,7 +7657,7 @@ static const char *dummy_conf_string1 =
-     "%YAML 1.1\n"
-     "---\n"
-     "\n"
--    "default-log-dir: /var/log/eidps\n"
-+    "default-log-dir: /opt/var/log/eidps\n"
-     "\n"
-     "logging:\n"
-     "\n"
 --- a/src/suricata.h
 +++ b/src/suricata.h
-@@ -74,12 +74,12 @@
+@@ -73,12 +73,12 @@
  /* workaround SPlint error (don't know __gnuc_va_list) */
  #ifdef S_SPLINT_S
  #  include <err.h>
@@ -140,7 +118,7 @@
  
 --- a/src/tests/detect.c
 +++ b/src/tests/detect.c
-@@ -31,7 +31,7 @@ static const char *dummy_conf_string =
+@@ -33,7 +33,7 @@ static const char *dummy_conf_string =
      "%YAML 1.1\n"
      "---\n"
      "\n"
@@ -149,7 +127,7 @@
      "\n"
      "logging:\n"
      "\n"
-@@ -49,7 +49,7 @@ static const char *dummy_conf_string =
+@@ -51,7 +51,7 @@ static const char *dummy_conf_string =
      "    log-level: info\n"
      "\n"
      "  - interface: file\n"
@@ -160,7 +138,7 @@
      "    facility: local5\n"
 --- a/src/unix-manager.c
 +++ b/src/unix-manager.c
-@@ -53,7 +53,7 @@
+@@ -57,7 +57,7 @@
  # endif
  #endif
  
@@ -171,7 +149,7 @@
  
 --- a/src/util-rule-vars.c
 +++ b/src/util-rule-vars.c
-@@ -118,7 +118,7 @@ static const char *dummy_conf_string =
+@@ -119,7 +119,7 @@ static const char *dummy_conf_string =
      "%YAML 1.1\n"
      "---\n"
      "\n"
@@ -180,7 +158,7 @@
      "\n"
      "logging:\n"
      "\n"
-@@ -136,7 +136,7 @@ static const char *dummy_conf_string =
+@@ -137,7 +137,7 @@ static const char *dummy_conf_string =
      "    log-level: info\n"
      "\n"
      "  - interface: file\n"
@@ -270,7 +248,7 @@
      "/etc/suricata/suricata.yaml",
      "/usr/local/etc/suricata/suricata.yaml",
      "/etc/suricata/suricata-debian.yaml"
-@@ -65,18 +66,18 @@ DEFAULT_SURICATA_YAML_PATH = [
+@@ -65,11 +66,11 @@ DEFAULT_SURICATA_YAML_PATH = [
  if has_defaults:
      DEFAULT_DIST_RULE_PATH = [
          defaults.datarulesdir,
@@ -284,20 +262,9 @@
      ]
  
  DEFAULT_CONFIG = {
--    "disable-conf": "/etc/suricata/disable.conf",
--    "enable-conf": "/etc/suricata/enable.conf",
--    "drop-conf": "/etc/suricata/drop.conf",
--    "modify-conf": "/etc/suricata/modify.conf",
-+    "disable-conf": "/opt/etc/suricata/disable.conf",
-+    "enable-conf": "/opt/etc/suricata/enable.conf",
-+    "drop-conf": "/opt/etc/suricata/drop.conf",
-+    "modify-conf": "/opt/etc/suricata/modify.conf",
-     "sources": [],
-     LOCAL_CONF_KEY: [],
- 
 --- a/suricata-update/suricata/update/main.py
 +++ b/suricata-update/suricata/update/main.py
-@@ -1191,8 +1191,8 @@ def _main():
+@@ -1206,8 +1206,8 @@ def _main():
          except Exception as err:
              logger.warning(
                  "Cache directory does not exist and could not be created. "
@@ -310,7 +277,7 @@
  
 --- a/suricata-update/suricata/update/parsers.py
 +++ b/suricata-update/suricata/update/parsers.py
-@@ -41,13 +41,13 @@ global_arg = [
+@@ -46,13 +46,13 @@ global_arg = [
        'help': "Be quiet, warning and error messages only"}),
      (("-D", "--data-dir"),
       {'metavar': '<directory>', 'dest': 'data_dir',
