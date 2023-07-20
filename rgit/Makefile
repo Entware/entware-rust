@@ -3,7 +3,7 @@
 # mips(el)/armv5:
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 #	error: could not compile `moka` due to previous error
-# i386:
+# x86:
 #	error[E0599]: no function or associated item named `new` found for struct `CpuId` in the current scope
 #	error: could not compile `quanta` due to 2 previous errors
 
@@ -11,12 +11,14 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rgit
 PKG_VERSION:=0.1.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=fbb0afac681917667f6f34b74451fbd3aefac1f1
+PKG_SOURCE_DATE:=2023-07-09
+PKG_SOURCE_VERSION:=1873572056d2f65403df49bb1e009773fadfb795
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/w4/rgit
-PKG_MIRROR_HASH:=75d6fedde0b6d5f3cc5104ddd9f4566b37cfae694676a769bc5c7e31fa48ac86
+PKG_MIRROR_HASH:=f017c13a0bb9591e3e244c457238d2c564a21fd65f544af3cf62ab9258af14a7
 
 PKG_LICENSE:=WTFPL
 PKG_LICENSE_FILES:=LICENSE
