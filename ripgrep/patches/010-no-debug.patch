@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -77,7 +77,7 @@ simd-accel = ["grep/simd-accel"]
+@@ -83,7 +83,7 @@ simd-accel = ["grep/simd-accel"]
  pcre2 = ["grep/pcre2"]
  
  [profile.release]
