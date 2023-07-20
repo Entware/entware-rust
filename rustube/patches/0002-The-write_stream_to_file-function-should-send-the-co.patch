@@ -1,0 +1,48 @@
+From 3a191b9cb8f6939717ec171a6ae00e4fd7667d68 Mon Sep 17 00:00:00 2001
+From: flo <inbox.733@gmail.com>
+Date: Tue, 1 Nov 2022 09:56:26 -0600
+Subject: [PATCH 2/8] The write_stream_to_file function should send the counter
+ instead of chunck length. This reverts the implementation back to what it was
+ to not break any existing clients.
+
+---
+ cli/src/main.rs   | 4 +++-
+ src/stream/mod.rs | 5 +----
+ 2 files changed, 4 insertions(+), 5 deletions(-)
+
+diff --git a/cli/src/main.rs b/cli/src/main.rs
+index b756756..686253f 100644
+--- a/cli/src/main.rs
++++ b/cli/src/main.rs
+@@ -71,9 +71,11 @@ async fn download(args: DownloadArgs) -> Result<()> {
+ 
+     // handle download progress updates
+     let mut callback = Callback::new();
++    let mut counter = 0;
+     callback = callback.connect_on_progress_closure( move |cargs| {
+         // update progress bar
+-        pb.add(cargs.current_chunk as u64);
++        pb.add(cargs.current_chunk.saturating_sub(counter) as u64);
++        counter = cargs.current_chunk;
+     });
+ 
+     let output_level = args.output.output_level;
+diff --git a/src/stream/mod.rs b/src/stream/mod.rs
+index 397cacc..eaf0ebb 100644
+--- a/src/stream/mod.rs
++++ b/src/stream/mod.rs
+@@ -331,10 +331,7 @@ impl Stream {
+                 // Will abort if the receiver is closed
+                 // Will ignore if the channel is full and thus not slow down the download
+                 if let Err(TrySendError::Closed(_)) =
+-                    //channel.try_send(InternalSignal::Value(counter))
+-
+-                    // send current chunk length to subs
+-                    channel.try_send(InternalSignal::Value(len))
++                    channel.try_send(InternalSignal::Value(counter))
+                 {
+                     return Err(Error::ChannelClosed);
+                 }
+-- 
+2.30.2
+

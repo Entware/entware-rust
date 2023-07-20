@@ -1,0 +1,162 @@
+From 7f819bb894abda8d697a7d980794daabcce2b1cf Mon Sep 17 00:00:00 2001
+From: Dzenan Jupic <56133904+DzenanJupic@users.noreply.github.com>
+Date: Fri, 16 Dec 2022 20:17:16 +0100
+Subject: [PATCH 5/8] A few small improvements to the progress bar
+
+- Make the progress bar a CLI option
+- Print progress bar to stderr
+- Remove the use of `blocking`
+- Add error handling
+- Get rid of redundant `counter` variable
+
+Signed-off-by: Dzenan Jupic <56133904+DzenanJupic@users.noreply.github.com>
+---
+ cli/Cargo.toml          |  3 +--
+ cli/src/args/logging.rs | 19 ++++++++++++++-
+ cli/src/main.rs         | 54 ++++++++++++++++-------------------------
+ 3 files changed, 40 insertions(+), 36 deletions(-)
+
+diff --git a/cli/Cargo.toml b/cli/Cargo.toml
+index 44c4913..da3e49f 100644
+--- a/cli/Cargo.toml
++++ b/cli/Cargo.toml
+@@ -25,11 +25,10 @@ clap = { version = "3.0.0-rc.7", features = ["derive", "wrap_help"] }
+ fern = { version = "0.6.0", features = ["colored"] }
+ log = "0.4.14"
+ mime = "0.3.16"
+-rustube = { path = "..", version = "0.6", features = ["download", "std", "callback", "stream", "blocking"] }
++rustube = { path = "..", version = "0.6", features = ["download", "std", "callback"] }
+ tokio = { version = "1.12.0", features = ["rt-multi-thread"] }
+ serde = "1.0.130"
+ strum = { version = "0.22.0", features = ["derive"] }
+ serde_json = "1.0.68"
+ serde_yaml = "0.8.21"
+ pbr = "1.0.4"
+-
+diff --git a/cli/src/args/logging.rs b/cli/src/args/logging.rs
+index 76153b6..016d785 100644
+--- a/cli/src/args/logging.rs
++++ b/cli/src/args/logging.rs
+@@ -14,6 +14,10 @@ pub struct LoggingArgs {
+     #[clap(long, short, parse(from_occurrences))]
+     verbose: u8,
+ 
++    /// Show a progress bar
++    #[clap(long, short, conflicts_with = "verbose")]
++    progress: bool,
++
+     /// When to log coloredd
+     #[clap(long, default_value = "always", possible_values = & ["always", "never"], value_name = "WHEN")]
+     color: ColorUsage,
+@@ -25,7 +29,7 @@ pub struct LoggingArgs {
+ 
+ impl LoggingArgs {
+     pub fn init_logger(&self) {
+-        if self.quiet { return; }
++        if self.quiet || self.progress { return; }
+ 
+         let formatter = self.log_msg_formatter();
+ 
+@@ -38,6 +42,19 @@ impl LoggingArgs {
+             .expect("The global logger was already initialized");
+     }
+ 
++    pub fn init_progress_bar(&self, total: u64) -> pbr::ProgressBar<Box<dyn std::io::Write + Send + Sync>> {
++        let writer = match self.progress {
++            true => Box::new(std::io::stderr()) as _,
++            false => Box::new(std::io::sink()) as _,
++        };
++        let mut pb = pbr::ProgressBar::on(writer, total);
++        pb.set_units(pbr::Units::Bytes);
++        pb.format("[=> ]");
++        pb.add(0);
++
++        pb
++    }
++
+     fn log_msg_formatter(&self) -> fn(FormatCallback, &Arguments, &Record) {
+         #[inline(always)]
+         fn format_msg(
+diff --git a/cli/src/main.rs b/cli/src/main.rs
+index ce7e239..6f414e2 100644
+--- a/cli/src/main.rs
++++ b/cli/src/main.rs
+@@ -5,8 +5,8 @@ use clap::Parser;
+ 
+ use args::DownloadArgs;
+ use args::StreamFilter;
+-use rustube::Callback;
+ use rustube::{Error, Id, IdBuf, Stream, Video, VideoFetcher, VideoInfo};
++use rustube::Callback;
+ 
+ use crate::args::{CheckArgs, Command, FetchArgs};
+ use crate::video_serializer::VideoSerializer;
+@@ -65,37 +65,25 @@ async fn download(args: DownloadArgs) -> Result<()> {
+     let (video_info, stream) = get_stream(id.as_owned(), args.stream_filter).await?;
+     let download_path = download_path(args.filename, stream.mime.subtype().as_str(), args.dir, id);
+ 
+-    // init CLI progress bar
+-    let mut pb = pbr::ProgressBar::new(stream.content_length().await?);
+-    pb.set_units(pbr::Units::Bytes);
+-    pb.format("╢▌▌░╟");
+-
+-    // handle download progress updates
+-    let mut callback = Callback::new();
+-    let mut counter = 0;
+-    callback = callback.connect_on_progress_closure( move |cargs| {
+-        // update progress bar
+-        pb.add(cargs.current_chunk.saturating_sub(counter) as u64);
+-        counter = cargs.current_chunk;
+-    });
+-
+-    let output_level = args.output.output_level;
+-    let output = args.output;
+-    let handle = std::thread::spawn(move || {
+-        // TODO handle result
+-        let _ = stream.blocking_download_to_with_callback(download_path, callback);
+-
+-        let video_serializer = VideoSerializer::new(
+-            video_info,
+-            std::iter::once(stream),
+-            output_level,
+-        );
+-        let output = output.output_format.serialize_output(&video_serializer).unwrap();
+-        println!("{}", output);
+-    });
+-
+-    // wait for download to finish
+-    let _ = handle.join();
++    let mut pb = args.logging.init_progress_bar(stream.content_length().await?);
++    let callback = Callback::new()
++        .connect_on_progress_closure(|cargs| {
++            // update progress bar
++            pb.add(cargs.current_chunk.saturating_sub(cargs.current_chunk) as u64);
++        });
++
++    stream
++        .download_to_with_callback(&download_path, callback)
++        .await?;
++    pb.finish_println(&format!("Finished downloading video to {download_path:?}\n"));
++
++    let video_serializer = VideoSerializer::new(
++        video_info,
++        std::iter::once(stream),
++        args.output.output_level,
++    );
++    let output = args.output.output_format.serialize_output(&video_serializer).unwrap();
++    println!("{}", output);
+ 
+     Ok(())
+ }
+@@ -126,7 +114,7 @@ async fn get_stream(id: IdBuf, stream_filter: StreamFilter) -> Result<(VideoInfo
+ async fn get_streams(
+     id: IdBuf,
+     stream_filter: &'_ StreamFilter,
+-) -> Result<(VideoInfo, impl Iterator<Item = Stream> + '_)> {
++) -> Result<(VideoInfo, impl Iterator<Item=Stream> + '_)> {
+     let (video_info, streams) = get_video(id).await?.into_parts();
+ 
+     let streams = streams
+-- 
+2.30.2
+

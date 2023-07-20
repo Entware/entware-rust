@@ -1,0 +1,32 @@
+From 5a53dc42b821fdcd67f6e72bc84744f5d04c0ca6 Mon Sep 17 00:00:00 2001
+From: Dzenan Jupic <56133904+DzenanJupic@users.noreply.github.com>
+Date: Fri, 16 Dec 2022 20:44:24 +0100
+Subject: [PATCH 6/8] Fix CI
+
+Signed-off-by: Dzenan Jupic <56133904+DzenanJupic@users.noreply.github.com>
+---
+ build.rs | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/build.rs b/build.rs
+index f1a659a..883837e 100644
+--- a/build.rs
++++ b/build.rs
+@@ -1,4 +1,4 @@
+-use rustc_version::{version_meta, Channel};
++use rustc_version::{Channel, version_meta};
+ 
+ fn main() {
+     // Set cfg flags depending on release channel
+@@ -8,5 +8,5 @@ fn main() {
+         Channel::Nightly => "CHANNEL_NIGHTLY",
+         Channel::Dev => "CHANNEL_DEV",
+     };
+-    println!("cargo:rustc-cfg={}", channel)
+-}
+\ No newline at end of file
++    println!("cargo:rustc-cfg={channel}");
++}
+-- 
+2.30.2
+

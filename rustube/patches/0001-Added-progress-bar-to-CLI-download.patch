@@ -1,0 +1,236 @@
+From c467d79b2b1926bef5c4a20b16f011b40fd46f5f Mon Sep 17 00:00:00 2001
+From: flo <inbox.733@gmail.com>
+Date: Mon, 31 Oct 2022 11:23:22 -0600
+Subject: [PATCH 1/8] Added progress bar to CLI download.
+
+---
+ cli/Cargo.toml         |  4 ++-
+ cli/src/main.rs        | 78 +++++++++++++++++++++++++-----------------
+ src/stream/callback.rs |  8 ++---
+ src/stream/mod.rs      | 16 +++++----
+ 4 files changed, 64 insertions(+), 42 deletions(-)
+
+diff --git a/cli/Cargo.toml b/cli/Cargo.toml
+index 143c90b..44c4913 100644
+--- a/cli/Cargo.toml
++++ b/cli/Cargo.toml
+@@ -25,9 +25,11 @@ clap = { version = "3.0.0-rc.7", features = ["derive", "wrap_help"] }
+ fern = { version = "0.6.0", features = ["colored"] }
+ log = "0.4.14"
+ mime = "0.3.16"
+-rustube = { path = "..", version = "0.6", features = ["download", "std"] }
++rustube = { path = "..", version = "0.6", features = ["download", "std", "callback", "stream", "blocking"] }
+ tokio = { version = "1.12.0", features = ["rt-multi-thread"] }
+ serde = "1.0.130"
+ strum = { version = "0.22.0", features = ["derive"] }
+ serde_json = "1.0.68"
+ serde_yaml = "0.8.21"
++pbr = "1.0.4"
++
+diff --git a/cli/src/main.rs b/cli/src/main.rs
+index 53a781a..b756756 100644
+--- a/cli/src/main.rs
++++ b/cli/src/main.rs
+@@ -5,6 +5,7 @@ use clap::Parser;
+ 
+ use args::DownloadArgs;
+ use args::StreamFilter;
++use rustube::Callback;
+ use rustube::{Error, Id, IdBuf, Stream, Video, VideoFetcher, VideoInfo};
+ 
+ use crate::args::{CheckArgs, Command, FetchArgs};
+@@ -48,7 +49,10 @@ async fn check(args: CheckArgs) -> Result<()> {
+     let (video_info, streams) = get_streams(id, &args.stream_filter).await?;
+     let video_serializer = VideoSerializer::new(video_info, streams, args.output.output_level);
+ 
+-    let output = args.output.output_format.serialize_output(&video_serializer)?;
++    let output = args
++        .output
++        .output_format
++        .serialize_output(&video_serializer)?;
+     println!("{}", output);
+ 
+     Ok(())
+@@ -59,22 +63,36 @@ async fn download(args: DownloadArgs) -> Result<()> {
+ 
+     let id = args.identifier.id()?;
+     let (video_info, stream) = get_stream(id.as_owned(), args.stream_filter).await?;
+-    let download_path = download_path(
+-        args.filename,
+-        stream.mime.subtype().as_str(),
+-        args.dir,
+-        id,
+-    );
+-
+-    stream.download_to(download_path).await?;
+-
+-    let video_serializer = VideoSerializer::new(
+-        video_info,
+-        std::iter::once(stream),
+-        args.output.output_level,
+-    );
+-    let output = args.output.output_format.serialize_output(&video_serializer)?;
+-    println!("{}", output);
++    let download_path = download_path(args.filename, stream.mime.subtype().as_str(), args.dir, id);
++
++    // init CLI progress bar
++    let mut pb = pbr::ProgressBar::new(stream.content_length().await?);
++    pb.format("╢▌▌░╟");
++
++    // handle download progress updates
++    let mut callback = Callback::new();
++    callback = callback.connect_on_progress_closure( move |cargs| {
++        // update progress bar
++        pb.add(cargs.current_chunk as u64);
++    });
++
++    let output_level = args.output.output_level;
++    let output = args.output;
++    let handle = std::thread::spawn(move || {
++        // TODO handle result
++        let _ = stream.blocking_download_to_with_callback(download_path, callback);
++
++        let video_serializer = VideoSerializer::new(
++            video_info,
++            std::iter::once(stream),
++            output_level,
++        );
++        let output = output.output_format.serialize_output(&video_serializer).unwrap();
++        println!("{}", output);
++    });
++
++    // wait for download to finish
++    let _ = handle.join();
+ 
+     Ok(())
+ }
+@@ -83,9 +101,7 @@ async fn fetch(args: FetchArgs) -> Result<()> {
+     args.logging.init_logger();
+ 
+     let id = args.identifier.id()?;
+-    let video_info = rustube::VideoFetcher::from_id(id)?
+-        .fetch_info()
+-        .await?;
++    let video_info = rustube::VideoFetcher::from_id(id)?.fetch_info().await?;
+ 
+     let output = args.output.output_format.serialize_output(&video_info)?;
+     println!("{}", output);
+@@ -93,10 +109,7 @@ async fn fetch(args: FetchArgs) -> Result<()> {
+     Ok(())
+ }
+ 
+-async fn get_stream(
+-    id: IdBuf,
+-    stream_filter: StreamFilter,
+-) -> Result<(VideoInfo, Stream)> {
++async fn get_stream(id: IdBuf, stream_filter: StreamFilter) -> Result<(VideoInfo, Stream)> {
+     let (video_info, streams) = get_streams(id, &stream_filter).await?;
+ 
+     let stream = streams
+@@ -110,10 +123,8 @@ async fn get_stream(
+ async fn get_streams(
+     id: IdBuf,
+     stream_filter: &'_ StreamFilter,
+-) -> Result<(VideoInfo, impl Iterator<Item=Stream> + '_)> {
+-    let (video_info, streams) = get_video(id)
+-        .await?
+-        .into_parts();
++) -> Result<(VideoInfo, impl Iterator<Item = Stream> + '_)> {
++    let (video_info, streams) = get_video(id).await?.into_parts();
+ 
+     let streams = streams
+         .into_iter()
+@@ -131,9 +142,14 @@ async fn get_video(id: IdBuf) -> Result<Video> {
+         .context("Could not descramble the video information")
+ }
+ 
+-pub fn download_path(filename: Option<PathBuf>, extension: &str, dir: Option<PathBuf>, video_id: Id<'_>) -> PathBuf {
+-    let filename = filename
+-        .unwrap_or_else(|| format!("{}.{}", video_id.as_str(), extension).into());
++pub fn download_path(
++    filename: Option<PathBuf>,
++    extension: &str,
++    dir: Option<PathBuf>,
++    video_id: Id<'_>,
++) -> PathBuf {
++    let filename =
++        filename.unwrap_or_else(|| format!("{}.{}", video_id.as_str(), extension).into());
+ 
+     let mut path = dir.unwrap_or_else(PathBuf::new);
+ 
+diff --git a/src/stream/callback.rs b/src/stream/callback.rs
+index 0c4ff56..f8b075f 100644
+--- a/src/stream/callback.rs
++++ b/src/stream/callback.rs
+@@ -9,7 +9,7 @@ use tokio::sync::mpsc;
+ 
+ use crate::Result;
+ 
+-pub type OnProgressClosure = Box<dyn Fn(CallbackArguments) + Send>;
++pub type OnProgressClosure = Box<dyn FnMut(CallbackArguments) + Send>;
+ pub type OnProgressAsyncClosure = Box<dyn Fn(CallbackArguments) -> Pin<Box<dyn Future<Output=()> + Send>> + Send + Sync>;
+ pub type OnCompleteClosure = Box<dyn Fn(Option<PathBuf>) + Send>;
+ pub type OnCompleteAsyncClosure = Box<dyn Fn(Option<PathBuf>) -> Pin<Box<dyn Future<Output=()> + Send>> + Send + Sync>;
+@@ -131,7 +131,7 @@ impl Callback {
+     /// [Callback::connect_on_progress_closure_slow](crate::stream::callback::Callback::connect_on_progress_closure_slow)
+     #[inline]
+     #[must_use]
+-    pub fn connect_on_progress_closure(mut self, closure: impl Fn(CallbackArguments) + Send + 'static) -> Self {
++    pub fn connect_on_progress_closure(mut self, closure: impl FnMut(CallbackArguments) + Send + 'static) -> Self {
+         self.on_progress = OnProgressType::Closure(Box::new(closure));
+         self
+     }
+@@ -284,7 +284,7 @@ impl super::Stream {
+         let content_length = self.content_length().await.ok();
+         match on_progress {
+             OnProgressType::None => {}
+-            OnProgressType::Closure(closure) => {
++            OnProgressType::Closure(mut closure) => {
+                 while let Some(data) = receiver.recv().await {
+                     match data {
+                         InternalSignal::Value(data) => {
+@@ -329,7 +329,7 @@ impl super::Stream {
+                     }
+                 }
+             }
+-            OnProgressType::SlowClosure(closure) => {
++            OnProgressType::SlowClosure(mut closure) => {
+                 while let Some(data) = receiver.recv().await {
+                     match data {
+                         InternalSignal::Value(data) => {
+diff --git a/src/stream/mod.rs b/src/stream/mod.rs
+index ff04d07..397cacc 100644
+--- a/src/stream/mod.rs
++++ b/src/stream/mod.rs
+@@ -320,18 +320,22 @@ impl Stream {
+         // Counter will be 0 if callback is not enabled
+         while let Some(chunk) = stream.next().await {
+             let chunk = chunk?;
+-            log::trace!("received {} byte chunk ", chunk.len());
++            let len = chunk.len();
++            log::trace!("received {} byte chunk ", len);
+ 
+-            file
+-                .write_all(&chunk)
+-                .await?;
++            file.write_all(&chunk).await?;
+             #[cfg(feature = "callback")]
+             if let Some(channel) = &channel {
+                 // network chunks of ~10kb size
+-                counter += chunk.len();
++                counter += len;
+                 // Will abort if the receiver is closed
+                 // Will ignore if the channel is full and thus not slow down the download
+-                if let Err(TrySendError::Closed(_)) = channel.try_send(InternalSignal::Value(counter)) {
++                if let Err(TrySendError::Closed(_)) =
++                    //channel.try_send(InternalSignal::Value(counter))
++
++                    // send current chunk length to subs
++                    channel.try_send(InternalSignal::Value(len))
++                {
+                     return Err(Error::ChannelClosed);
+                 }
+             }
+-- 
+2.30.2
+

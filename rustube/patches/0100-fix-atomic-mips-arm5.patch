@@ -47,7 +47,7 @@
                  cl
              })
              .ok_or_else(|| Error::UnexpectedResponse(
-@@ -437,6 +438,6 @@ fn is_progressive(codecs: &[String]) ->
+@@ -438,6 +439,6 @@ fn is_progressive(codecs: &[String]) ->
  }
  
  #[inline]
