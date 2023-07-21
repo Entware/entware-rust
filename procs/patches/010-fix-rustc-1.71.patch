@@ -1,0 +1,13 @@
+# error: to use a constant of type `TypeId` in a pattern, `TypeId` must be annotated with `#[derive(PartialEq, Eq)]`
+# error: could not compile `value-bag` (lib) due to 3 previous errors
+
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -57,6 +57,7 @@ unicode-width = "0.1"
+ pager         = "0.16.1"
+ procfs        = "0.15.1"
+ users         = "0.11"
++value-bag     = "1.4.1"
+ which         = "4"
+ 
+ [target.'cfg(target_os = "macos")'.dependencies]
