@@ -14,7 +14,7 @@ PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
 PYTHON3_PKG_BUILD:=0
 
-PKG_BUILD_DEPENDS:=python-yaml/host
+PKG_BUILD_DEPENDS:=python-yaml/host rustc-dev/host
 
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT
@@ -23,68 +23,68 @@ include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
 
-define Package/suricata6/Default
+define Package/suricata7/Default
   SECTION:=net
   CATEGORY:=Network
   TITLE:=OISF Suricata IDS
   URL:=https://www.openinfosecfoundation.org/
-  DEPENDS:=+file +jansson +libatomic +libpcap +libcap-ng +liblz4 +libpcre
-  DEPENDS+=+libyaml +zlib $(ICONV_DEPENDS)
+  DEPENDS:=+file +jansson +libatomic +libelf +libpcap +libcap-ng +liblz4
+  DEPENDS+=+libpcre2 +libyaml +zlib $(ICONV_DEPENDS)
   DEPENDS+= \
 	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-light \
 	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-logging \
 	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-readline
 endef
 
-define Package/suricata6
-  $(call Package/suricata6/Default)
+define Package/suricata7
+  $(call Package/suricata7/Default)
   TITLE+= (reccommended)
   VARIANT:=reccommended
   DEPENDS+=+libevent2 +libevent2-pthreads +libhiredis +liblua +libmaxminddb
   DEPENDS+=+libnet-1.2.x
 endef
 
-define Package/suricata6-extra
-  $(call Package/suricata6/Default)
+define Package/suricata7-extra
+  $(call Package/suricata7/Default)
   TITLE+= (extra)
   VARIANT:=extra
   DEPENDS+=+libevent2 +libevent2-pthreads +libhiredis +libmaxminddb +libnet-1.2.x
-  DEPENDS+=+luajit +libnetfilter-log +libnetfilter-queue +libnss +nspr
+  DEPENDS+=+libnetfilter-log +libnetfilter-queue +luajit
 endef
 
-define Package/suricata6-mini
-  $(call Package/suricata6/Default)
+define Package/suricata7-mini
+  $(call Package/suricata7/Default)
   TITLE+= (mimimal)
   VARIANT:=mini
 endef
 
-define Package/suricata6/description
+define Package/suricata7/description
   Suricata is the leading independent open source threat detection engine.
   By combining intrusion detection (IDS), intrusion prevention (IPS), network 
   security monitoring (NSM) and PCAP processing, Suricata can quickly identify,
   stop, and assess the most sophisticated attacks.
 endef
 
-Package/suricata6-extra/description=$(call Package/suricata6/description)
-Package/suricata6-mini/description=$(call Package/suricata6/description)
+Package/suricata7-extra/description=$(call Package/suricata7/description)
+Package/suricata7-mini/description=$(call Package/suricata7/description)
 
-define Package/suricata6/conffiles
+define Package/suricata7/conffiles
 /opt/etc/suricata/classification.config
 /opt/etc/suricata/reference.config
 /opt/etc/suricata/suricata.yaml
 /opt/etc/suricata/threshold.config
 endef
 
-Package/suricata6-extra/conffiles=$(call Package/suricata6/conffiles)
-Package/suricata6-mini/conffiles=$(call Package/suricata6/conffiles)
+Package/suricata7-extra/conffiles=$(call Package/suricata7/conffiles)
+Package/suricata7-mini/conffiles=$(call Package/suricata7/conffiles)
 
-define Package/suricata6/config/Defauilt
+define Package/suricata7/config/Defauilt
   source "$(SOURCE)/Config-$(1).in"
 endef
 
-Package/suricata6-extra/config=$(call Package/suricata6/config/Defauilt,e)
-Package/suricata6-mini/config=$(call Package/suricata6/config/Defauilt,m)
-Package/suricata6/config=$(call Package/suricata6/config/Defauilt,r)
+Package/suricata7-extra/config=$(call Package/suricata7/config/Defauilt,e)
+Package/suricata7-mini/config=$(call Package/suricata7/config/Defauilt,m)
+Package/suricata7/config=$(call Package/suricata7/config/Defauilt,r)
 
 RUST_TARGET_TRIPLE:=$(REAL_GNU_TARGET_NAME)
 
@@ -104,7 +104,6 @@ TARGET_LDFLAGS += -latomic
 
 CONFIGURE_ARGS += \
 	--disable-suricata-update \
-	--enable-http2-decompression \
 	--$(if $(CONFIG_SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT),en,dis)able-python \
 	CARGO_HOME="$(STAGING_DIR)/host/share/cargo" \
 	CARGO_BUILD_TARGET="$(RUST_TARGET_TRIPLE)"
@@ -114,8 +113,6 @@ CONFIGURE_ARGS += \
 	--disable-lua \
 	--enable-geoip \
 	--enable-hiredis \
-	--enable-nspr \
-	--enable-nss \
 	--enable-luajit \
 	--enable-nflog \
 	--enable-nfqueue \
@@ -125,8 +122,6 @@ CONFIGURE_ARGS += \
 else ifeq ($(BUILD_VARIANT),mini)
 CONFIGURE_ARGS += \
 	--disable-hiredis \
-	--disable-nspr \
-	--disable-nss \
 	--disable-lua \
 	--disable-luajit \
 	--disable-nflog \
@@ -141,8 +136,6 @@ CONFIGURE_ARGS += \
 	--disable-luajit \
 	--disable-nflog \
 	--disable-nfqueue \
-	--disable-nspr \
-	--disable-nss \
 	--enable-geoip \
 	--enable-hiredis \
 	--enable-lua \
@@ -151,7 +144,7 @@ CONFIGURE_ARGS += \
 
 endif
 
-define Package/suricata6/install
+define Package/suricata7/install
 	$(INSTALL_DIR) $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/suricata $(1)/opt/bin
 
@@ -189,21 +182,21 @@ define Package/suricata6/install
   endif
 endef
 
-Package/suricata6-extra/install=$(Package/suricata6/install)
-Package/suricata6-mini/install=$(Package/suricata6/install)
+Package/suricata7-extra/install=$(Package/suricata7/install)
+Package/suricata7-mini/install=$(Package/suricata7/install)
 
 
-define Package/suricata6/postinst
+define Package/suricata7/postinst
 #!/bin/sh
 
 echo -e "\n\tCurrent Suricata ruleset can be found at:
 \thttps://rules.emergingthreats.net/open/suricata-$(PKG_VERSION)/emerging.rules.tar.gz
-\n\tor you can install suricata6-update package\n"
+\n\tor you can install suricata-update package\n"
 endef
 
-Package/suricata6-extra/postinst=$(Package/suricata6/postinst)
-Package/suricata6-mini/postinst=$(Package/suricata6/postinst)
+Package/suricata7-extra/postinst=$(Package/suricata7/postinst)
+Package/suricata7-mini/postinst=$(Package/suricata7/postinst)
 
-$(eval $(call BuildPackage,suricata6))
-$(eval $(call BuildPackage,suricata6-extra))
-$(eval $(call BuildPackage,suricata6-mini))
+$(eval $(call BuildPackage,suricata7))
+$(eval $(call BuildPackage,suricata7-extra))
+$(eval $(call BuildPackage,suricata7-mini))

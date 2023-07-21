@@ -1,4 +1,4 @@
-if PACKAGE_suricata6-mini
+if PACKAGE_suricata7-mini
 
 config SURICATA_mini_PYTHON_SUPPORT
 	bool "Enable python"
