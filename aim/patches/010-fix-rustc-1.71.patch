@@ -1,0 +1,13 @@
+# error: to use a constant of type `TypeId` in a pattern, `TypeId` must be annotated with `#[derive(PartialEq, Eq)]`
+# error: could not compile `value-bag` (lib) due to 3 previous errors
+
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -55,6 +55,7 @@ tokio-util = {version="0.7.8", features
+ untildify = "0.1.1"
+ url-parse = "1.0.5"
+ uuid = { version = "1.3", features = ["v4"] }
++value-bag = "1.4.1"
+ warpy = "0.3.13"
+ 
+ [dev-dependencies]
