@@ -3,11 +3,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python3-cryptography
-PKG_VERSION:=41.0.1
+PKG_VERSION:=41.0.2
 PKG_RELEASE:=1
 
 PYPI_NAME:=cryptography
-PKG_HASH:=d34579085401d3f49762d2f7d6634d6b6c2ae1242202e860f4d26b046e3a1006
+PKG_HASH:=7d230bf856164de164ecb615ccc14c7fc6de6906ddd5b491f3af90d3514c925c
 
 PKG_LICENSE:=Apache-2.0 BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE LICENSE.APACHE LICENSE.BSD LICENSE.PSF
@@ -34,7 +34,8 @@ define Package/python3-cryptography
 	+python3-cffi \
 	+python3-distutils \
 	+python3-email \
-	+python3-urllib
+	+python3-urllib \
+	+python3-uuid
 endef
 
 define Package/python3-cryptography/description
