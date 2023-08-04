@@ -3,11 +3,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=orjson
-PKG_VERSION:=3.9.1
+PKG_VERSION:=3.9.2
 PKG_RELEASE:=1
 
 PYPI_NAME:=orjson
-PKG_HASH:=db373a25ec4a4fccf8186f9a72a1b3442837e40807a736a815ab42481e83b7d0
+PKG_HASH:=24257c8f641979bf25ecd3e27251b5cc194cdd3a6e96004aac8446f5e63d9664
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -25,6 +25,7 @@ define Package/python3-orjson
   SUBMENU:=Python
   TITLE:=a fast, correct JSON library for Python
   URL:=https://github.com/ijl/orjson
+  DEPENDS:=+python3-light
 endef
 
 define Package/python3-orjson/description
