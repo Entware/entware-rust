@@ -3,17 +3,15 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bottom
-PKG_VERSION:=0.9.3
+PKG_VERSION:=0.9.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ClementTsang/bottom/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=53a1466c3d2ed8f38401e8929cf2da796e703e4d70339d215f855b2304c07f72
+PKG_HASH:=199123ef354bcabaa8a2e3b7b477b324f5b647d503a2599d08296733846eea6e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
-
-RUST_MIN_SIZE:=0
 
 include $(INCLUDE_DIR)/package.mk
 include ../cargo.mk
