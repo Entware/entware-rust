@@ -9,12 +9,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustdesk-server
-PKG_VERSION:=1.1.8
+PKG_VERSION:=1.1.8-2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/rustdesk/rustdesk-server/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=4364fd9b84b873e27b7221d1a96200fbe36e8660249c81f1061a995deefd00ed
+PKG_HASH:=59744c9e8b538789b320f93127f6c58d3200a4ff2c920d93b684b3afe0926dbb
 
 PKG_LICENSE:=AGPL-3.0
 PKG_LICENSE_FILES:=LICENSE
