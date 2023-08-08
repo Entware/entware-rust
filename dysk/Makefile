@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dysk
-PKG_VERSION:=2.7.1
+PKG_VERSION:=2.7.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Canop/dysk/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=ac744a595a742067403e76e6b47dea4ecda89880a636265ab6ca2cd0f128fcbf
+PKG_HASH:=6a6f08e643a4b4e5ac440c5db11c7e36d2c1bee058ed7e0ca86d14b403733d5e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
