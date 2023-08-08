@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=findutils
-PKG_VERSION:=0.4.1
+PKG_VERSION:=0.4.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/uutils/findutils/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=6d6361a46e59c43b7bb2a5ba358868c6d11c060a316e6a9dade63ab5138bdda6
+PKG_HASH:=b02fce9219393b47384229b397c7fbe479435ae8ccf8947f4b6cf7ac159d80f9
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
