@@ -1,5 +1,10 @@
 # SPDX-License-Identifier: WTFPL
 
+# XXX nu 0.80.0:
+# mips(el)/arm:
+#	error[E0599]: no variant or associated item named `bool` found for enum `nu_protocol::Value` in the current scope
+#	error: could not compile `nu_plugin_from_parquet` (bin "nu_plugin_from_parquet") due to previous error
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-from-parquet
@@ -25,7 +30,7 @@ define Package/nu-plugin-from-parquet
   SUBMENU:=Shells
   TITLE:=nu plugin to add parquet support
   URL:=https://github.com/jakeswenson/nu_plugin_from_parquet
-  DEPENDS:=+nushell
+  DEPENDS:=+nushell @(aarch64||i386||x86_64)
 endef
 
 define Package/nu-plugin-from-parquet/description
