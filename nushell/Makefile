@@ -1,14 +1,27 @@
 # SPDX-License-Identifier: WTFPL
 
+# mips(el)/arm:
+#	Some errors have detailed explanations: E0412, E0425, E0432, E0433, E0599.
+#	For more information about an error, try `rustc --explain E0412`.
+#	error: could not compile `simd-json` (lib) due to 149 previous errors
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
+
+ifeq ($(CONFIG_NU_0_80_0),y)
+PKG_VERSION:=0.80.0
+PKG_RELEASE:=1
+PKG_HASH:=6331fe7abeee87b7188639c0ed18ebdb288f188a6de1d12b9f4f046f595cf8ce
+PATCH_DIR:=
+else
 PKG_VERSION:=0.83.1
 PKG_RELEASE:=1
+PKG_HASH:=a08baef4e487cf200b14cd4a8555110106a947ac439ad8e2759f5ec52c8f9656
+endif
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=a08baef4e487cf200b14cd4a8555110106a947ac439ad8e2759f5ec52c8f9656
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -84,6 +97,16 @@ define Package/nu-plugin-query/description
   A Nushell plugin to query JSON, XML, and various web data.
 endef
 
+define Package/nushell/config
+config NU_0_80_0
+	bool
+	default y if (arm||mips||mipsel)
+
+config NU_0_83_1
+	bool
+	default y if (aarch64||i386||x86_64)
+endef
+
 #define Package/nushell/conffiles
 #/opt/root/.config/nushell/config.nu
 #/opt/root/.config/nushell/env.nu
@@ -98,7 +121,7 @@ Hooks/Compile/Post += NushellDir
 
 CARGO_ARGS += \
 	--workspace \
-	--features="extra $(if $(or $(CONFIG_arm),$(CONFIG_mips),$(CONFIG_mipsel)),,dataframe)"
+	$(if $(CONFIG_NU_0_83_1),--features="extra dataframe")
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
