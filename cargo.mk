@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: WTFPL
 
-include ../rust.mk
+include $(TOPDIR)/feeds/rust/rust.mk
 
 ### cargo-build - Compile local packages and all of their dependencies.
 CARGO_COMPILE ?= 1
