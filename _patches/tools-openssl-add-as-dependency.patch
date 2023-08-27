@@ -1,6 +1,6 @@
-From a995af543201fd0e7238c4f9993f7853669987f8 Mon Sep 17 00:00:00 2001
+From a9bb9d1e37dfdcbad0527c694c8878c40f12437e Mon Sep 17 00:00:00 2001
 From: The-BB <tun.chen.bo@gmail.com>
-Date: Wed, 31 May 2023 10:24:13 +0300
+Date: Mon, 28 Aug 2023 00:19:25 +0300
 Subject: [PATCH] tools/openssl: add as dependency
 
 ---
@@ -12,7 +12,7 @@ Subject: [PATCH] tools/openssl: add as dependency
  create mode 100644 tools/openssl/Makefile
 
 diff --git a/tools/Makefile b/tools/Makefile
-index 67985017..1fee213e 100644
+index fbf1439b..0dee2758 100644
 --- a/tools/Makefile
 +++ b/tools/Makefile
 @@ -63,6 +63,7 @@ tools-y += mklibs
@@ -23,7 +23,7 @@ index 67985017..1fee213e 100644
  #tools-y += padjffs2
  #tools-y += patch-image
  tools-y += patchelf
-@@ -96,7 +97,7 @@ $(curdir)/b43-tools/compile := $(curdir)/bison/compile
+@@ -97,7 +98,7 @@ $(curdir)/b43-tools/compile := $(curdir)/bison/compile
  $(curdir)/bc/compile := $(curdir)/bison/compile $(curdir)/libtool/compile
  $(curdir)/bison/compile := $(curdir)/flex/compile
  $(curdir)/cbootimage/compile += $(curdir)/automake/compile
@@ -32,7 +32,7 @@ index 67985017..1fee213e 100644
  $(curdir)/dosfstools/compile := $(curdir)/automake/compile
  $(curdir)/e2fsprogs/compile := $(curdir)/libtool/compile
  $(curdir)/fakeroot/compile := $(curdir)/libtool/compile
-@@ -123,6 +124,7 @@ $(curdir)/mklibs/compile := $(curdir)/libtool/compile
+@@ -124,6 +125,7 @@ $(curdir)/mklibs/compile := $(curdir)/libtool/compile
  $(curdir)/mpc/compile := $(curdir)/mpfr/compile $(curdir)/gmp/compile
  $(curdir)/mpfr/compile := $(curdir)/gmp/compile
  $(curdir)/mtd-utils/compile := $(curdir)/libtool/compile $(curdir)/e2fsprogs/compile $(curdir)/zlib/compile
@@ -40,7 +40,7 @@ index 67985017..1fee213e 100644
  $(curdir)/padjffs2/compile := $(curdir)/findutils/compile
  $(curdir)/patchelf/compile := $(curdir)/libtool/compile
  $(curdir)/pkgconf/compile := $(curdir)/meson/compile
-@@ -147,7 +149,7 @@ else
+@@ -148,7 +150,7 @@ else
  endif
  
  ifneq ($(CONFIG_CCACHE)$(CONFIG_SDK),)

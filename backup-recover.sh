@@ -12,7 +12,7 @@ STAMP_PACKAGES="$PATCH_DIR/.packages-patched"
 
 OWRT_MATURIN="$PACKAGES_FEED/lang/maturin"
 OWRT_RIPGREP="$PACKAGES_FEED/utils/ripgrep"
-PY_BCRYPT="$PACKAGES_FEED/lang/python/bcrypt"
+PY_BCRYPT="$PACKAGES_FEED/lang/python/python-bcrypt"
 PY_CRYPT="$PACKAGES_FEED/lang/python/python-cryptography"
 
 backup()
