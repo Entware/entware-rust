@@ -1,0 +1,56 @@
+ error[E0422]: cannot find struct, variant or union type `LineColumn` in crate `proc_macro`
+    --> .../host/share/cargo/registry/src/index.crates.io-*/proc-macro2-1.0.49/src/wrapper.rs:479:33
+     |
+ 479 |                 let proc_macro::LineColumn { line, column } = s.start();
+     |                                 ^^^^^^^^^^ not found in `proc_macro`
+     |
+ help: consider importing one of these items
+     |
+ 1   + use crate::LineColumn;
+     |
+ 1   + use crate::fallback::LineColumn;
+     |
+ help: if you import `LineColumn`, refer to it directly
+     |
+ 479 -                 let proc_macro::LineColumn { line, column } = s.start();
+ 479 +                 let LineColumn { line, column } = s.start();
+     |
+ 
+ error[E0422]: cannot find struct, variant or union type `LineColumn` in crate `proc_macro`
+    --> .../host/share/cargo/registry/src/index.crates.io-*/proc-macro2-1.0.49/src/wrapper.rs:496:33
+     |
+ 496 |                 let proc_macro::LineColumn { line, column } = s.end();
+     |                                 ^^^^^^^^^^ not found in `proc_macro`
+     |
+ help: consider importing one of these items
+     |
+ 1   + use crate::LineColumn;
+     |
+ 1   + use crate::fallback::LineColumn;
+     |
+ help: if you import `LineColumn`, refer to it directly
+     |
+ 496 -                 let proc_macro::LineColumn { line, column } = s.end();
+ 496 +                 let LineColumn { line, column } = s.end();
+     |
+ 
+ error[E0635]: unknown feature `proc_macro_span_shrink`
+   --> .../host/share/cargo/registry/src/index.crates.io-*/proc-macro2-1.0.49/src/lib.rs:92:30
+    |
+ 92 |     feature(proc_macro_span, proc_macro_span_shrink)
+    |  
+ 
+ error: could not compile `proc-macro2` (lib) due to previous error
+
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -41,6 +41,9 @@ url = "1.4"
+ percent-encoding = "2.1"
+ ctrlc = { version = "3.1", features = ["termination"] }
+ 
++# rustc 1.72.0
++proc-macro2 = "1.0.66"
++
+ [target.'cfg(all(target_env = "musl", target_pointer_width = "64"))'.dependencies.tikv-jemallocator]
+ version = "0.5"
+ 
