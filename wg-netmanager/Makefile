@@ -24,7 +24,7 @@ define Package/wg-netmanager
   SUBMENU:=VPN
   TITLE:=Wireguard network manager
   URL:=https://github.com/gin66/wg_netmanager
-#  EXTRA_DEPENDS:=+ip-full +wireguard-tools
+#  EXTRA_DEPENDS:=ip-full, wireguard-tools
 endef
 
 define Package/wg-netmanager/description
