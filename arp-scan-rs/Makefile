@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=arp-scan-rs
 PKG_VERSION:=0.13.1
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kongbytes/arp-scan-rs/tar.gz/refs/tags/v$(PKG_VERSION)?
