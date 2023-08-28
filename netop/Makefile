@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=netop
 PKG_VERSION:=0.1.2
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ZingerLittleBee/netop/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -30,7 +30,7 @@ define Package/netop/description
 endef
 
 PCAP_PKG=$(TOPDIR)/package/libs/libpcap/Makefile
-PCAP_VER=$(shell grep '^PKG_VERSION' $(PCAP_PKG) | cut -f2 -d'=')
+PCAP_VER=$(shell grep '^PKG_VERSION' $(PCAP_PKG) | cut -d= -f2)
 
 RUSTC_VARS += \
 	LIBPCAP_LIBDIR=$(STAGING_DIR)/opt/lib \
