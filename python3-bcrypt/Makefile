@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=python3-bcrypt
 PKG_VERSION:=4.0.1
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PYPI_NAME:=bcrypt
 PKG_HASH:=27d375903ac8261cfe4047f6709d16f7d18d39b1ec92aaf72af989552a650ebd
