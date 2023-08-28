@@ -1,0 +1,52 @@
+ error[E0422]: cannot find struct, variant or union type `LineColumn` in crate `proc_macro`
+    --> .../host/share/cargo/registry/src/index.crates.io-*/proc-macro2-1.0.51/src/wrapper.rs:475:33
+     |
+ 475 |                 let proc_macro::LineColumn { line, column } = s.start();
+     |                                 ^^^^^^^^^^ not found in `proc_macro`
+     |
+ help: consider importing this struct through its public re-export
+     |
+ 1   + use crate::LineColumn;
+     |
+ help: if you import `LineColumn`, refer to it directly
+     |
+ 475 -                 let proc_macro::LineColumn { line, column } = s.start();
+ 475 +                 let LineColumn { line, column } = s.start();
+     |
+ 
+ error[E0422]: cannot find struct, variant or union type `LineColumn` in crate `proc_macro`
+    --> .../host/share/cargo/registry/src/index.crates.io-*/proc-macro2-1.0.51/src/wrapper.rs:489:33
+     |
+ 489 |                 let proc_macro::LineColumn { line, column } = s.end();
+     |                                 ^^^^^^^^^^ not found in `proc_macro`
+     |
+ help: consider importing this struct through its public re-export
+     |
+ 1   + use crate::LineColumn;
+     |
+ help: if you import `LineColumn`, refer to it directly
+     |
+ 489 -                 let proc_macro::LineColumn { line, column } = s.end();
+ 489 +                 let LineColumn { line, column } = s.end();
+     |
+ 
+ error[E0635]: unknown feature `proc_macro_span_shrink`
+   --> .../host/share/cargo/registry/src/index.crates.io-*/proc-macro2-1.0.51/src/lib.rs:92:30
+    |
+ 92 |     feature(proc_macro_span, proc_macro_span_shrink)
+    |                              ^^^^^^^^^^^^^^^^^^^^^^
+   
+  error: could not compile `proc-macro2` (lib) due to previous error
+
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -45,6 +45,9 @@ unicode-width = "0.1.10"
+ vte = "0.11.0"
+ xdg = "2.4.1"
+ 
++# rustc 1.72.0
++proc-macro2 = "1.0.66"
++
+ [dependencies.git2]
+ version = "0.16.1"
+ default-features = false
