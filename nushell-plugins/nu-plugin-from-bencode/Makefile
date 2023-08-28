@@ -7,7 +7,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-from-bencode
 PKG_VERSION:=0.5.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2023-04-25
@@ -28,7 +28,7 @@ define Package/nu-plugin-from-bencode
   SUBMENU:=Shells
   TITLE:=nu plugin to convert bencode data
   URL:=https://github.com/bluk/nu_plugin_from_bencode
-  DEPENDS:=+nushell @BROKEN
+  DEPENDS:=+nushell @(arm||mips||mipsel)
 endef
 
 define Package/nu-plugin-from-bencode/description
