@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.71.1
+PKG_VERSION:=1.72.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=371af0fbe04051e20a74dbea6d4e4e548f10f15309c49cae2688afb882b6c7f1
+PKG_HASH:=d307441f8ee78a7e94f72cb5c81383822f13027f79e67a5551bfd2c2d2db3014
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-dev-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-dev-$(PKG_VERSION)
@@ -92,6 +92,9 @@ define Host/Configure
 		echo '[target.$(RUST_HOST_TRIPLE)]'; \
 		echo 'cc = "$(HOSTCC_NOCACHE)"'; \
 		echo 'cxx = "$(HOSTCXX_NOCACHE)"'; \
+		echo 'ar = "/bin/ar"'; \
+		echo 'ranlib = "/bin/ranlib"'; \
+		echo 'linker = "$(HOSTCC_NOCACHE)"'; \
 		echo '[dist]'; \
 		echo 'src-tarball = false'; \
 		echo 'compression-formats = ["gz"]'; \
