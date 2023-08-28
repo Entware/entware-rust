@@ -1,0 +1,20 @@
+ error[E0635]: unknown feature `proc_macro_span_shrink`
+   --> .../host/share/cargo/registry/src/index.crates.io-*/proc-macro2-1.0.46/src/lib.rs:92:30
+    |
+ 92 |     feature(proc_macro_span, proc_macro_span_shrink)
+    |                              ^^^^^^^^^^^^^^^^^^^^^^
+ 
+ error: could not compile `proc-macro2` (lib) due to previous error
+
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -67,6 +67,9 @@ regex = { version = "1.7.0", optional =
+ walkdir = { version = "2.0", optional = true }
+ bytesize = { version = "1.1.0" }
+ 
++# rustc 1.72.0
++proc-macro2 = "1.0.66"
++
+ [dependencies.git2]
+ version = "0.16"
+ optional = true
