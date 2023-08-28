@@ -1,0 +1,20 @@
+ error[E0635]: unknown feature `proc_macro_span_shrink`
+   --> .../host/share/cargo/registry/src/index.crates.io-*/proc-macro2-1.0.47/src/lib.rs:92:30
+    |
+ 92 |     feature(proc_macro_span, proc_macro_span_shrink)
+    |                              ^^^^^^^^^^^^^^^^^^^^^^
+ 
+ error: could not compile `proc-macro2` (lib) due to previous error
+
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -52,6 +52,9 @@ crossbeam-channel = "0.5.6"
+ clap_complete = {version = "4.0.6", optional = true}
+ faccess = "0.2.4"
+ 
++# rustc 1.72.0
++proc-macro2 = "1.0.66"
++
+ [dependencies.clap]
+ version = "4.1.1"
+ features = ["suggestions", "color", "wrap_help", "cargo", "unstable-grouped", "derive"]
