@@ -4,7 +4,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dns-firewall
 PKG_VERSION:=1.2.1
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nthuemmel/dns-firewall-rust/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -24,7 +24,7 @@ define Package/dns-firewall
   SUBMENU:=Firewall
   TITLE:=Filtering DNS proxy server with firewall integration
   URL:=https://github.com/nthuemmel/dns-firewall-rust
-  EXTRA_DEPENDS:=iptables ipset
+  EXTRA_DEPENDS:=iptables, ipset
 endef
 
 define Package/dns-firewall/description
