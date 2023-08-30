@@ -44,8 +44,8 @@ comment "Build Options"
 		depends on SS_RUST_LOCAL
 
 	config SS_RUST_LOCAL_HTTP
-		depends on SS_RUST_LOCAL
 		bool "Enable HTTP protocol for sslocal"
+		depends on SS_RUST_LOCAL
 		default y
 
 choice
