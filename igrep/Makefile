@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=igrep
-PKG_VERSION:=1.1.0
+PKG_VERSION:=1.2.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/konradsz/igrep/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=8a290b77923c253dd0ca7323ee4e10cd3e99c9f105652500df7c008cb44c55da
+PKG_HASH:=f817cf5118e93da35fcc0c1e1b6176eeeb282256c45093daa85e91f9d4cd3f49
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
