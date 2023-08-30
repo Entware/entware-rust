@@ -4,14 +4,14 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ripgrep
 PKG_VERSION:=13.0.0
-PKG_RELEASE:=15
+PKG_RELEASE:=16
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-08-05
-PKG_SOURCE_VERSION:=61733f6378b62fa2dc2e7f3eff2f2e7182069ca9
+PKG_SOURCE_DATE:=2023-08-29
+PKG_SOURCE_VERSION:=6cd947963420360d8e4fe7f9eff93f4636d037a1
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/BurntSushi/ripgrep
-PKG_MIRROR_HASH:=aea55c817b36f1be715b92ac8bc385eb4b26a43a6e0509df31396cf26fd841d8
+PKG_MIRROR_HASH:=b387ad4732e0b2bb049c01358d8e4bc3d8e6da55b88614d5b7da5afa32a936b5
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE-MIT
@@ -31,7 +31,6 @@ define Package/ripgrep
 endef
 
 define Package/ripgrep/description
-  .
   ripgrep is a line-oriented search tool that recursively searches the current
   directory for a regex pattern while respecting gitignore rules. ripgrep has
   first class support on Windows, macOS and Linux.
