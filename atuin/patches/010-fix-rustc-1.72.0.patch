@@ -8,13 +8,12 @@
 
 --- a/atuin/Cargo.toml
 +++ b/atuin/Cargo.toml
-@@ -79,6 +79,9 @@ bitflags = "1.3"
- cassowary = "0.3"
- unicode-segmentation = "1.2"
+@@ -73,6 +73,8 @@ colored = "2.0.4"
+ ratatui = "0.21"
+ tracing = "0.1"
  
 +# rustc 1.72.0
 +proc-macro2 = "1.0.66"
-+
+ 
  [dependencies.tracing-subscriber]
  version = "0.3"
- default-features = false
