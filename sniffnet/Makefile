@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sniffnet
 PKG_VERSION:=0.5.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/GyulyVGC/sniffnet/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -24,6 +24,7 @@ define Package/sniffnet
   TITLE:=application to analyze and filter network traffic
   URL:=https://github.com/GyulyVGC/sniffnet
   DEPENDS:=+fontconfig +libpcap
+  EXTRA_DEPENDS:=dejavu-fonts-ttf-DejaVuSerif
 endef
 
 define Package/sniffnet/description
@@ -33,6 +34,12 @@ endef
 define Package/sniffnet/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/sniffnet $(1)/opt/usr/bin
+endef
+
+define Package/sniffnet/postinst
+#!/bin/sh
+
+fc-cache -f
 endef
 
 $(eval $(call BuildPackage,sniffnet))
