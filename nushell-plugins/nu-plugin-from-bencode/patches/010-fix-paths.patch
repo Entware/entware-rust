@@ -1,12 +1,12 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -19,7 +19,7 @@ include = [
- ]
+@@ -20,7 +20,7 @@ include = [
+ rust-version = "1.65.0"
  
  [dependencies]
--nu-plugin = "0.78"
--nu-protocol = "0.78"
+-nu-plugin = "0.84"
+-nu-protocol = "0.84"
 +nu-plugin = { path = "../nushell/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell/crates/nu-protocol", features = ["plugin"] }
- indexmap = "1.8.1"
++nu-protocol = { path = "../nushell/crates/nu-protocol" }
+ indexmap = "2"
  bt_bencode = { version = "0.7", default-features = false, features = ["alloc"] }

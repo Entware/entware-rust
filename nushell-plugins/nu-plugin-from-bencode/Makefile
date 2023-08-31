@@ -1,20 +1,22 @@
 # SPDX-License-Identifier: WTFPL
 
-# error[E0277]: the trait bound `nu_protocol::Value: From<Spanned<IndexMap<std::string::String, nu_protocol::Value>>>` is not satisfied
-# error: could not compile `nu_plugin_from_bencode` (lib) due to previous error
+# XXX nu 0.80.0:
+# mips(el)/arm:
+#	error[E0277]: the trait bound `nu_protocol::Value: From<Spanned<IndexMap<std::string::String, nu_protocol::Value>>>` is not satisfied
+#	error: could not compile `nu_plugin_from_bencode` (lib) due to previous error
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-from-bencode
 PKG_VERSION:=0.5.0
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-04-25
-PKG_SOURCE_VERSION:=9717987c85179cc4d7f5b6d15403e426788c1384
+PKG_SOURCE_DATE:=2023-08-27
+PKG_SOURCE_VERSION:=c7c799a2750709f6e2b91e822e1cbf5276333dd6
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/bluk/nu_plugin_from_bencode
-PKG_MIRROR_HASH:=1b25b3496618b119f7c6b2b90b7e81663e5a32a558da386b5663d0fcf68f76e2
+PKG_MIRROR_HASH:=56fa3cbd5c85bae2aaf4e4da8086f26bcbc687b09fc736e53d8cda21c9596a88
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -28,7 +30,7 @@ define Package/nu-plugin-from-bencode
   SUBMENU:=Shells
   TITLE:=nu plugin to convert bencode data
   URL:=https://github.com/bluk/nu_plugin_from_bencode
-  DEPENDS:=+nushell @(arm||mips||mipsel)
+  DEPENDS:=+nushell @(aarch64||i386||x86_64)
 endef
 
 define Package/nu-plugin-from-bencode/description
