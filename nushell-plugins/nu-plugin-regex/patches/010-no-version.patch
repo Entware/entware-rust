@@ -7,5 +7,5 @@
 -nu-plugin = { path = "../nushell/crates/nu-plugin", version = "0.83.1" }
 -nu-protocol = { path = "../nushell/crates/nu-protocol", version = "0.83.1" }
 +nu-plugin = { path = "../nushell/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell/crates/nu-protocol", features = ["plugin"] }
++nu-protocol = { path = "../nushell/crates/nu-protocol" }
  fancy-regex = "0.11.0"
