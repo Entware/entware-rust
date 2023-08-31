@@ -15,9 +15,9 @@ PKG_RELEASE:=2
 PKG_HASH:=6331fe7abeee87b7188639c0ed18ebdb288f188a6de1d12b9f4f046f595cf8ce
 PATCH_DIR:=./patches-0.80
 else
-PKG_VERSION:=0.83.1
+PKG_VERSION:=0.84.0
 PKG_RELEASE:=1
-PKG_HASH:=a08baef4e487cf200b14cd4a8555110106a947ac439ad8e2759f5ec52c8f9656
+PKG_HASH:=483211c44bb40ca6199b52824ea0a935da19d6a40259c4e27c29ae1e3b3be2a7
 endif
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
@@ -102,7 +102,7 @@ config NU_0_80_0
 	bool
 	default y if (arm||mips||mipsel)
 
-config NU_0_83_1
+config NU_0_84_0
 	bool
 	default y if (aarch64||i386||x86_64)
 endef
@@ -114,14 +114,18 @@ endef
 #endef
 
 # XXX 3rd-party plugins
+define Build/Clean
+	rm -f $(BUILD_DIR)/$(PKG_NAME)
+endef
+
 define NushellDir
-	$(LN) $(PKG_BUILD_DIR) $(BUILD_DIR)/nushell
+	ln -nsf $(PKG_BUILD_DIR) $(BUILD_DIR)/$(PKG_NAME)
 endef
 Hooks/Compile/Post += NushellDir
 
 CARGO_ARGS += \
 	--workspace \
-	$(if $(CONFIG_NU_0_83_1),--features="extra dataframe")
+	$(if $(CONFIG_NU_0_84_0),--features="extra dataframe")
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
