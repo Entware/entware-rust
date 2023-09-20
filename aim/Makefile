@@ -6,12 +6,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=aim
-PKG_VERSION:=1.8.3
-PKG_RELEASE:=3
+PKG_VERSION:=1.8.5
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/mihaigalos/aim/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=18e4cdbe5317da02bc56b786107bef8469edb3176cc7a4db7151022d61fd0ddd
+PKG_HASH:=d27327538d4526e944400d3c425d7c4298725b60ddd1ca23d678f0dd3009b149
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
@@ -25,7 +25,7 @@ define Package/aim
   SUBMENU:=Download Manager
   TITLE:=A command line download/upload tool with resume
   URL:=https://github.com/mihaigalos/aim
-  DEPENDS:=@!(mips||mipsel) +libopenssl
+  DEPENDS:=+libopenssl +zlib #@!(mips||mipsel)
 endef
 
 define Package/aim/description
