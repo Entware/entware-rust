@@ -1,24 +1,12 @@
 # SPDX-License-Identifier: WTFPL
 
-# mips(el)/arm:
-#	Some errors have detailed explanations: E0412, E0425, E0432, E0433, E0599.
-#	For more information about an error, try `rustc --explain E0412`.
-#	error: could not compile `simd-json` (lib) due to 149 previous errors
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
 
-ifeq ($(CONFIG_NU_0_80_0),y)
-PKG_VERSION:=0.80.0
-PKG_RELEASE:=2
-PKG_HASH:=6331fe7abeee87b7188639c0ed18ebdb288f188a6de1d12b9f4f046f595cf8ce
-PATCH_DIR:=./patches-0.80
-else
-PKG_VERSION:=0.84.0
+PKG_VERSION:=0.85.0
 PKG_RELEASE:=1
-PKG_HASH:=483211c44bb40ca6199b52824ea0a935da19d6a40259c4e27c29ae1e3b3be2a7
-endif
+PKG_HASH:=19e327b23fc08b519f5077e33908afa7967d98139a516c180d029b3ca0618da3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
@@ -97,16 +85,6 @@ define Package/nu-plugin-query/description
   A Nushell plugin to query JSON, XML, and various web data.
 endef
 
-define Package/nushell/config
-config NU_0_80_0
-	bool
-	default y if (arm||mips||mipsel)
-
-config NU_0_84_0
-	bool
-	default y if (aarch64||i386||x86_64)
-endef
-
 #define Package/nushell/conffiles
 #/opt/root/.config/nushell/config.nu
 #/opt/root/.config/nushell/env.nu
@@ -123,9 +101,22 @@ define NushellDir
 endef
 Hooks/Compile/Post += NushellDir
 
+CARGO_ARGS += --workspace
+
+# FIXME
+# mips(el)/arm:
+#	Some errors have detailed explanations: E0412, E0425, E0432, E0433, E0599.
+#	For more information about an error, try `rustc --explain E0412`.
+#	error: could not compile `simd-json` (lib) due to 149 previous errors
 CARGO_ARGS += \
-	--workspace \
-	$(if $(CONFIG_NU_0_84_0),--features="extra dataframe")
+	--features=$(if $(or $(CONFIG_mips),$(CONFIG_mipsel)),"extra","dataframe extra")
+
+# FIXME
+# mips(el):
+#	undefined reference to symbol '__atomic_load_8@@LIBATOMIC_1.0'
+ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
+RUSTFLAGS += -l dylib=atomic
+endif
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
@@ -169,36 +160,61 @@ endef
 define Package/nu-plugin-custom-values/postinst
 #!/bin/sh
 
-echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_custom_values'\n"
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_white_cur="\033[1;3;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
+printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_custom_values"
 endef
 
 define Package/nu-plugin-formats/postinst
 #!/bin/sh
 
-echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_formats'\n"
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_white_cur="\033[1;3;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
+printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_formats"
 endef
 
 define Package/nu-plugin-gstat/postinst
 #!/bin/sh
 
-echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_gstat'\n"
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_white_cur="\033[1;3;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
+printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_gstat"
 endef
 
 define Package/nu-plugin-inc/postinst
 #!/bin/sh
 
-echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_inc'\n"
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_white_cur="\033[1;3;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
+printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_inc"
 endef
 
 define Package/nu-plugin-query/postinst
 #!/bin/sh
 
-echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_query'\n"
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_white_cur="\033[1;3;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
+printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_query"
 endef
 
 $(eval $(call BuildPackage,nushell))

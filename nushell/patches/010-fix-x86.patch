@@ -8,13 +8,13 @@
 
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -95,6 +95,9 @@ nix = { version = "0.26", default-featur
+@@ -94,6 +94,9 @@ nix = { version = "0.27", default-featur
+ 	"term",
  ] }
- is-terminal = "0.4.8"
  
 +[target.'cfg(not(any(target_arch = "aarch64", target_arch = "x86_64")))'.dependencies]
 +value-trait = { version = "0.6.1", features = ["allow-non-simd"] }
 +
  [dev-dependencies]
- nu-test-support = { path = "./crates/nu-test-support", version = "0.84.0" }
+ nu-test-support = { path = "./crates/nu-test-support", version = "0.85.0" }
  assert_cmd = "2.0"
