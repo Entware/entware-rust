@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata
-PKG_VERSION:=7.0.0
+PKG_VERSION:=7.0.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://www.openinfosecfoundation.org/download
-PKG_HASH:=7bcd1313118366451465dc3f8385a3f6aadd084ffe44dd257dda8105863bb769
+PKG_HASH:=6047c75f9e79a9b0cc6d6c7632024a4126812bc212f52acf5d3c813cc7c9fb0b
 
 PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
@@ -28,7 +28,7 @@ define Package/suricata7/Default
   CATEGORY:=Network
   TITLE:=OISF Suricata IDS
   URL:=https://www.openinfosecfoundation.org/
-  DEPENDS:=+file +jansson +libatomic +libelf +libpcap +libcap-ng +liblz4
+  DEPENDS:=+jansson +libatomic +libelf +libmagic +libpcap +libcap-ng +liblz4
   DEPENDS+=+libpcre2 +libyaml +zlib $(ICONV_DEPENDS)
   DEPENDS+= \
 	+SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT:python3-light \
@@ -189,9 +189,15 @@ Package/suricata7-mini/install=$(Package/suricata7/install)
 define Package/suricata7/postinst
 #!/bin/sh
 
-echo -e "\n\tCurrent Suricata ruleset can be found at:
-\thttps://rules.emergingthreats.net/open/suricata-$(PKG_VERSION)/emerging.rules.tar.gz
-\n\tor you can install suricata-update package\n"
+ansi_blue="\033[1;34m"
+ansi_blue_cur_ul="\033[1;3;4;34m"
+ansi_white="\033[1;37m"
+ansi_white_cur="\033[1;3;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s$$ansi_std\n" "Info:" "current Suricata ruleset can be found at:"
+printf "\t$$ansi_blue_cur_ul%s$$ansi_std\n\n" "https://rules.emergingthreats.net/open/suricata-$(PKG_VERSION)/emerging.rules.tar.gz"
+printf "\t$$ansi_white%s$$ansi_white_cur %s$$ansi_std$$ansi_white %s$$ansi_std\n\n" "or you can install" "'suricata-update'" "package"
 endef
 
 Package/suricata7-extra/postinst=$(Package/suricata7/postinst)
