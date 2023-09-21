@@ -4,14 +4,14 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-pnet
 PKG_VERSION:=1.2.0
-PKG_RELEASE:=4
+PKG_RELEASE:=5
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-07-27
-PKG_SOURCE_VERSION:=fe459ab77b1810c638b305cc0bd688a99ffb042f
+PKG_SOURCE_DATE:=2023-09-06
+PKG_SOURCE_VERSION:=9316f0b1b23803676d0075b26cddcd9e88d43858
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_pnet
-PKG_MIRROR_HASH:=e93d28e86630af7960f4a394d5eae4a60e2b73092ed973fcc95b54aa8f987216
+PKG_MIRROR_HASH:=6fcd682a3a622d6561588767e6aa9db71d2d72b22be065bb80dbdfa4276a2b10
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=
@@ -45,8 +45,13 @@ endef
 define Package/nu-plugin-pnet/postinst
 #!/bin/sh
 
-echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_pnet'\n"
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_white_cur="\033[1;3;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
+printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_pnet"
 endef
 
 $(eval $(call BuildPackage,nu-plugin-pnet))
