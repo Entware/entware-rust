@@ -1,5 +1,9 @@
 # SPDX-License-Identifier: WTFPL
 
+# armv5:
+#	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
+#	error: could not compile `leaf` (lib) due to previous error; 4 warnings emitted
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=leaf
@@ -27,14 +31,14 @@ endef
 
 define Package/leaf-ring
   $(call Package/leaf/Default)
-  DEPENDS:=@!(mips||mipsel)
+  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2)
   VARIANT:=ring
   CONFLICTS:=leaf-ssl
 endef
 
 define Package/leaf-ssl
   $(call Package/leaf/Default)
-  DEPENDS:=+libopenssl
+  DEPENDS:=+libopenssl @!TARGET_armv5_3_2
   VARIANT:=ssl
 endef
 
