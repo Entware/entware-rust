@@ -1,10 +1,5 @@
 # SPDX-License-Identifier: WTFPL
 
-# XXX nu 0.80.0:
-# arm:
-#	error[E0599]: no variant or associated item named `filesize` found for enum `nu_protocol::Value` in the current scope
-#	error[E0599]: no variant or associated item named `bool` found for enum `nu_protocol::Value` in the current scope
-#	error: could not compile `nu_plugin_dns` (lib) due to 25 previous errors
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
 
@@ -33,7 +28,7 @@ define Package/nu-plugin-dns
   SUBMENU:=Shells
   TITLE:=A DNS utility for nushell
   URL:=https://github.com/dead10ck/nu_plugin_dns
-  DEPENDS:=+nushell @(aarch64||i386||x86_64)
+  DEPENDS:=+nushell @BROKEN
 endef
 
 define Package/nu-plugin-dns/description

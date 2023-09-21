@@ -1,10 +1,5 @@
 # SPDX-License-Identifier: WTFPL
 
-# XXX nu 0.80.0:
-# mips(el)/arm:
-#	error[E0277]: the trait bound `nu_protocol::Value: From<Spanned<IndexMap<std::string::String, nu_protocol::Value>>>` is not satisfied
-#	error: could not compile `nu_plugin_from_bencode` (lib) due to previous error
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-from-bencode
@@ -30,7 +25,7 @@ define Package/nu-plugin-from-bencode
   SUBMENU:=Shells
   TITLE:=nu plugin to convert bencode data
   URL:=https://github.com/bluk/nu_plugin_from_bencode
-  DEPENDS:=+nushell @(aarch64||i386||x86_64)
+  DEPENDS:=+nushell @BROKEN
 endef
 
 define Package/nu-plugin-from-bencode/description

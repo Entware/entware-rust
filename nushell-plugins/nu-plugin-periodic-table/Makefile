@@ -25,7 +25,7 @@ define Package/nu-plugin-periodic-table
   SUBMENU:=Shells
   TITLE:=nu plugin a periodic table of elements
   URL:=https://github.com/JosephTLyons/nu_plugin_periodic_table
-  DEPENDS:=+nushell
+  DEPENDS:=+nushell @BROKEN
 endef
 
 define Package/nu-plugin-periodic-table/description

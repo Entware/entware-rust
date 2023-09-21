@@ -25,7 +25,7 @@ define Package/nu-plugin-bio
   SUBMENU:=Shells
   TITLE:=Bioinformatics plugin for nushell
   URL:=https://github.com/Euphrasiologist/nu_plugin_bio
-  DEPENDS:=+liblzma +nushell
+  DEPENDS:=+liblzma +nushell @BROKEN
 endef
 
 define Package/nu-plugin-bio/description
