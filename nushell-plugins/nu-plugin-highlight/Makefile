@@ -1,15 +1,10 @@
 # SPDX-License-Identifier: WTFPL
 
-# XXX nu 0.80.0:
-# mips(el)/arm:
-#	error[E0599]: no variant or associated item named `bool` found for enum `nu_protocol::Value` in the current scope
-#	error: could not compile `nu_plugin_highlight` (bin "nu_plugin_highlight") due to previous error
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-highlight
 PKG_VERSION:=1.0.5
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2023-07-31
@@ -30,7 +25,7 @@ define Package/nu-plugin-highlight
   SUBMENU:=Shells
   TITLE:=nu plugin for syntax highlighting
   URL:=https://github.com/cptpiepmatz/nu-plugin-highlight
-  DEPENDS:=+nushell @(aarch64||i386||x86_64)
+  DEPENDS:=+nushell
 endef
 
 define Package/nu-plugin-highlight/description
@@ -47,8 +42,13 @@ endef
 define Package/nu-plugin-highlight/postinst
 #!/bin/sh
 
-echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_highlight'\n"
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_white_cur="\033[1;3;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
+printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_highlight"
 endef
 
 $(eval $(call BuildPackage,nu-plugin-highlight))
