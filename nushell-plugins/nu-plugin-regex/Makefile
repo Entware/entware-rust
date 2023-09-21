@@ -4,14 +4,14 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-regex
 PKG_VERSION:=0.1.0
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-07-27
-PKG_SOURCE_VERSION:=8b90859ee911cbf7f3b57bd0770029f235a81547
+PKG_SOURCE_DATE:=2023-09-06
+PKG_SOURCE_VERSION:=533a2538c0e7ef1d0d4e05707528713b9a6868a1
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_regex
-PKG_MIRROR_HASH:=8364fdd7d677b32ae61510eec652dcfaa05afd86d90e8f445dec5a0530a508fd
+PKG_MIRROR_HASH:=7472ea1f633c9a31cca18a588041f6b62018b67b97112886843fcfde3dbbcf31
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -41,8 +41,13 @@ endef
 define Package/nu-plugin-regex/postinst
 #!/bin/sh
 
-echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_regex'\n"
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_white_cur="\033[1;3;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
+printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_regex"
 endef
 
 $(eval $(call BuildPackage,nu-plugin-regex))
