@@ -50,7 +50,7 @@
  
 --- a/systeroid-core/src/sysctl/parameter.rs
 +++ b/systeroid-core/src/sysctl/parameter.rs
-@@ -226,7 +226,7 @@ mod tests {
+@@ -239,7 +239,7 @@ mod tests {
              value: String::from("1"),
              description: Some(String::from("This is a fictional parameter for testing")),
              section: Section::Kernel,
@@ -59,7 +59,7 @@
              docs_title: String::from("Test Parameter"),
          };
          assert_eq!(Some("test_param"), parameter.get_absolute_name());
-@@ -285,7 +285,7 @@ mod tests {
+@@ -298,7 +298,7 @@ mod tests {
              This is a fictional parameter for testing
              -
              Parameter: kernel.fictional.test_param

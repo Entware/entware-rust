@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=systeroid
-PKG_VERSION:=0.4.2
+PKG_VERSION:=0.4.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/orhun/systeroid/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=0abd432a7eb1c89d7c1bf8da4548ba91871d8b9cd460db907b739df447c66f33
+PKG_HASH:=b638d1167227a30cf793847a08fee42a5810bfb6a493ea0289e29c8260ef916c
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -60,7 +60,6 @@ Hooks/Compile/Post += Docs
 define Package/systeroid-tui/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/systeroid-tui $(1)/opt/usr/bin
-
 	$(INSTALL_DIR) $(1)/opt/share/doc
 	$(CP) $(PKG_BUILD_DIR)/linux-docs $(1)/opt/share/doc
 endef
