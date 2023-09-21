@@ -109,12 +109,12 @@ CARGO_ARGS += --workspace
 #	For more information about an error, try `rustc --explain E0412`.
 #	error: could not compile `simd-json` (lib) due to 149 previous errors
 CARGO_ARGS += \
-	--features=$(if $(or $(CONFIG_mips),$(CONFIG_mipsel)),"extra","dataframe extra")
+	--features=$(if $(or $(CONFIG_arm),$(CONFIG_mips),$(CONFIG_mipsel)),"extra","dataframe extra")
 
 # FIXME
-# mips(el):
+# mips(el)/arm:
 #	undefined reference to symbol '__atomic_load_8@@LIBATOMIC_1.0'
-ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
+ifeq ($(or $(CONFIG_arm),$(CONFIG_mips),$(CONFIG_mipsel)),y)
 RUSTFLAGS += -l dylib=atomic
 endif
 
