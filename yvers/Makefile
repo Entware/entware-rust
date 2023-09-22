@@ -1,5 +1,8 @@
 # SPDX-License-Identifier: WTFPL
 
+# armv7-2.6:
+#	(crashed) src/widgets/procs.rs, line 210
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=yvers
@@ -24,6 +27,7 @@ define Package/yvers
   CATEGORY:=Administration
   TITLE:=An extensible TUI system monitor
   URL:=https://github.com/TokieSan/yvers
+  DEPENDS:=@!TARGET_armv7_2_6
 endef
 
 define Package/yvers/description
