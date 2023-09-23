@@ -36,6 +36,13 @@ ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
 CARGO_ARGS += --no-default-features
 endif
 
+# FIXME
+# i386/x86_64:
+#	undefined reference to `__stack_chk_guard'
+ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+endif
+
 define Package/mqttui/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/mqttui $(1)/opt/usr/bin
