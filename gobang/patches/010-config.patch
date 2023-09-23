@@ -1,0 +1,33 @@
+--- a/sample.toml
++++ b/sample.toml
+@@ -1,14 +1,16 @@
+ [[conn]]
+ type = "mysql"
+ user = "root"
+-host = "localhost"
+-database = "world"
++password = "your_pass"
++host = "127.0.0.1"
++database = "test"
+ port = 3306
+ 
+ [[conn]]
+ type = "mysql"
+ user = "root"
+-host = "localhost"
++password = "your_pass"
++host = "127.0.0.1"
+ port = 3306
+ 
+ [[conn]]
+@@ -22,8 +24,8 @@ type = "postgres"
+ user = "postgres"
+ host = "localhost"
+ port = 5432
+-database = "dvdrental"
++database = "test"
+ 
+ [[conn]]
+ type = "sqlite"
+-path = "/Users/tako8ki/Downloads/chinook.db"
++path = "/path/to/sqlite.db"
