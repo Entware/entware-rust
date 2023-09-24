@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -24,7 +24,7 @@ crossterm = { version = "0.22.0", featur
+ # Extension of futures for async computation
+ futures = "0.3"
+ # HTTP client
+-reqwest = { version = "0.11", default-features = false, features = ["blocking", "json", "rustls-tls"] }
++reqwest = { version = "0.11", default-features = false, features = ["blocking", "json", "native-tls"] }
+ # Decerilization of responses
+ serde = { version = "1.0", features = ["derive"] }
+ # Decerilization of JSON responses
