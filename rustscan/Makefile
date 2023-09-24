@@ -26,7 +26,7 @@ define Package/rustscan
   CATEGORY:=Network
   TITLE:=The Modern Port Scanner
   URL:=https://github.com/RustScan/RustScan
-  DEPENDS:=@!(mips||mipsel)
+  DEPENDS:=+(mips||mipsel):libopenssl
   EXTRA_DEPENDS:=nmap
 endef
 
