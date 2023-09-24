@@ -27,7 +27,7 @@ define Package/termscp
   SUBMENU:=File Transfer
   TITLE:=a feature rich terminal file transfer and explorer
   URL:=https://veeso.github.io/termscp/
-  DEPENDS:=@!(mips||mipsel) +libdbus +libopenssl +zlib
+  DEPENDS:=+libdbus +libopenssl +zlib
 endef
 
 define Package/termscp/description
