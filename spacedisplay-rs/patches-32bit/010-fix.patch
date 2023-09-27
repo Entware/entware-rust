@@ -1,0 +1,31 @@
+--- a/lib/Cargo.toml
++++ b/lib/Cargo.toml
+@@ -17,7 +17,7 @@ byte-unit = { version = "4.0", default-f
+ crc = "3.0.0"
+ derivative = "2.2.0"
+ log = "0.4.17"
+-mountpoints = "0.2.1"
++#mountpoints = "0.2.1"
+ ptree = { version = "0.4.0", default-features = false }
+ 
+ [target.'cfg(target_os = "linux")'.dependencies]
+--- a/lib/src/platform/unix.rs
++++ b/lib/src/platform/unix.rs
+@@ -31,13 +31,13 @@ pub fn get_mount_stats<P: AsRef<Path>>(p
+ 
+     // these conversions are required on macos but not needed on linux
+     #[allow(clippy::useless_conversion)]
+-    let total = statvfs.fragment_size() * u64::from(statvfs.blocks());
++    let total = statvfs.fragment_size() * u32::from(statvfs.blocks());
+     #[allow(clippy::useless_conversion)]
+-    let available = statvfs.fragment_size() * u64::from(statvfs.blocks_available());
++    let available = statvfs.fragment_size() * u32::from(statvfs.blocks_available());
+ 
+     Some(MountStats {
+-        total: Byte::from_bytes(total),
+-        available: Byte::from_bytes(available),
++        total: Byte::from_bytes(total.into()),
++        available: Byte::from_bytes(available.into()),
+         is_mount_point,
+     })
+ }

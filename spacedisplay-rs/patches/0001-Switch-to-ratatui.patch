@@ -1,0 +1,301 @@
+From 54f5f56e90274a3fb48b7eba0cd04c44964676c8 Mon Sep 17 00:00:00 2001
+From: funbiscuit <kokurinsv@gmail.com>
+Date: Tue, 28 Mar 2023 20:44:15 +0300
+Subject: [PATCH] Switch to ratatui
+
+---
+ Cargo.lock                   | 46 ++++++++++++------------------------
+ app/Cargo.toml               |  2 +-
+ app/src/dialog/delete.rs     | 10 ++++----
+ app/src/dialog/mod.rs        |  6 ++---
+ app/src/dialog/new_scan.rs   | 10 ++++----
+ app/src/dialog/scan_stats.rs |  8 +++----
+ app/src/file_list.rs         |  8 +++----
+ app/src/log_list.rs          | 12 +++++-----
+ app/src/progressbar.rs       | 10 ++++----
+ app/src/term.rs              |  4 ++--
+ app/src/ui.rs                | 12 +++++-----
+ app/src/utils.rs             |  2 +-
+ 12 files changed, 57 insertions(+), 73 deletions(-)
+
+diff --git a/Cargo.lock b/Cargo.lock
+index d3e0b00..1481849 100644
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -209,22 +209,6 @@ dependencies = [
+  "cfg-if",
+ ]
+ 
+-[[package]]
+-name = "crossterm"
+-version = "0.25.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "e64e6c0fbe2c17357405f7c758c1ef960fce08bdfb2c03d88d2a18d7e09c4b67"
+-dependencies = [
+- "bitflags",
+- "crossterm_winapi",
+- "libc",
+- "mio",
+- "parking_lot",
+- "signal-hook",
+- "signal-hook-mio",
+- "winapi",
+-]
+-
+ [[package]]
+ name = "crossterm"
+ version = "0.26.1"
+@@ -792,6 +776,19 @@ dependencies = [
+  "proc-macro2",
+ ]
+ 
++[[package]]
++name = "ratatui"
++version = "0.20.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "dcc0d032bccba900ee32151ec0265667535c230169f5a011154cdcd984e16829"
++dependencies = [
++ "bitflags",
++ "cassowary",
++ "crossterm",
++ "unicode-segmentation",
++ "unicode-width",
++]
++
+ [[package]]
+ name = "redox_syscall"
+ version = "0.2.16"
+@@ -927,14 +924,14 @@ dependencies = [
+  "anyhow",
+  "byte-unit",
+  "clap",
+- "crossterm 0.26.1",
++ "crossterm",
+  "derivative",
+  "diskscan",
+  "lazy_static",
+  "log",
+  "num-format",
++ "ratatui",
+  "time",
+- "tui",
+  "unicode-width",
+ ]
+ 
+@@ -1042,19 +1039,6 @@ dependencies = [
+  "windows-sys 0.45.0",
+ ]
+ 
+-[[package]]
+-name = "tui"
+-version = "0.19.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ccdd26cbd674007e649a272da4475fb666d3aa0ad0531da7136db6fab0e5bad1"
+-dependencies = [
+- "bitflags",
+- "cassowary",
+- "crossterm 0.25.0",
+- "unicode-segmentation",
+- "unicode-width",
+-]
+-
+ [[package]]
+ name = "unicode-ident"
+ version = "1.0.8"
+diff --git a/app/Cargo.toml b/app/Cargo.toml
+index 0a62393..6567cbb 100644
+--- a/app/Cargo.toml
++++ b/app/Cargo.toml
+@@ -23,6 +23,6 @@ derivative = "2.2.0"
+ lazy_static = "1.4.0"
+ log = "0.4.17"
+ num-format = "0.4.3"
++ratatui = { version = "0.20.1", default-features = false, features = ["crossterm"] }
+ time = { version = "0.3.20", features = ["formatting", "macros"] }
+-tui = { version = "0.19", default-features = false, features = ["crossterm"] }
+ unicode-width = "0.1.10"
+diff --git a/app/src/dialog/delete.rs b/app/src/dialog/delete.rs
+index 72c7322..9c8e466 100644
+--- a/app/src/dialog/delete.rs
++++ b/app/src/dialog/delete.rs
+@@ -1,9 +1,9 @@
+ use byte_unit::Byte;
+-use tui::buffer::Buffer;
+-use tui::layout::{Alignment, Rect};
+-use tui::style::{Color, Modifier, Style};
+-use tui::text::{Span, Spans};
+-use tui::widgets::{Block, BorderType, Borders, Clear, Paragraph, Widget};
++use ratatui::buffer::Buffer;
++use ratatui::layout::{Alignment, Rect};
++use ratatui::style::{Color, Modifier, Style};
++use ratatui::text::{Span, Spans};
++use ratatui::widgets::{Block, BorderType, Borders, Clear, Paragraph, Widget};
+ use unicode_width::UnicodeWidthStr;
+ 
+ use diskscan::EntryPath;
+diff --git a/app/src/dialog/mod.rs b/app/src/dialog/mod.rs
+index 68fdaeb..f4a2278 100644
+--- a/app/src/dialog/mod.rs
++++ b/app/src/dialog/mod.rs
+@@ -1,6 +1,6 @@
+-use tui::buffer::Buffer;
+-use tui::layout::Rect;
+-use tui::widgets::Widget;
++use ratatui::buffer::Buffer;
++use ratatui::layout::Rect;
++use ratatui::widgets::Widget;
+ 
+ pub use delete::DeleteDialog;
+ pub use new_scan::NewScanDialog;
+diff --git a/app/src/dialog/new_scan.rs b/app/src/dialog/new_scan.rs
+index 477105a..5f00876 100644
+--- a/app/src/dialog/new_scan.rs
++++ b/app/src/dialog/new_scan.rs
+@@ -1,8 +1,8 @@
+-use tui::buffer::Buffer;
+-use tui::layout::Rect;
+-use tui::style::{Color, Modifier, Style};
+-use tui::text::Spans;
+-use tui::widgets::{
++use ratatui::buffer::Buffer;
++use ratatui::layout::Rect;
++use ratatui::style::{Color, Modifier, Style};
++use ratatui::text::Spans;
++use ratatui::widgets::{
+     Block, BorderType, Borders, Clear, List, ListItem, ListState, StatefulWidget, Widget,
+ };
+ use unicode_width::UnicodeWidthStr;
+diff --git a/app/src/dialog/scan_stats.rs b/app/src/dialog/scan_stats.rs
+index 618f7d2..47a6eee 100644
+--- a/app/src/dialog/scan_stats.rs
++++ b/app/src/dialog/scan_stats.rs
+@@ -1,8 +1,8 @@
+ use num_format::{CustomFormat, Grouping};
+-use tui::buffer::Buffer;
+-use tui::layout::Rect;
+-use tui::style::{Color, Style};
+-use tui::widgets::{Block, BorderType, Borders, Clear, Widget};
++use ratatui::buffer::Buffer;
++use ratatui::layout::Rect;
++use ratatui::style::{Color, Style};
++use ratatui::widgets::{Block, BorderType, Borders, Clear, Widget};
+ use unicode_width::UnicodeWidthStr;
+ 
+ use diskscan::ScanStats;
+diff --git a/app/src/file_list.rs b/app/src/file_list.rs
+index c1eca84..a7d6199 100644
+--- a/app/src/file_list.rs
++++ b/app/src/file_list.rs
+@@ -1,10 +1,10 @@
+ use std::cmp;
+ 
+ use byte_unit::Byte;
+-use tui::buffer::Buffer;
+-use tui::layout::Rect;
+-use tui::style::{Color, Style};
+-use tui::widgets::{Block, StatefulWidget, Widget};
++use ratatui::buffer::Buffer;
++use ratatui::layout::Rect;
++use ratatui::style::{Color, Style};
++use ratatui::widgets::{Block, StatefulWidget, Widget};
+ use unicode_width::UnicodeWidthStr;
+ 
+ use crate::utils;
+diff --git a/app/src/log_list.rs b/app/src/log_list.rs
+index 95e0899..c3bcdef 100644
+--- a/app/src/log_list.rs
++++ b/app/src/log_list.rs
+@@ -1,10 +1,10 @@
+ use log::Level;
++use ratatui::buffer::Buffer;
++use ratatui::layout::Rect;
++use ratatui::style::{Color, Modifier, Style};
++use ratatui::text::{Span, Spans};
++use ratatui::widgets::{Block, StatefulWidget, Widget};
+ use time::format_description::FormatItem;
+-use tui::buffer::Buffer;
+-use tui::layout::Rect;
+-use tui::style::{Color, Modifier, Style};
+-use tui::text::{Span, Spans};
+-use tui::widgets::{Block, StatefulWidget, Widget};
+ 
+ use crate::logger::LogEntry;
+ 
+@@ -194,7 +194,7 @@ impl<'a> StatefulWidget for LogList<'a> {
+                 buf.set_string(
+                     x + list_area.width - 1,
+                     y,
+-                    tui::symbols::line::VERTICAL,
++                    ratatui::symbols::line::VERTICAL,
+                     Style::default(),
+                 )
+             }
+diff --git a/app/src/progressbar.rs b/app/src/progressbar.rs
+index b06d5d2..7226e40 100644
+--- a/app/src/progressbar.rs
++++ b/app/src/progressbar.rs
+@@ -1,9 +1,9 @@
+ use num_format::{CustomFormat, Grouping};
+-use tui::buffer::Buffer;
+-use tui::layout::Rect;
+-use tui::style::{Color, Style};
+-use tui::text::Span;
+-use tui::widgets::Widget;
++use ratatui::buffer::Buffer;
++use ratatui::layout::Rect;
++use ratatui::style::{Color, Style};
++use ratatui::text::Span;
++use ratatui::widgets::Widget;
+ use unicode_width::UnicodeWidthStr;
+ 
+ #[derive(Debug, Clone)]
+diff --git a/app/src/term.rs b/app/src/term.rs
+index 9453aef..52b5303 100644
+--- a/app/src/term.rs
++++ b/app/src/term.rs
+@@ -8,8 +8,8 @@ use crossterm::terminal::{
+     disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen,
+ };
+ use crossterm::{event, execute};
+-use tui::backend::{Backend, CrosstermBackend};
+-use tui::Terminal;
++use ratatui::backend::{Backend, CrosstermBackend};
++use ratatui::Terminal;
+ 
+ use crate::app::App;
+ use crate::{ui, Args};
+diff --git a/app/src/ui.rs b/app/src/ui.rs
+index b4a3146..aaf9530 100644
+--- a/app/src/ui.rs
++++ b/app/src/ui.rs
+@@ -1,10 +1,10 @@
+ use byte_unit::Byte;
+-use tui::backend::Backend;
+-use tui::layout::{Alignment, Constraint, Direction, Layout, Rect};
+-use tui::style::{Color, Modifier, Style};
+-use tui::text::{Span, Spans};
+-use tui::widgets::{Block, BorderType, Borders, Paragraph, Tabs};
+-use tui::Frame;
++use ratatui::backend::Backend;
++use ratatui::layout::{Alignment, Constraint, Direction, Layout, Rect};
++use ratatui::style::{Color, Modifier, Style};
++use ratatui::text::{Span, Spans};
++use ratatui::widgets::{Block, BorderType, Borders, Paragraph, Tabs};
++use ratatui::Frame;
+ 
+ use diskscan::SnapshotConfig;
+ 
+diff --git a/app/src/utils.rs b/app/src/utils.rs
+index 54ec74c..381282d 100644
+--- a/app/src/utils.rs
++++ b/app/src/utils.rs
+@@ -1,5 +1,5 @@
+ use byte_unit::Byte;
+-use tui::symbols;
++use ratatui::symbols;
+ 
+ pub fn byte_to_str(b: Byte, padding: usize) -> String {
+     format!(
+-- 
+2.30.2
+
