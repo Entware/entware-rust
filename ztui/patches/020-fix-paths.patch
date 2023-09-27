@@ -1,0 +1,11 @@
+--- a/src/client.rs
++++ b/src/client.rs
+@@ -45,7 +45,7 @@ pub fn authtoken_path(arg: Option<&Path>
+     }
+ 
+     if cfg!(target_os = "linux") {
+-        Path::new("/var/lib/zerotier-one/authtoken.secret")
++        Path::new("/opt/var/lib/zerotier-one/authtoken.secret")
+     } else if cfg!(target_os = "windows") {
+         Path::new("C:/ProgramData/ZeroTier/One/authtoken.secret")
+     } else if cfg!(target_os = "macos") {
