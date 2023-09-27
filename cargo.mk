@@ -28,7 +28,7 @@ ifeq ($(CARGO_COMPILE),1)
   define Build/Compile/Cargo
 	$(RUSTC_VARS) \
 	RUSTFLAGS="$(RUSTFLAGS)" \
-	cargo build \
+	$(CARGO_BIN) build \
 	--release \
 	$(CARGO_ARGS) \
 	--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml \
@@ -43,7 +43,7 @@ ifeq ($(CARGO_INSTALL),1)
   define Build/Install/Cargo
 	$(RUSTC_VARS) \
 	RUSTFLAGS="$(RUSTFLAGS)" \
-	cargo install \
+	$(CARGO_BIN) install \
 	$(CARGO_ARGS) \
 	--path $(CARGO_BUILD_DIR) \
 	--root $(CARGO_INSTALL_ROOT) \
