@@ -1,0 +1,11 @@
+--- a/src/tracer.rs
++++ b/src/tracer.rs
+@@ -140,7 +140,7 @@ async fn main() -> Result<()> {
+             }
+         });
+ 
+-        let stdout = io::stdout().into_raw_mode()?;
++        let stdout = io::stdout();
+         let stdout = MouseTerminal::from(stdout);
+         let stdout = AlternateScreen::from(stdout);
+         let backend = CrosstermBackend::new(stdout);
