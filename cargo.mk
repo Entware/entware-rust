@@ -8,6 +8,8 @@ CARGO_COMPILE ?= 1
 ### cargo-install - Build and install a Rust binary
 CARGO_INSTALL ?= 0
 
+CARGO_ARGS += -Z unstable-options
+
 define Build/Configure/Cargo
 endef
 #	( [ -f $(PKG_BUILD_DIR)/.cargo/config.toml ]; $(RM) $(PKG_BUILD_DIR)/.catgo/config.toml ; \
@@ -22,19 +24,25 @@ endef
 #endef
 
 ifeq ($(CARGO_COMPILE),1)
-
-  CARGO_ARGS += -Z unstable-options
-
   define Build/Compile/Cargo
 	$(RUSTC_VARS) \
 	RUSTFLAGS="$(RUSTFLAGS)" \
-	$(CARGO_BIN) build \
-	--release \
-	$(CARGO_ARGS) \
+	$(CARGO_VARS) \
+	$(CARGO_BIN) build --release \
 	--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml \
 	--out-dir $(CARGO_INSTALL_ROOT)/bin \
-	$(CARGO_VARS)
+	$(CARGO_ARGS)
   endef
+  define MoveLibs
+	@( \
+		if ls -1 $(CARGO_INSTALL_ROOT)/bin | grep -q '\.rlib'; then \
+			$(INSTALL_DIR) $(CARGO_INSTALL_ROOT)/lib; \
+			rm -f $(CARGO_INSTALL_ROOT)/lib/*; \
+			mv -f $(CARGO_INSTALL_ROOT)/bin/*.rlib $(CARGO_INSTALL_ROOT)/lib; \
+		fi; \
+	)
+  endef
+  Hooks/Compile/Post += MoveLibs
 else
   CARGO_INSTALL:=1
 endif
@@ -43,11 +51,11 @@ ifeq ($(CARGO_INSTALL),1)
   define Build/Install/Cargo
 	$(RUSTC_VARS) \
 	RUSTFLAGS="$(RUSTFLAGS)" \
-	$(CARGO_BIN) install \
-	$(CARGO_ARGS) \
+	$(CARGO_VARS) \
+	$(CARGO_BIN) install --bins --no-track \
 	--path $(CARGO_BUILD_DIR) \
 	--root $(CARGO_INSTALL_ROOT) \
-	$(CARGO_VARS)
+	$(CARGO_ARGS)
   endef
 endif
 
