@@ -1,0 +1,11 @@
+--- a/qscan/Cargo.toml
++++ b/qscan/Cargo.toml
+@@ -19,7 +19,7 @@ futures = "0.3"
+ itertools = "0.10.3"
+ surge-ping = "0.7.0"
+ rand = "0.8.5"
+-trust-dns-resolver = { version = "0.21.2", features = ["dns-over-rustls"] }
++trust-dns-resolver = { version = "0.21.2", features = ["dns-over-openssl"] }
+ serde = { version = "1.0", optional = true }
+ serde_json = { version = "1.0", optional = true }
+ # serde = { version = "1.0" }
