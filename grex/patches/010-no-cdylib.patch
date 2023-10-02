@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -29,7 +29,7 @@ categories = ["command-line-utilities",
+ keywords = ["pattern", "regex", "regexp"]
+ 
+ [lib]
+-crate-type = ["cdylib", "rlib"]
++crate-type = ["rlib"]
+ 
+ [dependencies]
+ itertools = "0.11.0"
