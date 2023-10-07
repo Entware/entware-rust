@@ -13,7 +13,10 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 PKG_HOST_ONLY:=1
-HOST_BUILD_DEPENDS:=python-semanticversion/host python-typing-extensions/host
+HOST_BUILD_DEPENDS:= \
+	python-semanticversion/host \
+	python-setuptools-scm/host \
+	python-typing-extensions/host
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
