@@ -78,7 +78,7 @@ define Build/Configure
 		echo 'vendor = true'; \
 		echo 'full-bootstrap = false'; \
 		echo 'extended = true'; \
-		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt",]'; \
+		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt"]'; \
 		echo 'verbose = 0'; \
 		echo 'local-rebuild = false'; \
 		echo '[install]'; \
