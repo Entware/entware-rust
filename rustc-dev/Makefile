@@ -75,7 +75,7 @@ define Host/Configure
 		echo 'python = "$(STAGING_DIR_HOSTPKG)/bin/python3"'; \
 		echo 'vendor = true'; \
 		echo 'extended = true'; \
-		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt",]'; \
+		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt"]'; \
 		echo 'verbose = 0'; \
 		echo '[install]'; \
 		echo 'prefix = "/"'; \
