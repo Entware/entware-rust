@@ -18,8 +18,6 @@ PKG_HASH:=feede818e814011207c5bfeaf06dd9fc95825c59ab70942aa9b9314791c5d6b6
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
 
-RUST_MIN_SIZE:=0
-
 include $(INCLUDE_DIR)/package.mk
 include ../cargo.mk
 
