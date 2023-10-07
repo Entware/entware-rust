@@ -5,9 +5,6 @@ include $(TOPDIR)/feeds/rust/rust.mk
 ### cargo-build - Compile local packages and all of their dependencies.
 CARGO_COMPILE ?= 1
 
-### cargo-install - Build and install a Rust binary
-CARGO_INSTALL ?= 0
-
 CARGO_ARGS += -Z unstable-options
 
 define Build/Configure/Cargo
@@ -28,7 +25,8 @@ ifeq ($(CARGO_COMPILE),1)
 	$(RUSTC_VARS) \
 	RUSTFLAGS="$(RUSTFLAGS)" \
 	$(CARGO_VARS) \
-	$(CARGO_BIN) build --release \
+	$(CARGO_BIN) build \
+	--profile minsize \
 	--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml \
 	--out-dir $(CARGO_INSTALL_ROOT)/bin \
 	$(CARGO_ARGS)
@@ -36,23 +34,20 @@ ifeq ($(CARGO_COMPILE),1)
   define MoveLibs
 	@( \
 		if ls -1 $(CARGO_INSTALL_ROOT)/bin | grep -q '\.rlib'; then \
-			$(INSTALL_DIR) $(CARGO_INSTALL_ROOT)/lib; \
 			rm -f $(CARGO_INSTALL_ROOT)/lib/*; \
+			$(INSTALL_DIR) $(CARGO_INSTALL_ROOT)/lib; \
 			mv -f $(CARGO_INSTALL_ROOT)/bin/*.rlib $(CARGO_INSTALL_ROOT)/lib; \
 		fi; \
-	)
+	);
   endef
   Hooks/Compile/Post += MoveLibs
 else
-  CARGO_INSTALL:=1
-endif
-
-ifeq ($(CARGO_INSTALL),1)
   define Build/Install/Cargo
 	$(RUSTC_VARS) \
 	RUSTFLAGS="$(RUSTFLAGS)" \
 	$(CARGO_VARS) \
 	$(CARGO_BIN) install --bins --no-track \
+	--profile minsize \
 	--path $(CARGO_BUILD_DIR) \
 	--root $(CARGO_INSTALL_ROOT) \
 	$(CARGO_ARGS)
