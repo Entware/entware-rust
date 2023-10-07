@@ -6,12 +6,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=termscp
-PKG_VERSION:=0.12.1
+PKG_VERSION:=0.12.3
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/veeso/termscp/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=6c0ae86db982cc537564bd8a4b9746365f96d3a7f6f5b002da61fcc382e852e6
+PKG_HASH:=4c28d0c4b5efdf08d3f486df531b0a0c824e44d7885b3f2a9b142e7f632b3211
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -24,7 +24,7 @@ define Package/termscp
   CATEGORY:=Network
   SUBMENU:=File Transfer
   TITLE:=a feature rich terminal file transfer and explorer
-  URL:=https://veeso.github.io/termscp/
+  URL:=https://termscp.veeso.dev
   DEPENDS:=+libdbus +libopenssl +zlib
 endef
 
