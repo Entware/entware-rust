@@ -16,11 +16,6 @@ PKG_MIRROR_HASH:=dadc37bcb49d9aaa80f5bd9c1aea7e202f439a19bd17dfd29a7eb491c92957e
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
-# XXX
-#	error: lto can only be run for executables, cdylibs and static library outputs
-#	error: could not compile `sysinfo` (lib) due to previous error
-RUST_MIN_SIZE:=0
-
 include $(INCLUDE_DIR)/package.mk
 include ../cargo.mk
 
