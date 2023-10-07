@@ -1,5 +1,5 @@
 # entware-rust
-Rust packages feed
+This is a repo for Entware packages in Rust Programming Language.
 
 0. Читаем и выполняем [Compile packages from sources](https://github.com/Entware/Entware/wiki/Compile-packages-from-sources). 
 
