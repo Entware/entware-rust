@@ -85,31 +85,8 @@ RUSTC_VARS += \
 #endif
 
 RUSTFLAGS += \
-	-C linker=$(TARGET_CROSS)gcc \
-	-C link-arg=-Wl,--dynamic-linker=/opt/lib/$(DYNLINKER)
-
-### the package size shrinks a bit ~42%
-RUST_OPT_SIZE ?= 1
-
-ifeq ($(RUST_OPT_SIZE),1)
-RUSTFLAGS += \
-	-C codegen-units=1 \
-	-C opt-level=z \
-	-C panic=abort \
+	-C link-arg=-Wl,--dynamic-linker=/opt/lib/$(DYNLINKER) \
 	-C relocation-model=static \
-	-C strip=symbols
-endif
-
-### the package size shrinks a bit more ~12%
-### if - "error: lto can only be run for executables, cdylibs and static library outputs"
-### set `RUST_MIN_SIZE:=0`
-RUST_MIN_SIZE ?= 1
-
-ifeq ($(RUST_MIN_SIZE),1)
-RUSTFLAGS += \
-	-C embed-bitcode=yes \
-	-C lto=yes
-endif
-### total: RUST_OPT_SIZE + RUST_MIN_SIZE ~49%
+	-C embed-bitcode=yes
 
 ### aarch64/x86_64: -C no-redzone=yes
