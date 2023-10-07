@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.72.0
+PKG_VERSION:=1.73.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=d307441f8ee78a7e94f72cb5c81383822f13027f79e67a5551bfd2c2d2db3014
+PKG_HASH:=6eaf672dbea2e6596af8c999f5e6924b9af4bb8b02166bfe0b928e68aa75ae62
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-dev-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-dev-$(PKG_VERSION)
@@ -75,7 +75,7 @@ define Host/Configure
 		echo 'python = "$(STAGING_DIR_HOSTPKG)/bin/python3"'; \
 		echo 'vendor = true'; \
 		echo 'extended = true'; \
-		echo 'tools = ["cargo", "clippy", "rustfmt"]'; \
+		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt",]'; \
 		echo 'verbose = 0'; \
 		echo '[install]'; \
 		echo 'prefix = "/"'; \
@@ -213,11 +213,19 @@ define Build/InstallDev
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/rustlib/$(RUST_TARGET_TRIPLE) \
 		 $(2)/lib/rustlib
 
-	$(INSTALL_DIR) $(2)/share/cargo/.cargo
+	$(INSTALL_DIR) $(2)/share/cargo
 	( \
 		echo '[target.$(RUST_TARGET_TRIPLE)]'; \
 		echo 'linker = "$(TARGET_CROSS)gcc"'; \
-	) > $(2)/share/cargo/.cargo/config.toml
+		echo ''; \
+		echo '[profile.minsize]'; \
+		echo 'codegen-units = 1'; \
+		echo 'inherits = "release"'; \
+		echo 'lto = true'; \
+		echo 'opt-level = "z"'; \
+		echo 'panic = "abort"'; \
+		echo 'strip = "symbols"'; \
+	) > $(2)/share/cargo/config.toml
 endef
 
 $(eval $(call HostBuild))
