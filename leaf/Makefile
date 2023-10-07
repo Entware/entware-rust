@@ -7,12 +7,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=leaf
-PKG_VERSION:=0.10.1
+PKG_VERSION:=0.10.7
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/eycorsican/leaf/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=81317dada57b57ab75556cf4b6d60cbabd7268c925c906c7f152942af11c8603
+PKG_HASH:=7086c66420f04c17552a11e65ae9d5db7297ac2e764da3efe0e528f7265875a2
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -26,19 +26,20 @@ define Package/leaf/Default
   SUBMENU:=Web Servers/Proxies
   TITLE:=A versatile and efficient proxy framework
   URL:=https://github.com/eycorsican/leaf
+  DEPENDS:=@!TARGET_armv5_3_2
   PROVIDES:=lief
 endef
 
 define Package/leaf-ring
   $(call Package/leaf/Default)
-  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2)
+  DEPENDS+=@!(mips||mipsel)
   VARIANT:=ring
   CONFLICTS:=leaf-ssl
 endef
 
 define Package/leaf-ssl
   $(call Package/leaf/Default)
-  DEPENDS:=+libopenssl @!TARGET_armv5_3_2
+  DEPENDS+=+libopenssl
   VARIANT:=ssl
 endef
 
