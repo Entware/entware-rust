@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rathole
-PKG_VERSION:=0.4.8
+PKG_VERSION:=0.5.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/rapiz1/rathole/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=462ab2f036bccb13f02dfffcf3ac89de687c55f1392e36b2eabbe6bb70b80545
+PKG_HASH:=c8698dc507c4c2f7e0032be24cac42dd6656ac1c52269875d17957001aa2de41
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
