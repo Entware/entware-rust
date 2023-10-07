@@ -1,5 +1,8 @@
 # SPDX-License-Identifier: WTFPL
 
+# XXX rustc 1.73.0:
+#	error[E0425]: cannot find value `VERSION_3_2_0` in crate `protobuf`
+
 # armv5:
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 #	error: could not compile `leaf` (lib) due to previous error; 4 warnings emitted
@@ -26,7 +29,7 @@ define Package/leaf/Default
   SUBMENU:=Web Servers/Proxies
   TITLE:=A versatile and efficient proxy framework
   URL:=https://github.com/eycorsican/leaf
-  DEPENDS:=@!TARGET_armv5_3_2
+  DEPENDS:=@!TARGET_armv5_3_2 @BROKEN
   PROVIDES:=lief
 endef
 
