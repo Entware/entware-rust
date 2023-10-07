@@ -13,11 +13,6 @@ PKG_HASH:=ac30c0748a4247d2a36b82d623e88863480c300d3f6bbbdc303077240a8292c5
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
 
-# FIXME
-#	error: could not compile `sniffglue` (bin "sniffglue")
-#	... (signal: 4, SIGILL: illegal instruction)
-RUST_MIN_SIZE:=0
-
 include $(INCLUDE_DIR)/package.mk
 include ../cargo.mk
 
