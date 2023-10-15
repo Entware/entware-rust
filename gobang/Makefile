@@ -1,8 +1,5 @@
 # SPDX-License-Identifier: WTFPL
 
-# XXX rustc 1.73.0:
-#	error[E0308]: mismatched types
-
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
 
@@ -28,7 +25,7 @@ define Package/gobang
   SUBMENU:=Database
   TITLE:=A cross-platform TUI database management tool
   URL:=https://github.com/TaKO8Ki/gobang
-  DEPENDS:=+(mips||mipsel):libopenssl @BROKEN
+  DEPENDS:=+(mips||mipsel):libopenssl
 endef
 
 define Package/gobang/description

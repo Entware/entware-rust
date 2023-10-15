@@ -25,8 +25,7 @@ ifeq ($(CARGO_COMPILE),1)
 	$(RUSTC_VARS) \
 	RUSTFLAGS="$(RUSTFLAGS)" \
 	$(CARGO_VARS) \
-	$(CARGO_BIN) build \
-	--profile minsize \
+	$(CARGO_BIN) build --release \
 	--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml \
 	--out-dir $(CARGO_INSTALL_ROOT)/bin \
 	$(CARGO_ARGS)
@@ -47,7 +46,6 @@ else
 	RUSTFLAGS="$(RUSTFLAGS)" \
 	$(CARGO_VARS) \
 	$(CARGO_BIN) install --bins --no-track \
-	--profile minsize \
 	--path $(CARGO_BUILD_DIR) \
 	--root $(CARGO_INSTALL_ROOT) \
 	$(CARGO_ARGS)

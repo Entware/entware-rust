@@ -33,6 +33,8 @@ define Package/sniffglue/description
   by default.
 endef
 
+RUSTFLAGS += -C lto=thin
+
 define Package/sniffglue/install
 #	$(INSTALL_DIR) $(1)/opt/etc
 #	$(INSTALL_CONF) $(PKG_BUILD_DIR)/sniffglue.conf $(1)/opt/etc

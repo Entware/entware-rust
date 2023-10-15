@@ -26,7 +26,7 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/arm_openwrt_linux_gnueabi.rs
-@@ -0,0 +1,18 @@
+@@ -0,0 +1,17 @@
 +use crate::spec::{Target, TargetOptions};
 +
 +pub fn target() -> Target {
@@ -40,7 +40,6 @@
 +            features: "+soft-float,+strict-align,+v6".into(),
 +            max_atomic_width: Some(64),
 +            mcount: "\u{1}__gnu_mcount_nc".into(),
-+            llvm_mcount_intrinsic: Some("llvm.arm.gnu.eabi.mcount".into()),
 +            ..super::openwrt_linux_gnu_base::opts()
 +        },
 +    }
@@ -69,7 +68,7 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/armv7_openwrt_linux_gnueabi.rs
-@@ -0,0 +1,21 @@
+@@ -0,0 +1,20 @@
 +use crate::spec::{Target, TargetOptions};
 +
 +// This target is for glibc Linux on ARMv7 without thumb-mode, NEON or
@@ -86,7 +85,6 @@
 +            features: "+v7,+thumb2,+soft-float,-neon".into(),
 +            max_atomic_width: Some(64),
 +            mcount: "\u{1}__gnu_mcount_nc".into(),
-+            llvm_mcount_intrinsic: Some("llvm.arm.gnu.eabi.mcount".into()),
 +            ..super::openwrt_linux_gnu_base::opts()
 +        },
 +    }
@@ -194,7 +192,7 @@
 +}
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -80,6 +80,8 @@ mod msvc_base;
+@@ -79,6 +79,8 @@ mod msvc_base;
  mod netbsd_base;
  mod nto_qnx_base;
  mod openbsd_base;
@@ -203,7 +201,7 @@
  mod redox_base;
  mod solaris_base;
  mod solid_base;
-@@ -1268,6 +1270,18 @@ macro_rules! supported_targets {
+@@ -1237,6 +1239,18 @@ macro_rules! supported_targets {
  }
  
  supported_targets! {
@@ -235,7 +233,7 @@
 +        dynamic_linking: true,
 +        families: cvs!["unix"],
 +        has_rpath: false,
-+        position_independent_executables: true,
++        position_independent_executables: false,
 +        relro_level: RelroLevel::None,
 +        has_thread_local: true,
 +        crt_static_respected: true,
@@ -257,7 +255,7 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/x86_64_openwrt_linux_gnu.rs
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,26 @@
 +use crate::spec::{Cc, LinkerFlavor, Lld, SanitizerSet, StackProbeType, Target};
 +
 +pub fn target() -> Target {
@@ -272,7 +270,6 @@
 +        | SanitizerSet::CFI
 +        | SanitizerSet::LEAK
 +        | SanitizerSet::MEMORY
-+        | SanitizerSet::SAFESTACK
 +        | SanitizerSet::THREAD;
 +    base.supports_xray = true;
 +

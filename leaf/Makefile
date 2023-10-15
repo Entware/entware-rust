@@ -1,8 +1,5 @@
 # SPDX-License-Identifier: WTFPL
 
-# XXX rustc 1.73.0:
-#	error[E0425]: cannot find value `VERSION_3_2_0` in crate `protobuf`
-
 # armv5:
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 #	error: could not compile `leaf` (lib) due to previous error; 4 warnings emitted
@@ -23,13 +20,15 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../cargo.mk
 
+PKG_BUILD_DEPENDS += protobuf protobuf/host
+
 define Package/leaf/Default
   SECTION:=net
   CATEGORY:=Network
   SUBMENU:=Web Servers/Proxies
   TITLE:=A versatile and efficient proxy framework
   URL:=https://github.com/eycorsican/leaf
-  DEPENDS:=@!TARGET_armv5_3_2 @BROKEN
+  DEPENDS:=@!TARGET_armv5_3_2
   PROVIDES:=lief
 endef
 
@@ -63,6 +62,10 @@ CARGO_ARGS += --no-default-features --features default-openssl
 #	error: failed to run custom build command for `openssl-sys v0.9.87`
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
 endif
+
+# FIXME
+#	error[E0425]: cannot find value `VERSION_3_2_0` in crate `protobuf`
+RUSTC_VARS += PROTO_GEN=1
 
 # FIXME
 # i386/x86_64:

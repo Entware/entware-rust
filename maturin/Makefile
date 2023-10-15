@@ -14,6 +14,8 @@ PKG_LICENSE_FILES:=license-apache license-mit
 
 HOST_BUILD_DEPENDS:=rustc-dev python-setuptools-rust/host python-wheel/host
 
+RUST_MIN_SIZE:=0
+
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk

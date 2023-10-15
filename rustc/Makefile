@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.73.0
-PKG_RELEASE:=1
+PKG_VERSION:=1.72.0
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=6eaf672dbea2e6596af8c999f5e6924b9af4bb8b02166bfe0b928e68aa75ae62
+PKG_HASH:=d307441f8ee78a7e94f72cb5c81383822f13027f79e67a5551bfd2c2d2db3014
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -137,6 +137,9 @@ define Package/rustc/install
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/lib*.so $(1)/opt/lib
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/rustlib/$(RUST_TARGET_TRIPLE)/lib \
 		$(1)/opt/lib/rustlib/$(RUST_TARGET_TRIPLE)
+	$(INSTALL_DIR) $(1)/opt/libexec
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/libexec/cargo-credential-1password \
+		$(1)/opt/libexec
 endef
 
 define Package/rustc/postinst
