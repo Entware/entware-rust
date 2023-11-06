@@ -3,15 +3,15 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-periodic-table
-PKG_VERSION:=0.2.5
+PKG_VERSION:=0.2.7
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-02-23
-PKG_SOURCE_VERSION:=6ddec4ade0472dc9f5a7a5586936808ff6a21ce1
+PKG_SOURCE_DATE:=2023-10-16
+PKG_SOURCE_VERSION:=53cbe525037597b9ef6804d1eeeb1e915901210c
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/JosephTLyons/nu_plugin_periodic_table
-PKG_MIRROR_HASH:=a90fb7d0b68f759b59dc76665e707ffeb4b0b47c0579e13665705f9bdeabe6d5
+PKG_MIRROR_HASH:=46b647efe18fa331b29dd79bd246e27b7e1cfaa1788e71cb13eeaff012282ce1
 
 PKG_LICENSE:=GPL-3.0-only
 PKG_LICENSE_FILES:=License.txt
@@ -25,7 +25,7 @@ define Package/nu-plugin-periodic-table
   SUBMENU:=Shells
   TITLE:=nu plugin a periodic table of elements
   URL:=https://github.com/JosephTLyons/nu_plugin_periodic_table
-  DEPENDS:=+nushell @BROKEN
+  DEPENDS:=+nushell
 endef
 
 define Package/nu-plugin-periodic-table/description
@@ -45,8 +45,13 @@ endef
 define Package/nu-plugin-periodic-table/postinst
 #!/bin/sh
 
-echo -e "\n\tTo register (from inside Nushell):\n"
-echo -e "\t'register /opt/usr/bin/nu_plugins/nu_plugin_periodic_table'\n"
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_white_cur="\033[1;3;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
+printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_periodic_table"
 endef
 
 $(eval $(call BuildPackage,nu-plugin-periodic-table))
