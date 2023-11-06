@@ -1,13 +1,13 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -21,8 +21,8 @@ bench = false
+@@ -26,8 +26,8 @@ bench = false
  [dependencies]
  chrono = { version = "0.4", features = [ "std" ], default-features = false }
  futures-util = "0.3.28"
--nu-plugin = "0.84.0"
--nu-protocol = "0.84.0"
+-nu-plugin = "0.86.0"
+-nu-protocol = "0.86.0"
 +nu-plugin = { path = "../nushell/crates/nu-plugin" }
 +nu-protocol = { path = "../nushell/crates/nu-protocol" }
- # must keep in lockstep with trust-dns
- rustls = "0.21.6"
- tokio = "1.32.0"
+ # must keep in lockstep with hickory
+ rustls = "0.21.7"
+ tokio = "1.33.0"
