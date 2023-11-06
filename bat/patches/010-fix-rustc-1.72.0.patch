@@ -8,13 +8,13 @@
 
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -67,6 +67,9 @@ regex = { version = "1.7.0", optional =
- walkdir = { version = "2.0", optional = true }
- bytesize = { version = "1.1.0" }
+@@ -68,6 +68,9 @@ encoding_rs = "0.8.33"
+ os_str_bytes = { version = "~6.4", optional = true }
+ run_script = { version = "^0.10.0", optional = true}
  
 +# rustc 1.72.0
 +proc-macro2 = "1.0.66"
 +
  [dependencies.git2]
- version = "0.16"
+ version = "0.18"
  optional = true
