@@ -16,5 +16,5 @@
 +value-trait = { version = "0.6.1", features = ["allow-non-simd"] }
 +
  [dev-dependencies]
- nu-test-support = { path = "./crates/nu-test-support", version = "0.85.0" }
+ nu-test-support = { path = "./crates/nu-test-support", version = "0.86.0" }
  assert_cmd = "2.0"

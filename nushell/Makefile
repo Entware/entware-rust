@@ -4,9 +4,9 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
 
-PKG_VERSION:=0.85.0
+PKG_VERSION:=0.86.0
 PKG_RELEASE:=1
-PKG_HASH:=19e327b23fc08b519f5077e33908afa7967d98139a516c180d029b3ca0618da3
+PKG_HASH:=733576c766f087e4fdabee14bbcb0ba15516472d4f443fc401386cd1d6e8d7eb
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
