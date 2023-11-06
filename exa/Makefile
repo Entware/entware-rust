@@ -1,5 +1,7 @@
 # SPDX-License-Identifier: WTFPL
 
+# XXX exa is unmaintained
+
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=exa
