@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hl
-PKG_VERSION:=0.20.0-beta.14.7.1
+PKG_VERSION:=0.20.0-beta.14.9
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pamburus/hl/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=779b18393fc788422b518d37fbec095a1538edfa864d91a82411f3e6ba716d79
+PKG_HASH:=5116b16ea19f97a51d5a3db3ea5f51c8f9c0b0d3ba137ab0ce6ed09b6dd02d42
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
