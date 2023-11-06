@@ -8,9 +8,9 @@
 
 --- a/atuin/Cargo.toml
 +++ b/atuin/Cargo.toml
-@@ -73,6 +73,8 @@ colored = "2.0.4"
- ratatui = "0.21"
+@@ -74,6 +74,8 @@ ratatui = "0.24"
  tracing = "0.1"
+ cli-clipboard = "0.4.0"
  
 +# rustc 1.72.0
 +proc-macro2 = "1.0.66"
