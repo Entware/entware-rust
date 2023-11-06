@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: WTFPL
 
-# armv5:
+# mips(el)/armv5:
 #	error[E0432]: unresolved imports `std::sync::atomic::AtomicI64`, `std::sync::atomic::AtomicU64`
 #	error: could not compile `sled` due to previous error
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fclones
-PKG_VERSION:=0.32.1
-PKG_RELEASE:=2
+PKG_VERSION:=0.34.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pkolaczk/fclones/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=313d4dad30ed1db4d74abd78f30a7a9917c361918d2bc6d84c9d97a2a8c7c5cb
+PKG_HASH:=5e8c94bb5fb313a5c228bdc870cf6605487338f31c5a14305e54e7e3ac15d0ad
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -25,7 +25,7 @@ define Package/fclones
   CATEGORY:=Utilities
   TITLE:=Finds duplicate, unique, under- or over-replicated files
   URL:=https://github.com/pkolaczk/fclones
-  DEPENDS:=@!TARGET_armv5_3_2
+  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2)
 endef
 
 define Package/fclones/description
