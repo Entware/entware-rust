@@ -3,11 +3,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=maturin
-PKG_VERSION:=1.3.0
+PKG_VERSION:=1.3.1
 PKG_RELEASE:=1
 
 PYPI_NAME:=maturin
-PKG_HASH:=f6c69bc7ae147a5effd55587447b35cab1ceb726ba244d08698bc7518b8688ac
+PKG_HASH:=efa194e99ae5fff185263d8244acacb12ae256ea73aba62c9446f6075ffc7ac1
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=license-apache license-mit
