@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=coreutils
-PKG_VERSION:=0.0.21
+PKG_VERSION:=0.0.22
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/uutils/coreutils/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=a3295f7ec0600f379ec829649fcedc0432f493cbfc64ad10a1f9b6c52e874387
+PKG_HASH:=9f15977f15f8fb259d71f941cfa6b4bb7d9cb7d78e6384bcae19b107760d2a31
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -36,7 +36,7 @@ COREUTILS_APPS:= \
 	nice nl nohup nproc numfmt \
 	od \
 	paste pathchk pinky pr printenv printf ptx pwd \
-	readlink realpath relpath rm rmdir \
+	readlink realpath rm rmdir \
 	seq shred shuf sleep sort split stat sum sync \
 	tac tail tee test timeout touch tr true truncate tsort tty \
 	uname unexpand uniq unlink uptime users \
