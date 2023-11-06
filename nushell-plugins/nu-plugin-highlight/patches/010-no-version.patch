@@ -3,9 +3,9 @@
 @@ -11,8 +11,8 @@ categories = ["command-line-utilities",
  
  [dependencies]
- # nu
--nu-plugin = "0.83"
--nu-protocol = "0.83"
+ #nu
+-nu-plugin = { version = "0.85", path = "../nushell/crates/nu-plugin" }
+-nu-protocol = { version = "0.85", path = "../nushell/crates/nu-protocol" }
 +nu-plugin = { path = "../nushell/crates/nu-plugin" }
 +nu-protocol = { path = "../nushell/crates/nu-protocol" }
  
