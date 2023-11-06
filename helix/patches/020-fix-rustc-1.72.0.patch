@@ -40,13 +40,13 @@
 
 --- a/helix-core/Cargo.toml
 +++ b/helix-core/Cargo.toml
-@@ -48,6 +48,9 @@ chrono = { version = "0.4", default-feat
- etcetera = "0.8"
- textwrap = "0.16.0"
+@@ -51,6 +51,9 @@ textwrap = "0.16.0"
+ nucleo.workspace = true
+ parking_lot = "0.12"
  
 +# rustc 1.72.0
 +proc-macro2 = "1.0.66"
 +
  [dev-dependencies]
  quickcheck = { version = "1", default-features = false }
- indoc = "2.0.1"
+ indoc = "2.0.4"
