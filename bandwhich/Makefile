@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bandwhich
-PKG_VERSION:=0.21.0
+PKG_VERSION:=0.21.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/imsnif/bandwhich/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=f9c50c340372593bf4c54fcf2608ef37c2c56a37367b2f430c27cce3ea947828
+PKG_HASH:=8ba9bf6469834ad498b9fd17f86759a16793b00a6ef44edd6e525ec40adcb0b0
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
