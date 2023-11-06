@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=felix
-PKG_VERSION:=2.8.1
+PKG_VERSION:=2.10.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kyoheiu/felix/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=cfadcd483e3b2d89bb72c2175898cd2e0e3c7f2b911adf400869c09699f0c710
+PKG_HASH:=018126ecec5a25ec8723099e79c208cb5db62e2d0332bb78a258cae0dda1060b
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -22,6 +22,7 @@ define Package/felix
   SUBMENU:=Shells
   TITLE:=tui file manager with vim-like key mapping
   URL:=https://github.com/kyoheiu/felix
+  DEPENDS:=+zlib
 endef
 
 define Package/felix/description
