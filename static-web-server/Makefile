@@ -6,12 +6,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=static-web-server
-PKG_VERSION:=2.22.1
+PKG_VERSION:=2.23.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/joseluisq/static-web-server/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=d618e83732c73e7466b4f398532d5acae45565bb73d7a66fdd5c3e7480d242d9
+PKG_HASH:=534c957c6d1f6ba9174cfe2a880668da3ca5a3288c665dcb8c0b87b0e08a3b82
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
