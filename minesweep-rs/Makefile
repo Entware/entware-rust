@@ -3,12 +3,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=minesweep-rs
-PKG_VERSION:=6.0.34
+PKG_VERSION:=6.0.39
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/cpcloud/minesweep-rs/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=c2b347a6477319f5b5f9db4849773874984e824495dbaeeb72a0a275c325bdf4
+PKG_HASH:=4b84ba2bd97826eb285195c4d73cd84b39ba5ed4da00604c6604960e12ca8ad3
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
