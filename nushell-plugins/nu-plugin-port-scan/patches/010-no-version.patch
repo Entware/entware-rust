@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -11,5 +11,5 @@ edition = "2021"
+ readme = "README.md"
+ 
+ [dependencies]
+-nu-plugin = "0.87.0"
+-nu-protocol = { version = "0.87.0", features = ["plugin"] }
++nu-plugin = { path = "../nushell/crates/nu-plugin" }
++nu-protocol = { path = "../nushell/crates/nu-protocol" }
