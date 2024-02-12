@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -67,3 +67,8 @@ assets = [
+     { source = "target/completions/mqttui.fish", dest = "/usr/share/fish/vendor_completions.d/mqttui.fish", mode = "644" },
+     { source = "target/completions/_mqttui", dest = "/usr/share/zsh/site-functions/_mqttui", mode = "644" },
+ ]
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
