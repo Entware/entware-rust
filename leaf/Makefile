@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # armv5:
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
@@ -8,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=leaf
 PKG_VERSION:=0.10.7
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/eycorsican/leaf/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -18,9 +20,11 @@ PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += protobuf protobuf/host
+PKG_BUILD_DEPENDS += protobuf/host protobuf chrono-0431 rcgen-0113 ring-0175
+PKG_BUILD_DEPENDS += rustls-0219 quinn-0104 tokio-rustls-0241 trust-dns
+PKG_BUILD_DEPENDS += webpki-roots-0243
 
 define Package/leaf/Default
   SECTION:=net
@@ -28,13 +32,11 @@ define Package/leaf/Default
   SUBMENU:=Web Servers/Proxies
   TITLE:=A versatile and efficient proxy framework
   URL:=https://github.com/eycorsican/leaf
-  DEPENDS:=@!TARGET_armv5_3_2
   PROVIDES:=lief
 endef
 
 define Package/leaf-ring
   $(call Package/leaf/Default)
-  DEPENDS+=@!(mips||mipsel)
   VARIANT:=ring
   CONFLICTS:=leaf-ssl
 endef
