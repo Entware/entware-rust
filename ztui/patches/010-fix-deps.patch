@@ -1,0 +1,13 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -32,3 +32,10 @@ nix = "0.24"
+ signal = "^0.7.0"
+ openssl = { version = "^0.10.0", features = [ "vendored" ] }
+ tempfile = "^3.5.0"
++
++[patch.crates-io]
++indexmap = { path = "../indexmap-1.9.3" }
++sys_metrics = { path = "../sys-metrics-0.2.6" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }

@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # aarch64/arm:
 #	error[E0308]: mismatched types
@@ -8,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ztui
 PKG_VERSION:=0.1.7
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/erikh/ztui/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -18,7 +20,9 @@ PKG_LICENSE:=AGPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 indexmap-193 sys-metrics-026
 
 define Package/ztui
   SECTION:=net
@@ -26,7 +30,7 @@ define Package/ztui
   SUBMENU:=VPN
   TITLE:=A terminal UI for ZeroTier
   URL:=https://github.com/erikh/ztui
-  DEPENDS:=+libopenssl @!(aarch64||arm)
+  DEPENDS:=+libopenssl
   EXTRA_DEPENDS:=zerotier
 endef
 
