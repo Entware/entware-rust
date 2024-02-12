@@ -1,20 +1,22 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=xcompress
-PKG_VERSION:=0.11.8
+PKG_VERSION:=0.12.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/magiclen/xcompress/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=1899f8497c8096e21c38900dbbfc24300b85709cae9867a7de189cf11e286d1d
+PKG_HASH:=563deb96b3fda4d9957c808c26cb33f19fc893b89163bcefc12d52fb05216b4e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
 define Package/xcompress
   SECTION:=utils
