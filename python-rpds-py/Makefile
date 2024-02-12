@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
@@ -16,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
-include ../rust.mk
+include ../rustc-dev/rust.mk
 
 PKG_BUILD_DEPENDS += maturin/host
 
