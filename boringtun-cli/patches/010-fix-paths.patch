@@ -20,7 +20,7 @@
                  if sock2.recv(&mut b).is_ok() && b[0] == 1 {
 --- a/boringtun/src/device/api.rs
 +++ b/boringtun/src/device/api.rs
-@@ -14,7 +14,7 @@ use std::os::unix::io::{AsRawFd, FromRaw
+@@ -15,7 +15,7 @@ use std::os::unix::io::{AsRawFd, FromRaw
  use std::os::unix::net::{UnixListener, UnixStream};
  use std::sync::atomic::Ordering;
  

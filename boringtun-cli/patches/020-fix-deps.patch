@@ -1,0 +1,20 @@
+--- a/boringtun/Cargo.toml
++++ b/boringtun/Cargo.toml
+@@ -30,7 +30,7 @@ tracing = "0.1.40"
+ tracing-subscriber = { version = "0.3", features = ["fmt"], optional = true }
+ ip_network = "0.4.1"
+ ip_network_table = "0.2.0"
+-ring = "0.17"
++ring = "0.17.5"
+ x25519-dalek = { version = "2.0.0", features = [
+     "reusable_secrets",
+     "static_secrets",
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -8,3 +8,6 @@ codegen-units = 1 # Use only 1 codegen-u
+ [profile.bench]
+ lto = true        # Enable full link-time optimization.
+ codegen-units = 1 # Use only 1 codegen-unit to enable full optimizations.
++
++[patch.crates-io]
++ring = { path = "../ring-0.17.5" }

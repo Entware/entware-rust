@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -9,22 +11,22 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=boringtun-cli
-PKG_VERSION:=0.5.2
-PKG_RELEASE:=2
+PKG_VERSION:=0.6.0
+PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/cloudflare/boringtun/tar.gz/refs/tags/$(PKG_NAME)-$(PKG_VERSION)?
-PKG_HASH:=0b457ed40767760f992803aa56a095958313b46a51605a3c82a942a6c5b8b8cb
-
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_DATE:=2023-10-24
+PKG_SOURCE_VERSION:=f672bb6c1e1e371240a8d151f15854687eb740bb
+PKG_SOURCE_URL:=https://github.com/cloudflare/boringtun
+PKG_MIRROR_HASH:=57af4c837ff9bb731a9f819a2780eece998e9f640052fc2b0e5910de0562cc42
 
 PKG_LICENSE:=BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE.md
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
-PKG_UNPACK:=$(HOST_TAR) -C $(PKG_BUILD_DIR) --strip-components=1 -xzf $(DL_DIR)/$(PKG_SOURCE)
+PKG_BUILD_DEPENDS += ring-0175
 
 define Package/boringtun-cli
   SECTION:=net
@@ -32,7 +34,6 @@ define Package/boringtun-cli
   SUBMENU:=VPN
   TITLE:=Userspace WireGuard Implementation in Rust
   URL:=https://github.com/cloudflare/boringtun
-  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2)
 endef
 
 define Package/boringtun-cli/description
