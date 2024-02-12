@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el)/armv5:
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
@@ -10,18 +12,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rgit
-PKG_VERSION:=0.1.1
+PKG_VERSION:=0.1.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/w4/rgit/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=248dbcc6507005df3f77b9b5449c85bfa9238b97881eab0ffff3c887e63f8a74
+PKG_HASH:=8c22060e8b444454a253a7469fd9ff8a3a841fee7a6ee25bd0037a0525b3b6e1
 
 PKG_LICENSE:=WTFPL
 PKG_LICENSE_FILES:=LICENSE
 
+RUST_MIN_SIZE:=0
+
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
 define Package/rgit
   SECTION:=net
@@ -29,7 +33,7 @@ define Package/rgit
   SUBMENU:=Version Control Systems
   TITLE:=a gitweb interface written in rust
   URL:=https://github.com/w4/rgit
-  DEPENDS:=@!(i386||mips||mipsel||TARGET_armv5_3_2) +libopenssl +zlib
+  DEPENDS:=@!(i386||mips||mipsel) @!TARGET_armv5_3_2 +libopenssl +zlib
 endef
 
 define Package/rgit/description
