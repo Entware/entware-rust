@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -37,3 +37,8 @@ ifcfg = "0.1"
+ simple-signal = "1.1"
+ nix = "0.23"
+ #netlink-sys = "0.8"
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
