@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -82,3 +82,8 @@ url = "2"
+ [target.'cfg(not(windows))'.dev-dependencies]
+ # fake_tty does not support Windows for now
+ fake-tty = "0.3.1"
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }

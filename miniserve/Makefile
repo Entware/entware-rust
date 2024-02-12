@@ -1,14 +1,16 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=miniserve
-PKG_VERSION:=0.24.0
+PKG_VERSION:=0.26.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/svenstaro/miniserve/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=ed0619bfbad3f9ea635aa266a9c4e96247ad94683d50743f0464f48f9e48ae88
+PKG_HASH:=5ac3e7220c0c86c23af46326cf88e4d0dc9eb296ca201c47c4c3f01d607edf63
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -16,7 +18,9 @@ PKG_LICENSE_FILES:=LICENSE
 RUST_MIN_SIZE:=0
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/miniserve
   SECTION:=net
