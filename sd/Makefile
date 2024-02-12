@@ -1,20 +1,22 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sd
-PKG_VERSION:=0.7.6
+PKG_VERSION:=1.0.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/chmln/sd/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=faf33a97797b95097c08ebb7c2451ac9835907254d89863b10ab5e0813b5fe5f
+PKG_HASH:=2adc1dec0d2c63cbffa94204b212926f2735a59753494fca72c3cfe4001d472f
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
 define Package/sd
   SECTION:=utils
