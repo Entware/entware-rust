@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -7,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gobang
 PKG_VERSION:=0.1.0-alpha.5
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/TaKO8Ki/gobang/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -17,7 +19,9 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 sqlx-0513
 
 define Package/gobang
   SECTION:=utils
@@ -25,7 +29,7 @@ define Package/gobang
   SUBMENU:=Database
   TITLE:=A cross-platform TUI database management tool
   URL:=https://github.com/TaKO8Ki/gobang
-  DEPENDS:=+(mips||mipsel):libopenssl
+  DEPENDS:=+libopenssl
 endef
 
 define Package/gobang/description

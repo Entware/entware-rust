@@ -1,0 +1,12 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -40,3 +40,9 @@ structopt = "0.3.22"
+ 
+ [target.'cfg(all(target_family="unix",not(target_os="macos")))'.dependencies]
+ which = "4.1"
++
++[patch.crates-io]
++sqlx = { path = "../sqlx-0.5.13" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
