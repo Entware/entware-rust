@@ -21,7 +21,7 @@
      "/etc/suricata/suricata.yaml",
      "/usr/local/etc/suricata/suricata.yaml",
      "/etc/suricata/suricata-debian.yaml"
-@@ -65,18 +66,20 @@ DEFAULT_SURICATA_YAML_PATH = [
+@@ -65,10 +66,12 @@ DEFAULT_SURICATA_YAML_PATH = [
  if has_defaults:
      DEFAULT_DIST_RULE_PATH = [
          defaults.datarulesdir,
@@ -34,18 +34,15 @@
          "/etc/suricata/rules",
      ]
  
- DEFAULT_CONFIG = {
--    "disable-conf": "/etc/suricata/disable.conf",
--    "enable-conf": "/etc/suricata/enable.conf",
--    "drop-conf": "/etc/suricata/drop.conf",
--    "modify-conf": "/etc/suricata/modify.conf",
-+    "disable-conf": "/opt/etc/suricata/disable.conf",
-+    "enable-conf": "/opt/etc/suricata/enable.conf",
-+    "drop-conf": "/opt/etc/suricata/drop.conf",
-+    "modify-conf": "/opt/etc/suricata/modify.conf",
-     "sources": [],
-     LOCAL_CONF_KEY: [],
+@@ -224,7 +227,7 @@ def init(args):
  
+         # Fixup the default locations for Suricata-Update configuration files, but only if
+         # they exist, otherwise keep the defaults.
+-        conf_search_path = ["/etc"]
++        conf_search_path = ["/opt/etc", "/etc"]
+         if "sysconfdir" in build_info:
+             sysconfdir = build_info["sysconfdir"]
+             if not sysconfdir in conf_search_path:
 --- a/suricata/update/configs/update.yaml
 +++ b/suricata/update/configs/update.yaml
 @@ -1,22 +1,22 @@
@@ -102,7 +99,7 @@
 +  - /opt/etc/suricata/rules/*.rules
 --- a/suricata/update/main.py
 +++ b/suricata/update/main.py
-@@ -1191,8 +1191,8 @@ def _main():
+@@ -1206,8 +1206,8 @@ def _main():
          except Exception as err:
              logger.warning(
                  "Cache directory does not exist and could not be created. "
@@ -115,7 +112,7 @@
  
 --- a/suricata/update/parsers.py
 +++ b/suricata/update/parsers.py
-@@ -41,13 +41,13 @@ global_arg = [
+@@ -46,13 +46,13 @@ global_arg = [
        'help': "Be quiet, warning and error messages only"}),
      (("-D", "--data-dir"),
       {'metavar': '<directory>', 'dest': 'data_dir',
