@@ -1,23 +1,27 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-regex
-PKG_VERSION:=0.1.1
+PKG_VERSION:=0.2.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-10-27
-PKG_SOURCE_VERSION:=b0063e2537ff549d5388113df75aa82fbce441b4
+PKG_SOURCE_DATE:=2024-01-15
+PKG_SOURCE_VERSION:=af06df2398d78d14cbf41c6a48f97f88f568dd80
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_regex
-PKG_MIRROR_HASH:=966999ed6a28aab387203fe92aa895ef762b545a6ad4390c105cd9d77d8d12d8
+PKG_MIRROR_HASH:=6db51a57dc9be7023dc78d6e32b37f3df6a1e3d48c93d6a796f12736fd062bc3
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/nu-plugin-regex
   SECTION:=utils
