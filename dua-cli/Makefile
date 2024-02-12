@@ -1,20 +1,24 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dua-cli
-PKG_VERSION:=2.20.1
-PKG_RELEASE:=2
+PKG_VERSION:=2.27.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Byron/dua-cli/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=05ce2d74ec1282803c6825b0436d8b268eef176060b844ae29746a3d338fe658
+PKG_HASH:=505f41f9628a5a305d9f713da4adbe972fdf40fb810b327a6fb5dcd3998c7bd5
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include $(TOPDIR)/feeds/rust/cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/dua-cli
   SECTION:=utils
