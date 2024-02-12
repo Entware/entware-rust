@@ -1,23 +1,27 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-highlight
-PKG_VERSION:=1.0.6
+PKG_VERSION:=1.0.7
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-10-07
-PKG_SOURCE_VERSION:=b5ddff9050fe932e2197c1e393f2ca0a2ea341f9
+PKG_SOURCE_DATE:=2023-11-05
+PKG_SOURCE_VERSION:=74997784297325b5a896d1fa430a8c6b8d7d5f5f
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/cptpiepmatz/nu-plugin-highlight
-PKG_MIRROR_HASH:=bdc3d45e6f54cd0797fa1aea6833e0c970c1edeab19d1bfdc0df1e5365e3e744
+PKG_MIRROR_HASH:=6b90e5ae6562ea4a28b9ade3ed6365fa9ac4a78356bc586fe73832c738b81f9a
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/nu-plugin-highlight
   SECTION:=utils
