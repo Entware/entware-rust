@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el)/armv5:
 #	error[E0412]: cannot find type `AtomicI64` in this scope
@@ -8,21 +10,23 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-file
-PKG_VERSION:=0.1.0
+PKG_VERSION:=0.2.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-10-27
-PKG_SOURCE_VERSION:=7456681f7bf98a1081152c86034df1d927bb47fd
+PKG_SOURCE_DATE:=2024-01-15
+PKG_SOURCE_VERSION:=dbbe29ccec62f7cec8322d679f15fe3a965aeb5f
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_file
-PKG_MIRROR_HASH:=336bba7433d295430895b949442f18f7a95dbce4a4d7f45fc40e1677913a6e68
+PKG_MIRROR_HASH:=fd42b28522c8bd251df95c29474e5a0cd17809e6219c81cd70440a6e436019e1
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 specta-105
 
 define Package/nu-plugin-file
   SECTION:=utils
@@ -30,7 +34,7 @@ define Package/nu-plugin-file
   SUBMENU:=Shells
   TITLE:=a nushell plugin called file
   URL:=https://github.com/fdncred/nu_plugin_file
-  DEPENDS:=+nushell @!(mips||mipsel||TARGET_armv5_3_2)
+  DEPENDS:=+nushell
 endef
 
 define Package/nu-plugin-file/description
