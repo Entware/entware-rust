@@ -1,0 +1,12 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -7,3 +7,9 @@ members = [
+ [profile.release]
+ lto = true        # Enable full link-time optimization
+ codegen-units = 1 # Use only 1 codegen-unit to enable full optimizations
++
++[patch.crates-io]
++mountpoints = { path = "../mountpoints-rs-0.2.1" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }

@@ -1,14 +1,3 @@
---- a/lib/Cargo.toml
-+++ b/lib/Cargo.toml
-@@ -17,7 +17,7 @@ byte-unit = { version = "4.0", default-f
- crc = "3.0.0"
- derivative = "2.2.0"
- log = "0.4.17"
--mountpoints = "0.2.1"
-+#mountpoints = "0.2.1"
- ptree = { version = "0.4.0", default-features = false }
- 
- [target.'cfg(target_os = "linux")'.dependencies]
 --- a/lib/src/platform/unix.rs
 +++ b/lib/src/platform/unix.rs
 @@ -31,13 +31,13 @@ pub fn get_mount_stats<P: AsRef<Path>>(p
