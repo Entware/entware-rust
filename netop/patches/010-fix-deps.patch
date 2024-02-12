@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -17,3 +17,8 @@ crossterm = "0.27.0"
+ chrono = "0.4"
+ clap = { version = "4.3.1", features = ["derive"] }
+ ratatui = "0.24.0"
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }

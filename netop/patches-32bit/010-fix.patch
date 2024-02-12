@@ -1,14 +1,14 @@
 --- a/src/app.rs
 +++ b/src/app.rs
-@@ -9,7 +9,6 @@ use netraffic::{Filter, Snapshot, Traffi
- use crate::runner::InputMode;
+@@ -10,7 +10,6 @@ use crate::runner::InputMode;
  
+ #[repr(u64)]
  enum Advance {
--    Byte2TB = 1000 * 1000 * 1000 * 1000,
-     Byte2GB = 1000 * 1000 * 1000,
-     Byte2MB = 1000 * 1000,
-     Byte2KB = 1000,
-@@ -121,17 +120,10 @@ impl Apps {
+-    Byte2TB = 1000 * 1000 * 1000 * 1000u64,
+     Byte2GB = 1000 * 1000 * 1000u64,
+     Byte2MB = 1000 * 1000u64,
+     Byte2KB = 1000u64,
+@@ -122,17 +121,10 @@ impl Apps {
      }
  
      pub fn format_speed(byte: f64, is_second: bool) -> String {
