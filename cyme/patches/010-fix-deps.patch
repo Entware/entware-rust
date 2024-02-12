@@ -1,0 +1,13 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -36,6 +36,10 @@ strum_macros = "0.24.3"
+ libudev-sys = { git = "https://github.com/Emilgardis/libudev-sys/", branch = "fix-cross-compilation" }
+ rusb = { git = "https://github.com/a1ien/rusb.git" }
+ 
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++
+ [dev-dependencies]
+ diff = "0.1"
+ assert-json-diff = "2.0.2"
