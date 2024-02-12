@@ -1,23 +1,27 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-port-scan
-PKG_VERSION:=1.0.3
+PKG_VERSION:=1.0.9
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-11-15
-PKG_SOURCE_VERSION:=69f264492948ac7e6054bf974a94a157696dde78
+PKG_SOURCE_DATE:=2024-01-10
+PKG_SOURCE_VERSION:=5e7e5b84e1be027643cfca50d5d6a60601156508
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/FMotalleb/nu_plugin_port_scan
-PKG_MIRROR_HASH:=cb91b1c60753a8817ae0fa15027b160966fbb50aaefcaaa086115dd6a5156e3a
+PKG_MIRROR_HASH:=75c6edca3bc8782ab7fe330bd0d49a8f28f10aef8c9a94a206e98e528fb467f4
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/nu-plugin-port-scan
   SECTION:=utils
