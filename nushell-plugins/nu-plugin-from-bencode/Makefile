@@ -1,23 +1,27 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-from-bencode
-PKG_VERSION:=0.7.0
+PKG_VERSION:=0.9.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-10-21
-PKG_SOURCE_VERSION:=469f17f5d49ecb6274b8df88bf4c8a0cc965f199
+PKG_SOURCE_DATE:=2024-01-12
+PKG_SOURCE_VERSION:=0daa525ea10657603698fc391625a862ccf04442
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/bluk/nu_plugin_from_bencode
-PKG_MIRROR_HASH:=98ad236f3e683faf266877001a805608db6f3f2f644123652b344d9085b7d675
+PKG_MIRROR_HASH:=313360491ef1bac0dbe897eb2b61670cde7b2c188efda634397e3c374c37de00
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/nu-plugin-from-bencode
   SECTION:=utils
