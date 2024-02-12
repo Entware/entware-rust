@@ -1,14 +1,16 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el)/armv5:
-#	error[E0432]: unresolved imports `std::sync::atomic::AtomicI64`, `std::sync::atomic::AtomicU64`
-#	error: could not compile `sled` due to previous error
+#	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
+#	error: could not compile `fclones` (lib) due to previous error
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fclones
 PKG_VERSION:=0.34.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pkolaczk/fclones/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -18,14 +20,15 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 sled-0347
 
 define Package/fclones
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=Finds duplicate, unique, under- or over-replicated files
   URL:=https://github.com/pkolaczk/fclones
-  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2)
 endef
 
 define Package/fclones/description
@@ -40,6 +43,14 @@ endef
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
+
+# FIXME 32b
+define Build/Prepare
+	$(Build/Prepare/Default)
+  ifeq ($(CONFIG_TARGET_armv5_3_2),y)
+	patch -p1 -d $(PKG_BUILD_DIR) < ./patches-armv5/010-fix.patch || true
+  endif
+endef
 
 define Package/fclones/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin

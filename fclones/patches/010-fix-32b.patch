@@ -1,0 +1,65 @@
+--- a/fclones/src/progress.rs
++++ b/fclones/src/progress.rs
+@@ -4,7 +4,7 @@ use crate::FileLen;
+ use console::style;
+ use status_line::{Options, StatusLine};
+ use std::fmt::{Display, Formatter};
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::time::Instant;
+ 
+ /// Common interface for components that can show progress of a task. E.g. progress bars.
+@@ -32,7 +32,7 @@ enum ProgressUnit {
+ #[derive(Debug)]
+ struct Progress {
+     msg: String,         // message shown before the progress bar
+-    value: AtomicU64,    // controls the length of the progress bar
++    value: AtomicUsize,  // controls the length of the progress bar
+     max: Option<u64>,    // maximum expected value, if not set an animated spinner is shown
+     unit: ProgressUnit,  // how to format the numbers
+     start_time: Instant, // needed for the animation
+@@ -71,7 +71,7 @@ impl Default for Progress {
+     fn default() -> Self {
+         Progress {
+             msg: "".to_owned(),
+-            value: AtomicU64::default(),
++            value: AtomicUsize::default(),
+             max: None,
+             unit: ProgressUnit::default(),
+             start_time: Instant::now(),
+@@ -84,7 +84,7 @@ const MAX_BAR_LEN: usize = 50;
+ 
+ impl Display for Progress {
+     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+-        let value = self.value.load(Ordering::Relaxed);
++        let value = self.value.load(Ordering::Relaxed).try_into().unwrap();
+         let value_str = self.fmt_value(value);
+         let msg = if self.color {
+             style(self.msg.clone()).for_stderr().cyan().bold()
+@@ -189,7 +189,7 @@ impl ProgressBar {
+ 
+ impl ProgressTracker for ProgressBar {
+     fn inc(&self, delta: u64) {
+-        self.status_line.value.fetch_add(delta, Ordering::Relaxed);
++        self.status_line.value.fetch_add(delta.try_into().unwrap(), Ordering::Relaxed);
+     }
+ }
+ 
+@@ -197,7 +197,7 @@ impl ProgressTracker for ProgressBar {
+ mod test {
+     use crate::progress::{Progress, ProgressUnit};
+     use crate::regex::Regex;
+-    use std::sync::atomic::{AtomicU64, Ordering};
++    use std::sync::atomic::{AtomicUsize, Ordering};
+ 
+     #[test]
+     fn draw_progress_bar() {
+@@ -222,7 +222,7 @@ mod test {
+         let p = Progress {
+             msg: "Message".to_string(),
+             max: Some(1000000000),
+-            value: AtomicU64::new(12000),
++            value: AtomicUsize::new(12000),
+             unit: ProgressUnit::Bytes,
+             color: false,
+             ..Default::default()
