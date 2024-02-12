@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
@@ -14,14 +16,14 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
 define Package/mprocs
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=TUI for running multiple processes
   URL:=https://github.com/pvolok/mprocs
-  DEPENDS:=+luajit
+  DEPENDS:=@HAS_LUAJIT_ARCH +luajit
 endef
 
 define Package/mprocs/description
