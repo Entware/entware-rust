@@ -1,0 +1,34 @@
+--- a/src/clock.rs
++++ b/src/clock.rs
+@@ -15,7 +15,7 @@ use std::{
+     ops::{Add, Sub},
+     pin::Pin,
+     sync::{
+-        atomic::{AtomicU64, Ordering},
++        atomic::{AtomicUsize, Ordering},
+         Arc, Mutex,
+     },
+     task::{Context, Poll, Waker},
+@@ -151,18 +151,18 @@ impl Future for ManualDelay {
+ /// of `ManualClockContent`.
+ #[derive(Default, Debug)]
+ struct ManualClockContent {
+-    now: AtomicU64,
++    now: AtomicUsize,
+     wakers: Mutex<Vec<Waker>>,
+ }
+ 
+ impl ManualClockContent {
+     fn now(&self) -> Nanoseconds {
+-        Nanoseconds(self.now.load(Ordering::SeqCst))
++        Nanoseconds(self.now.load(Ordering::SeqCst).try_into().unwrap())
+     }
+ 
+     fn set_time(&self, time: u64) {
+-        let old_time = self.now.swap(time, Ordering::SeqCst);
+-        assert!(old_time <= time, "cannot move the time backwards");
++        let old_time = self.now.swap(time.try_into().unwrap(), Ordering::SeqCst);
++        assert!(old_time <= time.try_into().unwrap(), "cannot move the time backwards");
+ 
+         let wakers = { mem::take(&mut *self.wakers.lock().unwrap()) };
+         wakers.into_iter().for_each(Waker::wake);
