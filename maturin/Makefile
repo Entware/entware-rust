@@ -1,13 +1,15 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=maturin
-PKG_VERSION:=1.3.1
+PKG_VERSION:=1.4.0
 PKG_RELEASE:=1
 
 PYPI_NAME:=maturin
-PKG_HASH:=efa194e99ae5fff185263d8244acacb12ae256ea73aba62c9446f6075ffc7ac1
+PKG_HASH:=ed12e1768094a7adeafc3a74ebdb8dc2201fa64c4e7e31f14cfc70378bf93790
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=license-apache license-mit
@@ -21,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/host-build.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-host-build.mk
-include ../rust.mk
+include ../rustc-dev/rust.mk
 
 PKG_BUILD_DEPENDS += $(HOST_BUILD_DEPENDS)
 
