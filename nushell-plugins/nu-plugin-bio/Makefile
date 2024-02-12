@@ -1,10 +1,12 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-bio
 PKG_VERSION:=0.85.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2023-10-21
@@ -17,7 +19,9 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/nu-plugin-bio
   SECTION:=utils
@@ -25,7 +29,7 @@ define Package/nu-plugin-bio
   SUBMENU:=Shells
   TITLE:=Bioinformatics plugin for nushell
   URL:=https://github.com/Euphrasiologist/nu_plugin_bio
-  DEPENDS:=+liblzma +nushell
+  DEPENDS:=+liblzma +nushell @BROKEN
 endef
 
 define Package/nu-plugin-bio/description
@@ -50,4 +54,4 @@ printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (fro
 printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_bio"
 endef
 
-$(eval $(call BuildPackage,nu-plugin-bio))
+#$(eval $(call BuildPackage,nu-plugin-bio))
