@@ -1,0 +1,58 @@
+--- a/perf/src/stats.rs
++++ b/perf/src/stats.rs
+@@ -1,6 +1,6 @@
+ use hdrhistogram::Histogram;
+ use quinn::StreamId;
+-use std::sync::atomic::{AtomicBool, AtomicU64, AtomicUsize, Ordering};
++use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+ use std::sync::{Arc, Mutex};
+ use std::time::{Duration, Instant, SystemTime};
+ #[cfg(feature = "json-output")]
+@@ -61,16 +61,16 @@ impl Stats {
+     fn record(&mut self, stream_stats: Arc<StreamStats>) {
+         if stream_stats.finished.load(Ordering::SeqCst) {
+             let duration = stream_stats.duration.load(Ordering::SeqCst);
+-            let bps = throughput_bytes_per_second(duration, stream_stats.request_size);
++            let bps = throughput_bytes_per_second(duration.try_into().unwrap(), stream_stats.request_size);
+ 
+             if stream_stats.sender {
+                 self.upload_throughput.record(bps as u64).unwrap();
+-                self.upload_duration.record(duration).unwrap();
++                self.upload_duration.record(duration.try_into().unwrap()).unwrap();
+             } else {
+                 self.download_throughput.record(bps as u64).unwrap();
+-                self.download_duration.record(duration).unwrap();
++                self.download_duration.record(duration.try_into().unwrap()).unwrap();
+                 self.fbl
+-                    .record(stream_stats.first_byte_latency.load(Ordering::SeqCst))
++                    .record(stream_stats.first_byte_latency.load(Ordering::SeqCst).try_into().unwrap())
+                     .unwrap();
+                 self.requests += 1;
+             }
+@@ -173,14 +173,14 @@ pub struct StreamStats {
+     bytes: AtomicUsize,
+     sender: bool,
+     finished: AtomicBool,
+-    duration: AtomicU64,
+-    first_byte_latency: AtomicU64,
++    duration: AtomicUsize,
++    first_byte_latency: AtomicUsize,
+ }
+ 
+ impl StreamStats {
+     pub fn on_first_byte(&self, latency: Duration) {
+         self.first_byte_latency
+-            .store(latency.as_micros() as u64, Ordering::SeqCst);
++            .store((latency.as_micros() as u64).try_into().unwrap(), Ordering::SeqCst);
+     }
+ 
+     pub fn on_bytes(&self, bytes: usize) {
+@@ -189,7 +189,7 @@ impl StreamStats {
+ 
+     pub fn finish(&self, duration: Duration) {
+         self.duration
+-            .store(duration.as_micros() as u64, Ordering::SeqCst);
++            .store((duration.as_micros() as u64).try_into().unwrap(), Ordering::SeqCst);
+         self.finished.store(true, Ordering::SeqCst);
+     }
+ }
