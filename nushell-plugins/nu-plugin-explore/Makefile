@@ -1,23 +1,27 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-explore
-PKG_VERSION:=0.1.1
+PKG_VERSION:=0.1.2
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-11-15
-PKG_SOURCE_VERSION:=b28a8d580f23c01b7cc0f7f8d74153d149f4e5f5
+PKG_SOURCE_DATE:=2024-01-16
+PKG_SOURCE_VERSION:=e5518c7f25cec3537bf897a7ef8d1818eb76aa94
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/amtoine/nu_plugin_explore
-PKG_MIRROR_HASH:=7bd91eeac52ac0bfb9db80ac5969dfec7640d0382235ca5610f6b83f8c88a0cb
+PKG_MIRROR_HASH:=65467eda24faea6413164e0d5898168602a6455733c445225d40c53ee4541761
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/nu-plugin-explore
   SECTION:=utils
