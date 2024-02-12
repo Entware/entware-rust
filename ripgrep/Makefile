@@ -1,17 +1,16 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ripgrep
-PKG_VERSION:=13.0.0
-PKG_RELEASE:=18
+PKG_VERSION:=14.1.0
+PKG_RELEASE:=1
 
-PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-10-10
-PKG_SOURCE_VERSION:=7099e174acbcbd940f57e4ab4913fee4040c826e
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
-PKG_SOURCE_URL:=https://github.com/BurntSushi/ripgrep
-PKG_MIRROR_HASH:=97c2c3fa9c0e910f6b49df049194245f39f06105c32f81729f92fe537274dbd6
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/BurntSushi/ripgrep/tar.gz/refs/tags/$(PKG_VERSION)?
+PKG_HASH:=33c6169596a6bbfdc81415910008f26e0809422fda2d849562637996553b2ab6
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE-MIT
@@ -20,7 +19,7 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_RIPGREP_PCRE2
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
 define Package/ripgrep
   SECTION:=utils
