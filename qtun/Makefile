@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -7,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qtun
 PKG_VERSION:=0.2.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/shadowsocks/qtun/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -17,7 +19,9 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += quinn-0104 ring-0175 rustls-0219 webpki-roots-0243
 
 define Package/qtun/Default
   SECTION:=net
@@ -25,7 +29,6 @@ define Package/qtun/Default
   SUBMENU:=Web Servers/Proxies
   TITLE:=SIP003 plugin based on IETF-QUIC
   URL:=https://github.com/shadowsocks/qtun
-  DEPENDS:=@!(mips||mipsel)
 endef
 
 define Package/qtun-client
