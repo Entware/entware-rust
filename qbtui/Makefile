@@ -1,10 +1,12 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qbtui
 PKG_VERSION:=0.0.5
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2023-05-31
@@ -17,7 +19,7 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
 define Package/qbtui
   SECTION:=net
