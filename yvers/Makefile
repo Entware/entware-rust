@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # armv7-2.6:
 #	(crashed) src/widgets/procs.rs, line 210
@@ -7,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=yvers
 PKG_VERSION:=0.0.5
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2023-06-12
@@ -20,7 +22,9 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/yvers
   SECTION:=admin
