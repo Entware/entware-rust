@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
@@ -14,7 +16,7 @@ PKG_LICENSE:=Apache-2.0 BSD-2-Clause MIT
 PKG_LICENSE_FILES:=COPYRIGHT LICENSE-APACHE LICENSE-MIT
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
 define Package/kibi
   SECTION:=utils
