@@ -1,0 +1,100 @@
+--- a/crates/tor-circmgr/src/isolation.rs
++++ b/crates/tor-circmgr/src/isolation.rs
+@@ -1,7 +1,7 @@
+ //! Types related to stream isolation
+ use downcast_rs::{impl_downcast, Downcast};
+ use dyn_clone::{clone_trait_object, DynClone};
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ 
+ /// A type that can make isolation decisions about streams it is attached to.
+ ///
+@@ -179,10 +179,10 @@ impl IsolationToken {
+     /// no longer possible to ensure isolation.
+     pub fn new() -> Self {
+         /// Internal counter used to generate different tokens each time
+-        static COUNTER: AtomicU64 = AtomicU64::new(1);
++        static COUNTER: AtomicUsize = AtomicUsize::new(1);
+         // Ordering::Relaxed is fine because we don't care about causality, we just want a
+         // different number each time
+-        let token = COUNTER.fetch_add(1, Ordering::Relaxed);
++        let token = COUNTER.fetch_add(1, Ordering::Relaxed) as u64;
+         assert!(token < u64::MAX);
+         IsolationToken(token)
+     }
+--- a/crates/tor-guardmgr/src/pending.rs
++++ b/crates/tor-guardmgr/src/pending.rs
+@@ -14,7 +14,7 @@ use futures::{channel::mpsc::UnboundedSe
+ use pin_project::pin_project;
+ use std::fmt::Debug;
+ use std::pin::Pin;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::task::{Context, Poll};
+ use std::time::Instant;
+ use tor_async_utils::oneshot;
+@@ -258,8 +258,8 @@ impl RequestId {
+     /// Panics if we have somehow exhausted a 64-bit space of request IDs.
+     pub(crate) fn next() -> RequestId {
+         /// The next identifier in sequence we'll give out.
+-        static NEXT_VAL: AtomicU64 = AtomicU64::new(1);
+-        let id = NEXT_VAL.fetch_add(1, Ordering::Relaxed);
++        static NEXT_VAL: AtomicUsize = AtomicUsize::new(1);
++        let id = NEXT_VAL.fetch_add(1, Ordering::Relaxed) as u64;
+         assert!(id != 0, "Exhausted guard request Id space.");
+         RequestId { id }
+     }
+--- a/crates/tor-proto/src/util/ts.rs
++++ b/crates/tor-proto/src/util/ts.rs
+@@ -1,7 +1,7 @@
+ //! Implement a fast 'timestamp' for determining when an event last
+ //! happened.
+ 
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ 
+ /// An object for determining whether an event happened,
+ /// and if yes, when it happened.
+@@ -18,13 +18,13 @@ pub(crate) struct OptTimestamp {
+     ///
+     /// I'd rather just use [`coarsetime::Instant`], but that doesn't have
+     /// an atomic form.
+-    latest: AtomicU64,
++    latest: AtomicUsize,
+ }
+ impl OptTimestamp {
+     /// Construct a new timestamp that has never been updated.
+     pub(crate) const fn new() -> Self {
+         OptTimestamp {
+-            latest: AtomicU64::new(0),
++            latest: AtomicUsize::new(0),
+         }
+     }
+ 
+@@ -42,7 +42,7 @@ impl OptTimestamp {
+ 
+         let _ignore = self
+             .latest
+-            .compare_exchange(0, now, Ordering::Relaxed, Ordering::Relaxed);
++            .compare_exchange(0, now.try_into().unwrap(), Ordering::Relaxed, Ordering::Relaxed);
+     }
+ 
+     /// Clear the timestamp and make it not updated again.
+@@ -67,7 +67,7 @@ impl OptTimestamp {
+         &self,
+         now: coarsetime::Instant,
+     ) -> Option<coarsetime::Duration> {
+-        let earlier = self.latest.load(Ordering::Relaxed);
++        let earlier = self.latest.load(Ordering::Relaxed) as u64;
+         let now = now.as_ticks();
+         if now >= earlier && earlier != 0 {
+             Some(coarsetime::Duration::from_ticks(now - earlier))
+@@ -79,7 +79,7 @@ impl OptTimestamp {
+     /// Update this timestamp to (at least) the time `now`.
+     #[inline]
+     pub(crate) fn update_to(&self, now: coarsetime::Instant) {
+-        self.latest.fetch_max(now.as_ticks(), Ordering::Relaxed);
++        self.latest.fetch_max(now.as_ticks().try_into().unwrap(), Ordering::Relaxed);
+     }
+ }
+ 

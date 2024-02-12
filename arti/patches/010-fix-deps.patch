@@ -1,0 +1,30 @@
+--- a/crates/tor-proto/Cargo.toml
++++ b/crates/tor-proto/Cargo.toml
+@@ -56,7 +56,7 @@ asynchronous-codec = "0.7.0"
+ bitvec = "1.0.1"
+ bytes = "1"
+ cipher = { version = "0.4.1", features = ["zeroize"] }
+-coarsetime = "0.1.20"
++coarsetime = "0.1.29"
+ derive_builder = { version = "0.11.2", package = "derive_builder_fork_arti" }
+ derive_more = "0.99.3"
+ digest = "0.10.0"
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -100,3 +100,16 @@ incremental = true
+ # Inherits release build settings, but adds full debug symbols.
+ debug = 2
+ strip = "none"
++
++[patch.crates-io]
++ring = { path = "../ring-0.17.5" }
++trust-dns-proto = { path = "../trust-dns-0.23.0/crates/proto" }
++# armv5/mips/mipsel
++coarsetime = { path = "../coarsetime-0.1.29" }
++# mips (big endian)
++merlin = { path = "../merlin-3.0.0" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++# openssl
++openssl-probe = { path = "../openssl-probe-0.1.5" }

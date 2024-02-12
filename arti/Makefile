@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el)/armv5:
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
@@ -10,32 +12,135 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=arti
-PKG_VERSION:=1.1.10
+PKG_VERSION:=1.1.12
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://gitlab.torproject.org/tpo/core/arti/-/archive/$(PKG_NAME)-v$(PKG_VERSION)
-PKG_HASH:=bb7f18385022b616fb0fb04c61b890441524eaa884def1eef3c581b711814842
+PKG_HASH:=e15dc574ea29391b95839208a59196abfad3ee3c7d14a6e42c8946a16025c9bd
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
+#PKG_CONFIG_DEPENDS:= \
+#	CONFIG_ARTI_EXPERIMENTAL
+
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
-PKG_UNPACK:=$(HOST_TAR) -C "$(PKG_BUILD_DIR)" --strip-components=1 -xzf "$(DL_DIR)/$(PKG_SOURCE)"
+PKG_BUILD_DEPENDS += chrono-0431 coarsetime-0129 merlin-300 openssl-probe-015
+PKG_BUILD_DEPENDS += ring-0175 trust-dns
+PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
-define Package/arti
+define Package/arti/Default
   SECTION:=net
   CATEGORY:=Network
-  TITLE:=reimplementing Tor in Rust
   URL:=https://gitlab.torproject.org/tpo/core/arti/-/wikis/home
-  DEPENDS:=@!(i386||mips||mipsel||TARGET_armv5_3_2) +liblzma +libopenssl +libsqlite3
+  DEPENDS:=@!i386
+endef
+
+define Package/arti
+  $(call Package/arti/Default)
+  TITLE:=A rust implementation of the Tor privacy tools
+  DEPENDS+=+liblzma +libopenssl +libsqlite3
 endef
 
 define Package/arti/description
   A rust implementation of the Tor privacy tools.
 endef
+
+define Package/arti-bench
+  $(call Package/arti/Default)
+  TITLE:=A simple benchmarking utility for Arti
+  DEPENDS:=+arti
+endef
+
+define Package/arti-bench/description
+  A simple benchmarking utility for Arti.
+endef
+
+define Package/arti-testing
+  $(call Package/arti/Default)
+  TITLE:=Tools for testing the Arti Tor implementation
+  DEPENDS:=+arti
+endef
+
+define Package/arti-testing/description
+  Tools for testing the Arti Tor implementation.
+endef
+
+define Package/arti-connection-checker
+  $(call Package/arti/Default)
+  TITLE:=Test connections to the Tor network
+  DEPENDS:=+arti
+endef
+
+define Package/arti-connection-checker/description
+  This small tool attempts to check connectivity to the
+  Tor network through a variety of ways:
+  - Directly
+  - Via a bridge
+  - Via various pluggable transports (obfs4, meek-azure, snowflake)
+endef
+
+define Package/arti-dns-resolver
+  $(call Package/arti/Default)
+  TITLE:=Use Tor to make a DNS over TCP request
+  DEPENDS:=+arti
+endef
+
+define Package/arti-dns-resolver/description
+  Use Tor to make a DNS over TCP request for a hostname,
+  and get IP addresses back.
+endef
+
+define Package/arti-download-manager
+  $(call Package/arti/Default)
+  TITLE:=a small download manager prototype
+  DEPENDS:=+arti
+endef
+
+define Package/arti-download-manager/description
+  This project aims to build a small download manager
+  prototype which can connect to the Tor network and get a copy of the Tor
+  browser from there.
+endef
+
+define Package/arti-obfs4-checker
+  $(call Package/arti/Default)
+  TITLE:=Utility to deliver real-time updates on bridge health
+  DEPENDS:=+arti
+endef
+
+define Package/arti-obfs4-checker/description
+  This small tool attempts to check obfs4 bridge status
+  over a long period of time.
+endef
+
+define Package/arti-pt-proxy
+  $(call Package/arti/Default)
+  TITLE:=Tunnel SOCKS5 traffic through obfs4 connection
+  DEPENDS:=+arti
+endef
+
+define Package/arti-pt-proxy/description
+  This is a project that provides an interface to run
+  the obfs4 pluggable transport in a standalone manner, ie, instead of
+  using obfs4 to connect to the Tor network, we can use it to connect
+  to the Internet directly.
+endef
+
+define Package/arti/conffiles
+/opt/etc/arti/arti-config.toml
+endef
+
+#define Package/arti/config
+#config ARTI_EXPERIMENTAL
+#	depends on PACKAGE_arti
+#	bool "Enable experimental APIs that are not yet officially supported."
+#endef
+
+#CARGO_ARGS += $(if $(CONFIG_ARTI_EXPERIMENTAL),--features 'experimental')
 
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
@@ -44,10 +149,51 @@ endif
 define Package/arti/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/arti $(1)/opt/usr/bin
-
 	$(INSTALL_DIR) $(1)/opt/etc/arti
 	$(CP) $(PKG_BUILD_DIR)/crates/arti/src/arti-example-config.toml \
 		$(1)/opt/etc/arti/arti-config.toml
 endef
 
+define Package/arti-bench/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/arti-bench $(1)/opt/usr/bin
+endef
+
+define Package/arti-testing/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/arti-testing $(1)/opt/usr/bin
+endef
+
+define Package/arti-connection-checker/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/connection-checker $(1)/opt/usr/bin
+endef
+
+define Package/arti-dns-resolver/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/dns-resolver $(1)/opt/usr/bin
+endef
+
+define Package/arti-download-manager/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/download-manager $(1)/opt/usr/bin
+endef
+
+define Package/arti-obfs4-checker/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/obfs4-checker $(1)/opt/usr/bin
+endef
+
+define Package/arti-pt-proxy/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/pt-proxy $(1)/opt/usr/bin
+endef
+
 $(eval $(call BuildPackage,arti))
+$(eval $(call BuildPackage,arti-bench))
+$(eval $(call BuildPackage,arti-testing))
+#$(eval $(call BuildPackage,arti-connection-checker))
+#$(eval $(call BuildPackage,arti-dns-resolver))
+#$(eval $(call BuildPackage,arti-download-manager))
+#$(eval $(call BuildPackage,arti-obfs4-checker))
+#$(eval $(call BuildPackage,arti-pt-proxy))
