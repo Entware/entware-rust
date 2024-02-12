@@ -1,0 +1,42 @@
+From 2b1fe9e007233e7643c9b11b6f894ec456ed678d Mon Sep 17 00:00:00 2001
+From: Lyra Naeseth <lyra@lyra.codes>
+Date: Thu, 16 Nov 2023 08:37:51 -0800
+Subject: [PATCH 8/9] Fix initial vec capacity in
+ NameServerConfigGroup::from_ips_clear
+
+Building a `NameServerConfigGroup` using `from_ips_clear` currently
+always causes a reallocation of the underlying `Vec<NameServerConfig>`,
+because two config entries are inserted per IP, while capacity is only
+reserved for one.
+
+This fix adds the missing `2 *` constant factor to `Vec::with_capacity`.
+---
+ crates/resolver/src/config.rs | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
+
+--- a/crates/resolver/src/config.rs
++++ b/crates/resolver/src/config.rs
+@@ -568,11 +568,12 @@ impl NameServerConfigGroup {
+     ///
+     /// This will create UDP and TCP connections, using the same port.
+     pub fn from_ips_clear(ips: &[IpAddr], port: u16, trust_negative_responses: bool) -> Self {
+-        let mut name_servers = Self::with_capacity(ips.len());
++        let mut name_servers = Self::with_capacity(2 * ips.len());
+ 
+         for ip in ips {
++            let socket_addr = SocketAddr::new(*ip, port);
+             let udp = NameServerConfig {
+-                socket_addr: SocketAddr::new(*ip, port),
++                socket_addr,
+                 protocol: Protocol::Udp,
+                 tls_dns_name: None,
+                 trust_negative_responses,
+@@ -581,7 +582,7 @@ impl NameServerConfigGroup {
+                 bind_addr: None,
+             };
+             let tcp = NameServerConfig {
+-                socket_addr: SocketAddr::new(*ip, port),
++                socket_addr,
+                 protocol: Protocol::Tcp,
+                 tls_dns_name: None,
+                 trust_negative_responses,

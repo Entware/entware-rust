@@ -1,0 +1,77 @@
+--- a/bin/benches/comparison_benches.rs
++++ b/bin/benches/comparison_benches.rs
+@@ -200,7 +200,7 @@ fn bind_process() -> (NamedProcess, u16)
+     let bind_path = env::var("TDNS_BIND_PATH").unwrap_or_else(|_| "".to_owned());
+     let server_path = env::var("TDNS_WORKSPACE_ROOT").unwrap_or_else(|_| "..".to_owned());
+ 
+-    let bind_path = format!("{}/sbin/named", bind_path);
++    let bind_path = format!("{}/opt/sbin/named", bind_path);
+ 
+     // create the work directory
+     let working_dir = format!("{}/../target/bind_pwd", server_path);
+--- a/bin/src/hickory-dns.rs
++++ b/bin/src/hickory-dns.rs
+@@ -286,7 +286,7 @@ struct Cli {
+     #[clap(
+         short = 'c',
+         long = "config",
+-        default_value = "/etc/named.toml",
++        default_value = "/opt/etc/hickory-dns/named.toml",
+         value_name = "NAME",
+         value_hint=clap::ValueHint::FilePath,
+     )]
+--- a/crates/server/src/config/mod.rs
++++ b/crates/server/src/config/mod.rs
+@@ -29,7 +29,7 @@ use crate::authority::ZoneType;
+ use crate::error::ConfigResult;
+ use crate::store::StoreConfig;
+ 
+-static DEFAULT_PATH: &str = "/var/named"; // TODO what about windows (do I care? ;)
++static DEFAULT_PATH: &str = "/opt/var/lib/named"; // TODO what about windows (do I care? ;)
+ static DEFAULT_PORT: u16 = 53;
+ static DEFAULT_TLS_PORT: u16 = 853;
+ static DEFAULT_HTTPS_PORT: u16 = 443;
+--- a/crates/server/tests/config_tests.rs
++++ b/crates/server/tests/config_tests.rs
+@@ -42,7 +42,7 @@ fn test_read_config() {
+     assert_eq!(config.get_listen_addrs_ipv6(), Ok(Vec::<Ipv6Addr>::new()));
+     assert_eq!(config.get_tcp_request_timeout(), Duration::from_secs(5));
+     assert_eq!(config.get_log_level(), tracing::Level::INFO);
+-    assert_eq!(config.get_directory(), Path::new("/var/named"));
++    assert_eq!(config.get_directory(), Path::new("/opt/var/lib/named"));
+     assert_eq!(
+         config.get_zones(),
+         [
+--- a/tests/compatibility-tests/src/bind.rs
++++ b/tests/compatibility-tests/src/bind.rs
+@@ -19,7 +19,7 @@ pub fn named_process() -> (NamedProcess,
+     let test_port = find_test_port();
+ 
+     let bind_path = env::var("TDNS_BIND_PATH").expect("TDNS_BIND_PATH not set");
+-    let bind_path = format!("{bind_path}/sbin/named");
++    let bind_path = format!("{bind_path}/opt/sbin/named");
+ 
+     println!(
+         "Path to BIND '{bind_path}' this can be changed with the TDNS_BIND_PATH environment variable"
+--- a/tests/test-data/test_configs/example.toml
++++ b/tests/test-data/test_configs/example.toml
+@@ -38,7 +38,7 @@
+ # tls_listen_port = 853
+ 
+ ## directory: path on the host filesystem to where zone files are stored.
+-# directory = "/var/named"
++# directory = "/opt/var/lib/named"
+ 
+ ## Default zones, these should be present on all nameservers, except in rare
+ ##  configuration cases
+--- a/util/src/bin/get-root-ksks.rs
++++ b/util/src/bin/get-root-ksks.rs
+@@ -73,7 +73,7 @@ pub fn main() {
+                     alg => panic!("unknown Algorithm {:?}", alg),
+                 };
+ 
+-                let mut path = PathBuf::from("/tmp");
++                let mut path = PathBuf::from("/opt/tmp");
+                 path.push(format!("{key_tag}"));
+                 path.set_extension(extension);
+ 
