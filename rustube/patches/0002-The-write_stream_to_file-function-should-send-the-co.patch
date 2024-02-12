@@ -10,11 +10,9 @@ Subject: [PATCH 2/8] The write_stream_to_file function should send the counter
  src/stream/mod.rs | 5 +----
  2 files changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/cli/src/main.rs b/cli/src/main.rs
-index b756756..686253f 100644
 --- a/cli/src/main.rs
 +++ b/cli/src/main.rs
-@@ -71,9 +71,11 @@ async fn download(args: DownloadArgs) -> Result<()> {
+@@ -71,9 +71,11 @@ async fn download(args: DownloadArgs) ->
  
      // handle download progress updates
      let mut callback = Callback::new();
@@ -27,8 +25,6 @@ index b756756..686253f 100644
      });
  
      let output_level = args.output.output_level;
-diff --git a/src/stream/mod.rs b/src/stream/mod.rs
-index 397cacc..eaf0ebb 100644
 --- a/src/stream/mod.rs
 +++ b/src/stream/mod.rs
 @@ -331,10 +331,7 @@ impl Stream {
@@ -43,6 +39,3 @@ index 397cacc..eaf0ebb 100644
                  {
                      return Err(Error::ChannelClosed);
                  }
--- 
-2.30.2
-

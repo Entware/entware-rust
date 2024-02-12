@@ -7,11 +7,9 @@ Subject: [PATCH 3/8] Explicitly set pbr units for prettier output.
  cli/src/main.rs | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/cli/src/main.rs b/cli/src/main.rs
-index 686253f..ce7e239 100644
 --- a/cli/src/main.rs
 +++ b/cli/src/main.rs
-@@ -67,6 +67,7 @@ async fn download(args: DownloadArgs) -> Result<()> {
+@@ -67,6 +67,7 @@ async fn download(args: DownloadArgs) ->
  
      // init CLI progress bar
      let mut pb = pbr::ProgressBar::new(stream.content_length().await?);
@@ -19,6 +17,3 @@ index 686253f..ce7e239 100644
      pb.format("╢▌▌░╟");
  
      // handle download progress updates
--- 
-2.30.2
-

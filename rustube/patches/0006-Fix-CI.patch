@@ -8,8 +8,6 @@ Signed-off-by: Dzenan Jupic <56133904+DzenanJupic@users.noreply.github.com>
  build.rs | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/build.rs b/build.rs
-index f1a659a..883837e 100644
 --- a/build.rs
 +++ b/build.rs
 @@ -1,4 +1,4 @@
@@ -27,6 +25,3 @@ index f1a659a..883837e 100644
 \ No newline at end of file
 +    println!("cargo:rustc-cfg={channel}");
 +}
--- 
-2.30.2
-

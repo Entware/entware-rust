@@ -11,8 +11,6 @@ Signed-off-by: Dzenan Jupic <56133904+DzenanJupic@users.noreply.github.com>
  src/stream/mod.rs      | 10 +++---
  2 files changed, 46 insertions(+), 46 deletions(-)
 
-diff --git a/src/stream/callback.rs b/src/stream/callback.rs
-index f8b075f..60c5fa6 100644
 --- a/src/stream/callback.rs
 +++ b/src/stream/callback.rs
 @@ -9,10 +9,10 @@ use tokio::sync::mpsc;
@@ -271,8 +269,6 @@ index f8b075f..60c5fa6 100644
                  closure(path).await
              }
          }
-diff --git a/src/stream/mod.rs b/src/stream/mod.rs
-index eaf0ebb..8e54d2d 100644
 --- a/src/stream/mod.rs
 +++ b/src/stream/mod.rs
 @@ -378,7 +378,7 @@ impl Stream {
@@ -307,6 +303,3 @@ index eaf0ebb..8e54d2d 100644
          crate::block!(self.download_to_with_callback(path, callback))
      }
  
--- 
-2.30.2
-

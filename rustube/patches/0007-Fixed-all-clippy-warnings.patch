@@ -12,8 +12,6 @@ Signed-off-by: Dzenan Jupic <56133904+DzenanJupic@users.noreply.github.com>
  src/fetcher.rs                | 12 ++++++------
  5 files changed, 23 insertions(+), 29 deletions(-)
 
-diff --git a/cli/src/args/stream_filter.rs b/cli/src/args/stream_filter.rs
-index 4d3620d..f071bac 100644
 --- a/cli/src/args/stream_filter.rs
 +++ b/cli/src/args/stream_filter.rs
 @@ -121,6 +121,6 @@ impl StreamFilter {
@@ -24,11 +22,9 @@ index 4d3620d..f071bac 100644
 +    let args = format!("\"{s}\"");
      Ok(serde_json::from_str(&args)?)
  }
-diff --git a/cli/src/main.rs b/cli/src/main.rs
-index 6f414e2..4e5b8e9 100644
 --- a/cli/src/main.rs
 +++ b/cli/src/main.rs
-@@ -53,7 +53,7 @@ async fn check(args: CheckArgs) -> Result<()> {
+@@ -53,7 +53,7 @@ async fn check(args: CheckArgs) -> Resul
          .output
          .output_format
          .serialize_output(&video_serializer)?;
@@ -37,7 +33,7 @@ index 6f414e2..4e5b8e9 100644
  
      Ok(())
  }
-@@ -83,7 +83,7 @@ async fn download(args: DownloadArgs) -> Result<()> {
+@@ -83,7 +83,7 @@ async fn download(args: DownloadArgs) ->
          args.output.output_level,
      );
      let output = args.output.output_format.serialize_output(&video_serializer).unwrap();
@@ -46,7 +42,7 @@ index 6f414e2..4e5b8e9 100644
  
      Ok(())
  }
-@@ -95,7 +95,7 @@ async fn fetch(args: FetchArgs) -> Result<()> {
+@@ -95,7 +95,7 @@ async fn fetch(args: FetchArgs) -> Resul
      let video_info = rustube::VideoFetcher::from_id(id)?.fetch_info().await?;
  
      let output = args.output.output_format.serialize_output(&video_info)?;
@@ -55,8 +51,6 @@ index 6f414e2..4e5b8e9 100644
  
      Ok(())
  }
-diff --git a/cli/src/output_format.rs b/cli/src/output_format.rs
-index efd8ae4..3b41f29 100644
 --- a/cli/src/output_format.rs
 +++ b/cli/src/output_format.rs
 @@ -16,8 +16,8 @@ impl OutputFormat {
@@ -70,8 +64,6 @@ index efd8ae4..3b41f29 100644
              Json => Ok(serde_json::to_string(output)?),
              PrettyJson => Ok(serde_json::to_string_pretty(output)?),
              Yaml => Ok(serde_yaml::to_string(output)?)
-diff --git a/src/descrambler/cipher.rs b/src/descrambler/cipher.rs
-index 4802c2b..9a6a249 100644
 --- a/src/descrambler/cipher.rs
 +++ b/src/descrambler/cipher.rs
 @@ -1,6 +1,6 @@
@@ -128,7 +120,7 @@ index 4802c2b..9a6a249 100644
              ).into()))?
              .get(1)
              .expect("the pattern must contain at least one capture group")
-@@ -172,8 +170,7 @@ fn get_initial_function_name(js: &str) -> Result<&str> {
+@@ -172,8 +170,7 @@ fn get_initial_function_name(js: &str) -
          .find_map(|pattern| pattern.captures(js))
          .map(|c| c.get(1).unwrap().as_str())
          .ok_or_else(|| Error::UnexpectedResponse(format!(
@@ -138,7 +130,7 @@ index 4802c2b..9a6a249 100644
          ).into()))
  }
  
-@@ -186,8 +183,7 @@ fn get_transform_map(js: &str, var: &str) -> Result<HashMap<String, TransformerF
+@@ -186,8 +183,7 @@ fn get_transform_map(js: &str, var: &str
          let (name, function) = obj
              .split_once(':')
              .ok_or_else(|| Error::UnexpectedResponse(format!(
@@ -148,7 +140,7 @@ index 4802c2b..9a6a249 100644
              ).into()))?;
          let fun = map_functions(function)?;
          mapper.insert(name.to_owned(), fun);
-@@ -249,8 +245,7 @@ fn map_functions(js_func: &str) -> Result<TransformerFn> {
+@@ -249,8 +245,7 @@ fn map_functions(js_func: &str) -> Resul
          .find(|(pattern, _fun)| pattern.is_match(js_func))
          .map(|(_pattern, fun)| *fun)
          .ok_or_else(|| Error::UnexpectedResponse(format!(
@@ -158,7 +150,7 @@ index 4802c2b..9a6a249 100644
          ).into()))
  }
  
-@@ -260,8 +255,7 @@ fn get_transform_object(js: &str, var: &str) -> Result<String> {
+@@ -260,8 +255,7 @@ fn get_transform_object(js: &str, var: &
              .unwrap()
              .captures(js)
              .ok_or_else(|| Error::UnexpectedResponse(format!(
@@ -168,8 +160,6 @@ index 4802c2b..9a6a249 100644
              ).into()))?
              .get(1)
              .expect("the regex pattern must contain at least one capture group")
-diff --git a/src/fetcher.rs b/src/fetcher.rs
-index d839985..8c4b86c 100644
 --- a/src/fetcher.rs
 +++ b/src/fetcher.rs
 @@ -1,5 +1,4 @@
@@ -178,7 +168,7 @@ index d839985..8c4b86c 100644
  use regex::Regex;
  use reqwest::Client;
  use serde::Deserialize;
-@@ -63,7 +62,7 @@ use crate::video_info::player_response::playability_status::PlayabilityStatus;
+@@ -63,7 +62,7 @@ use crate::video_info::player_response::
  ///
  /// [`Video`]: crate::video::Video
  #[derive(Clone, derive_more::Display, derivative::Derivative)]
@@ -187,7 +177,7 @@ index d839985..8c4b86c 100644
  #[derivative(Debug, PartialEq, Eq)]
  pub struct VideoFetcher {
      video_id: IdBuf,
-@@ -429,7 +428,7 @@ fn js_url(html: &str) -> crate::Result<(Url, Option<PlayerResponse>)> {
+@@ -429,7 +428,7 @@ fn js_url(html: &str) -> crate::Result<(
          _ => get_ytplayer_js(html)?
      };
  
@@ -196,7 +186,7 @@ index d839985..8c4b86c 100644
  }
  
  /// Extracts the [`PlayerResponse`] from the watch html.
-@@ -511,9 +510,10 @@ fn deserialize_ytplayer_config(json: &str) -> crate::Result<PlayerResponse> {
+@@ -511,9 +510,10 @@ fn deserialize_ytplayer_config(json: &st
          Err(err) => err,
      };
  
@@ -210,6 +200,3 @@ index d839985..8c4b86c 100644
      ))))
  }
  
--- 
-2.30.2
-

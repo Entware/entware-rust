@@ -10,11 +10,9 @@ Subject: [PATCH 1/8] Added progress bar to CLI download.
  src/stream/mod.rs      | 16 +++++----
  4 files changed, 64 insertions(+), 42 deletions(-)
 
-diff --git a/cli/Cargo.toml b/cli/Cargo.toml
-index 143c90b..44c4913 100644
 --- a/cli/Cargo.toml
 +++ b/cli/Cargo.toml
-@@ -25,9 +25,11 @@ clap = { version = "3.0.0-rc.7", features = ["derive", "wrap_help"] }
+@@ -25,9 +25,11 @@ clap = { version = "3.0.0-rc.7", feature
  fern = { version = "0.6.0", features = ["colored"] }
  log = "0.4.14"
  mime = "0.3.16"
@@ -27,8 +25,6 @@ index 143c90b..44c4913 100644
  serde_yaml = "0.8.21"
 +pbr = "1.0.4"
 +
-diff --git a/cli/src/main.rs b/cli/src/main.rs
-index 53a781a..b756756 100644
 --- a/cli/src/main.rs
 +++ b/cli/src/main.rs
 @@ -5,6 +5,7 @@ use clap::Parser;
@@ -39,7 +35,7 @@ index 53a781a..b756756 100644
  use rustube::{Error, Id, IdBuf, Stream, Video, VideoFetcher, VideoInfo};
  
  use crate::args::{CheckArgs, Command, FetchArgs};
-@@ -48,7 +49,10 @@ async fn check(args: CheckArgs) -> Result<()> {
+@@ -48,7 +49,10 @@ async fn check(args: CheckArgs) -> Resul
      let (video_info, streams) = get_streams(id, &args.stream_filter).await?;
      let video_serializer = VideoSerializer::new(video_info, streams, args.output.output_level);
  
@@ -51,7 +47,7 @@ index 53a781a..b756756 100644
      println!("{}", output);
  
      Ok(())
-@@ -59,22 +63,36 @@ async fn download(args: DownloadArgs) -> Result<()> {
+@@ -59,22 +63,36 @@ async fn download(args: DownloadArgs) ->
  
      let id = args.identifier.id()?;
      let (video_info, stream) = get_stream(id.as_owned(), args.stream_filter).await?;
@@ -104,7 +100,7 @@ index 53a781a..b756756 100644
  
      Ok(())
  }
-@@ -83,9 +101,7 @@ async fn fetch(args: FetchArgs) -> Result<()> {
+@@ -83,9 +101,7 @@ async fn fetch(args: FetchArgs) -> Resul
      args.logging.init_logger();
  
      let id = args.identifier.id()?;
@@ -115,7 +111,7 @@ index 53a781a..b756756 100644
  
      let output = args.output.output_format.serialize_output(&video_info)?;
      println!("{}", output);
-@@ -93,10 +109,7 @@ async fn fetch(args: FetchArgs) -> Result<()> {
+@@ -93,10 +109,7 @@ async fn fetch(args: FetchArgs) -> Resul
      Ok(())
  }
  
@@ -140,7 +136,7 @@ index 53a781a..b756756 100644
  
      let streams = streams
          .into_iter()
-@@ -131,9 +142,14 @@ async fn get_video(id: IdBuf) -> Result<Video> {
+@@ -131,9 +142,14 @@ async fn get_video(id: IdBuf) -> Result<
          .context("Could not descramble the video information")
  }
  
@@ -158,8 +154,6 @@ index 53a781a..b756756 100644
  
      let mut path = dir.unwrap_or_else(PathBuf::new);
  
-diff --git a/src/stream/callback.rs b/src/stream/callback.rs
-index 0c4ff56..f8b075f 100644
 --- a/src/stream/callback.rs
 +++ b/src/stream/callback.rs
 @@ -9,7 +9,7 @@ use tokio::sync::mpsc;
@@ -198,8 +192,6 @@ index 0c4ff56..f8b075f 100644
                  while let Some(data) = receiver.recv().await {
                      match data {
                          InternalSignal::Value(data) => {
-diff --git a/src/stream/mod.rs b/src/stream/mod.rs
-index ff04d07..397cacc 100644
 --- a/src/stream/mod.rs
 +++ b/src/stream/mod.rs
 @@ -320,18 +320,22 @@ impl Stream {
@@ -231,6 +223,3 @@ index ff04d07..397cacc 100644
                      return Err(Error::ChannelClosed);
                  }
              }
--- 
-2.30.2
-
