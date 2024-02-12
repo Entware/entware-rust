@@ -17,7 +17,7 @@
      ];
  
      if let Some(home) = dirs_next::config_dir() {
-@@ -53,7 +52,7 @@ mod tests {
+@@ -47,7 +46,7 @@ mod tests {
              r#"
              [sandbox]
              user = "foo"
@@ -26,7 +26,7 @@
              "#,
          ).unwrap();
  
-@@ -61,7 +60,7 @@ mod tests {
+@@ -55,7 +54,7 @@ mod tests {
              Config {
                  sandbox: SandboxConfig {
                      user: Some(String::from("foo")),
