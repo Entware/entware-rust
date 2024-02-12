@@ -1,0 +1,11 @@
+--- a/sqlx-core/src/sqlite/statement/handle.rs
++++ b/sqlx-core/src/sqlite/statement/handle.rs
+@@ -385,7 +385,7 @@ impl Notify {
+     }
+ 
+     fn wait(&self) {
+-        let _ = self
++        let _unused = self
+             .condvar
+             .wait_while(self.mutex.lock().unwrap(), |fired| !*fired)
+             .unwrap();

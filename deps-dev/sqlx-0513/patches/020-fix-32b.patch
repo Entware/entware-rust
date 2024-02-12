@@ -1,0 +1,36 @@
+--- a/sqlx-core/src/sqlite/connection/establish.rs
++++ b/sqlx-core/src/sqlite/connection/establish.rs
+@@ -3,6 +3,7 @@ use crate::error::Error;
+ use crate::sqlite::connection::handle::ConnectionHandle;
+ use crate::sqlite::connection::{ConnectionState, Statements};
+ use crate::sqlite::{SqliteConnectOptions, SqliteError};
++use std::convert::TryInto;
+ use libsqlite3_sys::{
+     sqlite3_busy_timeout, sqlite3_extended_result_codes, sqlite3_open_v2, SQLITE_OK,
+     SQLITE_OPEN_CREATE, SQLITE_OPEN_FULLMUTEX, SQLITE_OPEN_MEMORY, SQLITE_OPEN_NOMUTEX,
+@@ -10,14 +11,14 @@ use libsqlite3_sys::{
+ };
+ use std::ffi::CString;
+ use std::io;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::time::Duration;
+ use std::{
+     convert::TryFrom,
+     ptr::{null, null_mut},
+ };
+ 
+-static THREAD_ID: AtomicU64 = AtomicU64::new(0);
++static THREAD_ID: AtomicUsize = AtomicUsize::new(0);
+ 
+ pub struct EstablishParams {
+     filename: CString,
+@@ -88,7 +89,7 @@ impl EstablishParams {
+             busy_timeout: options.busy_timeout,
+             statement_cache_capacity: options.statement_cache_capacity,
+             log_settings: options.log_settings.clone(),
+-            thread_name: (options.thread_name)(THREAD_ID.fetch_add(1, Ordering::AcqRel)),
++            thread_name: (options.thread_name)(THREAD_ID.fetch_add(1, Ordering::AcqRel).try_into().unwrap()),
+             command_channel_size: options.command_channel_size,
+         })
+     }
