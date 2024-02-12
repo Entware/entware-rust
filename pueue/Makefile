@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -6,25 +8,27 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=pueue
-PKG_VERSION:=3.3.1
+PKG_VERSION:=3.3.3
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Nukesor/pueue/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=92a6cd4aa11966cb1eedb4678e8269a184cbd04fb07216013c73cbb6a0b45e08
+PKG_HASH:=ad7b760d4bed5a946acbdb6e3985d94d03944e3c0eb2221aea65da0aa001c636
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include $(TOPDIR)/feeds/rust/cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 rcgen-0120 ring-0177 rustls-0221
+PKG_BUILD_DEPENDS += tokio-rustls-0250
 
 define Package/pueue
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=CLI task manager for long-running tasks
   URL:=https://github.com/Nukesor/pueue
-  DEPENDS:=@!(mips||mipsel)
 endef
 
 define Package/pueue/description

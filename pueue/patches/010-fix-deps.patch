@@ -1,0 +1,36 @@
+--- a/pueue_lib/Cargo.toml
++++ b/pueue_lib/Cargo.toml
+@@ -21,15 +21,15 @@ byteorder = "1.5"
+ chrono = { version = "0.4", features = ["serde"] }
+ dirs = "5.0"
+ rand = "0.8"
+-rcgen = "0.12"
++rcgen = "0.12.0"
+ rev_buf_reader = "0.3"
+-rustls = { version = "0.22" }
++rustls = { version = "0.22.1" }
+ rustls-pemfile = "2"
+ serde_cbor = "0.11"
+ serde_yaml = "0.9"
+ shellexpand = "3.1"
+ thiserror = "1.0"
+-tokio-rustls = { version = "0.25", default-features = false }
++tokio-rustls = { version = "0.25.0", default-features = false }
+ 
+ command-group = { workspace = true }
+ handlebars = { workspace = true }
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -34,3 +34,12 @@ pretty_assertions = "1"
+ 
+ [profile.release]
+ lto = "thin"
++
++[patch.crates-io]
++rcgen = { path = "../rcgen-0.12.0/rcgen" }
++ring = { path = "../ring-0.17.7" }
++rustls = { path = "../rustls-0.22.1/rustls" }
++tokio-rustls = { path = "../tokio-rustls-0.25.0" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
