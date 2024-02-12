@@ -5,7 +5,16 @@
  surge-ping = "0.7.0"
  rand = "0.8.5"
 -trust-dns-resolver = { version = "0.21.2", features = ["dns-over-rustls"] }
-+trust-dns-resolver = { version = "0.21.2", features = ["dns-over-openssl"] }
++trust-dns-resolver = { version = "0.23.0", features = ["dns-over-rustls"] }
  serde = { version = "1.0", optional = true }
  serde_json = { version = "1.0", optional = true }
  # serde = { version = "1.0" }
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -8,3 +8,6 @@ members = [
+ strip = "symbols"
+ panic = "abort"
+ 
++[patch.crates-io]
++ring = { path = "../ring-0.17.5" }
++trust-dns-resolver = { path = "../trust-dns-0.23.0/crates/resolver" }

@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -7,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qsc
 PKG_VERSION:=0.4.2
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/0xor0ne/qscan/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
@@ -17,16 +19,16 @@ PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE.txt
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
-PKG_UNPACK:=$(HOST_TAR) -C "$(PKG_BUILD_DIR)" --strip-components=1 -xzf "$(DL_DIR)/$(PKG_SOURCE)"
+PKG_BUILD_DEPENDS += ring-0175 trust-dns
+PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/qsc
   SECTION:=net
   CATEGORY:=Network
   TITLE:=Quick async network scanner CLI
   URL:=https://github.com/0xor0ne/qscan
-  DEPENDS:=+(mips||mipsel):libopenssl
 endef
 
 define Package/qsc/description
