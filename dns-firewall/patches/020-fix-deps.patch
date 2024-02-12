@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -52,3 +52,8 @@ conf-files = [
+ section = "net"
+ maintainer-scripts = "dist/debian/maintainer-scripts"
+ systemd-units = { unit-scripts = "dist/shared/lib/systemd/system" }
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
