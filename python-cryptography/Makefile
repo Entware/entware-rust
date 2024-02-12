@@ -1,13 +1,15 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=python3-cryptography
-PKG_VERSION:=41.0.4
+PKG_NAME:=cryptography
+PKG_VERSION:=41.0.7
 PKG_RELEASE:=1
 
 PYPI_NAME:=cryptography
-PKG_HASH:=7febc3094125fc126a7f6fb1f420d0da639f3f32cb15c8ff0dc3997c4549f51a
+PKG_HASH:=13f93ce9bea8016c253b34afc6bd6a75993e5c40672ed5405a9c832f0d4a00bc
 
 PKG_LICENSE:=Apache-2.0 BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE LICENSE.APACHE LICENSE.BSD LICENSE.PSF
@@ -15,7 +17,7 @@ PKG_LICENSE_FILES:=LICENSE LICENSE.APACHE LICENSE.BSD LICENSE.PSF
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
-include ../rust.mk
+include ../rustc-dev/rust.mk
 
 PKG_BUILD_DEPENDS += \
 	libffi/host \
