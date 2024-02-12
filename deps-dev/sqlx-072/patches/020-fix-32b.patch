@@ -1,0 +1,24 @@
+--- a/sqlx-sqlite/src/connection/establish.rs
++++ b/sqlx-sqlite/src/connection/establish.rs
+@@ -14,10 +14,10 @@ use std::ffi::{c_void, CStr, CString};
+ use std::io;
+ use std::os::raw::c_int;
+ use std::ptr::{addr_of_mut, null, null_mut};
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::time::Duration;
+ 
+-static THREAD_ID: AtomicU64 = AtomicU64::new(0);
++static THREAD_ID: AtomicUsize = AtomicUsize::new(0);
+ 
+ enum SqliteLoadExtensionMode {
+     /// Enables only the C-API, leaving the SQL function disabled.
+@@ -145,7 +145,7 @@ impl EstablishParams {
+             statement_cache_capacity: options.statement_cache_capacity,
+             log_settings: options.log_settings.clone(),
+             extensions,
+-            thread_name: (options.thread_name)(THREAD_ID.fetch_add(1, Ordering::AcqRel)),
++            thread_name: (options.thread_name)(THREAD_ID.fetch_add(1, Ordering::AcqRel).try_into().unwrap()),
+             command_channel_size: options.command_channel_size,
+             #[cfg(feature = "regexp")]
+             register_regexp_function: options.register_regexp_function,

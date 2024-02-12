@@ -1,0 +1,26 @@
+--- a/sqlx-core/Cargo.toml
++++ b/sqlx-core/Cargo.toml
+@@ -36,9 +36,9 @@ tokio = { workspace = true, optional = t
+ # TLS
+ native-tls = { version = "0.2.10", optional = true }
+ 
+-rustls = { version = "0.21", default-features = false, features = ["dangerous_configuration", "tls12"], optional = true }
++rustls = { version = "0.21.9", default-features = false, features = ["dangerous_configuration", "tls12"], optional = true }
+ rustls-pemfile = { version = "1.0", optional = true }
+-webpki-roots = { version = "0.24", optional = true }
++webpki-roots = { version = "0.25.3", optional = true }
+ 
+ # Type Integrations
+ bit-vec = { workspace = true, optional = true }
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -346,3 +346,9 @@ name = "postgres-migrate"
+ path = "tests/postgres/migrate.rs"
+ required-features = ["postgres", "macros", "migrate"]
+ 
++[patch.crates-io]
++rustls = { path = "../rustls-0.21.9/rustls" }
++webpki-roots = { path = "../webpki-roots-0.25.3" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }

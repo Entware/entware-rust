@@ -1,0 +1,19 @@
+error[E0609]: no field `0` on type `&'static [TrustAnchor<'static>]`
+   --> sqlx-core/src/net/tls/tls_rustls.rs:112:76
+    |
+112 |         cert_store.add_server_trust_anchors(webpki_roots::TLS_SERVER_ROOTS.0.iter().map(|ta| {
+    | 
+...
+error: could not compile `sqlx-core` (lib) due to previous error; 4 warnings emitted
+
+--- a/sqlx-core/src/net/tls/tls_rustls.rs
++++ b/sqlx-core/src/net/tls/tls_rustls.rs
+@@ -109,7 +109,7 @@ where
+         }
+     } else {
+         let mut cert_store = RootCertStore::empty();
+-        cert_store.add_server_trust_anchors(webpki_roots::TLS_SERVER_ROOTS.0.iter().map(|ta| {
++        cert_store.add_server_trust_anchors(webpki_roots::TLS_SERVER_ROOTS.iter().map(|ta| {
+             OwnedTrustAnchor::from_subject_spki_name_constraints(
+                 ta.subject,
+                 ta.spki,
