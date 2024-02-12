@@ -1,0 +1,22 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -79,7 +79,7 @@ serde = { version = "1.0", default-featu
+ serde_ignored = "0.1"
+ serde_repr = "0.1"
+ tokio = { version = "1", default-features = false, features = ["rt-multi-thread", "macros", "fs", "io-util", "signal"] }
+-tokio-rustls = { version = "0.24", optional = true }
++tokio-rustls = { version = "0.24.1", optional = true }
+ tokio-util = { version = "0.7", default-features = false, features = ["io"] }
+ toml = "0.8"
+ tracing = { version = "0.1", default-features = false, features = ["std"] }
+@@ -123,3 +123,10 @@ pre-build = [
+     "rm base.tar.xz",
+     "rm -rf /tmp/netbsd",
+ ]
++
++[patch.crates-io]
++ring = { path = "../ring-0.17.5" }
++tokio-rustls = { path = "../tokio-rustls-0.24.1" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
