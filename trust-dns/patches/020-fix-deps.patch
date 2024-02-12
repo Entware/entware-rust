@@ -1,0 +1,41 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -53,22 +53,22 @@ async-std = "1.6"
+ tokio = "1.21"
+ tokio-native-tls = "0.3.0"
+ tokio-openssl = "0.6.0"
+-tokio-rustls = "0.24.0"
++tokio-rustls = "0.24.1"
+ parking_lot = "0.12"
+ 
+ 
+ # ssl
+ native-tls = "0.2"
+ openssl = "0.10.55"
+-rustls = "0.21.0"
++rustls = "0.21.9"
+ rustls-pemfile = "1.0.0"
+-webpki = { version = "0.101.0", package = "rustls-webpki" }
+-webpki-roots = "0.25.0"
+-ring = "0.16"
++webpki = { version = "0.101.7", package = "rustls-webpki" }
++webpki-roots = "0.25.3"
++ring = "0.17.5"
+ 
+ 
+ # net proto
+-quinn = { version = "0.10", default-features = false }
++quinn = { version = "0.10.2", default-features = false }
+ h2 = "0.3.0"
+ http = "0.2"
+ 
+@@ -107,3 +107,9 @@ wasm-bindgen-crate = { version = "0.2.58
+ # tokio = { path = "../tokio/tokio" }
+ # mio = { git = "https://github.com/tokio-rs/mio.git" }
+ # h2 = { git = "https://github.com/hyperium/h2.git" }
++quinn = { path = "../quinn-0.10.4/quinn" }
++ring = { path = "../ring-0.17.5" }
++rustls = { path = "../rustls-0.21.9/rustls" }
++rustls-webpki = { path = "../rustls-webpki-0.101.7" }
++tokio-rustls = { path = "../tokio-rustls-0.24.1" }
++webpki-roots = { path = "../webpki-roots-0.25.3" }

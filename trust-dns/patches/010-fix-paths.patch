@@ -1,0 +1,44 @@
+--- a/bin/src/trust-dns.rs
++++ b/bin/src/trust-dns.rs
+@@ -286,7 +286,7 @@ struct Cli {
+     #[clap(
+         short = 'c',
+         long = "config",
+-        default_value = "/etc/named.toml",
++        default_value = "/opt/etc/trust-dns/named.toml",
+         value_name = "NAME",
+         value_hint=clap::ValueHint::FilePath,
+     )]
+--- a/crates/server/src/config/mod.rs
++++ b/crates/server/src/config/mod.rs
+@@ -27,7 +27,7 @@ use crate::authority::ZoneType;
+ use crate::error::{ConfigError, ConfigResult};
+ use crate::store::StoreConfig;
+ 
+-static DEFAULT_PATH: &str = "/var/named"; // TODO what about windows (do I care? ;)
++static DEFAULT_PATH: &str = "/opt/var/lib/named"; // TODO what about windows (do I care? ;)
+ static DEFAULT_PORT: u16 = 53;
+ static DEFAULT_TLS_PORT: u16 = 853;
+ static DEFAULT_HTTPS_PORT: u16 = 443;
+--- a/crates/server/tests/config_tests.rs
++++ b/crates/server/tests/config_tests.rs
+@@ -39,7 +39,7 @@ fn test_read_config() {
+     assert_eq!(config.get_listen_addrs_ipv6(), Ok(Vec::<Ipv6Addr>::new()));
+     assert_eq!(config.get_tcp_request_timeout(), Duration::from_secs(5));
+     assert_eq!(config.get_log_level(), tracing::Level::INFO);
+-    assert_eq!(config.get_directory(), Path::new("/var/named"));
++    assert_eq!(config.get_directory(), Path::new("/opt/var/lib/named"));
+     assert_eq!(
+         config.get_zones(),
+         [
+--- a/util/src/get_root_ksks.rs
++++ b/util/src/get_root_ksks.rs
+@@ -73,7 +73,7 @@ pub fn main() {
+                     alg => panic!("unknown Algorithm {:?}", alg),
+                 };
+ 
+-                let mut path = PathBuf::from("/tmp");
++                let mut path = PathBuf::from("/opt/tmp");
+                 path.push(format!("{key_tag}"));
+                 path.set_extension(extension);
+ 

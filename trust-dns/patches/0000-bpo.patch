@@ -1,0 +1,41 @@
+--- a/crates/proto/src/rr/dnssec/key_format.rs
++++ b/crates/proto/src/rr/dnssec/key_format.rs
+@@ -5,6 +5,8 @@ use openssl::rsa::Rsa;
+ #[cfg(feature = "openssl")]
+ use openssl::symm::Cipher;
+ #[cfg(feature = "ring")]
++use ring::rand::SystemRandom;
++#[cfg(feature = "ring")]
+ use ring::signature::{
+     EcdsaKeyPair, Ed25519KeyPair, ECDSA_P256_SHA256_FIXED_SIGNING, ECDSA_P384_SHA384_FIXED_SIGNING,
+ };
+@@ -86,12 +88,13 @@ impl KeyFormat {
+                 }
+                 #[cfg(feature = "ring")]
+                 Self::Pkcs8 => {
++                    let rng = SystemRandom::new();
+                     let ring_algorithm = if algorithm == Algorithm::ECDSAP256SHA256 {
+                         &ECDSA_P256_SHA256_FIXED_SIGNING
+                     } else {
+                         &ECDSA_P384_SHA384_FIXED_SIGNING
+                     };
+-                    let key = EcdsaKeyPair::from_pkcs8(ring_algorithm, bytes)?;
++                    let key = EcdsaKeyPair::from_pkcs8(ring_algorithm, bytes, &rng)?;
+ 
+                     Ok(KeyPair::from_ecdsa(key))
+                 }
+--- a/crates/proto/src/rr/dnssec/rdata/tsig.rs
++++ b/crates/proto/src/rr/dnssec/rdata/tsig.rs
+@@ -635,9 +635,9 @@ impl TsigAlgorithm {
+         use TsigAlgorithm::*;
+ 
+         let len = match self {
+-            HmacSha256 => hmac::HMAC_SHA256.digest_algorithm().output_len,
+-            HmacSha384 => hmac::HMAC_SHA384.digest_algorithm().output_len,
+-            HmacSha512 => hmac::HMAC_SHA512.digest_algorithm().output_len,
++            HmacSha256 => hmac::HMAC_SHA256.digest_algorithm().output_len(),
++            HmacSha384 => hmac::HMAC_SHA384.digest_algorithm().output_len(),
++            HmacSha512 => hmac::HMAC_SHA512.digest_algorithm().output_len(),
+             _ => return Err(ProtoErrorKind::TsigUnsupportedMacAlgorithm(self.clone()).into()),
+         };
+ 
