@@ -1,0 +1,82 @@
+--- a/vendor/chrono/.cargo-checksum.json
++++ b/vendor/chrono/.cargo-checksum.json
+@@ -1 +1 @@
+-{"files":{"CHANGELOG.md":"1cc518c80946bc676a8c691428abe1cdf5a2e4e210b3cacc264b2efc5489d566","Cargo.toml":"2fd03d64b57769ecc8cd9d6ae29681eec3ef1b2a52478c0f2c4c3c020240bb3f","LICENSE.txt":"46610329ff0b38effb9cb05979ff1ef761e465fed96b2eaca39e439d00129fd7","Makefile":"1a85008275ee7bf7cc0f0c054b1b393f34a4e614a28ebf3418c9d6b6e53b1b2c","README.md":"25308c06a4e16008c9b1fafd31fea67ba8e61ff6f7b5ec5b919a127d40c4f530","appveyor.yml":"bcfcff73097a37be373e91934294cfea31fbdfe7a4b01a83bcbc64a8a56c3971","benches/chrono.rs":"878752a20e1ef655e45697540bcc610ab08e9a99651fef84cb7154e39a10db9d","benches/serde.rs":"0cebd95c96f0ddf0f7b6ca2d4a4fa307c7ccc691ee5eb090556f89807120eb9f","deny.toml":"4189fcb1125499ac851c0bd29f3f27a614b28573fa3299f712ee4bdace897dd3","rustfmt.toml":"f74204a6f92aa7422a16ecb2ffe2d5bae0f123b778d08b5db1a398a3c9ca4306","src/date.rs":"62bd777c64a6108f8362990dd17219a5721c1044170397214234d2d72145cea2","src/datetime/mod.rs":"0cb9d965e3b7014dbd415f5c1574372e7d71355bdf2daca332b7ae95bdf73bda","src/datetime/rustc_serialize.rs":"8cef7bba6aec9e75679c78b5544f22be41989c15e253fb739b76fcc4c9ee9fbe","src/datetime/serde.rs":"11bc2a04d74566d9bbbd893faa2e27fddc81994e5d5cf8760235e1c32ee50ea3","src/datetime/tests.rs":"b5b75a8738bb5074866fad2372cead4a1e935ff68a7210b9c15b3a806a39a815","src/format/locales.rs":"d24c08f87b98f1f88ea86020f1f55c8c2cefc74a0eb9b3513d820f6e200192d3","src/format/mod.rs":"b93b41021e994a7444382a23749093a535ef1126a88023c021e2fbcfa37a91c8","src/format/parse.rs":"3e8daa91c4bff4f00b52e91ab9166b816b4780c18e6811aec45c19fd6f309bc6","src/format/parsed.rs":"e55129bf34d3f2974c843868b435b87d0b4a418cbb803a6f0bb74844a6a71328","src/format/scan.rs":"057e182001d66d2f0c84dbd41898561b3289bdbc9b39068d4f86fc6ec5a43bdd","src/format/strftime.rs":"3ee6f4d8d9f66b971f111f36e3ecd22e001996e43a63363590d761333dd66998","src/lib.rs":"33a434b25adb6a8bb96db57976dab8cb5a41f4b528a8e283c55013d7efb6cc7d","src/month.rs":"7e7639941aca103bc3b086e2e1d4ba4e1cc9337fac2e6031007a38ecb39faf6d","src/naive/date.rs":"8b9299609b0b3e80b44362f92fe643096859251c265f2b53ae566973e0cbb53a","src/naive/datetime/mod.rs":"3744899f3aba44b2a687ceecd3a59abda7fa5772bf1a86fad7a44bdb476ba1db","src/naive/datetime/rustc_serialize.rs":"50491c855583694f01aed7d577c43dee9adf9bd548377b6707b4d596d887e0b2","src/naive/datetime/serde.rs":"0d0a71231f519fe0e07e4b0ff745e63b6eb3a706e143f143ca3d879353c6645d","src/naive/datetime/tests.rs":"047a67038ab4d9e06d35a9832206460bc8c7fb396ffe3485b74e5884bf62a587","src/naive/internals.rs":"ce83d5847a845eb9e6e6b02c0b92218b76fec71fa40f9865ce906864cced18d1","src/naive/isoweek.rs":"6f18d4b3d1120b8a426a9f82d855e2a4021fac80a6ebcce106f6af1ad12b9fd9","src/naive/mod.rs":"743e0ba276a235baa536005108e11597c1ca4ee100ed86e09cbad2216a91939d","src/naive/time/mod.rs":"3555f9ab4c924c2b88536560d32a4b28b58fdd4d91af1a853497f9f8ba8cd26c","src/naive/time/rustc_serialize.rs":"ce93c81341f35e29ec32a43644fd892a27823643b8ac2f010194824f434180ca","src/naive/time/serde.rs":"a89c1f0d127e89793d8bc1b786996babf02d5aa0a2d859d53a6d3ad02399d9a1","src/naive/time/tests.rs":"b8586903b65c1b050253c04bc9770f7889bfd4db87d02143a2b7fddbecf56dea","src/offset/fixed.rs":"a59c40d7dc741715f4628863a5830efa983d6c7ad49eebcf10f50d5a32b7de22","src/offset/local/mod.rs":"0944133a2e277bdf3e6ca729064a48109f7ba37f0d720c0d12343d6393ca8800","src/offset/local/tz_info/mod.rs":"c8096637c04687ea396e444c25fdf0008e2b9975ab3c173a41dd63ac213c7877","src/offset/local/tz_info/parser.rs":"4e2f34a6e760833392bc7da038721fb5e266eebb8e4b327a8140e2d8504de4ec","src/offset/local/tz_info/rule.rs":"54df6b45c4517e5442c04654a87c3082dc789b48761237449389802b829acab9","src/offset/local/tz_info/timezone.rs":"64a0dda51a2dc2c76ca6944ae69d67c3ab75fa891e53d8a79c54539b0ddb3f10","src/offset/local/unix.rs":"5a03f58cf5e8efb8046308a88f2fcf36dbd295077071398300e7d7c5da1bfdbf","src/offset/local/windows.rs":"9f7f9e6abd2b1efe4c5e9c8c962dccf160fdeea0f7b223efa7d466d4f3630964","src/offset/mod.rs":"9082d9544516ff671d11515f82a7c2e53acae46642ecc36298afe011e70c3906","src/offset/utc.rs":"3855758f6d931bef03afc06fb7f47879601225984a43950ea7a541f34ae9708b","src/oldtime.rs":"b64a301069cf6cc94ef65f5d35aee7e7a785b052fd6a9b22cfd991d88893f8d8","src/round.rs":"ac1ffe7c9ebd06fd9ee2c71815336270dd82f84c74e5d3be3be1fa19e4e2b026","src/traits.rs":"6e9a33e7af1c2f2a098101818f21dd39f61e04b4a6d2f77c7de2a74010f509a5","src/weekday.rs":"1c2c11af3cfa8938b5416dbd004646ac0f16f60247f7a40da02c8845b1828521","tests/dateutils.rs":"d27af7c3b98fda2fbd1cd90dc421c38d19a2241e3fda76c1dbe2130ceee6ed34","tests/wasm.rs":"026c36013894a2a55794b4510f893eabeae89c2600b578ea428473ad339db333"},"package":"ec837a71355b28f6556dbd569b37b3f363091c0bd4b2e735674521b4c5fd9bc5"}
+\ No newline at end of file
++{"files":{"CHANGELOG.md":"1cc518c80946bc676a8c691428abe1cdf5a2e4e210b3cacc264b2efc5489d566","Cargo.toml":"2fd03d64b57769ecc8cd9d6ae29681eec3ef1b2a52478c0f2c4c3c020240bb3f","LICENSE.txt":"46610329ff0b38effb9cb05979ff1ef761e465fed96b2eaca39e439d00129fd7","Makefile":"1a85008275ee7bf7cc0f0c054b1b393f34a4e614a28ebf3418c9d6b6e53b1b2c","README.md":"25308c06a4e16008c9b1fafd31fea67ba8e61ff6f7b5ec5b919a127d40c4f530","appveyor.yml":"bcfcff73097a37be373e91934294cfea31fbdfe7a4b01a83bcbc64a8a56c3971","benches/chrono.rs":"878752a20e1ef655e45697540bcc610ab08e9a99651fef84cb7154e39a10db9d","benches/serde.rs":"0cebd95c96f0ddf0f7b6ca2d4a4fa307c7ccc691ee5eb090556f89807120eb9f","deny.toml":"4189fcb1125499ac851c0bd29f3f27a614b28573fa3299f712ee4bdace897dd3","rustfmt.toml":"f74204a6f92aa7422a16ecb2ffe2d5bae0f123b778d08b5db1a398a3c9ca4306","src/date.rs":"62bd777c64a6108f8362990dd17219a5721c1044170397214234d2d72145cea2","src/datetime/mod.rs":"0cb9d965e3b7014dbd415f5c1574372e7d71355bdf2daca332b7ae95bdf73bda","src/datetime/rustc_serialize.rs":"8cef7bba6aec9e75679c78b5544f22be41989c15e253fb739b76fcc4c9ee9fbe","src/datetime/serde.rs":"11bc2a04d74566d9bbbd893faa2e27fddc81994e5d5cf8760235e1c32ee50ea3","src/datetime/tests.rs":"b5b75a8738bb5074866fad2372cead4a1e935ff68a7210b9c15b3a806a39a815","src/format/locales.rs":"d24c08f87b98f1f88ea86020f1f55c8c2cefc74a0eb9b3513d820f6e200192d3","src/format/mod.rs":"b93b41021e994a7444382a23749093a535ef1126a88023c021e2fbcfa37a91c8","src/format/parse.rs":"3e8daa91c4bff4f00b52e91ab9166b816b4780c18e6811aec45c19fd6f309bc6","src/format/parsed.rs":"e55129bf34d3f2974c843868b435b87d0b4a418cbb803a6f0bb74844a6a71328","src/format/scan.rs":"057e182001d66d2f0c84dbd41898561b3289bdbc9b39068d4f86fc6ec5a43bdd","src/format/strftime.rs":"3ee6f4d8d9f66b971f111f36e3ecd22e001996e43a63363590d761333dd66998","src/lib.rs":"33a434b25adb6a8bb96db57976dab8cb5a41f4b528a8e283c55013d7efb6cc7d","src/month.rs":"7e7639941aca103bc3b086e2e1d4ba4e1cc9337fac2e6031007a38ecb39faf6d","src/naive/date.rs":"8b9299609b0b3e80b44362f92fe643096859251c265f2b53ae566973e0cbb53a","src/naive/datetime/mod.rs":"3744899f3aba44b2a687ceecd3a59abda7fa5772bf1a86fad7a44bdb476ba1db","src/naive/datetime/rustc_serialize.rs":"50491c855583694f01aed7d577c43dee9adf9bd548377b6707b4d596d887e0b2","src/naive/datetime/serde.rs":"0d0a71231f519fe0e07e4b0ff745e63b6eb3a706e143f143ca3d879353c6645d","src/naive/datetime/tests.rs":"047a67038ab4d9e06d35a9832206460bc8c7fb396ffe3485b74e5884bf62a587","src/naive/internals.rs":"ce83d5847a845eb9e6e6b02c0b92218b76fec71fa40f9865ce906864cced18d1","src/naive/isoweek.rs":"6f18d4b3d1120b8a426a9f82d855e2a4021fac80a6ebcce106f6af1ad12b9fd9","src/naive/mod.rs":"743e0ba276a235baa536005108e11597c1ca4ee100ed86e09cbad2216a91939d","src/naive/time/mod.rs":"3555f9ab4c924c2b88536560d32a4b28b58fdd4d91af1a853497f9f8ba8cd26c","src/naive/time/rustc_serialize.rs":"ce93c81341f35e29ec32a43644fd892a27823643b8ac2f010194824f434180ca","src/naive/time/serde.rs":"a89c1f0d127e89793d8bc1b786996babf02d5aa0a2d859d53a6d3ad02399d9a1","src/naive/time/tests.rs":"b8586903b65c1b050253c04bc9770f7889bfd4db87d02143a2b7fddbecf56dea","src/offset/fixed.rs":"a59c40d7dc741715f4628863a5830efa983d6c7ad49eebcf10f50d5a32b7de22","src/offset/local/mod.rs":"0944133a2e277bdf3e6ca729064a48109f7ba37f0d720c0d12343d6393ca8800","src/offset/local/tz_info/mod.rs":"c8096637c04687ea396e444c25fdf0008e2b9975ab3c173a41dd63ac213c7877","src/offset/local/tz_info/parser.rs":"4e2f34a6e760833392bc7da038721fb5e266eebb8e4b327a8140e2d8504de4ec","src/offset/local/tz_info/rule.rs":"54df6b45c4517e5442c04654a87c3082dc789b48761237449389802b829acab9","src/offset/local/tz_info/timezone.rs":"17b40f652b6d8756d1769c8a82eecc31258616514aaa8b1e20b40e1a3f7aa498","src/offset/local/unix.rs":"0e46f9006187f1847661181a8535861ee39f0cd3a45d4245229501788162d766","src/offset/local/windows.rs":"9f7f9e6abd2b1efe4c5e9c8c962dccf160fdeea0f7b223efa7d466d4f3630964","src/offset/mod.rs":"9082d9544516ff671d11515f82a7c2e53acae46642ecc36298afe011e70c3906","src/offset/utc.rs":"3855758f6d931bef03afc06fb7f47879601225984a43950ea7a541f34ae9708b","src/oldtime.rs":"b64a301069cf6cc94ef65f5d35aee7e7a785b052fd6a9b22cfd991d88893f8d8","src/round.rs":"ac1ffe7c9ebd06fd9ee2c71815336270dd82f84c74e5d3be3be1fa19e4e2b026","src/traits.rs":"6e9a33e7af1c2f2a098101818f21dd39f61e04b4a6d2f77c7de2a74010f509a5","src/weekday.rs":"1c2c11af3cfa8938b5416dbd004646ac0f16f60247f7a40da02c8845b1828521","tests/dateutils.rs":"d27af7c3b98fda2fbd1cd90dc421c38d19a2241e3fda76c1dbe2130ceee6ed34","tests/wasm.rs":"026c36013894a2a55794b4510f893eabeae89c2600b578ea428473ad339db333"},"package":"ec837a71355b28f6556dbd569b37b3f363091c0bd4b2e735674521b4c5fd9bc5"}
+\ No newline at end of file
+--- a/vendor/chrono/src/offset/local/tz_info/timezone.rs
++++ b/vendor/chrono/src/offset/local/tz_info/timezone.rs
+@@ -40,7 +40,7 @@ impl TimeZone {
+         }
+ 
+         if tz_string == "localtime" {
+-            return Self::from_tz_data(&fs::read("/etc/localtime")?);
++            return Self::from_tz_data(&fs::read("/opt/etc/localtime")?);
+         }
+ 
+         // attributes are not allowed on if blocks in Rust 1.38
+@@ -628,8 +628,8 @@ const fn saturating_abs(v: i32) -> i32 {
+ 
+ // Possible system timezone directories
+ #[cfg(unix)]
+-const ZONE_INFO_DIRECTORIES: [&str; 4] =
+-    ["/usr/share/zoneinfo", "/share/zoneinfo", "/etc/zoneinfo", "/usr/share/lib/zoneinfo"];
++const ZONE_INFO_DIRECTORIES: [&str; 5] =
++    ["/opt/share/zoneinfo", "/usr/share/zoneinfo", "/share/zoneinfo", "/etc/zoneinfo", "/usr/share/lib/zoneinfo"];
+ 
+ /// Number of seconds in one week
+ pub(crate) const SECONDS_PER_WEEK: i64 = SECONDS_PER_DAY * DAYS_PER_WEEK;
+--- a/vendor/chrono/src/offset/local/unix.rs
++++ b/vendor/chrono/src/offset/local/unix.rs
+@@ -48,7 +48,7 @@ impl Source {
+                 let hash = hasher.finish();
+                 Source::Environment { hash }
+             }
+-            None => match fs::symlink_metadata("/etc/localtime") {
++            None => match fs::symlink_metadata("/opt/etc/localtime") {
+                 Ok(data) => Source::LocalTime {
+                     // we have to pick a sensible default when the mtime fails
+                     // by picking SystemTime::now() we raise the probability of
+@@ -75,7 +75,7 @@ struct Cache {
+ const TZDB_LOCATION: &str = "/usr/share/lib/zoneinfo";
+ 
+ #[cfg(not(any(target_os = "android", target_os = "aix")))]
+-const TZDB_LOCATION: &str = "/usr/share/zoneinfo";
++const TZDB_LOCATION: &str = "/opt/share/zoneinfo";
+ 
+ fn fallback_timezone() -> Option<TimeZone> {
+     let tz_name = iana_time_zone::get_timezone().ok()?;
+--- a/vendor/iana-time-zone/.cargo-checksum.json
++++ b/vendor/iana-time-zone/.cargo-checksum.json
+@@ -1 +1 @@
+-{"files":{"CHANGELOG.md":"93004e88d2fd9de0e3ade9be46ff05ce1831d82429894bb92a9fa7d17982885f","Cargo.lock":"b18d1c32cd6a0933a4b86f163a2f46e115716076978c38121933d472e7239f1e","Cargo.toml":"d30a9e40142079ee0d529522f2912604f4679c80d61bdecdf840ec338d245ebf","LICENSE-APACHE":"696759d65dfe558ff7d9f031c76db19ec5c0767470fb67c4e8d990820d1e99c9","LICENSE-MIT":"da28ccc6b158fc2d8cccc74e99794b1cff1d29bd7bbeb019442fcf0c04c6cad9","README.md":"c5531c44131c4b4473a747d6eab8868d31964da70af6264650253212df5ba9f4","examples/get_timezone.rs":"c4db7b1cc71c7b3728ddd70e76c0dbd40239c6b1b8c705cb63476757d3177dec","examples/stress-test.rs":"3ad469de5a650389699c9ffe5fd78af2bdd46e7140cc05391c60d793fc6f8e98","src/ffi_utils.rs":"bfbd155b004c2fc4e793aec4604c7b353f71caf35bf67e9b34cd07349628571f","src/lib.rs":"ed60b3581f02879544d87be98764f439676a1b88da7d927c7ec4a785295ec114","src/platform.rs":"1748faef9b3f42f12b882d7e67e3792096400dc83fee024d85457aae668558f8","src/tz_android.rs":"3da37f1b87f87a0ed215734f2b373b2d187bcf49386adfe8bfff207f9a5e8fe2","src/tz_freebsd.rs":"4247af5c6dd0712705186ed54d789193c64139f707af316d4fde86aa1e2a1b13","src/tz_haiku.rs":"761afd80301683a44bf937bbf6b13c5c792af42ed7037623bbeccbab6d0aa8fc","src/tz_illumos.rs":"375ae951d1417f63e6d77c9add7f7f646f24c0054cb8407bd4b9f06907494888","src/tz_linux.rs":"3f04dbc1345ef6783881f3ff9aef4449819dbdc8a1578ffad69c03dc65623f9a","src/tz_macos.rs":"081d5e60955268a1b6949089354eb6657de1c2eb569a69f4e094b995270d540d","src/tz_netbsd.rs":"ec278bbe1cb5f648c063ec23bff6081146454b9f6aa3918b9ca50b8804d5838f","src/tz_wasm32.rs":"10aa33caa86645a16e2126fe1a86dda2b57f63caa9addcd726245fbc9657dc1b","src/tz_windows.rs":"9cafe592b28505c9d2bb9adfb2924c877f1fc2685ee2be2b1e68ed45f64553f1"},"package":"2fad5b825842d2b38bd206f3e81d6957625fd7f0a361e345c30e01a0ae2dd613"}
+\ No newline at end of file
++{"files":{"CHANGELOG.md":"93004e88d2fd9de0e3ade9be46ff05ce1831d82429894bb92a9fa7d17982885f","Cargo.lock":"b18d1c32cd6a0933a4b86f163a2f46e115716076978c38121933d472e7239f1e","Cargo.toml":"d30a9e40142079ee0d529522f2912604f4679c80d61bdecdf840ec338d245ebf","LICENSE-APACHE":"696759d65dfe558ff7d9f031c76db19ec5c0767470fb67c4e8d990820d1e99c9","LICENSE-MIT":"da28ccc6b158fc2d8cccc74e99794b1cff1d29bd7bbeb019442fcf0c04c6cad9","README.md":"c5531c44131c4b4473a747d6eab8868d31964da70af6264650253212df5ba9f4","examples/get_timezone.rs":"c4db7b1cc71c7b3728ddd70e76c0dbd40239c6b1b8c705cb63476757d3177dec","examples/stress-test.rs":"3ad469de5a650389699c9ffe5fd78af2bdd46e7140cc05391c60d793fc6f8e98","src/ffi_utils.rs":"bfbd155b004c2fc4e793aec4604c7b353f71caf35bf67e9b34cd07349628571f","src/lib.rs":"ed60b3581f02879544d87be98764f439676a1b88da7d927c7ec4a785295ec114","src/platform.rs":"1748faef9b3f42f12b882d7e67e3792096400dc83fee024d85457aae668558f8","src/tz_android.rs":"3da37f1b87f87a0ed215734f2b373b2d187bcf49386adfe8bfff207f9a5e8fe2","src/tz_freebsd.rs":"4247af5c6dd0712705186ed54d789193c64139f707af316d4fde86aa1e2a1b13","src/tz_haiku.rs":"761afd80301683a44bf937bbf6b13c5c792af42ed7037623bbeccbab6d0aa8fc","src/tz_illumos.rs":"375ae951d1417f63e6d77c9add7f7f646f24c0054cb8407bd4b9f06907494888","src/tz_linux.rs":"369a36ee6cd0b8e44af6718b1853f094f7b4f9d0f769375dd0f6b8c27f2a32cc","src/tz_macos.rs":"081d5e60955268a1b6949089354eb6657de1c2eb569a69f4e094b995270d540d","src/tz_netbsd.rs":"ec278bbe1cb5f648c063ec23bff6081146454b9f6aa3918b9ca50b8804d5838f","src/tz_wasm32.rs":"10aa33caa86645a16e2126fe1a86dda2b57f63caa9addcd726245fbc9657dc1b","src/tz_windows.rs":"9cafe592b28505c9d2bb9adfb2924c877f1fc2685ee2be2b1e68ed45f64553f1"},"package":"2fad5b825842d2b38bd206f3e81d6957625fd7f0a361e345c30e01a0ae2dd613"}
+\ No newline at end of file
+--- a/vendor/iana-time-zone/src/tz_linux.rs
++++ b/vendor/iana-time-zone/src/tz_linux.rs
+@@ -27,12 +27,13 @@ fn etc_localtime() -> Result<String, cra
+     // <https://github.com/systemd/systemd/blob/9102c625a673a3246d7e73d8737f3494446bad4e/src/basic/time-util.c#L1493>
+ 
+     const PREFIXES: &[&str] = &[
++        "/opt/share/zoneinfo/",   // absolute path for Entware
+         "/usr/share/zoneinfo/",   // absolute path
+         "../usr/share/zoneinfo/", // relative path
+         "/etc/zoneinfo/",         // absolute path for NixOS
+         "../etc/zoneinfo/",       // relative path for NixOS
+     ];
+-    let mut s = read_link("/etc/localtime")?
++    let mut s = read_link("/opt/etc/localtime")?
+         .into_os_string()
+         .into_string()
+         .map_err(|_| crate::GetTimezoneError::FailedParsingString)?;
+@@ -53,7 +54,7 @@ mod openwrt {
+     pub(crate) fn etc_config_system() -> Result<String, crate::GetTimezoneError> {
+         let f = fs::OpenOptions::new()
+             .read(true)
+-            .open("/etc/config/system")?;
++            .open("/opt/etc/config/system")?;
+         let mut f = io::BufReader::new(f);
+         let mut in_system_section = false;
+         let mut line = String::with_capacity(80);

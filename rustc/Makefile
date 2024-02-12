@@ -1,14 +1,16 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.72.0
+PKG_VERSION:=1.75.0
 PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=d307441f8ee78a7e94f72cb5c81383822f13027f79e67a5551bfd2c2d2db3014
+PKG_HASH:=4526f786d673e4859ff2afa0bab2ba13c918b796519a25c1acce06dba9542340
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
 
@@ -22,9 +24,9 @@ include $(INCLUDE_DIR)/host-build.mk
 include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
 include $(INCLUDE_DIR)/cmake.mk
-include ../rust.mk
+include ../rustc-dev/rust.mk
 
-PKG_UNPACK:=$(HOST_TAR) -C $(PKG_BUILD_DIR) --strip-components=1 -xJf $(DL_DIR)/$(PKG_SOURCE)
+PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/rustc
   SECTION:=devel
@@ -44,7 +46,7 @@ RUST_HOST_TRIPLE:=$(HOST_ARCH)-unknown-linux-gnu
 
 define Build/Configure
 	( \
-		echo 'changelog-seen = 2'; \
+		echo 'change-id = 116881'; \
 		echo '[llvm]'; \
 		echo 'targets = "AArch64;ARM;Mips;X86"'; \
 		echo 'experimental-targets = ""'; \
@@ -78,7 +80,7 @@ define Build/Configure
 		echo 'vendor = true'; \
 		echo 'full-bootstrap = false'; \
 		echo 'extended = true'; \
-		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt"]'; \
+		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt",]'; \
 		echo 'verbose = 0'; \
 		echo 'local-rebuild = false'; \
 		echo '[install]'; \
@@ -119,6 +121,7 @@ Hooks/Compile/Post += FixPreInstall
 
 define Build/Install
 	( cd $(PKG_BUILD_DIR); \
+		CARGO_HOME="$(STAGING_DIR)/host/share/cargo" \
 		CXXFLAGS='-I$(PKG_BUILD_DIR)/build/$(RUST_TARGET_TRIPLE)/llvm/include' \
 		HOST_PKG_CONFIG_PATH="$(STAGING_DIR_HOST)/lib/pkgconfig:$(STAGING_DIR_HOSTPKG)/lib/pkgconfig" \
 		RUSTFLAGS='-L native=$(PKG_BUILD_DIR)/build/$(RUST_TARGET_TRIPLE)/llvm/lib' \
@@ -137,9 +140,6 @@ define Package/rustc/install
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/lib*.so $(1)/opt/lib
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/rustlib/$(RUST_TARGET_TRIPLE)/lib \
 		$(1)/opt/lib/rustlib/$(RUST_TARGET_TRIPLE)
-	$(INSTALL_DIR) $(1)/opt/libexec
-	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/libexec/cargo-credential-1password \
-		$(1)/opt/libexec
 endef
 
 define Package/rustc/postinst
