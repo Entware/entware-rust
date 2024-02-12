@@ -1,14 +1,16 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-rust
-PKG_VERSION:=1.17.0
+PKG_VERSION:=1.17.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/shadowsocks/shadowsocks-rust/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=ef964ac60a499a0c8313d48284a7542c085f9c7672eb121a796b70d49163f35a
+PKG_HASH:=97a1c8ebf7fd19de94cd6d0dfee398667e1f4e131ec8a37ecb7c3191af7cc75e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -39,7 +41,10 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_SS_RUST_UTILITY
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 hickory-dns reqwest-01121 ring-0175
+PKG_BUILD_DEPENDS += tokio-rustls-0241 webpki-roots-0243
 
 define Package/shadowsocks-rust
   SECTION:=net

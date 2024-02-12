@@ -29,11 +29,9 @@ comment "Build Options"
 
 	config SS_RUST_DNS_OVER_TLS
 		bool "Enable dns-over-tls as DNS resolver"
-		depends on !(mips||mipsel) # depends on "ring"
 
 	config SS_RUST_DNS_OVER_HTTPS
 		bool "Enable dns-over-https as DNS resolver"
-		depends on !(mips||mipsel)  # depends on "ring"
 
 	config SS_RUST_LOGGING
 		bool "Enable logging output"
@@ -51,10 +49,7 @@ comment "Build Options"
 choice
 	prompt "Enable HTTP protocol for sslocal"
 		depends on SS_RUST_LOCAL && SS_RUST_LOCAL_HTTP
-		default SS_RUST_LOCAL_HTTP_EMPTY
-
-	config SS_RUST_LOCAL_HTTP_EMPTY
-		bool "Empty (by default local-http used)"
+		default SS_RUST_LOCAL_HTTP_NATIVE_TLS
 
 	config SS_RUST_LOCAL_HTTP_NATIVE_TLS
 		bool "Support HTTPS with native-tls"
@@ -62,7 +57,7 @@ choice
 
 	config SS_RUST_LOCAL_HTTP_RUSTLS
 		bool "Support HTTPS with rustls"
-		depends on SS_RUST_LOCAL_HTTP && !(mips||mipsel) # depends on "ring"
+		depends on SS_RUST_LOCAL_HTTP
 
 endchoice
 
