@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -7,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpncloud
 PKG_VERSION:=2.3.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/dswd/vpncloud/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -17,7 +19,9 @@ PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE.md
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 ring-0175
 
 define Package/vpncloud
   SECTION:=net
@@ -25,7 +29,6 @@ define Package/vpncloud
   SUBMENU:=VPN
   TITLE:=Peer-to-Peer VPN
   URL:=https://vpncloud.ddswd.de
-  DEPENDS:=@!(mips||mipsel)
 endef
 
 define Package/vpncloud/description
@@ -48,7 +51,6 @@ endif
 define Package/vpncloud/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/vpncloud $(1)/opt/usr/bin
-
 	$(INSTALL_DIR) $(1)/opt/etc/vpncloud
 	$(INSTALL_CONF) $(PKG_BUILD_DIR)/assets/example.net.disabled \
 		$(1)/opt/etc/vpncloud

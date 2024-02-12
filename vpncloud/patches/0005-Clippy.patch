@@ -1,0 +1,50 @@
+From ca220ded0c01f1cbcf9fbb569d153b633771c06d Mon Sep 17 00:00:00 2001
+From: Dennis Schwerdel <schwerdel@googlemail.com>
+Date: Sat, 7 Oct 2023 01:12:47 +0200
+Subject: [PATCH 5/6] Clippy
+
+---
+ benches/criterion.rs | 4 ++--
+ benches/valgrind.rs  | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+--- a/benches/criterion.rs
++++ b/benches/criterion.rs
+@@ -15,7 +15,7 @@ include!(".code.rs");
+ pub use error::Error;
+ use util::{MockTimeSource, MsgBuffer};
+ use types::{Address, Range};
+-use table::{ClaimTable};
++use table::ClaimTable;
+ use device::Type;
+ use config::Config;
+ use payload::{Packet, Frame, Protocol};
+@@ -29,7 +29,7 @@ fn udp_send(c: &mut Criterion) {
+     let mut g = c.benchmark_group("udp_send");
+     g.throughput(Throughput::Bytes(1400));
+     g.bench_function("udp_send", |b| {
+-        b.iter(|| sock.send_to(&data, &addr).unwrap());
++        b.iter(|| sock.send_to(&data, addr).unwrap());
+     });
+     g.finish();
+ }
+--- a/benches/valgrind.rs
++++ b/benches/valgrind.rs
+@@ -17,7 +17,7 @@ use util::{MockTimeSource, MsgBuffer};
+ use config::Config;
+ use types::{Address, Range};
+ use device::Type;
+-use table::{ClaimTable};
++use table::ClaimTable;
+ use payload::{Packet, Frame, Protocol};
+ use crypto::core::{create_dummy_pair, EXTRA_LEN};
+ use tests::common::{TunSimulator, TapSimulator};
+@@ -26,7 +26,7 @@ fn udp_send() {
+     let sock = UdpSocket::bind("127.0.0.1:0").unwrap();
+     let data = [0; 1400];
+     let addr = SocketAddrV4::new(Ipv4Addr::new(127, 0, 0, 1), 1);
+-    sock.send_to(&data, &black_box(addr)).unwrap();
++    sock.send_to(&data, black_box(addr)).unwrap();
+ }
+ 
+ fn decode_ipv4() {
