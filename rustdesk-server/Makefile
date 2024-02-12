@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -9,25 +11,27 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustdesk-server
-PKG_VERSION:=1.1.8-2
+PKG_VERSION:=1.1.9
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/rustdesk/rustdesk-server/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=59744c9e8b538789b320f93127f6c58d3200a4ff2c920d93b684b3afe0926dbb
+PKG_HASH:=8435d39978151560d14972247981be01ba605b02405ee0aea2747e60f891466e
 
 PKG_LICENSE:=AGPL-3.0
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += async-speed-limit-031-1 chrono-0431 jsonwebtoken-910
+PKG_BUILD_DEPENDS += quinn-0104 ring-0175 sqlx-072
 
 define Package/rustdesk-server
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=RustDesk Server Program
   URL:=https://rustdesk.com/server
-  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2)
 endef
 
 define Package/rustdesk-server/description
