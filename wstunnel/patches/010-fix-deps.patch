@@ -1,0 +1,9 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -63,3 +63,6 @@ codegen-units = 1
+ opt-level = 3
+ debug = 0
+ strip = "symbols"
++
++[patch.crates-io]
++ring = { path = "../ring-0.17.5" }
