@@ -1,28 +1,31 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
-
-PKG_VERSION:=0.86.0
+PKG_VERSION:=0.89.0
 PKG_RELEASE:=1
-PKG_HASH:=733576c766f087e4fdabee14bbcb0ba15516472d4f443fc401386cd1d6e8d7eb
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
+PKG_HASH:=1d7a7cc960bb8265214a7345ea3787a5bc22dcb7099d5c5056163df025c5527d
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 openssl-probe-015
 
 define Package/nushell/Default
   SECTION:=utils
   CATEGORY:=Utilities
   SUBMENU:=Shells
   TITLE:=A new type of shell
-  URL:=https://www.nushell.sh/
+  URL:=https://www.nushell.sh
 endef
 
 define Package/nushell
@@ -85,34 +88,18 @@ define Package/nu-plugin-query/description
   A Nushell plugin to query JSON, XML, and various web data.
 endef
 
-#define Package/nushell/conffiles
-#/opt/root/.config/nushell/config.nu
-#/opt/root/.config/nushell/env.nu
-#/opt/root/.config/nushell/plugin.nu
-#endef
-
-# XXX 3rd-party plugins
-define Build/Clean
-	rm -f $(BUILD_DIR)/$(PKG_NAME)
-endef
-
-define NushellDir
-	ln -nsf $(PKG_BUILD_DIR) $(BUILD_DIR)/$(PKG_NAME)
-endef
-Hooks/Compile/Post += NushellDir
-
 CARGO_ARGS += --workspace
 
 # FIXME
-# mips(el)/arm:
+# armv(5/7)/i386/mips(el):
 #	Some errors have detailed explanations: E0412, E0425, E0432, E0433, E0599.
 #	For more information about an error, try `rustc --explain E0412`.
 #	error: could not compile `simd-json` (lib) due to 149 previous errors
 CARGO_ARGS += \
-	--features=$(if $(or $(CONFIG_arm),$(CONFIG_mips),$(CONFIG_mipsel)),"extra","dataframe extra")
+	--features=$(if $(or $(CONFIG_arm),$(CONFIG_i386),$(CONFIG_mips),$(CONFIG_mipsel)),"extra","dataframe extra")
 
 # FIXME
-# mips(el)/arm:
+# armv(5/7)/mips(el):
 #	undefined reference to symbol '__atomic_load_8@@LIBATOMIC_1.0'
 ifeq ($(or $(CONFIG_arm),$(CONFIG_mips),$(CONFIG_mipsel)),y)
 RUSTFLAGS += -l dylib=atomic
