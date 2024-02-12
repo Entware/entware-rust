@@ -1,20 +1,22 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hexyl
-PKG_VERSION:=0.13.1
+PKG_VERSION:=0.14.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/hexyl/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=a4b3009aa7210f7d80f91d6b01543d1544586c4509247f01e028f1a56781056d
+PKG_HASH:=5205fa1a483c66997f5a7179cdd1a277ebb5e0a743bb269a962d20b29dd735f8
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
 define Package/hexyl
   SECTION:=utils
