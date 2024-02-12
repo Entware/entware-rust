@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -80,3 +80,8 @@ strum = "0.24"
+ strum_macros = "0.24"
+ tempfile = "3.2"
+ git2 = { version = "0.15", default-features = false, features = [] }
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
