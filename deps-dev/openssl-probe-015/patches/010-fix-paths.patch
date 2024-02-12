@@ -1,0 +1,18 @@
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -24,6 +24,7 @@ pub fn find_certs_dirs() -> Vec<PathBuf>
+ fn cert_dirs_iter() -> impl Iterator<Item = &'static Path> {
+     // see http://gagravarr.org/writing/openssl-certs/others.shtml
+     [
++        "/opt/etc/ssl", // Entware
+         "/var/ssl",
+         "/usr/share/ssl",
+         "/usr/local/ssl",
+@@ -37,7 +38,6 @@ fn cert_dirs_iter() -> impl Iterator<Ite
+         "/etc/pki/tls",
+         "/etc/ssl",
+         "/etc/certs",
+-        "/opt/etc/ssl", // Entware
+         "/data/data/com.termux/files/usr/etc/tls",
+         "/boot/system/data/ssl",
+     ]
