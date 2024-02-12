@@ -1,0 +1,25 @@
+--- a/zellij-utils/assets/config/default.kdl
++++ b/zellij-utils/assets/config/default.kdl
+@@ -327,7 +327,7 @@ plugins {
+ // Path to the default editor to use to edit pane scrollbuffer
+ // Default: $EDITOR or $VISUAL
+ //
+-// scrollback_editor "/usr/bin/vim"
++scrollback_editor "/opt/bin/vi"
+ 
+ // When attaching to an existing session with other users,
+ // should the session be mirrored (true)
+@@ -338,11 +338,11 @@ plugins {
+ 
+ // The folder in which Zellij will look for layouts
+ //
+-// layout_dir "/path/to/my/layout_dir"
++layout_dir "/opt/etc/zellij/layouts"
+ 
+ // The folder in which Zellij will look for themes
+ //
+-// theme_dir "/path/to/my/theme_dir"
++theme_dir "/opt/etc/zellij/themes"
+ 
+ // Enable or disable the rendering of styled and colored underlines (undercurl).
+ // May need to be disabled for certain unsupported terminals
