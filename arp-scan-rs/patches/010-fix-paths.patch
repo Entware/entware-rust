@@ -1,6 +1,6 @@
 --- a/src/args.rs
 +++ b/src/args.rs
-@@ -436,7 +436,7 @@ impl ScanOptions {
+@@ -459,7 +459,7 @@ impl ScanOptions {
  
          let oui_file: String = match matches.get_one::<String>("oui-file") {
              Some(file) => file.to_string(),

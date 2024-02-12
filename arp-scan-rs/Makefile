@@ -1,20 +1,22 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=arp-scan-rs
-PKG_VERSION:=0.13.1
-PKG_RELEASE:=2
+PKG_VERSION:=0.14.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kongbytes/arp-scan-rs/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=7a7d7724d4aba297eef1545ff2c6aabd555f85b1ce0eaa954141868939aa1c29
+PKG_HASH:=9cd8ae882d47aef59f79ceedc797a9697b0f1b81916488a43a84b0a807b482fa
 
 PKG_LICENSE:=AGPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
 define Package/arp-scan-rs
   SECTION:=net
