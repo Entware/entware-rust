@@ -1,0 +1,102 @@
+--- a/src/configuration/config.rs
++++ b/src/configuration/config.rs
+@@ -370,8 +370,8 @@ impl<T: tun::Tun, B: udp::PlatformUDP> C
+                 state.push(PeerState {
+                     preshared_key: psk,
+                     endpoint: p.get_endpoint(),
+-                    rx_bytes: p.rx_bytes.load(Ordering::Relaxed),
+-                    tx_bytes: p.tx_bytes.load(Ordering::Relaxed),
++                    rx_bytes: p.rx_bytes.load(Ordering::Relaxed) as u64,
++                    tx_bytes: p.tx_bytes.load(Ordering::Relaxed) as u64,
+                     persistent_keepalive_interval: p.get_keepalive_interval(),
+                     allowed_ips: p.list_allowed_ips(),
+                     last_handshake_time,
+--- a/src/wireguard/peer.rs
++++ b/src/wireguard/peer.rs
+@@ -8,7 +8,7 @@ use super::wireguard::WireGuard;
+ use super::workers::HandshakeJob;
+ 
+ use std::fmt;
+-use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
++use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+ use std::time::{Instant, SystemTime};
+ 
+ use spin::{Mutex, RwLock, RwLockReadGuard, RwLockWriteGuard};
+@@ -31,8 +31,8 @@ pub struct PeerInner<T: Tun, B: UDP> {
+     pub handshake_queued: AtomicBool,                       // is a handshake job currently queued?
+ 
+     // stats and configuration
+-    pub rx_bytes: AtomicU64, // received bytes
+-    pub tx_bytes: AtomicU64, // transmitted bytes
++    pub rx_bytes: AtomicUsize, // received bytes
++    pub tx_bytes: AtomicUsize, // transmitted bytes
+ 
+     // timer model
+     pub timers: RwLock<Timers>,
+--- a/src/wireguard/timers.rs
++++ b/src/wireguard/timers.rs
+@@ -1,3 +1,4 @@
++use std::convert::TryInto;
+ use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+ use std::sync::Arc;
+ use std::time::{Duration, Instant, SystemTime};
+@@ -376,7 +377,7 @@ impl<T: Tun, B: UDP> Callbacks for PeerI
+ 
+         peer.timers_any_authenticated_packet_traversal();
+         peer.timers_any_authenticated_packet_sent();
+-        peer.tx_bytes.fetch_add(size as u64, Ordering::Relaxed);
++        peer.tx_bytes.fetch_add((size as u64).try_into().unwrap(), Ordering::Relaxed);
+         if size > message_data_len(0) && sent {
+             peer.timers_data_sent();
+         }
+@@ -408,7 +409,7 @@ impl<T: Tun, B: UDP> Callbacks for PeerI
+ 
+         peer.timers_any_authenticated_packet_traversal();
+         peer.timers_any_authenticated_packet_received();
+-        peer.rx_bytes.fetch_add(size as u64, Ordering::Relaxed);
++        peer.rx_bytes.fetch_add((size as u64).try_into().unwrap(), Ordering::Relaxed);
+         if size > 0 && sent {
+             peer.timers_data_received();
+         }
+--- a/src/wireguard/wireguard.rs
++++ b/src/wireguard/wireguard.rs
+@@ -16,7 +16,7 @@ use std::fmt;
+ use std::thread;
+ 
+ use std::ops::Deref;
+-use std::sync::atomic::{AtomicBool, AtomicU64, AtomicUsize, Ordering};
++use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+ use std::sync::Arc;
+ use std::sync::Condvar;
+ use std::sync::Mutex as StdMutex;
+@@ -223,8 +223,8 @@ impl<T: Tun, B: UDP> WireGuard<T, B> {
+                 walltime_last_handshake: Mutex::new(None),
+                 last_handshake_sent: Mutex::new(Instant::now() - TIME_HORIZON),
+                 handshake_queued: AtomicBool::new(false),
+-                rx_bytes: AtomicU64::new(0),
+-                tx_bytes: AtomicU64::new(0),
++                rx_bytes: AtomicUsize::new(0),
++                tx_bytes: AtomicUsize::new(0),
+                 timers: RwLock::new(timers),
+             });
+ 
+--- a/src/wireguard/workers.rs
++++ b/src/wireguard/workers.rs
+@@ -1,3 +1,4 @@
++use std::convert::TryInto;
+ use std::sync::atomic::Ordering;
+ use std::time::Instant;
+ 
+@@ -209,10 +210,10 @@ pub fn handshake_worker<T: Tun, B: UDP>(
+ 
+                             // add to rx_bytes and tx_bytes
+                             let req_len = msg.len() as u64;
+-                            peer.opaque().rx_bytes.fetch_add(req_len, Ordering::Relaxed);
++                            peer.opaque().rx_bytes.fetch_add(req_len.try_into().unwrap(), Ordering::Relaxed);
+                             peer.opaque()
+                                 .tx_bytes
+-                                .fetch_add(resp_len, Ordering::Relaxed);
++                                .fetch_add(resp_len.try_into().unwrap(), Ordering::Relaxed);
+ 
+                             // update endpoint
+                             peer.set_endpoint(src);

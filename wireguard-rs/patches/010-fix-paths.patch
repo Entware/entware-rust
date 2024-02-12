@@ -1,0 +1,11 @@
+--- a/src/platform/linux/uapi.rs
++++ b/src/platform/linux/uapi.rs
+@@ -4,7 +4,7 @@ use std::fs;
+ use std::io;
+ use std::os::unix::net::{UnixListener, UnixStream};
+ 
+-const SOCK_DIR: &str = "/var/run/wireguard/";
++const SOCK_DIR: &str = "/opt/var/run/wireguard/";
+ 
+ pub struct LinuxUAPI {}
+ 

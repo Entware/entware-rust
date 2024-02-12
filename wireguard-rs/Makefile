@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -10,7 +12,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=wireguard-rs
 PKG_VERSION:=0.1.1
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_URL:=https://github.com/WireGuard/wireguard-rs
@@ -21,7 +23,9 @@ PKG_LICENSE:=BSD
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += ring-0175
 
 define Package/wireguard-rs
   SECTION:=net
@@ -29,7 +33,7 @@ define Package/wireguard-rs
   SUBMENU:=VPN
   TITLE:=fast, modern, secure vpn tunnel
   URL:=https://www.wireguard.com/
-  DEPENDS:=@!(mips||mipsel||LINUX_2_6_36||TARGET_armv5_3_2)
+  DEPENDS:=@!LINUX_2_6_36
 endef
 
 define Package/wireguard-rs/description
