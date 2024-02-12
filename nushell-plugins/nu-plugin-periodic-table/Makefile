@@ -1,23 +1,27 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-periodic-table
 PKG_VERSION:=0.2.7
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-10-16
-PKG_SOURCE_VERSION:=53cbe525037597b9ef6804d1eeeb1e915901210c
+PKG_SOURCE_DATE:=2023-11-27
+PKG_SOURCE_VERSION:=d534576a41cbe0ea4e7c51ee3c10d3ed945a86be
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/JosephTLyons/nu_plugin_periodic_table
-PKG_MIRROR_HASH:=46b647efe18fa331b29dd79bd246e27b7e1cfaa1788e71cb13eeaff012282ce1
+PKG_MIRROR_HASH:=7d2390e273f6c8a46643b931809315ec09b458fba78d9f3fa05ca800e783e94a
 
 PKG_LICENSE:=GPL-3.0-only
 PKG_LICENSE_FILES:=License.txt
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/nu-plugin-periodic-table
   SECTION:=utils
