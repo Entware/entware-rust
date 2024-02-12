@@ -1,20 +1,26 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ouch
-PKG_VERSION:=0.4.2
+PKG_VERSION:=0.5.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ouch-org/ouch/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=08015fa92770515cfa00570bc5f0f0a4f28f0ad238f360f3579ac043723a6ec2
+PKG_HASH:=46cc2b14f53de2f706436df59300eb90c5a58f08ac8c738fd976fcb8ec0cd335
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
+RUST_MIN_SIZE:=0
+
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/ouch
   SECTION:=utils
@@ -22,7 +28,7 @@ define Package/ouch
   SUBMENU:=Compression
   TITLE:=Painless compression and decompression
   URL:=https://github.com/ouch-org/ouch
-  DEPENDS:=+liblzma +libzstd +zlib
+  DEPENDS:=+liblzma +libstdcpp +libzstd +zlib
 endef
 
 define Package/ouch/description
