@@ -1,0 +1,14 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -26,4 +26,9 @@ indexmap = "1.9.1"
+ #used for debug purposes to measure time needed to write output reports
+ #[features]
+ #default = ["elapsed_time"]
+-#elapsed_time = []
+\ No newline at end of file
++#elapsed_time = []
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
