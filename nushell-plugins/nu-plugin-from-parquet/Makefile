@@ -1,23 +1,27 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-from-parquet
-PKG_VERSION:=0.1.0
+PKG_VERSION:=0.2.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-10-27
-PKG_SOURCE_VERSION:=6df8ebf0248193b162fb025bff2181be741c4024
+PKG_SOURCE_DATE:=2024-01-15
+PKG_SOURCE_VERSION:=0c281df0e61c07985ef6c1f425247e4cbee16821
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_from_parquet
-PKG_MIRROR_HASH:=38b7c8a8053879cfaa940d0e16318f8b63d44e48cc3b09ad70b07a54da444635
+PKG_MIRROR_HASH:=5dc97cfa5f5fdafdaf5508abfc8682b9e58076f139ba145e9d48da78bf1b6244
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/nu-plugin-from-parquet
   SECTION:=utils
