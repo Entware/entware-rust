@@ -1,64 +1,40 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=eza
-PKG_VERSION:=0.15.2
+PKG_VERSION:=0.17.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/eza-community/eza/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=b8b00af94d9b8f254b5a14af3da84542893617f810dcdad782e5667a1e7af1f9
+PKG_HASH:=78f56a35fc6707297f422647988b963f39bcef023bf55f6f2f5e7cd4be659a2a
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
 
-define Package/eza/Default
+PKG_BUILD_DEPENDS += chrono-0431
+
+define Package/eza
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=a modern replacement for ls
   URL:=https://eza.rocks
-endef
-
-define Package/eza-git
-  $(call Package/eza/Default)
-  TITLE+= (with git)
   DEPENDS:=+zlib
-  VARIANT:=git
 endef
 
-define Package/eza-nogit
-  $(call Package/eza/Default)
-  TITLE+= (without git)
-  VARIANT:=nogit
-  CONFLICTS:=eza-git
-endef
-
-define Package/eza-git/description
+define Package/eza/description
   eza is a modern, maintained replacement for ls, built on exa.
-  (with Git support; ~1,7M)
 endef
 
-define Package/eza-nogit/description
-  eza is a modern, maintained replacement for ls, built on exa.
-  (without Git support; ~650K)
-endef
-
-ifeq ($(BUILD_VARIANT),nogit)
-  CARGO_ARGS += --no-default-features
-endif
-
-define Package/eza-git/install
+define Package/eza/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/eza $(1)/opt/usr/bin
 endef
 
-define Package/eza-nogit/install
-  $(call Package/eza-git/install,$1)
-endef
-
-$(eval $(call BuildPackage,eza-git))
-$(eval $(call BuildPackage,eza-nogit))
+$(eval $(call BuildPackage,eza))
