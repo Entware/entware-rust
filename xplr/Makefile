@@ -1,20 +1,24 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=xplr
-PKG_VERSION:=0.21.3
+PKG_VERSION:=0.21.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/sayanarijit/xplr/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=27800f0e731aedc194872609263e8c20b2e94b2f2e9088da5d3f501c406e938d
+PKG_HASH:=c6e2b800888363c6d6101eafe585723a5bf9cc304cedff77a302c0e2a6d0a151
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/xplr
   SECTION:=utils
@@ -22,7 +26,7 @@ define Package/xplr
   SUBMENU:=Shells
   TITLE:=A hackable, minimal, fast TUI file explorer
   URL:=https://xplr.dev
-  DEPENDS:=+luajit
+  DEPENDS:=@HAS_LUAJIT_ARCH +luajit
 endef
 
 define Package/xplr/description

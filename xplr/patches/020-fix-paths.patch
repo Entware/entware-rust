@@ -1,6 +1,6 @@
 --- a/src/app.rs
 +++ b/src/app.rs
-@@ -263,7 +263,7 @@ impl App {
+@@ -306,7 +306,7 @@ impl App {
                  None
              }
          } else {
