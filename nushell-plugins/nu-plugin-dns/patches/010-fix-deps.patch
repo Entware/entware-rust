@@ -1,0 +1,35 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -26,12 +26,12 @@ bench = false
+ [dependencies]
+ chrono = { version = "0.4", features = [ "std" ], default-features = false }
+ futures-util = "0.3.28"
+-nu-plugin = "0.86.0"
+-nu-protocol = "0.86.0"
++nu-plugin = { path = "../nushell-0.89.0/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.89.0/crates/nu-protocol" }
+ # must keep in lockstep with hickory
+-rustls = "0.21.7"
++rustls = "0.21.9"
+ tokio = "1.33.0"
+-webpki-roots = "0.25.2"
++webpki-roots = "0.25.3"
+ tracing = "0.1"
+ tracing-subscriber = { version = "0.3", features = [ "env-filter" ] }
+ 
+@@ -70,3 +70,15 @@ features = [
+ # For termux
+ # [patch.crates-io]
+ # pwd = { git = "https://gitlab.com/dead10ck/pwd", branch = "termux" }
++
++[patch.crates-io]
++hickory-client = { path = "../hickory-dns-0.24.0/crates/client" }
++hickory-proto = { path = "../hickory-dns-0.24.0/crates/proto" }
++hickory-resolver = { path = "../hickory-dns-0.24.0/crates/resolver" }
++quinn = { path = "../quinn-0.10.4/quinn" }
++ring = { path = "../ring-0.17.5" }
++rustls = { path = "../rustls-0.21.9/rustls" }
++webpki-roots = { path = "../webpki-roots-0.25.3" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }

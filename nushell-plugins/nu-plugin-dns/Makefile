@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -7,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-dns
 PKG_VERSION:=1.0.4-alpha.1
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2023-10-21
@@ -20,7 +22,10 @@ PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 hickory-dns quinn-0104 rustls-0219
+PKG_BUILD_DEPENDS += webpki-roots-0243
 
 define Package/nu-plugin-dns
   SECTION:=utils
@@ -28,7 +33,7 @@ define Package/nu-plugin-dns
   SUBMENU:=Shells
   TITLE:=A DNS utility for nushell
   URL:=https://github.com/dead10ck/nu_plugin_dns
-  DEPENDS:=+nushell #@!(mips||mipsel)
+  DEPENDS:=+nushell
 endef
 
 define Package/nu-plugin-dns/description
