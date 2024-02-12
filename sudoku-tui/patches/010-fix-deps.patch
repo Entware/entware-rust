@@ -1,0 +1,14 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -21,4 +21,9 @@ default = ["cursive/crossterm-backend"]
+ 
+ [[bin]]
+ name = "sudoku"
+-path = "src/main.rs"
+\ No newline at end of file
++path = "src/main.rs"
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
