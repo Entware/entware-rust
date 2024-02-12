@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -126,3 +126,7 @@ harness = false
+ # terminal-light = { path = "../terminal-light" }
+ # terminal-clipboard = { path = "../terminal-clipboard" }
+ # umask = { path = "../umask" }
++
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
