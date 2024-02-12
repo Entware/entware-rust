@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -9,18 +11,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=atuin
-PKG_VERSION:=17.0.1
+PKG_VERSION:=17.2.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ellie/atuin/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=b03d3a1597ba2bbd784612e730419c2cdc099311adf48518bd9c00d2799199f6
+PKG_HASH:=5bad59af24317adfa1d56fce39e231c85836fb91ac3d468830f9bb0884b320ca
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += reqwest-01121 ring-0175 rusty-paserk-030 rusty-paseto-060 sqlx-073
 
 define Package/atuin
   SECTION:=utils
@@ -28,7 +32,6 @@ define Package/atuin
   SUBMENU:=Shells
   TITLE:=magical shell history
   URL:=https://atuin.sh
-  DEPENDS:=@!(mips||mipsel||TARGET_armv5_3_2)
 endef
 
 define Package/atuin/description
