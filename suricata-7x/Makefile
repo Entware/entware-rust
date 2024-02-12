@@ -1,10 +1,12 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata
 PKG_VERSION:=7.0.2
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://www.openinfosecfoundation.org/download
@@ -49,7 +51,7 @@ define Package/suricata7-extra
   TITLE+= (extra)
   VARIANT:=extra
   DEPENDS+=+libevent2 +libevent2-pthreads +libhiredis +libmaxminddb +libnet-1.2.x
-  DEPENDS+=+libnetfilter-log +libnetfilter-queue +luajit
+  DEPENDS+=+libnetfilter-log +libnetfilter-queue @HAS_LUAJIT_ARCH +luajit
 endef
 
 define Package/suricata7-mini
