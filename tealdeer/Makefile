@@ -1,10 +1,12 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tealdeer
 PKG_VERSION:=1.6.1
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/dbrgn/tealdeer/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -14,7 +16,9 @@ PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += reqwest-01121 ring-0175
 
 define Package/tealdeer
   SECTION:=utils
@@ -28,13 +32,6 @@ define Package/tealdeer/description
   Fetch and show tldr help pages for many CLI commands.
   Full featured offline client with caching support.
 endef
-
-# FIXME
-# mips(el):
-#	error: failed to run custom build command for `ring v0.16.20`
-ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
-CARGO_ARGS += --no-default-features --features=native-tls
-endif
 
 # FIXME
 # i386/x86_64:
