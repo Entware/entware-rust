@@ -1,0 +1,13 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -40,3 +40,10 @@ nvml-wrapper = { version = "0.8.0", opti
+ unicode-width = "0.1.9"
+ [target.'cfg(target_os = "linux")'.dependencies]
+ linux-taskstats = { version = "0.2.0", default-features = false }
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++# i386 (x86)
++raw-cpuid = { path = "../raw-cpuid-9.1.1" }

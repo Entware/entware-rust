@@ -1,16 +1,16 @@
-# SPDX-License-Identifier: WTFPL
-
-# XXX since 0.13.0 needs libclang*.so*
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zenith
-PKG_VERSION:=0.12.0
+PKG_VERSION:=0.14.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/bvaisvil/zenith/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=2b33892be95149550c84179b341e304c4222e3489bc121ea8c8346e075433aa6
+PKG_HASH:=2cbcea2625cfa97c161b974ad412a47e330f7fd31bec0479e329ed3606cfc569
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,9 @@ PKG_LICENSE_FILES:=LICENSE
 RUST_MIN_SIZE:=0
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 raw-cpuid-911
 
 define Package/zenith
   SECTION:=utils
