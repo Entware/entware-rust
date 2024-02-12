@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -58,3 +58,8 @@ rstest = "0.18.2"
+ anyhow = "1.0.75"
+ http_req = "0.10.0"
+ zip = "0.6.6"
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
