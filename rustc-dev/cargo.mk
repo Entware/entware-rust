@@ -1,6 +1,9 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
-include $(TOPDIR)/feeds/rust/rust.mk
+rust_mk_path:=$(dir $(lastword $(MAKEFILE_LIST)))
+include $(rust_mk_path)rust.mk
 
 ### cargo-build - Compile local packages and all of their dependencies.
 CARGO_COMPILE ?= 1
