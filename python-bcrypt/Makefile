@@ -1,8 +1,10 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
-PKG_NAME:=python3-bcrypt
+PKG_NAME:=bcrypt
 PKG_VERSION:=4.0.1
 PKG_RELEASE:=3
 
@@ -15,7 +17,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
-include ../rust.mk
+include ../rustc-dev/rust.mk
 
 PKG_BUILD_DEPENDS += python-setuptools-rust/host python-wheel/host
 
