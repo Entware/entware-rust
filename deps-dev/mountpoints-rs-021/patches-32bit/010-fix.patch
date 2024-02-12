@@ -1,0 +1,32 @@
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -70,11 +70,11 @@ pub struct MountInfo {
+     /// Mount path
+     pub path: PathBuf,
+     /// Available bytes to current user
+-    pub avail: Option<u64>,
++    pub avail: Option<u32>,
+     /// Free bytes
+-    pub free: Option<u64>,
++    pub free: Option<u32>,
+     /// Size in bytes
+-    pub size: Option<u64>,
++    pub size: Option<u32>,
+     /// Name
+     pub name: Option<String>,
+     /// Format (NTFS, FAT, ext4, ...)
+--- a/src/linux.rs
++++ b/src/linux.rs
+@@ -51,9 +51,9 @@ pub fn mountinfos() -> Result<Vec<MountI
+         };
+         mountinfos.push(MountInfo {
+             path,
+-            avail: stat.map(|stat| stat.f_bavail.saturating_mul(u64::from(stat.f_bsize))),
+-            free: stat.map(|stat| stat.f_bfree.saturating_mul(u64::from(stat.f_bsize))),
+-            size: stat.map(|stat| stat.f_blocks.saturating_mul(u64::from(stat.f_frsize))),
++            avail: stat.map(|stat| stat.f_bavail.saturating_mul(u32::from(stat.f_bsize))),
++            free: stat.map(|stat| stat.f_bfree.saturating_mul(u32::from(stat.f_bsize))),
++            size: stat.map(|stat| stat.f_blocks.saturating_mul(u32::from(stat.f_frsize))),
+             name: None,
+             format: fstype.map(|s| s.to_string()),
+             readonly: stat.map(|stat| (stat.f_flag & libc::ST_RDONLY) == libc::ST_RDONLY),
