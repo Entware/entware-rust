@@ -1,14 +1,16 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.72.0
+PKG_VERSION:=1.75.0
 PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.xz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=d307441f8ee78a7e94f72cb5c81383822f13027f79e67a5551bfd2c2d2db3014
+PKG_HASH:=4526f786d673e4859ff2afa0bab2ba13c918b796519a25c1acce06dba9542340
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-dev-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-dev-$(PKG_VERSION)
@@ -27,8 +29,8 @@ include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
 include $(INCLUDE_DIR)/cmake.mk
 
-HOST_UNPACK:=$(HOST_TAR) -C $(HOST_BUILD_DIR) --strip-components=1 -xJf $(DL_DIR)/$(PKG_SOURCE)
-PKG_UNPACK:=$(HOST_TAR) -C $(PKG_BUILD_DIR) --strip-components=1 -xJf $(DL_DIR)/$(PKG_SOURCE)
+HOST_UNPACK += --strip-components=1 -C $(HOST_BUILD_DIR)
+PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/rustc-dev
   SECTION:=devel
@@ -47,7 +49,7 @@ RUST_HOST_TRIPLE:=$(HOST_ARCH)-unknown-linux-gnu
 
 define Host/Configure
 	( \
-		echo 'changelog-seen = 2'; \
+		echo 'change-id = 116881'; \
 		echo '[llvm]'; \
 		echo 'targets = "AArch64;ARM;Mips;X86"'; \
 		echo 'experimental-targets = ""'; \
@@ -75,7 +77,7 @@ define Host/Configure
 		echo 'python = "$(STAGING_DIR_HOSTPKG)/bin/python3"'; \
 		echo 'vendor = true'; \
 		echo 'extended = true'; \
-		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt"]'; \
+		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt",]'; \
 		echo 'verbose = 0'; \
 		echo '[install]'; \
 		echo 'prefix = "/"'; \
@@ -105,6 +107,7 @@ Host/Compile:=:
 
 define Host/Install
 	( cd $(HOST_BUILD_DIR); \
+		CARGO_HOME="$(STAGING_DIR)/host/share/cargo" \
 		DESTDIR=$(HOST_BUILD_DIR)/install \
 		$(STAGING_DIR_HOSTPKG)/bin/python3 x.py install \
 	)
@@ -134,7 +137,7 @@ endif
 
 define Build/Configure
 	( \
-		echo 'changelog-seen = 2'; \
+		echo 'change-id = 116881'; \
 		echo 'profile = "library"'; \
 		echo '[llvm]'; \
 		echo 'download-ci-llvm = false'; \
@@ -151,7 +154,7 @@ define Build/Configure
 		echo 'vendor = true'; \
 		echo 'full-bootstrap = false'; \
 		echo 'extended = false'; \
-		echo 'tools = [""]'; \
+		echo 'tools = ["",]'; \
 		echo 'verbose = 0'; \
 		echo 'local-rebuild = false'; \
 		echo '[install]'; \
@@ -186,11 +189,12 @@ define FixPreInstall
 		$(PKG_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)
 	$(LN) $(HOST_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)/stage0-bootstrap-tools \
 		$(PKG_BUILD_DIR)/build/$(RUST_HOST_TRIPLE)
-
 	$(INSTALL_DIR) $(STAGING_DIR)/host/bin $(STAGING_DIR)/host/lib/rustlib
-	$(CP) $(HOST_BUILD_DIR)/install/bin/{cargo,clippy,rustc,rustfmt}* \
-		 $(STAGING_DIR)/host/bin
-
+	$(CP) $(HOST_BUILD_DIR)/install/bin/cargo $(STAGING_DIR)/host/bin
+	$(CP) $(HOST_BUILD_DIR)/install/bin/cargo-clippy $(STAGING_DIR)/host/bin
+	$(CP) $(HOST_BUILD_DIR)/install/bin/cargo-fmt $(STAGING_DIR)/host/bin
+	$(CP) $(HOST_BUILD_DIR)/install/bin/clippy-driver $(STAGING_DIR)/host/bin
+	$(CP) $(HOST_BUILD_DIR)/install/bin/rust{c,doc,fmt} $(STAGING_DIR)/host/bin
 	$(CP) $(HOST_BUILD_DIR)/install/lib/lib*.so $(STAGING_DIR)/host/lib
 	$(CP) $(HOST_BUILD_DIR)/install/lib/rustlib/$(RUST_HOST_TRIPLE) \
 		 $(STAGING_DIR)/host/lib/rustlib
@@ -200,6 +204,7 @@ Hooks/Compile/Post += FixPreInstall
 
 define Build/Install
 	( cd $(PKG_BUILD_DIR); \
+		CARGO_HOME="$(STAGING_DIR)/host/share/cargo" \
 		HOST_PKG_CONFIG_PATH="$(STAGING_DIR_HOST)/lib/pkgconfig:$(STAGING_DIR_HOSTPKG)/lib/pkgconfig" \
 		PKG_CONFIG_ALLOW_CROSS=1 \
 		DESTDIR=$(PKG_INSTALL_DIR) \
@@ -209,10 +214,9 @@ define Build/Install
 endef
 
 define Build/InstallDev
-	$(INSTALL_DIR) $(2)/lib/rustlib
+	$(INSTALL_DIR) $(2)/include $(2)/lib/rustlib
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/rustlib/$(RUST_TARGET_TRIPLE) \
 		 $(2)/lib/rustlib
-
 	$(INSTALL_DIR) $(2)/share/cargo
 	( \
 		echo '[target.$(RUST_TARGET_TRIPLE)]'; \
