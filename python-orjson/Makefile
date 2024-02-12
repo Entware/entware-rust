@@ -1,10 +1,12 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=orjson
 PKG_VERSION:=3.9.9
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PYPI_NAME:=orjson
 PKG_HASH:=02e693843c2959befdd82d1ebae8b05ed12d1cb821605d5f9fe9f98ca5c9fd2b
@@ -15,9 +17,9 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/packages/lang/python/python3-package.mk
-include ../rust.mk
+include ../rustc-dev/rust.mk
 
-PKG_BUILD_DEPENDS += maturin/host
+PKG_BUILD_DEPENDS += maturin/host chrono-0431
 
 define Package/python3-orjson
   SECTION:=lang
