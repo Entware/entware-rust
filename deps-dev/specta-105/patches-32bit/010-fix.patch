@@ -1,0 +1,13 @@
+--- a/src/type/impls.rs
++++ b/src/type/impls.rs
+@@ -82,8 +82,8 @@ impl_as!(
+     AtomicU16 as u16
+     AtomicU32 as u32
+     AtomicUsize as usize
+-    AtomicI64 as i64
+-    AtomicU64 as u64
++//    AtomicI64 as i64
++//    AtomicU64 as u64
+ );
+ 
+ use std::num::*;
