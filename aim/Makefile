@@ -1,4 +1,6 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
@@ -7,7 +9,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=aim
 PKG_VERSION:=1.8.5
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/mihaigalos/aim/tar.gz/refs/tags/$(PKG_VERSION)?
@@ -17,7 +19,9 @@ PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
 
 include $(INCLUDE_DIR)/package.mk
-include ../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431 rcgen-0113 reqwest-01121 ring-0175 warpy-0335
 
 define Package/aim
   SECTION:=net
@@ -25,7 +29,7 @@ define Package/aim
   SUBMENU:=Download Manager
   TITLE:=A command line download/upload tool with resume
   URL:=https://github.com/mihaigalos/aim
-  DEPENDS:=+libopenssl +zlib #@!(mips||mipsel)
+  DEPENDS:=+libopenssl +zlib
 endef
 
 define Package/aim/description
