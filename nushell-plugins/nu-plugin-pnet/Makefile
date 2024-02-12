@@ -1,23 +1,27 @@
-# SPDX-License-Identifier: WTFPL
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2024 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-pnet
-PKG_VERSION:=1.2.0
-PKG_RELEASE:=5
+PKG_VERSION:=1.4.0
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-09-06
-PKG_SOURCE_VERSION:=9316f0b1b23803676d0075b26cddcd9e88d43858
+PKG_SOURCE_DATE:=2024-01-15
+PKG_SOURCE_VERSION:=55bd27f8f83a05f4bb57ce9365514f2c6373a966
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_pnet
-PKG_MIRROR_HASH:=6fcd682a3a622d6561588767e6aa9db71d2d72b22be065bb80dbdfa4276a2b10
+PKG_MIRROR_HASH:=942fc452bf9d354f28f80f7d80c0524f8d944b0bde1f947c0f60b1f5815cc0a4
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=
 
 include $(INCLUDE_DIR)/package.mk
-include ../../cargo.mk
+include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/nu-plugin-pnet
   SECTION:=utils
