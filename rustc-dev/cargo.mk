@@ -10,18 +10,27 @@ CARGO_COMPILE ?= 1
 
 CARGO_ARGS += -Z unstable-options
 
+define ConfigurePre/Cargo
+	@rm -f $(PKG_BUILD_DIR)/Cargo.lock
+endef
+Hooks/Configure/Pre += ConfigurePre/Cargo
+
 define Build/Configure/Cargo
 endef
-#	( [ -f $(PKG_BUILD_DIR)/.cargo/config.toml ]; $(RM) $(PKG_BUILD_DIR)/.catgo/config.toml ; \
-#		$(INSTALL_DIR) $(PKG_BUILD_DIR)/.cargo; \
+#define Build/Configure/Cargo
 #	( \
-#		echo '[target.$(RUST_TARGET_TRIPLE)]'; \
-#		echo 'linker = "$(TARGET_CROSS)gcc"'; \
-#		echo '[install]'; \
-#		echo 'root = "$(PKG_INSTALL_DIR)/opt"'; \
-#	) > $(PKG_BUILD_DIR)/.cargo/config.toml ; \
-#	)
+#		echo ''; \
+#		echo '[patch.crates-io]'; \
+#		echo 'pkg1 = { path = "../pkg1-a.b.c" }'; \
+#		echo 'pkg2 = { path = "$(BUILD_DIR)/pkg2-a.b.c" }'; \
+#	) >> $(PKG_BUILD_DIR)/Cargo.toml
 #endef
+
+define ConfigurePost/Cargo
+	@CARGO_HOME=$(CARGO_HOME) $(CARGO_BIN) fetch \
+		--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml
+endef
+Hooks/Configure/Post += ConfigurePost/Cargo
 
 ifeq ($(CARGO_COMPILE),1)
   define Build/Compile/Cargo
@@ -35,11 +44,14 @@ ifeq ($(CARGO_COMPILE),1)
   endef
   define MoveLibs
 	@( \
-		if ls -1 $(CARGO_INSTALL_ROOT)/bin | grep -q '\.rlib'; then \
-			rm -f $(CARGO_INSTALL_ROOT)/lib/*; \
+		[ -d "$(CARGO_INSTALL_ROOT)/lib" ] && rm -fr $(CARGO_INSTALL_ROOT)/lib; \
+		for ext in a rlib so; do \
+		if ls -1 $(CARGO_INSTALL_ROOT)/bin | grep -q "\.$$$$ext"; then \
 			$(INSTALL_DIR) $(CARGO_INSTALL_ROOT)/lib; \
-			mv -f $(CARGO_INSTALL_ROOT)/bin/*.rlib $(CARGO_INSTALL_ROOT)/lib; \
+			mv $(CARGO_INSTALL_ROOT)/bin/*.$$$$ext $(CARGO_INSTALL_ROOT)/lib; \
 		fi; \
+		done; \
+		find $(CARGO_INSTALL_ROOT) -type d -empty -delete; \
 	);
   endef
   Hooks/Compile/Post += MoveLibs
