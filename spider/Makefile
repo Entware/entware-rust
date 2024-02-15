@@ -5,15 +5,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=spider
-PKG_VERSION:=1.80.71
+PKG_VERSION:=1.81.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/spider-rs/spider/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=1458d8a63a584a2418983af14dde15a65ba3c27c1b3056c76f5a50e55c10f8fe
+PKG_HASH:=e9df3d9d7eb9d5db8e346c5f2dc5b453208d9c5975cd0946048720f673287d25
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
