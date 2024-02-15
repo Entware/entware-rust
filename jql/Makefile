@@ -5,15 +5,18 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=jql
-PKG_VERSION:=7.1.2
+PKG_VERSION:=7.1.3
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/yamafaktory/jql/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
-PKG_HASH:=88846ec9ca9eb075c44790581402eab93f0fa21df6f3255e1f13e3214911193b
+PKG_HASH:=994e05190e9e215a6f5b5e78ca76ae8695e904e7619b6d15ad9c1417fbb82467
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENCE-APACHE LICENCE-MIT
+PKG_MAINTAINER:=Entware team, https://entware.net
+
+PKG_BUILD_FLAGS:=no-mips16
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
