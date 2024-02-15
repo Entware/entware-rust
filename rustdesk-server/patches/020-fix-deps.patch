@@ -11,7 +11,7 @@
  directories-next = "2.0"
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -30,14 +30,14 @@ mac_address = "1.1"
+@@ -30,14 +30,14 @@ mac_address = "1.1.5"
  whoami = "1.2"
  base64 = "0.13"
  axum = { version = "0.5", features = ["headers"] }
