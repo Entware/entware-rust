@@ -5,14 +5,15 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cryptography
-PKG_VERSION:=41.0.7
+PKG_VERSION:=42.0.2
 PKG_RELEASE:=1
 
 PYPI_NAME:=cryptography
-PKG_HASH:=13f93ce9bea8016c253b34afc6bd6a75993e5c40672ed5405a9c832f0d4a00bc
+PKG_HASH:=e0ec52ba3c7f1b7d813cd52649a5b3ef1fc0d433219dc8c93827c57eab6cf888
 
 PKG_LICENSE:=Apache-2.0 BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE LICENSE.APACHE LICENSE.BSD LICENSE.PSF
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
@@ -33,6 +34,7 @@ define Package/python3-cryptography
   URL:=https://github.com/pyca/cryptography
   DEPENDS:= \
 	+libopenssl \
+	+libopenssl-legacy \
 	+python3-cffi \
 	+python3-distutils \
 	+python3-email \
@@ -46,6 +48,7 @@ define Package/python3-cryptography/description
   library". It supports Python 3.6+ and PyPy3 7.2+.
 endef
 
+TARGET_CFLAGS += -I$(PYTHON3_INC_DIR)
 RUSTFLAGS += -C relocation-model=pic
 
 PYTHON3_PKG_SETUP_VARS += \
