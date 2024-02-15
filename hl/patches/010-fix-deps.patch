@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -104,3 +104,8 @@ harness = false
+@@ -105,3 +105,8 @@ harness = false
  [[bench]]
  name = "json"
  harness = false
