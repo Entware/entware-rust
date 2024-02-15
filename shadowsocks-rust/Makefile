@@ -5,15 +5,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-rust
-PKG_VERSION:=1.17.1
+PKG_VERSION:=1.18.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/shadowsocks/shadowsocks-rust/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=97a1c8ebf7fd19de94cd6d0dfee398667e1f4e131ec8a37ecb7c3191af7cc75e
+PKG_HASH:=e854743ecef9ab3b371fdcb139e6f4452831b487d449c97c2129abbf4f51e863
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_SS_RUST_AEAD_CIPHER_2022 \
@@ -43,8 +44,8 @@ PKG_CONFIG_DEPENDS:= \
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 hickory-dns reqwest-01121 ring-0175
-PKG_BUILD_DEPENDS += tokio-rustls-0241 webpki-roots-0243
+PKG_BUILD_DEPENDS += chrono-0431 hickory-dns reqwest-01121 ring-0177
+PKG_BUILD_DEPENDS += tokio-rustls-0250 webpki-roots-0260
 
 define Package/shadowsocks-rust
   SECTION:=net
@@ -58,7 +59,6 @@ endef
 
 define Package/shadowsocks-rust/description
   This is a port of shadowsocks.
-  .
   shadowsocks is a fast tunnel proxy that helps you bypass firewalls.
 endef
 
