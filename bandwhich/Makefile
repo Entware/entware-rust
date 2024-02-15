@@ -5,15 +5,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bandwhich
-PKG_VERSION:=0.21.1
-PKG_RELEASE:=2
+PKG_VERSION:=0.22.2
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/imsnif/bandwhich/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=8ba9bf6469834ad498b9fd17f86759a16793b00a6ef44edd6e525ec40adcb0b0
+PKG_HASH:=4c41719549e05dbaac1bc84828269e59b2f2032e76ae646da9b9e3b87e5a5fd1
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk

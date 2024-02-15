@@ -1,8 +1,8 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -58,3 +58,8 @@ rstest = "0.18.2"
- anyhow = "1.0.75"
- http_req = "0.10.0"
+@@ -72,3 +72,8 @@ strum = { version = "0.25.0", features =
+ [target.'cfg(target_os = "windows")'.build-dependencies]
+ http_req = "0.10.2"
  zip = "0.6.6"
 +
 +[patch.crates-io]
