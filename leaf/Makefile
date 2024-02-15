@@ -9,15 +9,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=leaf
-PKG_VERSION:=0.10.7
-PKG_RELEASE:=2
+PKG_VERSION:=0.10.9
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/eycorsican/leaf/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=7086c66420f04c17552a11e65ae9d5db7297ac2e764da3efe0e528f7265875a2
+PKG_HASH:=71f6e41f8673f33d8558403a85695dbd14b36663ea44f1a29ca8ba39de4db100
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
