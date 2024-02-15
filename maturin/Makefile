@@ -13,9 +13,11 @@ PKG_HASH:=ed12e1768094a7adeafc3a74ebdb8dc2201fa64c4e7e31f14cfc70378bf93790
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=license-apache license-mit
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 HOST_BUILD_DEPENDS:=rustc-dev python-setuptools-rust/host python-wheel/host
 
+PKG_BUILD_FLAGS:=no-mips16
 RUST_MIN_SIZE:=0
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
