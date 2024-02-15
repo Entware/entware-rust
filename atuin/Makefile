@@ -4,22 +4,23 @@
 
 # mips(el):
 #	error: failed to run custom build command for `ring v0.16.20`
-# armv5:
+# armv5/mips(el):
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 #	error: could not compile `sqlx-core` (lib) due to previous error
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=atuin
-PKG_VERSION:=17.2.1
+PKG_VERSION:=18.0.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ellie/atuin/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=5bad59af24317adfa1d56fce39e231c85836fb91ac3d468830f9bb0884b320ca
+PKG_HASH:=f9e4af24a78678d9d4283912561977aae7caf10b8dbcb3a468a09efa2ffcc1a3
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
