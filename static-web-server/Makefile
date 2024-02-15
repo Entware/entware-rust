@@ -8,20 +8,21 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=static-web-server
-PKG_VERSION:=2.24.2
+PKG_VERSION:=2.27.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/joseluisq/static-web-server/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=9b56a901d31b7d3892f3203dd998ac4c82d7462297ed565cddde5175a9157868
+PKG_HASH:=3e7597f91cd9e1566cf84371186855d6df0aed719b2370b10c827f38bbe1b45d
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 ring-0175 tokio-rustls-0241
+PKG_BUILD_DEPENDS += chrono-0431 ring-0177 tokio-rustls-0250
 
 define Package/static-web-server
   SECTION:=net
