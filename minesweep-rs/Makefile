@@ -5,15 +5,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=minesweep-rs
-PKG_VERSION:=6.0.50
+PKG_VERSION:=6.0.54
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/cpcloud/minesweep-rs/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=659c6e272adf10e31f449db6a8c5c8990451a5ca2a0143aca73119ecf187e1f1
+PKG_HASH:=b07161bac09838307fb2f5315b11882f2b6eb20123aab74020d1c9f158183e77
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
