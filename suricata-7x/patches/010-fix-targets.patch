@@ -22,7 +22,7 @@
  .SUFFIXES:
 --- a/configure
 +++ b/configure
-@@ -29983,8 +29983,8 @@ printf "%s\n" "yes" >&6; }
+@@ -30028,8 +30028,8 @@ printf "%s\n" "yes" >&6; }
      have_rust_vendor="no"
  
      if test "x$cross_compiling" = "xyes"; then
@@ -35,7 +35,7 @@
        else
 --- a/configure.ac
 +++ b/configure.ac
-@@ -2315,8 +2315,8 @@ fi
+@@ -2317,8 +2317,8 @@ fi
      have_rust_vendor="no"
  
      if test "x$cross_compiling" = "xyes"; then

@@ -5,12 +5,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata
-PKG_VERSION:=7.0.2
-PKG_RELEASE:=2
+PKG_VERSION:=7.0.3
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://www.openinfosecfoundation.org/download
-PKG_HASH:=b4eb604838ef99a8396bc8b7bb54cad11f2442cbd7cbb300e7f5aab19097bc4d
+PKG_HASH:=ea0742d7a98783f1af4a57661af6068bc2d850ac3eca04b3204d28ce165e35ff
+
+PKG_LICENSE:=GPL-2.0-only
+PKG_LICENSE_FILES:=COPYING LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
