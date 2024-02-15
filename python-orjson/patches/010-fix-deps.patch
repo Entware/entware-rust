@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -90,3 +90,8 @@ panic = "abort"
+@@ -87,3 +87,8 @@ panic = "abort"
  
  [profile.release.build-override]
  opt-level = 0

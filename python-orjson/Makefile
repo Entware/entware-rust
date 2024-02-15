@@ -5,14 +5,15 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=orjson
-PKG_VERSION:=3.9.9
-PKG_RELEASE:=2
+PKG_VERSION:=3.9.13
+PKG_RELEASE:=1
 
 PYPI_NAME:=orjson
-PKG_HASH:=02e693843c2959befdd82d1ebae8b05ed12d1cb821605d5f9fe9f98ca5c9fd2b
+PKG_HASH:=fc6bc65b0cf524ee042e0bc2912b9206ef242edfba7426cf95763e4af01f527a
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
