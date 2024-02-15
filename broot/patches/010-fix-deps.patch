@@ -1,9 +1,9 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
 @@ -126,3 +126,7 @@ harness = false
- # terminal-light = { path = "../terminal-light" }
- # terminal-clipboard = { path = "../terminal-clipboard" }
- # umask = { path = "../umask" }
+ # lazy-regex = { path = "../lazy-regex" }
+ # lazy-regex-proc_macros = { path = "../lazy-regex/src/proc_macros" }
+ # strict = { path = "../strict" }
 +
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.31" }
