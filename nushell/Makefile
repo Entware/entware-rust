@@ -14,6 +14,9 @@ PKG_HASH:=1d7a7cc960bb8265214a7345ea3787a5bc22dcb7099d5c5056163df025c5527d
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
+
+PKG_BUILD_FLAGS:=no-mips16
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk

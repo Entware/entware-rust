@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -183,6 +183,13 @@ bench = false
+@@ -180,6 +180,13 @@ bench = false
  # Criterion benchmarking setup
  # Run all benchmarks with `cargo bench`
  # Run individual benchmarks like `cargo bench -- <regex>` e.g. `cargo bench -- parse`
