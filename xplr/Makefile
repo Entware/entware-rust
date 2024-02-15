@@ -14,11 +14,12 @@ PKG_HASH:=c6e2b800888363c6d6101eafe585723a5bf9cc304cedff77a302c0e2a6d0a151
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0431 ratatui-0250
 
 define Package/xplr
   SECTION:=utils
