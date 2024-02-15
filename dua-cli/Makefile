@@ -5,15 +5,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dua-cli
-PKG_VERSION:=2.27.0
+PKG_VERSION:=2.28.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Byron/dua-cli/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=505f41f9628a5a305d9f713da4adbe972fdf40fb810b327a6fb5dcd3998c7bd5
+PKG_HASH:=a44691d0dae8e567951cbe4f0b187edc60d306f78e95ceed9e96b9310e6ce350
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
