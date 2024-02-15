@@ -1,6 +1,6 @@
 --- a/crates/tor-proto/Cargo.toml
 +++ b/crates/tor-proto/Cargo.toml
-@@ -56,7 +56,7 @@ asynchronous-codec = "0.7.0"
+@@ -57,7 +57,7 @@ asynchronous-codec = "0.7.0"
  bitvec = "1.0.1"
  bytes = "1"
  cipher = { version = "0.4.1", features = ["zeroize"] }
@@ -11,7 +11,7 @@
  digest = "0.10.0"
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -100,3 +100,16 @@ incremental = true
+@@ -104,3 +104,16 @@ incremental = true
  # Inherits release build settings, but adds full debug symbols.
  debug = 2
  strip = "none"
