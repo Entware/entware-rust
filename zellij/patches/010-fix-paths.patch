@@ -1,25 +1,3 @@
---- a/default-plugins/strider/src/search/search_state.rs
-+++ b/default-plugins/strider/src/search/search_state.rs
-@@ -7,7 +7,7 @@ use zellij_tile::prelude::{
-     post_message_to, FileToOpen, Key, PluginMessage,
- };
- 
--pub const CURRENT_SEARCH_TERM: &str = "/data/current_search_term";
-+pub const CURRENT_SEARCH_TERM: &str = "/data/current_search_term";
- 
- #[derive(Default)]
- pub struct SearchState {
---- a/default-plugins/strider/src/state.rs
-+++ b/default-plugins/strider/src/state.rs
-@@ -11,7 +11,7 @@ use std::{
- use zellij_tile::prelude::*;
- 
- pub const ROOT: &str = "/host";
--pub const CURRENT_SEARCH_TERM: &str = "/data/current_search_term";
-+pub const CURRENT_SEARCH_TERM: &str = "/data/current_search_term";
- 
- #[derive(Default)]
- pub struct State {
 --- a/zellij-client/src/old_config_converter/old_config.rs
 +++ b/zellij-client/src/old_config_converter/old_config.rs
 @@ -234,7 +234,7 @@ fn options_yaml_to_options_kdl(options_y
@@ -33,29 +11,15 @@
          mirror_session,
 --- a/zellij-server/src/plugins/plugin_loader.rs
 +++ b/zellij-server/src/plugins/plugin_loader.rs
-@@ -775,8 +775,8 @@ impl<'a> PluginLoader<'a> {
-         let mut wasi_env = WasiState::new("Zellij")
+@@ -776,7 +776,7 @@ impl<'a> PluginLoader<'a> {
              .env("CLICOLOR_FORCE", "1")
              .map_dir("/host", self.zellij_cwd.clone())
--            .and_then(|wasi| wasi.map_dir("/data", &self.plugin_own_data_dir))
+             .and_then(|wasi| wasi.map_dir("/data", &self.plugin_own_data_dir))
 -            .and_then(|wasi| wasi.map_dir("/tmp", ZELLIJ_TMP_DIR.as_path()))
-+            .and_then(|wasi| wasi.map_dir("/data", &self.plugin_own_data_dir))
 +            .and_then(|wasi| wasi.map_dir("/opt/tmp", ZELLIJ_TMP_DIR.as_path()))
              .and_then(|wasi| {
                  wasi.stdin(Box::new(Pipe::new()))
                      .stdout(Box::new(Pipe::new()))
---- a/zellij-server/src/pty.rs
-+++ b/zellij-server/src/pty.rs
-@@ -1398,7 +1398,7 @@ fn send_command_not_found_to_screen(
- 
- pub fn get_default_shell() -> PathBuf {
-     PathBuf::from(std::env::var("SHELL").unwrap_or_else(|_| {
--        log::warn!("Cannot read SHELL env, falling back to use /bin/sh");
--        "/bin/sh".to_string()
-+        log::warn!("Cannot read SHELL env, falling back to use /bin/sh");
-+        "/bin/sh".to_string()
-     }))
- }
 --- a/zellij-utils/src/consts.rs
 +++ b/zellij-utils/src/consts.rs
 @@ -15,8 +15,8 @@ pub const DEFAULT_SCROLL_BUFFER_SIZE: us
