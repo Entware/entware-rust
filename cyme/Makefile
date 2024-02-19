@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cyme
 PKG_VERSION:=1.6.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/tuna-f1sh/cyme/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -25,13 +25,15 @@ define Package/cyme
   CATEGORY:=Utilities
   TITLE:=List system USB buses and devices
   URL:=https://github.com/tuna-f1sh/cyme
-  DEPENDS:=+libudev-zero
+  DEPENDS:=+libudev-zero +libusb-1.0
 endef
 
 define Package/cyme/description
   List system USB buses and devices; a lib and modern cross-platform lsusb
   that attempts to maintain compatibility with, but also add new features.
 endef
+
+CARGO_ARGS += --features="udev,udev_hwdb"
 
 define Package/cyme/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
