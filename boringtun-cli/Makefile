@@ -34,6 +34,7 @@ define Package/boringtun-cli
   SUBMENU:=VPN
   TITLE:=Userspace WireGuard Implementation in Rust
   URL:=https://github.com/cloudflare/boringtun
+  DEPENDS:=@!(mips||mipsel)
 endef
 
 define Package/boringtun-cli/description
