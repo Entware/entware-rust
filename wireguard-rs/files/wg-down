@@ -1,7 +1,0 @@
-#!/bin/sh
-
-WG=wg0
-
-[ -f /opt/etc/wireguard/wg-iface ] && . /opt/etc/wireguard/wg-iface
-
-ip link del dev $WG
