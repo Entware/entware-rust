@@ -29,6 +29,7 @@ define Package/vpncloud
   SUBMENU:=VPN
   TITLE:=Peer-to-Peer VPN
   URL:=https://vpncloud.ddswd.de
+  DEPENDS:=@!(mips||mipsel)
 endef
 
 define Package/vpncloud/description
