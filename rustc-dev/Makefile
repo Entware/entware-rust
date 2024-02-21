@@ -94,8 +94,8 @@ define Host/Configure
 		echo '[target.$(RUST_HOST_TRIPLE)]'; \
 		echo 'cc = "$(HOSTCC_NOCACHE)"'; \
 		echo 'cxx = "$(HOSTCXX_NOCACHE)"'; \
-		echo 'ar = "/bin/ar"'; \
-		echo 'ranlib = "/bin/ranlib"'; \
+		echo 'ar = "ar"'; \
+		echo 'ranlib = "ranlib"'; \
 		echo 'linker = "$(HOSTCC_NOCACHE)"'; \
 		echo '[dist]'; \
 		echo 'src-tarball = false'; \
