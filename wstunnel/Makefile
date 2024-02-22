@@ -21,7 +21,8 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += ring-0175
+PKG_BUILD_DEPENDS += hickory-dns ring-0175 rustls-0219 rustls-webpki-01017
+PKG_BUILD_DEPENDS += sct-rs-071 tokio-rustls-0241
 
 define Package/wstunnel
   SECTION:=net

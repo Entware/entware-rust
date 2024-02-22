@@ -1,9 +1,24 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -63,3 +63,6 @@ codegen-units = 1
- opt-level = 3
- debug = 0
- strip = "symbols"
+@@ -55,6 +55,9 @@ tokio-fd = "0.3.0"
+ 
+ [dev-dependencies]
+ testcontainers = "0.15.0"
++# mips(be)
++ring = "=0.17.5"
++rustls = "=0.21.9"
+ 
+ [profile.release]
+ lto = "fat"
+@@ -67,3 +70,11 @@ strip = "symbols"
+ [profile.release-with-symbols]
+ inherits = "release"
+ strip = false
 +
 +[patch.crates-io]
++hickory-resolver = { path = "../hickory-dns-0.24.0/crates/resolver" }
 +ring = { path = "../ring-0.17.5" }
++rustls = { path = "../rustls-0.21.9/rustls" }
++rustls-webpki = { path = "../rustls-webpki-0.101.7" }
++sct = { path = "../sct-0.7.1" }
++tokio-rustls = { path = "../tokio-rustls-0.24.1" }
