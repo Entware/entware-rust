@@ -6,14 +6,16 @@ rust_mk_path:=$(dir $(lastword $(MAKEFILE_LIST)))
 include $(rust_mk_path)rust.mk
 
 ### cargo-build - Compile local packages and all of their dependencies.
-CARGO_COMPILE ?= 1
-
 CARGO_ARGS += -Z unstable-options
+CARGO_COMPILE ?= 1
+USE_CARGO_LOCK ?= 1
 
-define ConfigurePre/Cargo
+ifneq ($(USE_CARGO_LOCK),1)
+  define ConfigurePre/Cargo
 	@rm -f $(PKG_BUILD_DIR)/Cargo.lock
-endef
-Hooks/Configure/Pre += ConfigurePre/Cargo
+  endef
+  Hooks/Configure/Pre += ConfigurePre/Cargo
+endif
 
 define Build/Configure/Cargo
 endef
@@ -26,20 +28,23 @@ endef
 #	) >> $(PKG_BUILD_DIR)/Cargo.toml
 #endef
 
-define ConfigurePost/Cargo
+ifneq ($(USE_CARGO_LOCK),1)
+  define ConfigurePost/Cargo
 	@CARGO_HOME=$(CARGO_HOME) $(CARGO_BIN) fetch \
 		--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml
-endef
-Hooks/Configure/Post += ConfigurePost/Cargo
+  endef
+  Hooks/Configure/Post += ConfigurePost/Cargo
+endif
 
 ifeq ($(CARGO_COMPILE),1)
   define Build/Compile/Cargo
+	$(RUSTC_HOST_VARS) \
 	$(RUSTC_VARS) \
-	RUSTFLAGS="$(RUSTFLAGS)" \
 	$(CARGO_VARS) \
-	$(CARGO_BIN) build --release \
-	--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml \
-	--out-dir $(CARGO_INSTALL_ROOT)/bin \
+	$(CARGO_BIN) build \
+		--profile $(CARGO_PKG_PROFILE) \
+		--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml \
+		--out-dir $(CARGO_INSTALL_ROOT)/bin \
 	$(CARGO_ARGS)
   endef
   define MoveLibs
@@ -57,12 +62,15 @@ ifeq ($(CARGO_COMPILE),1)
   Hooks/Compile/Post += MoveLibs
 else
   define Build/Install/Cargo
+	$(RUSTC_HOST_VARS) \
 	$(RUSTC_VARS) \
-	RUSTFLAGS="$(RUSTFLAGS)" \
 	$(CARGO_VARS) \
-	$(CARGO_BIN) install --bins --no-track \
-	--path $(CARGO_BUILD_DIR) \
-	--root $(CARGO_INSTALL_ROOT) \
+	$(CARGO_BIN) install \
+		--bins \
+		--no-track \
+		--profile $(CARGO_PKG_PROFILE) \
+		--path $(CARGO_BUILD_DIR) \
+		--root $(CARGO_INSTALL_ROOT) \
 	$(CARGO_ARGS)
   endef
 endif
