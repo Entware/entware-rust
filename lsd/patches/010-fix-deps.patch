@@ -1,0 +1,29 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -33,7 +33,7 @@ terminal_size = "0.3"
+ thiserror = "1.0"
+ sys-locale = "0.3"
+ once_cell = "1.17.1"
+-chrono = { version = "0.4.19", features = ["unstable-locales"] }
++chrono = { version = "=0.4.31", features = ["unstable-locales"] }
+ chrono-humanize = "0.2"
+ unicode-width = "0.1.*"
+ lscolors = "0.16.0"
+@@ -64,6 +64,8 @@ version = "4.3.*"
+ [dev-dependencies]
+ assert_cmd = "2"
+ assert_fs = "1"
++# chrono: localtime/zoneinfo
++iana-time-zone = "=0.1.59"
+ predicates = "3"
+ tempfile = "3"
+ serial_test = "2.0"
+@@ -78,3 +79,8 @@ lto = true
+ codegen-units = 1
+ strip = true
+ debug = false
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
