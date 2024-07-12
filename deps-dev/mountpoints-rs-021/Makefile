@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2024 Entware
 
-# XXX arm/i386/mips(el) (spacedisplay-rs)
+# XXX arm/mips(el) (spacedisplay-rs)
 
 include $(TOPDIR)/rules.mk
 
@@ -33,11 +33,10 @@ define Package/mountpoints-rs-$(PKG_VERSION)/description
   mountpoints - List mount points (windows, linux, macos).
 endef
 
-# FIXME b1-b1-b1 )))
 ifneq ($(CONFIG_ARCH_64BIT),y)
   define Build/Prepare
 	$(Build/Prepare/Default)
-	patch -p1 -d $(PKG_BUILD_DIR) < ./patches-32bit/010-fix.patch || true
+	patch -p1 -d $(PKG_BUILD_DIR) < ./patches-32bit/010-fix.patch
   endef
 endif
 
