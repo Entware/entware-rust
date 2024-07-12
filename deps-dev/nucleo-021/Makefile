@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2024 Entware
 
-# XXX armv5/mips(el) (helix)
+# XXX mips(el) (helix)
 
 include $(TOPDIR)/rules.mk
 
