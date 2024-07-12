@@ -2,19 +2,19 @@
 #
 # Copyright (C) 2024 Entware
 
-# mips(el)/armv5:
+# mips(el):
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 #	error: could not compile `nucleo` (lib) due to previous error
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=helix
-PKG_VERSION:=23.10
-PKG_RELEASE:=2
+PKG_VERSION:=24.03
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/helix-editor/helix/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=a1a98b24692ba8fc648245bebc3511b27eb4edf9eb97d97d8aed7157316d01e8
+PKG_HASH:=2b6c1e4909e77c97d7acfbdc653c0790f7aa2d5f68684e2105e1b0563506da4f
 
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -22,7 +22,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 nucleo-021
+PKG_BUILD_DEPENDS += chrono-0435 nucleo-021
 
 define Package/helix
   SECTION:=utils

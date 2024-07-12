@@ -38,34 +38,34 @@
      // Internal, called by specific DAP commands when resuming
 --- a/helix-lsp/src/client.rs
 +++ b/helix-lsp/src/client.rs
-@@ -18,7 +18,7 @@ use serde_json::Value;
- use std::future::Future;
- use std::process::Stdio;
+@@ -18,7 +18,7 @@ use parking_lot::Mutex;
+ use serde::Deserialize;
+ use serde_json::Value;
  use std::sync::{
 -    atomic::{AtomicU64, Ordering},
 +    atomic::{AtomicUsize, Ordering},
      Arc,
  };
  use std::{collections::HashMap, path::PathBuf};
-@@ -48,7 +48,7 @@ pub struct Client {
+@@ -50,7 +50,7 @@ pub struct Client {
      name: String,
      _process: Child,
      server_tx: UnboundedSender<Payload>,
 -    request_counter: AtomicU64,
 +    request_counter: AtomicUsize,
      pub(crate) capabilities: OnceCell<lsp::ServerCapabilities>,
+     pub(crate) file_operation_interest: OnceLock<FileOperationsInterest>,
      config: Option<Value>,
-     root_path: std::path::PathBuf,
-@@ -230,7 +230,7 @@ impl Client {
+@@ -216,7 +216,7 @@ impl Client {
              name,
              _process: process,
              server_tx,
 -            request_counter: AtomicU64::new(0),
 +            request_counter: AtomicUsize::new(0),
              capabilities: OnceCell::new(),
+             file_operation_interest: OnceLock::new(),
              config,
-             req_timeout,
-@@ -253,7 +253,7 @@ impl Client {
+@@ -240,7 +240,7 @@ impl Client {
  
      fn next_request_id(&self) -> jsonrpc::Id {
          let id = self.request_counter.fetch_add(1, Ordering::Relaxed);

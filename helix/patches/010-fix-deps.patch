@@ -1,0 +1,21 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -38,7 +38,7 @@ package.helix-term.opt-level = 2
+ 
+ [workspace.dependencies]
+ tree-sitter = { version = "0.22" }
+-nucleo = "0.2.0"
++nucleo = "0.2.1"
+ 
+ [workspace.package]
+ version = "24.3.0"
+@@ -49,3 +49,9 @@ repository = "https://github.com/helix-e
+ homepage = "https://helix-editor.com"
+ license = "MPL-2.0"
+ rust-version = "1.70"
++
++[patch.crates-io]
++nucleo = { path = "../nucleo-0.2.1" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
