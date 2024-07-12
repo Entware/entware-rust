@@ -1,11 +1,15 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -52,3 +52,8 @@ features = ["derive"]
- version = "0.4.26"
+@@ -50,6 +50,11 @@ version = "1.0.181"
+ features = ["derive"]
+ 
+ [dependencies.chrono]
+-version = "0.4.26"
++version = "=0.4.34"
  default-features = false
  features = ["clock"]
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.34" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
