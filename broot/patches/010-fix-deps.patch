@@ -1,10 +1,19 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -126,3 +126,7 @@ harness = false
- # lazy-regex = { path = "../lazy-regex" }
+@@ -26,7 +26,7 @@ ansi_colours = "1.2"
+ base64 = "0.21"
+ bet = "1.0.3"
+ char_reader = "0.1"
+-chrono = "0.4"
++chrono = "0.4.38"
+ clap = { version = "4.4", features = ["derive", "cargo"] }
+ clap-help = "1.2.0"
+ cli-log = "2.0"
+@@ -127,3 +127,7 @@ harness = false
  # lazy-regex-proc_macros = { path = "../lazy-regex/src/proc_macros" }
  # strict = { path = "../strict" }
+ # xterm-query = { path = "../xterm-query" }
 +
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }

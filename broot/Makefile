@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=broot
-PKG_VERSION:=1.33.1
+PKG_VERSION:=1.39.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Canop/broot/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=d54f6f29caa12d1cb1e66dc83f1ed4671567c13535eecb4242b7e0210519fecc
+PKG_HASH:=69e565d7b1620dcc9401e8b415fcde84893d640541f7b534a55869b9c1cfd387
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0438
 
 define Package/broot
   SECTION:=utils
@@ -34,10 +34,6 @@ endef
 define Package/broot/description
   A better way to navigate directories.
 endef
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
 
 define Package/broot/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
