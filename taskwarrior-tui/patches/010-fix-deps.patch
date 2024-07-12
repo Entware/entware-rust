@@ -1,11 +1,20 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -63,3 +63,8 @@ lto = "off"
+@@ -16,7 +16,7 @@ categories = ["command-line-utilities"]
+ anyhow = "1.0.75"
+ better-panic = "0.3.0"
+ cassowary = "0.3.0"
+-chrono = "0.4.26"
++chrono = "=0.4.38"
+ clap = { version = "4.4.1", features = ["derive"] }
+ crossterm = { version = "0.27.0", features = ["event-stream"] }
+ dirs = "5.0.1"
+@@ -61,3 +61,8 @@ lto = "fat"
  clap = { version = "4.4.1", features = ["derive"] }
  clap_complete = "4.4.0"
  shlex = "1.1.0"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }

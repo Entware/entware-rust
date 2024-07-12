@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=taskwarrior-tui
-PKG_VERSION:=0.25.4
-PKG_RELEASE:=2
+PKG_VERSION:=0.26.3
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kdheepak/taskwarrior-tui/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=86a00c0c33f825824ac432c50e57a9bac150c3ba9e3d06e6d86f65790a99a458
+PKG_HASH:=76f053e2e3c9e71b8106e3fc3c18fd4400a98c09a8cde5972305e0eeaecc08d3
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0438
 
 define Package/taskwarrior-tui
   SECTION:=utils
@@ -29,7 +29,8 @@ define Package/taskwarrior-tui
 endef
 
 define Package/taskwarrior-tui/description
-  A Terminal User Interface (TUI) for Taskwarrior that you didn't know you wanted.
+  A Terminal User Interface (TUI) for Taskwarrior that you didn't
+  know you wanted.
 endef
 
 define Package/taskwarrior-tui/install
