@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fd
-PKG_VERSION:=9.0.0
+PKG_VERSION:=10.1.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/fd/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=306d7662994e06e23d25587246fa3fb1f528579e42a84f5128e75feec635a370
+PKG_HASH:=ee4b2403388344ff60125c79ff25b7895a170e7960f243ba2b5d51d2c3712d97
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0438
 
 define Package/fd
   SECTION:=utils
@@ -31,10 +31,6 @@ define Package/fd/description
   fd is a program to find entries in your filesystem.
   It is a simple, fast and user-friendly alternative to 'find'.
 endef
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
 
 define Package/fd/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
