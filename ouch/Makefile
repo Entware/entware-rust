@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ouch
 PKG_VERSION:=0.5.1
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ouch-org/ouch/tar.gz/refs/tags/$(PKG_VERSION)?
@@ -14,8 +14,6 @@ PKG_HASH:=46cc2b14f53de2f706436df59300eb90c5a58f08ac8c738fd976fcb8ec0cd335
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
-
-RUST_MIN_SIZE:=0
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
@@ -32,8 +30,8 @@ define Package/ouch
 endef
 
 define Package/ouch/description
-  A command-line utility for easily compressing
-  and decompressing files and directories.
+  A command-line utility for easily compressing and decompressing
+  files and directories.
 endef
 
 RUSTFLAGS += -l dylib=zstd

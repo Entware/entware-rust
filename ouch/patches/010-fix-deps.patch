@@ -1,6 +1,17 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -63,3 +63,8 @@ lto = true
+@@ -36,6 +36,10 @@ xz2 = "0.1.7"
+ zip = { version = "0.6.6", default-features = false, features = ["time"] }
+ zstd = { version = "0.13.0", default-features = false }
+ 
++# localtime/zoneinfo
++chrono = "0.4.31"
++iana-time-zone = "0.1.59"
++
+ [target.'cfg(not(unix))'.dependencies]
+ is_executable = "1.0.1"
+ 
+@@ -63,3 +67,8 @@ lto = true
  codegen-units = 1
  opt-level = 3
  strip = true
