@@ -1,6 +1,21 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -31,3 +31,8 @@ ctrlc = "3"
+@@ -15,7 +15,7 @@ derive_more = "0.99"
+ serde = { version = "1", features = ["derive", "rc"] }
+ serde_yaml = "0.9"
+ serde_json = { version = "1", features = ["raw_value"] }
+-serde-aux = "4"
++serde-aux = "4.4.0"
+ humantime-serde = "1.1.1"
+ walkdir = "2.3.2"
+ handlebars = "4.2.2"
+@@ -28,6 +28,14 @@ structopt-flags = "0.3"
+ keepcalm = { version = "0.1.5", features = ["serde"] }
+ ctrlc = "3"
+ 
++# error[E0635]: unknown feature `proc_macro_span_shrink`
++proc-macro2 = "1.0.57"
++
  [profile.release]
  codegen-units = 1
  incremental = false
