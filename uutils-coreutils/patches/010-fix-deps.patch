@@ -1,11 +1,20 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -532,3 +532,8 @@ inherits = "release"
+@@ -264,7 +264,7 @@ binary-heap-plus = "0.5.0"
+ bstr = "1.9.1"
+ bytecount = "0.6.8"
+ byteorder = "1.5.0"
+-chrono = { version = "0.4.38", default-features = false, features = [
++chrono = { version = "=0.4.38", default-features = false, features = [
+   "std",
+   "alloc",
+   "clock",
+@@ -548,3 +548,8 @@ inherits = "release"
  opt-level = "z"
  panic = "abort"
  strip = true
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../../chrono-0.4.33" }
-+iana-time-zone = { path = "../../iana-time-zone-0.1.59" }
++chrono = { path = "../../chrono-0.4.38" }
++iana-time-zone = { path = "../../iana-time-zone-0.1.60" }
