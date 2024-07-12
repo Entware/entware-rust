@@ -5,15 +5,15 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-from-parquet
-PKG_VERSION:=0.2.0
+PKG_VERSION:=0.5.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-01-15
-PKG_SOURCE_VERSION:=0c281df0e61c07985ef6c1f425247e4cbee16821
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
+PKG_SOURCE_DATE:=2024-04-08
+PKG_SOURCE_VERSION:=1b701c5fd8295412f45ddb941b2b59c8e66cf26a
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.zst
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_from_parquet
-PKG_MIRROR_HASH:=5dc97cfa5f5fdafdaf5508abfc8682b9e58076f139ba145e9d48da78bf1b6244
+PKG_MIRROR_HASH:=55460436345ee120f78e9351c2e10253474a4f410774cfac343bb06e63360602
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -21,7 +21,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0435
 
 define Package/nu-plugin-from-parquet
   SECTION:=utils
@@ -33,7 +33,8 @@ define Package/nu-plugin-from-parquet
 endef
 
 define Package/nu-plugin-from-parquet/description
-  This is a nushell plugin to parse parquet data files into nu structured types.
+  This is a nushell plugin to parse parquet data files into nu
+  structured types.
 endef
 
 define Package/nu-plugin-from-parquet/install
