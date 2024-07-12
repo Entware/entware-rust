@@ -9,30 +9,17 @@
      );
      push_option!(
          mirror_session,
---- a/zellij-server/src/plugins/plugin_loader.rs
-+++ b/zellij-server/src/plugins/plugin_loader.rs
-@@ -776,7 +776,7 @@ impl<'a> PluginLoader<'a> {
-             .env("CLICOLOR_FORCE", "1")
-             .map_dir("/host", self.zellij_cwd.clone())
-             .and_then(|wasi| wasi.map_dir("/data", &self.plugin_own_data_dir))
--            .and_then(|wasi| wasi.map_dir("/tmp", ZELLIJ_TMP_DIR.as_path()))
-+            .and_then(|wasi| wasi.map_dir("/opt/tmp", ZELLIJ_TMP_DIR.as_path()))
-             .and_then(|wasi| {
-                 wasi.stdin(Box::new(Pipe::new()))
-                     .stdout(Box::new(Pipe::new()))
 --- a/zellij-utils/src/consts.rs
 +++ b/zellij-utils/src/consts.rs
-@@ -15,8 +15,8 @@ pub const DEFAULT_SCROLL_BUFFER_SIZE: us
+@@ -15,7 +15,7 @@ pub const DEFAULT_SCROLL_BUFFER_SIZE: us
  pub static SCROLL_BUFFER_SIZE: OnceCell<usize> = OnceCell::new();
  pub static DEBUG_MODE: OnceCell<bool> = OnceCell::new();
  
 -pub const SYSTEM_DEFAULT_CONFIG_DIR: &str = "/etc/zellij";
--pub const SYSTEM_DEFAULT_DATA_DIR_PREFIX: &str = system_default_data_dir();
 +pub const SYSTEM_DEFAULT_CONFIG_DIR: &str = "/opt/etc/zellij";
-+pub const SYSTEM_DEFAULT_DATA_DIR_PREFIX: &str = "/opt";
+ pub const SYSTEM_DEFAULT_DATA_DIR_PREFIX: &str = system_default_data_dir();
  
  pub static ZELLIJ_DEFAULT_THEMES: Dir = include_dir!("$CARGO_MANIFEST_DIR/assets/themes");
- 
 @@ -36,7 +36,7 @@ const fn system_default_data_dir() -> &'
      if let Some(data_dir) = std::option_env!("PREFIX") {
          data_dir

@@ -1,6 +1,6 @@
 --- a/zellij-utils/assets/config/default.kdl
 +++ b/zellij-utils/assets/config/default.kdl
-@@ -327,7 +327,7 @@ plugins {
+@@ -335,7 +335,7 @@ plugins {
  // Path to the default editor to use to edit pane scrollbuffer
  // Default: $EDITOR or $VISUAL
  //
@@ -9,7 +9,7 @@
  
  // When attaching to an existing session with other users,
  // should the session be mirrored (true)
-@@ -338,11 +338,11 @@ plugins {
+@@ -346,11 +346,11 @@ plugins {
  
  // The folder in which Zellij will look for layouts
  //
