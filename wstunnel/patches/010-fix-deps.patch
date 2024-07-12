@@ -1,24 +1,19 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -55,6 +55,9 @@ tokio-fd = "0.3.0"
+@@ -66,6 +66,7 @@ tokio-fd = "0.3.0"
  
  [dev-dependencies]
- testcontainers = "0.15.0"
-+# mips(be)
-+ring = "=0.17.5"
-+rustls = "=0.21.9"
+ testcontainers = "0.17.0"
++chrono = "=0.4.38"
  
  [profile.release]
  lto = "fat"
-@@ -67,3 +70,11 @@ strip = "symbols"
+@@ -78,3 +79,8 @@ strip = "symbols"
  [profile.release-with-symbols]
  inherits = "release"
  strip = false
 +
 +[patch.crates-io]
-+hickory-resolver = { path = "../hickory-dns-0.24.0/crates/resolver" }
-+ring = { path = "../ring-0.17.5" }
-+rustls = { path = "../rustls-0.21.9/rustls" }
-+rustls-webpki = { path = "../rustls-webpki-0.101.7" }
-+sct = { path = "../sct-0.7.1" }
-+tokio-rustls = { path = "../tokio-rustls-0.24.1" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
