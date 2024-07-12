@@ -32,7 +32,7 @@ define Package/diskus/description
   the current directory. It is a parallelized version of 'du -sh'.
 endef
 
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
+ifneq ($(CONFIG_ARCH_64BIT),y)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
 
