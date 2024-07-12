@@ -1,26 +1,16 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -53,7 +53,7 @@ async-std = "1.6"
- tokio = "1.21"
- tokio-native-tls = "0.3.0"
- tokio-openssl = "0.6.0"
--tokio-rustls = "0.24.0"
-+tokio-rustls = "0.24.1"
- tokio-util = "0.7.9"
- parking_lot = "0.12"
- 
 @@ -61,15 +61,15 @@ parking_lot = "0.12"
  # ssl
  native-tls = "0.2"
  openssl = "0.10.55"
 -rustls = "0.21.8"
-+rustls = "0.21.9"
++ring = "0.17.8"
++rustls = "0.21.10"
  rustls-native-certs = "0.6.3"
  rustls-pemfile = "1.0.0"
--webpki-roots = "0.25.0"
+ webpki-roots = "0.25.0"
 -ring = "0.17"
-+webpki-roots = "0.25.3"
-+ring = "0.17.5"
  
  
  # net proto
@@ -29,12 +19,34 @@
  h2 = "0.3.0"
  h3 = "0.0.3"
  h3-quinn = "0.0.4"
-@@ -109,3 +109,8 @@ wasm-bindgen-crate = { version = "0.2.58
+@@ -109,3 +109,6 @@ wasm-bindgen-crate = { version = "0.2.58
  # tokio = { path = "../tokio/tokio" }
  # mio = { git = "https://github.com/tokio-rs/mio.git" }
  # h2 = { git = "https://github.com/hyperium/h2.git" }
++
++# mips/mipsel: error: failed to run custom build command for `ring v0.16.20`
 +quinn = { path = "../quinn-0.10.4/quinn" }
-+ring = { path = "../ring-0.17.5" }
-+rustls = { path = "../rustls-0.21.9/rustls" }
-+tokio-rustls = { path = "../tokio-rustls-0.24.1" }
-+webpki-roots = { path = "../webpki-roots-0.25.3" }
+--- a/crates/proto/Cargo.toml
++++ b/crates/proto/Cargo.toml
+@@ -144,6 +144,9 @@ tracing-subscriber = { workspace = true,
+     "env-filter",
+ ] }
+ 
++# error[E0635]: unknown feature `stdsimd`
++ahash = "0.8.11"
++
+ [package.metadata.docs.rs]
+ all-features = true
+ default-target = "x86_64-unknown-linux-gnu"
+--- a/crates/server/Cargo.toml
++++ b/crates/server/Cargo.toml
+@@ -157,6 +157,9 @@ tracing-subscriber = { workspace = true,
+     "env-filter",
+ ] }
+ 
++# error[E0635]: unknown feature `stdsimd`
++ahash = "0.8.11"
++
+ [package.metadata.docs.rs]
+ all-features = true
+ default-target = "x86_64-unknown-linux-gnu"
