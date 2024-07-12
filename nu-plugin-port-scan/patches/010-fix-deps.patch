@@ -1,23 +1,29 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -1,9 +1,6 @@
+@@ -1,9 +1,13 @@
  [dependencies]
--nu-plugin = "0.89.0"
--
+-nu-plugin = "0.92.1"
++nu-plugin = { path = "../nushell-0.92.2/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.92.2/crates/nu-protocol", features = ["plugin"] }
+ 
 -[dependencies.nu-protocol]
 -features = ["plugin"]
--version = "0.89.0"
-+nu-plugin = { path = "../nushell-0.89.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.89.0/crates/nu-protocol", features = ["plugin"] }
+-version = "0.92.1"
++
++[dev-dependencies]
++# warning: Patch `chrono v0.4.35 (.../chrono-0.4.35)` was not used in the crate graph.
++chrono = "=0.4.35"
++# error[E0635]: unknown feature `stdsimd`
++ahash = "0.8.11"
  
  [package]
  authors = ["Motalleb Fallahnezhad <fmotalleb@gmail.com>"]
-@@ -16,3 +13,8 @@ name = "nu_plugin_port_scan"
+@@ -16,3 +20,8 @@ name = "nu_plugin_port_scan"
  readme = "README.md"
  repository = "https://github.com/FMotalleb/nu_plugin_port_scan"
- version = "1.0.9"
+ version = "1.1.0"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
