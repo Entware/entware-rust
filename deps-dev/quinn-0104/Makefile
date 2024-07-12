@@ -2,13 +2,13 @@
 #
 # Copyright (C) 2024 Entware
 
-# XXX mips(el) (qtun)
+# XXX mips(el) (hickory-dns, leaf, nu-plugin-dns, rustdesk-server, qtun)
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=quinn
 PKG_VERSION:=0.10.4
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/quinn-rs/quinn/tar.gz/refs/tags/$(PKG_VERSION)?
@@ -19,8 +19,6 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 include $(INCLUDE_DIR)/package.mk
 include ../../rustc-dev/cargo.mk
-
-PKG_BUILD_DEPENDS += rcgen-0113 ring-0175 rustls-0219
 
 define Package/quinn-$(PKG_VERSION)
   SECTION:=devel
