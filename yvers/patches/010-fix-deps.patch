@@ -1,7 +1,21 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -28,3 +28,8 @@ uom = "0.34.0"
+@@ -9,7 +9,7 @@ edition = "2021"
+ [dependencies]
+ battery = "0.7.5"
+ better-panic = "0.2.0"
+-chrono = "0.4.11"
++chrono = "0.4.31"
+ crossbeam-channel = "0.4.2"
+ crossterm = "0.17.4"
+ ctrlc = { version = "3.1.4", features = ["termination"] }
+@@ -26,5 +26,13 @@ structopt = "0.3.14"
+ tui = { version = "0.9.2", default-features = false, features = ["crossterm"] }
+ uom = "0.34.0"
  
++# error[E0635]: unknown feature `proc_macro_span_shrink`
++proc-macro2 = "1.0.57"
++
  [target.'cfg(target_os = "macos")'.dependencies]
  sysinfo = "0.14.1"
 +
