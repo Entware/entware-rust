@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2024 Entware
 
-# XXX armv5/mips(el) (rustdesk-server)
+# XXX mips(el) (rustdesk-server)
 
 include $(TOPDIR)/rules.mk
 
@@ -14,7 +14,7 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2022-06-14
 PKG_SOURCE_VERSION:=8d1851d967b1014eb263bae23053a0e513431a9f
 PKG_SOURCE_URL:=https://github.com/open-trade/async-speed-limit
-PKG_MIRROR_HASH:=404b96d60ac5cc730c53ec286008dc87343996ca50b686a20a97055615814aa8
+PKG_MIRROR_HASH:=261404fa9293d92e3ae7c382450c3bc1372d3186e2087078c01ded4284cc684f
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-Apache LICENSE-MIT
