@@ -15,6 +15,8 @@ PKG_HASH:=82387d38727bac7fcdb080970e84b36de80bfe7923ce83f993a77d9ac7847858
 PKG_LICENSE:=EUPL-1.2
 PKG_LICENSE_FILES:=LICENSE
 
+USE_CARGO_LOCK:=0
+
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
