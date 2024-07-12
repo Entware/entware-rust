@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=procs
-PKG_VERSION:=0.14.4
+PKG_VERSION:=0.14.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/dalance/procs/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=77c5f5d3bdfc9cef870732500ef58c203a1464f924b12f79c7d9e301b4dd5b16
+PKG_HASH:=539b88565c775a106063da5cc5148cfdc7e010534f3dbc90cb8f6317d51ca96b
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0435
 
 define Package/procs
   SECTION:=utils
@@ -36,9 +36,8 @@ define Package/procs/conffiles
 /opt/etc/procs/procs.toml
 endef
 
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
+# features docker
+CARGO_ARGS += --no-default-features
 
 define Package/procs/install
 	$(INSTALL_DIR) $(1)/opt/etc/procs

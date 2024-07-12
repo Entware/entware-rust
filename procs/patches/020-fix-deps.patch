@@ -1,11 +1,11 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -90,3 +90,8 @@ procs = { path = "/usr/bin/procs" }
+@@ -88,3 +88,8 @@ procs = { path = "/usr/bin/procs" }
  [profile.release]
  lto = true
  codegen-units = 1
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
