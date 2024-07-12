@@ -1,8 +1,19 @@
+--- a/spider/Cargo.toml
++++ b/spider/Cargo.toml
+@@ -58,7 +58,7 @@ chromiumoxide = { version = "0.6.0", opt
+     "bytes",
+ ], default-features = false }
+ sitemap = { version = "0.4.1", optional = true }
+-chrono = { version = "0.4", optional = true }
++chrono = { version = "=0.4.38", optional = true }
+ cron = { version = "0.12.0", optional = true }
+ async-trait = { version = "0.1.75", optional = true }
+ napi = { version = "2", features = [
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -8,4 +8,9 @@ members = [
-     "benches",
-     "tests",
+@@ -7,4 +7,9 @@ members = [
+     "examples",
+     "benches"
  ]
 -resolver = "2"
 \ No newline at end of file
@@ -10,5 +21,5 @@
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
