@@ -1,13 +1,11 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -91,4 +91,9 @@ strip = true
- 
+@@ -92,3 +92,8 @@ strip = true
  [features]
- 
--
+ #default = ["vendored-lua"]
+ #vendored-lua = ["mlua/vendored"]
++
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
-+# error[E0308]: mismatched types
-+ratatui = { path = "../ratatui-0.25.0" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
