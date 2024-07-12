@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=digs
-PKG_VERSION:=0.3.1
-PKG_RELEASE:=3
+PKG_VERSION:=0.4.2
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/BiznetGIO/digs/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=6bb6f9738cba2ee219257f9e3cb3f42becb562536632c544a994f4e840269681
+PKG_HASH:=f1d3c65d268c6a74dfb3beadb14cd04c7fb51a26ba0ad779c38c3b61e6fc68e9
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
@@ -26,19 +26,19 @@ define Package/digs
 endef
 
 define Package/digs/description
-  digs is a DNS command-line client that able to query many DNS servers at once.
+  digs is a DNS command-line client that able to query many DNS
+  servers at once.
 endef
 
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
+define Package/digs/conffiles
+/opt/etc/digs.toml
+endef
 
 define Package/digs/install
+	$(INSTALL_DIR) $(1)/opt/etc
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/tests/fixture/digs.toml $(1)/opt/etc
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/digs $(1)/opt/usr/bin
-
-	$(INSTALL_DIR) $(1)/opt/usr/share/digs
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/docs/digs.example.toml $(1)/opt/usr/share/digs
 endef
 
 $(eval $(call BuildPackage,digs))
