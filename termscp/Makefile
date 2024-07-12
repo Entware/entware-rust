@@ -2,18 +2,15 @@
 #
 # Copyright (C) 2024 Entware
 
-# mips(el):
-#	error: failed to run custom build command for `ring v0.16.20`
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=termscp
-PKG_VERSION:=0.12.3
-PKG_RELEASE:=2
+PKG_VERSION:=0.13.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/veeso/termscp/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=4c28d0c4b5efdf08d3f486df531b0a0c824e44d7885b3f2a9b142e7f632b3211
+PKG_HASH:=26167374d619ced9fad84382dbdffbec861a36a20224b4ecdc955e732881e367
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -37,24 +34,17 @@ define Package/termscp/description
   and explorer with support for SCP/SFTP/FTP/S3.
 endef
 
-# FIXME
+# all: samba4-dev
 #	error: failed to run custom build command for `pavao v0.2.3`
 #	error: could not find system library 'smbclient' required by the 'pavao' crate
 CARGO_ARGS += --no-default-features --features with-keyring
 
-# FIXME
-#	error: failed to run custom build command for `openssl-sys v0.9.87`
+# error: failed to run custom build command for `openssl-sys v0.9.87`
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
-# FIXME
-# i386/x86_64:
-#	undefined reference to `__stack_chk_guard'
-ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+# x86_64: undefined reference to `__stack_chk_guard'
+ifeq ($(CONFIG_x86_64),y)
 RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
-endif
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
 
 define Package/termscp/install
