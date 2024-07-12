@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=kmon
-PKG_VERSION:=1.6.4
+PKG_VERSION:=1.6.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/orhun/kmon/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=571bc6d7ecc22444025778fd4b95bfdcb554a42b919547158fc29cd0eb2dd4e5
+PKG_HASH:=3e2c71cce29c1145187ac69de47e95e3125336c5df972ebdaeb6e48224202a34
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
