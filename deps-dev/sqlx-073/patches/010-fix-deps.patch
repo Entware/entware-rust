@@ -1,27 +1,62 @@
+--- a/sqlx-bench/Cargo.toml
++++ b/sqlx-bench/Cargo.toml
+@@ -31,7 +31,7 @@ dotenvy = "0.15.0"
+ once_cell = "1.4"
+ sqlx = { workspace = true, default-features = false, features = ["macros"] }
+ 
+-chrono = "0.4.19"
++chrono = "0.4.31"
+ 
+ [[bench]]
+ name = "pg_pool"
+--- a/sqlx-cli/Cargo.toml
++++ b/sqlx-cli/Cargo.toml
+@@ -35,7 +35,7 @@ sqlx = { workspace = true, default-featu
+ futures = "0.3.19"
+ clap = { version = "4.3.10", features = ["derive", "env"] }
+ clap_complete = { version = "4.3.1", optional = true }
+-chrono = { version = "0.4.19", default-features = false, features = ["clock"] }
++chrono = { version = "0.4.31", default-features = false, features = ["clock"] }
+ anyhow = "1.0.52"
+ url = { version = "2.2.2", default-features = false }
+ async-trait = "0.1.52"
 --- a/sqlx-core/Cargo.toml
 +++ b/sqlx-core/Cargo.toml
-@@ -36,9 +36,9 @@ tokio = { workspace = true, optional = t
+@@ -36,7 +36,7 @@ tokio = { workspace = true, optional = t
  # TLS
  native-tls = { version = "0.2.10", optional = true }
  
 -rustls = { version = "0.21.7", default-features = false, features = ["dangerous_configuration", "tls12"], optional = true }
 +rustls = { version = "0.21.9", default-features = false, features = ["dangerous_configuration", "tls12"], optional = true }
  rustls-pemfile = { version = "1.0", optional = true }
--webpki-roots = { version = "0.25", optional = true }
-+webpki-roots = { version = "0.25.3", optional = true }
+ webpki-roots = { version = "0.25", optional = true }
  
- # Type Integrations
- bit-vec = { workspace = true, optional = true }
+@@ -56,7 +56,7 @@ atoi = "2.0"
+ 
+ bytes = "1.1.0"
+ byteorder = { version = "1.4.3", default-features = false, features = ["std"] }
+-chrono = { version = "0.4.19", default-features = false, features = ["clock"], optional = true }
++chrono = { version = "0.4.31", default-features = false, features = ["clock"], optional = true }
+ crc = { version = "3", optional = true }
+ crossbeam-queue = "0.3.2"
+ digest = { version = "0.10.0", default-features = false, optional = true, features = ["std"] }
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -345,3 +345,10 @@ required-features = ["postgres", "macros
+@@ -130,7 +130,7 @@ sqlx = { version = "=0.7.3", path = ".",
+ # These are optional unless enabled in a workspace crate.
+ bigdecimal = "0.3.0"
+ bit-vec = "0.6.3"
+-chrono = { version = "0.4.22", default-features = false }
++chrono = { version = "0.4.31", default-features = false }
+ ipnetwork = "0.20.0"
+ mac_address = "1.1.5"
+ rust_decimal = "1.26.1"
+@@ -345,3 +345,8 @@ required-features = ["postgres", "macros
  name = "postgres-migrate"
  path = "tests/postgres/migrate.rs"
  required-features = ["postgres", "macros", "migrate"]
 +
 +[patch.crates-io]
-+rustls = { path = "../rustls-0.21.9/rustls" }
-+webpki-roots = { path = "../webpki-roots-0.25.3" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.31" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.59" }
