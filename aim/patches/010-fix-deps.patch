@@ -1,28 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -43,7 +43,7 @@ netrc = "0.4.1"
- openssl = { version = "0.10.57", features = ["vendored"] }
- question = "0.2.2"
- regex = "1.9.5"
--reqwest = { version = "0.11.20", features = ["stream"] }
-+reqwest = { version = "0.11.21", features = ["stream"] }
- rust-s3 = { version = "0.33.0", features = ["blocking", "with-tokio"] }
- self_update = { version = "0.38.0", features = ["archive-tar", "compression-flate2"] }
- sha2 = "0.10.7"
-@@ -55,7 +55,15 @@ tokio-util = {version="0.7.8", features
- untildify = "0.1.1"
- url-parse = "1.0.7"
- uuid = { version = "1.4", features = ["v4"] }
--warpy = "0.3.28"
-+warpy = "0.3.35"
+@@ -58,4 +58,11 @@ uuid = { version = "1.4", features = ["v
+ warpy = "0.3.28"
  
  [dev-dependencies]
++# localtime/zoneinfo
++chrono = "0.4.35"
  serial_test = "2.0.0"
 +
 +[patch.crates-io]
-+rcgen = { path = "../rcgen-0.11.3/rcgen" }
-+reqwest = { path = "../reqwest-0.11.21" }
-+ring = { path = "../ring-0.17.5" }
-+warpy = { path = "../warpy-0.3.35" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }

@@ -2,14 +2,11 @@
 #
 # Copyright (C) 2024 Entware
 
-# mips(el):
-#	error: failed to run custom build command for `ring v0.16.20`
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=aim
 PKG_VERSION:=1.8.5
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/mihaigalos/aim/tar.gz/refs/tags/$(PKG_VERSION)?
@@ -18,10 +15,12 @@ PKG_HASH:=d27327538d4526e944400d3c425d7c4298725b60ddd1ca23d678f0dd3009b149
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
 
+USE_CARGO_LOCK:=0
+
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 rcgen-0113 reqwest-01121 ring-0175 warpy-0335
+PKG_BUILD_DEPENDS += chrono-0435
 
 define Package/aim
   SECTION:=net
@@ -36,14 +35,11 @@ define Package/aim/description
   A command line download/upload tool with resume.
 endef
 
-# FIXME
-#	error: failed to run custom build command for `openssl-sys v0.9.87`
+# error: failed to run custom build command for `openssl-sys v0.9.87`
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
-# FIXME
-# i386/x86_64:
-#	undefined reference to `__stack_chk_guard'
-ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+# x86_64: undefined reference to `__stack_chk_guard'
+ifeq ($(CONFIG_x86_64),y)
 RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 
