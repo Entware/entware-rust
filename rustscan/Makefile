@@ -2,18 +2,15 @@
 #
 # Copyright (C) 2024 Entware
 
-# mips(el):
-#	error: failed to run custom build command for `ring v0.16.20`
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustscan
-PKG_VERSION:=2.1.1
-PKG_RELEASE:=3
+PKG_VERSION:=2.3.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/RustScan/RustScan/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=51244a5bde278b25de030bd91e4ebe1d4b87269b2d0f7f601565caef4fb5749a
+PKG_HASH:=94bec6a3e737963c084fd2e0853689cd0de06ece2588641fddbea7cf249bf414
 
 PKG_LICENSE:=GPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE
@@ -21,7 +18,6 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += ring-0175 trust-dns
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/rustscan
@@ -36,15 +32,9 @@ define Package/rustscan/description
   The Modern Port Scanner.
 endef
 
-# FIXME
-# i386/x86_64:
-#	undefined reference to `__stack_chk_guard'
-ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+# x86_64: undefined reference to `__stack_chk_guard'
+ifeq ($(CONFIG_x86_64),y)
 RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
-endif
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
 
 define Package/rustscan/install
