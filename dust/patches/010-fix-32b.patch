@@ -1,6 +1,6 @@
 --- a/src/dir_walker.rs
 +++ b/src/dir_walker.rs
-@@ -168,7 +168,7 @@ fn walk(dir: PathBuf, walk_data: &WalkDa
+@@ -171,7 +171,7 @@ fn walk(dir: PathBuf, walk_data: &WalkDa
  
                                      prog_data.num_files.fetch_add(1, ORDERING);
                                      if let Some(ref file) = node {
@@ -29,20 +29,20 @@
      pub state: AtomicU8,
      pub current_path: ThreadStringWrapper,
  }
-@@ -79,14 +79,14 @@ pub struct RuntimeErrors {
+@@ -80,14 +80,14 @@ pub struct RuntimeErrors {
  
- fn format_preparing_str(prog_char: char, data: &PAtomicInfo, is_iso: bool) -> String {
+ fn format_preparing_str(prog_char: char, data: &PAtomicInfo, output_display: &str) -> String {
      let path_in = data.current_path.get();
--    let size = human_readable_number(data.total_file_size.load(ORDERING), is_iso);
-+    let size = human_readable_number(data.total_file_size.load(ORDERING).try_into().unwrap(), is_iso);
+-    let size = human_readable_number(data.total_file_size.load(ORDERING), output_display);
++    let size = human_readable_number(data.total_file_size.load(ORDERING).try_into().unwrap(), output_display);
      format!("Preparing: {path_in} {size} ... {prog_char}")
  }
  
- fn format_indexing_str(prog_char: char, data: &PAtomicInfo, is_iso: bool) -> String {
+ fn format_indexing_str(prog_char: char, data: &PAtomicInfo, output_display: &str) -> String {
      let path_in = data.current_path.get();
      let file_count = data.num_files.load(ORDERING);
--    let size = human_readable_number(data.total_file_size.load(ORDERING), is_iso);
-+    let size = human_readable_number(data.total_file_size.load(ORDERING).try_into().unwrap(), is_iso);
+-    let size = human_readable_number(data.total_file_size.load(ORDERING), output_display);
++    let size = human_readable_number(data.total_file_size.load(ORDERING).try_into().unwrap(), output_display);
      let file_str = format!("{file_count} files, {size}");
      format!("Indexing: {path_in} {file_str} ... {prog_char}")
  }
