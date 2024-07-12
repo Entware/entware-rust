@@ -1,6 +1,15 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -58,3 +58,8 @@ features = []
+@@ -20,7 +20,7 @@ bat = { version = "0.24.0", default-feat
+     "paging",
+     "regex-onig",
+ ] }
+-chrono = "0.4.26"
++chrono = "0.4.31"
+ chrono-humanize = "0.2.2"
+ ansi_colours = "1.2.1"
+ ansi_term = "0.12.1"
+@@ -69,3 +69,8 @@ features = []
  
  [profile.test]
  opt-level = 2
