@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dua-cli
-PKG_VERSION:=2.28.0
+PKG_VERSION:=2.29.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Byron/dua-cli/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=a44691d0dae8e567951cbe4f0b187edc60d306f78e95ceed9e96b9310e6ce350
+PKG_HASH:=af58bfc5146b296ced1ed711b0bbd21bce731a69fb6bea6622e6acfbe180a91a
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0438
 
 define Package/dua-cli
   SECTION:=utils
