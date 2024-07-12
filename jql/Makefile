@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=jql
-PKG_VERSION:=7.1.3
+PKG_VERSION:=7.1.13
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/yamafaktory/jql/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
-PKG_HASH:=994e05190e9e215a6f5b5e78ca76ae8695e904e7619b6d15ad9c1417fbb82467
+PKG_HASH:=eb558535914ea28ab39761c0a38f22e46e6a24c2f82d2a930cf003e413c7458d
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENCE-APACHE LICENCE-MIT
@@ -31,8 +31,8 @@ define Package/jql
 endef
 
 define Package/jql/description
-  jql - JSON Query Language - is a fast and simple
-  command-line tool to manipulate JSON data.
+  jql - JSON Query Language - is a fast and simple command-line tool
+  to manipulate JSON data.
 endef
 
 define Package/jql/install
