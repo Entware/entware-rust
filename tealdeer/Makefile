@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tealdeer
 PKG_VERSION:=1.6.1
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/dbrgn/tealdeer/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -17,8 +17,6 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
-
-PKG_BUILD_DEPENDS += reqwest-01121 ring-0175
 
 define Package/tealdeer
   SECTION:=utils
@@ -33,14 +31,12 @@ define Package/tealdeer/description
   Full featured offline client with caching support.
 endef
 
-# FIXME
-# i386/x86_64:
-#	undefined reference to `__stack_chk_guard'
-ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+# x86_64: undefined reference to `__stack_chk_guard'
+ifeq ($(CONFIG_x86_64),y)
 RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
+ifneq ($(CONFIG_ARCH_64BIT),y)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
 
