@@ -1,21 +1,11 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -24,7 +24,7 @@ crossterm = { version = "0.22.0", featur
- # Extension of futures for async computation
- futures = "0.3"
- # HTTP client
--reqwest = { version = "0.11", default-features = false, features = ["blocking", "json", "rustls-tls"] }
-+reqwest = { version = "0.11.21", default-features = false, features = ["blocking", "json", "native-tls"] }
- # Decerilization of responses
- serde = { version = "1.0", features = ["derive"] }
- # Decerilization of JSON responses
-@@ -35,3 +35,9 @@ semver = "1.0"
+@@ -35,3 +35,8 @@ semver = "1.0"
  tokio = { version = "1", features = ["full"] }
  # Terminal UI library
  tui = { package = "ratatui", version = "0.20.1" }
 +
 +[patch.crates-io]
-+reqwest = { path = "../reqwest-0.11.21" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.31" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.59" }
