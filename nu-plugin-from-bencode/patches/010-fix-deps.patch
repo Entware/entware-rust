@@ -4,13 +4,13 @@
  rust-version = "1.70.0"
  
  [dependencies]
--nu-plugin = "0.89.0"
--nu-protocol = "0.89.0"
-+nu-plugin = { path = "../nushell-0.89.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.89.0/crates/nu-protocol" }
+-nu-plugin = "0.90"
+-nu-protocol = "0.90"
++nu-plugin = { path = "../nushell-0.92.2/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.92.2/crates/nu-protocol" }
  bt_bencode = { version = "0.8", default-features = false, features = ["alloc"] }
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
