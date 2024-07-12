@@ -2,13 +2,13 @@
 #
 # Copyright (C) 2024 Entware
 
-# XXX mips(el) (qtun)
+# XXX mips(el) (rustdesk-server)
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=jsonwebtoken
 PKG_VERSION:=9.1.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Keats/jsonwebtoken/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -19,8 +19,6 @@ PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 include ../../rustc-dev/cargo.mk
-
-PKG_BUILD_DEPENDS += ring-0175
 
 define Package/jsonwebtoken-$(PKG_VERSION)
   SECTION:=devel
