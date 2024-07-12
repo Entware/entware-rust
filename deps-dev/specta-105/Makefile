@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2024 Entware
 
-# XXX armv5/mips(el) (nu-plugin-file)
+# XXX mips(el) (nu-plugin-file)
 
 include $(TOPDIR)/rules.mk
 
@@ -35,11 +35,10 @@ define Package/specta-$(PKG_VERSION)/description
   Easily export your Rust types to other languages.
 endef
 
-# FIXME b1-b1-b1 )))
-ifeq ($(or $(CONFIG_TARGET_armv5_3_2),$(CONFIG_TARGET_mips_3_4),$(CONFIG_TARGET_mipsel_3_4)),y)
+ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
   define Build/Prepare
 	$(Build/Prepare/Default)
-	patch -p1 -d $(PKG_BUILD_DIR) < ./patches-32bit/010-fix.patch || true
+	patch -p1 -d $(PKG_BUILD_DIR) < ./patches-32bit/010-fix.patch
   endef
 endif
 
