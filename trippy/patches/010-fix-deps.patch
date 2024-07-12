@@ -1,12 +1,11 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -87,3 +87,9 @@ test-case = "3.3.1"
+@@ -104,3 +104,8 @@ sim-tests = []
  assets = [
    { source = "target/release/trip", dest = "/usr/bin/trip", mode = "755" },
  ]
 +
 +[patch.crates-io]
-+tracing-chrome = { path = "../tracing-chrome-0.7.1" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.37" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
