@@ -14,7 +14,7 @@ PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2022-06-12
 PKG_SOURCE_VERSION:=b5f56f127dc094456250fcae625f1fc24234ca06
 PKG_SOURCE_URL:=https://github.com/Martichou/sys_metrics
-PKG_MIRROR_HASH:=20d108d9db670989958ce6947fee06bd22f8ad6e9177931afe4daa6f7661d7a5
+PKG_MIRROR_HASH:=e2f342828b111d26121ca616465082d93251e30ef662583cdaa23c0c7a1f3af0
 
 PKG_LICENSE:=AGPL-3.0
 PKG_LICENSE_FILES:=LICENSE
@@ -35,7 +35,6 @@ define Package/sys-metrics-$(PKG_VERSION)/description
   Cross-platform library to gather stats/information from the host.
 endef
 
-# FIXME b1-b1-b1 )))
 ifeq ($(or $(CONFIG_aarch64),$(CONFIG_arm)),y)
   define Build/Prepare
 	$(Build/Prepare/Default)
