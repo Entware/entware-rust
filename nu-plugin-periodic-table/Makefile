@@ -6,14 +6,14 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-periodic-table
 PKG_VERSION:=0.2.7
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2023-11-27
 PKG_SOURCE_VERSION:=d534576a41cbe0ea4e7c51ee3c10d3ed945a86be
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.zst
 PKG_SOURCE_URL:=https://github.com/JosephTLyons/nu_plugin_periodic_table
-PKG_MIRROR_HASH:=7d2390e273f6c8a46643b931809315ec09b458fba78d9f3fa05ca800e783e94a
+PKG_MIRROR_HASH:=feff13e2a75f44a30bd943c1c782941b8bd621184f17664bc399542b49a8755d
 
 PKG_LICENSE:=GPL-3.0-only
 PKG_LICENSE_FILES:=License.txt
@@ -21,7 +21,7 @@ PKG_LICENSE_FILES:=License.txt
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0435
 
 define Package/nu-plugin-periodic-table
   SECTION:=utils
@@ -36,7 +36,7 @@ define Package/nu-plugin-periodic-table/description
   A periodic table of elements plugin for Nushell.
 endef
 
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
+ifneq ($(CONFIG_ARCH_64BIT),y)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
 
