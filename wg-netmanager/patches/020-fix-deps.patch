@@ -1,5 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
+@@ -26,7 +26,7 @@ rand = "0.8"
+ crc = "2.1"
+ log = "0.4"
+ fern =  { version = "0.6", features = ["colored"]}
+-chrono = "0.4"
++chrono = "0.4.31"
+ tui = { version = "0.17", default-features = false, features = ["crossterm"] }
+ crossterm = "0.22.1"
+ tui-logger = "0.7"
 @@ -37,3 +37,8 @@ ifcfg = "0.1"
  simple-signal = "1.1"
  nix = "0.23"

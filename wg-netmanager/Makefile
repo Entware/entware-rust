@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=wg_netmanager
 PKG_VERSION:=0.5.1
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/gin66/wg_netmanager/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
