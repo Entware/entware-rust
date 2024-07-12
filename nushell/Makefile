@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
-PKG_VERSION:=0.89.0
+PKG_VERSION:=0.92.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=1d7a7cc960bb8265214a7345ea3787a5bc22dcb7099d5c5056163df025c5527d
+PKG_HASH:=d0424380981164137b9db31f686b048b7a4b9fce1a2e06ae6b8e58df0b8c4d64
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -21,7 +21,7 @@ PKG_BUILD_FLAGS:=no-mips16
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 openssl-probe-015
+PKG_BUILD_DEPENDS += chrono-0435 openssl-probe-015
 
 define Package/nushell/Default
   SECTION:=utils
@@ -93,23 +93,16 @@ endef
 
 CARGO_ARGS += --workspace
 
-# FIXME
-# armv(5/7)/i386/mips(el):
+# arm/mips(el):
 #	Some errors have detailed explanations: E0412, E0425, E0432, E0433, E0599.
 #	For more information about an error, try `rustc --explain E0412`.
 #	error: could not compile `simd-json` (lib) due to 149 previous errors
 CARGO_ARGS += \
-	--features=$(if $(or $(CONFIG_arm),$(CONFIG_i386),$(CONFIG_mips),$(CONFIG_mipsel)),"extra","dataframe extra")
+	--features="$(if $(CONFIG_ARCH_64BIT),dataframe) extra"
 
-# FIXME
-# armv(5/7)/mips(el):
-#	undefined reference to symbol '__atomic_load_8@@LIBATOMIC_1.0'
-ifeq ($(or $(CONFIG_arm),$(CONFIG_mips),$(CONFIG_mipsel)),y)
+# arm/mips(el): undefined reference to symbol '__atomic_load_8@@LIBATOMIC_1.0'
+ifneq ($(CONFIG_ARCH_64BIT),y)
 RUSTFLAGS += -l dylib=atomic
-endif
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
 
 define Package/nushell/install

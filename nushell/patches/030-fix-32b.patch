@@ -1,0 +1,48 @@
+error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
+ --> crates/nu_plugin_custom_values/src/main.rs:3:12
+  |
+3 |     sync::{atomic::AtomicU64, Mutex},
+  |            ^^^^^^^^---------
+  |            |       |
+  |            |       help: a similar name exists in the module: `AtomicU32`
+  |            no `AtomicU64` in `sync::atomic`
+
+For more information about this error, try `rustc --explain E0432`.
+error: could not compile `nu_plugin_custom_values` (bin "nu_plugin_custom_values") due to 1 previous error
+
+---
+
+--- a/crates/nu_plugin_custom_values/src/handle_make.rs
++++ b/crates/nu_plugin_custom_values/src/handle_make.rs
+@@ -37,10 +37,10 @@ impl SimplePluginCommand for HandleMake
+             .handles
+             .lock()
+             .map_err(|err| LabeledError::new(err.to_string()))?
+-            .insert(new_id, input.clone());
++            .insert(new_id.try_into().unwrap(), input.clone());
+ 
+         Ok(Value::custom(
+-            Box::new(HandleCustomValue(new_id)),
++            Box::new(HandleCustomValue(new_id.try_into().unwrap())),
+             call.head,
+         ))
+     }
+--- a/crates/nu_plugin_custom_values/src/main.rs
++++ b/crates/nu_plugin_custom_values/src/main.rs
+@@ -1,6 +1,6 @@
+ use std::{
+     collections::BTreeMap,
+-    sync::{atomic::AtomicU64, Mutex},
++    sync::{atomic::AtomicUsize, Mutex},
+ };
+ 
+ use handle_custom_value::HandleCustomValue;
+@@ -29,7 +29,7 @@ use update_arg::UpdateArg;
+ 
+ #[derive(Default)]
+ pub struct CustomValuePlugin {
+-    counter: AtomicU64,
++    counter: AtomicUsize,
+     handles: Mutex<BTreeMap<u64, Value>>,
+ }
+ 

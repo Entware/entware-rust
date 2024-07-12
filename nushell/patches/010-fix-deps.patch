@@ -1,13 +1,13 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -180,6 +180,13 @@ bench = false
- # Criterion benchmarking setup
+@@ -290,6 +290,13 @@ bench = false
+ 
  # Run all benchmarks with `cargo bench`
  # Run individual benchmarks like `cargo bench -- <regex>` e.g. `cargo bench -- parse`
 +
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
 +# openssl
 +openssl-probe = { path = "../openssl-probe-0.1.5" }
 +

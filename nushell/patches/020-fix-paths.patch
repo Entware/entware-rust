@@ -1,0 +1,11 @@
+--- a/crates/nu-path/src/tilde.rs
++++ b/crates/nu-path/src/tilde.rs
+@@ -9,7 +9,7 @@ const FALLBACK_USER_HOME_BASE_DIR: &str
+ const FALLBACK_USER_HOME_BASE_DIR: &str = "C:\\Users\\";
+ 
+ #[cfg(all(unix, not(target_os = "macos"), not(target_os = "android")))]
+-const FALLBACK_USER_HOME_BASE_DIR: &str = "/home";
++const FALLBACK_USER_HOME_BASE_DIR: &str = "/opt/home";
+ 
+ #[cfg(all(unix, target_os = "android"))]
+ const FALLBACK_USER_HOME_BASE_DIR: &str = "/data";
