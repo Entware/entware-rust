@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata
-PKG_VERSION:=7.0.3
+PKG_VERSION:=7.0.6
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://www.openinfosecfoundation.org/download
-PKG_HASH:=ea0742d7a98783f1af4a57661af6068bc2d850ac3eca04b3204d28ce165e35ff
+PKG_HASH:=21824f7ff12087c0c9b9de207199a75a9c31b03036688c7cb9c178f0a3b57f8d
 
 PKG_LICENSE:=GPL-2.0-only
 PKG_LICENSE_FILES:=COPYING LICENSE
@@ -20,7 +20,7 @@ PKG_BUILD_PARALLEL:=1
 PKG_INSTALL:=1
 PYTHON3_PKG_BUILD:=0
 
-PKG_BUILD_DEPENDS:=python-yaml/host rustc-dev/host
+PKG_BUILD_DEPENDS:=python-yaml/host
 
 PKG_CONFIG_DEPENDS:= \
 	CONFIG_SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT
@@ -92,27 +92,13 @@ Package/suricata7-extra/config=$(call Package/suricata7/config/Defauilt,e)
 Package/suricata7-mini/config=$(call Package/suricata7/config/Defauilt,m)
 Package/suricata7/config=$(call Package/suricata7/config/Defauilt,r)
 
-RUST_TARGET_TRIPLE:=$(REAL_GNU_TARGET_NAME)
-
-ifeq ($(CONFIG_TARGET_armv5_3_2),y)
-RUST_TARGET_TRIPLE:=$(subst arm,armv5te,$(RUST_TARGET_TRIPLE))
-endif
-
-ifeq ($(or $(CONFIG_TARGET_armv7_2_6),$(CONFIG_TARGET_armv7_3_2)),y)
-RUST_TARGET_TRIPLE:=$(subst arm,armv7,$(RUST_TARGET_TRIPLE))
-endif
-
-ifeq ($(CONFIG_TARGET_x86_2_6),y)
-RUST_TARGET_TRIPLE:=$(subst i486,i586,$(RUST_TARGET_TRIPLE))
-endif
-
 TARGET_LDFLAGS += -latomic
 
 CONFIGURE_ARGS += \
 	--disable-suricata-update \
 	--$(if $(CONFIG_SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT),en,dis)able-python \
-	CARGO_HOME="$(STAGING_DIR)/host/share/cargo" \
-	CARGO_BUILD_TARGET="$(RUST_TARGET_TRIPLE)"
+	CARGO_HOME="$(CARGO_HOME)" \
+	CARGO_BUILD_TARGET="$(RUSTC_TARGET_ARCH)"
 
 ifeq ($(BUILD_VARIANT),extra)
 CONFIGURE_ARGS += \
@@ -173,6 +159,7 @@ define Package/suricata7/install
 	$(INSTALL_DIR) $(1)/opt/var/lib/suricata/rules
 	$(INSTALL_DIR) $(1)/opt/var/log/suricata/{certs,files}
 	$(INSTALL_DIR) $(1)/opt/var/run/suricata
+
   ifeq ($(CONFIG_SURICATA_$(BUILD_VARIANT)_PYTHON_SUPPORT),y)
 	$(INSTALL_DIR) $(1)/opt/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/suricata{ctl,sc} $(1)/opt/bin
@@ -186,6 +173,7 @@ define Package/suricata7/install
 		$(1)/opt/lib/suricata/python/suricata/sc/suricatasc.py \
 	)
   endif
+
 endef
 
 Package/suricata7-extra/install=$(Package/suricata7/install)

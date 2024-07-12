@@ -1,6 +1,6 @@
 --- a/rust/Makefile.am
 +++ b/rust/Makefile.am
-@@ -25,7 +25,7 @@ RUST_FEATURES +=	debug-validate
+@@ -33,7 +33,7 @@ RUST_FEATURES +=	debug-validate
  endif
  
  if RUST_CROSS_COMPILE 
@@ -11,7 +11,7 @@
  all-local: Cargo.toml
 --- a/rust/Makefile.in
 +++ b/rust/Makefile.in
-@@ -338,7 +338,7 @@ EXTRA_DIST = src derive \
+@@ -341,7 +341,7 @@ EXTRA_DIST = src derive \
  
  @DEBUG_FALSE@RELEASE = --release
  @RUST_BUILD_STD_TRUE@NIGHTLY_ARGS = -Z build-std
@@ -22,7 +22,7 @@
  .SUFFIXES:
 --- a/configure
 +++ b/configure
-@@ -30028,8 +30028,8 @@ printf "%s\n" "yes" >&6; }
+@@ -30094,8 +30094,8 @@ printf "%s\n" "yes" >&6; }
      have_rust_vendor="no"
  
      if test "x$cross_compiling" = "xyes"; then
@@ -35,7 +35,7 @@
        else
 --- a/configure.ac
 +++ b/configure.ac
-@@ -2317,8 +2317,8 @@ fi
+@@ -2343,8 +2343,8 @@ fi
      have_rust_vendor="no"
  
      if test "x$cross_compiling" = "xyes"; then

@@ -29,7 +29,7 @@
  
 --- a/src/conf-yaml-loader.c
 +++ b/src/conf-yaml-loader.c
-@@ -604,7 +604,7 @@ rule-files:\n\
+@@ -615,7 +615,7 @@ rule-files:\n\
    - netbios.rules\n\
    - x11.rules\n\
  \n\
@@ -38,7 +38,7 @@
  ";
  
      ConfCreateContextBackup();
-@@ -710,7 +710,7 @@ ConfYamlNonYamlFileTest(void)
+@@ -721,7 +721,7 @@ ConfYamlNonYamlFileTest(void)
      ConfCreateContextBackup();
      ConfInit();
  
@@ -47,7 +47,7 @@
  
      ConfDeInit();
      ConfRestoreContextBackup();
-@@ -884,8 +884,8 @@ ConfYamlOverrideTest(void)
+@@ -895,8 +895,8 @@ ConfYamlOverrideTest(void)
  {
      char config[] = "%YAML 1.1\n"
                      "---\n"
@@ -58,7 +58,7 @@
                      "\n"
                      "parent:\n"
                      "  child0:\n"
-@@ -905,7 +905,7 @@ ConfYamlOverrideTest(void)
+@@ -916,7 +916,7 @@ ConfYamlOverrideTest(void)
  
      FAIL_IF(ConfYamlLoadString(config, strlen(config)) != 0);
      FAIL_IF_NOT(ConfGet("some-log-dir", &value));
@@ -67,7 +67,7 @@
  
      /* Test that parent.child0 does not exist, but child1 does. */
      FAIL_IF_NOT_NULL(ConfGetNode("parent.child0"));
-@@ -949,16 +949,16 @@ ConfYamlOverrideFinalTest(void)
+@@ -960,16 +960,16 @@ ConfYamlOverrideFinalTest(void)
      char config[] =
          "%YAML 1.1\n"
          "---\n"
@@ -264,7 +264,7 @@
  DEFAULT_CONFIG = {
 --- a/suricata-update/suricata/update/main.py
 +++ b/suricata-update/suricata/update/main.py
-@@ -1206,8 +1206,8 @@ def _main():
+@@ -1225,8 +1225,8 @@ def _main():
          except Exception as err:
              logger.warning(
                  "Cache directory does not exist and could not be created. "
