@@ -1,22 +1,29 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -6,8 +6,8 @@ name = "nu_plugin_explore"
+@@ -6,11 +6,15 @@ name = "nu_plugin_explore"
  anyhow = "1.0.73"
  console = "0.15.7"
  crossterm = "0.27.0"
--nu-plugin = "0.89.0"
--nu-protocol = { version = "0.89.0", features = ["plugin"] }
-+nu-plugin = { path = "../nushell-0.89.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.89.0/crates/nu-protocol", features = ["plugin"] }
- ratatui = "0.22.0"
+-nu-plugin = "0.92.0"
+-nu-protocol = { version = "0.92.0", features = ["plugin"] }
++nu-plugin = { path = "../nushell-0.92.2/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.92.2/crates/nu-protocol", features = ["plugin"] }
+ ratatui = "0.26.1"
  url = "2.4.0"
  
-@@ -18,3 +18,8 @@ bench = false
++[dev-dependencies]
++# warning: Patch `chrono v0.4.35 (.../chrono-0.4.35)` was not used in the crate graph.
++chrono = "0.4.35"
++
+ [lib]
+ bench = false
+ 
+@@ -18,3 +22,8 @@ bench = false
  edition = "2021"
  name = "nu_plugin_explore"
- version = "0.1.2"
+ version = "0.92.0"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
