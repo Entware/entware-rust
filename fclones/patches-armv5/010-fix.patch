@@ -1,8 +1,0 @@
---- a/Cargo.toml
-+++ b/Cargo.toml
-@@ -11,3 +11,5 @@ lto = true
- # localtime/zoneinfo
- chrono = { path = "../chrono-0.4.31" }
- iana-time-zone = { path = "../iana-time-zone-0.1.59" }
-+# armv5
-+sled = { path = "../sled-0.34.7" }

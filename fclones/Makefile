@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2024 Entware
 
-# mips(el)/armv5:
+# mips(el):
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 #	error: could not compile `fclones` (lib) due to previous error
 
@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fclones
 PKG_VERSION:=0.34.0
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pkolaczk/fclones/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -22,7 +22,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 sled-0347
+PKG_BUILD_DEPENDS += chrono-0431
 
 define Package/fclones
   SECTION:=utils
@@ -32,24 +32,12 @@ define Package/fclones
 endef
 
 define Package/fclones/description
-  A simple command-line utility program that finds duplicate, unique, under- or
-  over-replicated files.
+  A simple command-line utility program that finds duplicate, unique,
+  under- or over-replicated files.
   Contrary to fdupes or rdfind, fclones processes files in parallel, which makes
   it very efficient on SSDs. fclones communicates through standard Unix streams
   and it can write reports in human- and machine-friendly formats, therefore you
   can easily combine it with other tools.
-endef
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
-
-# FIXME 32b
-define Build/Prepare
-	$(Build/Prepare/Default)
-  ifeq ($(CONFIG_TARGET_armv5_3_2),y)
-	patch -p1 -d $(PKG_BUILD_DIR) < ./patches-armv5/010-fix.patch || true
-  endif
 endef
 
 define Package/fclones/install
