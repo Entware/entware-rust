@@ -1,12 +1,26 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -32,3 +32,10 @@ nix = "0.24"
+@@ -10,7 +10,7 @@ homepage = "https://github.com/erikh/ztu
+ repository = "https://github.com/erikh/ztui"
+ 
+ [dependencies]
+-sys_metrics = "^0.2.0"
++sys_metrics = "0.2.6"
+ tokio = { version = "^1.28.0", features = [ "full" ] }
+ crossterm = "^0.26.0"
+ tui = "^0.19.0"
+@@ -32,3 +32,15 @@ nix = "0.24"
  signal = "^0.7.0"
  openssl = { version = "^0.10.0", features = [ "vendored" ] }
  tempfile = "^3.5.0"
 +
++# localtime/zoneinfo
++chrono = "0.4.31"
++# error[E0635]: unknown feature `proc_macro_span_shrink`
++proc-macro2 = "1.0.79"
++
 +[patch.crates-io]
-+indexmap = { path = "../indexmap-1.9.3" }
++# aarch64/arm: error[E0308]: mismatched types
 +sys_metrics = { path = "../sys-metrics-0.2.6" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.31" }

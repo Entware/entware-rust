@@ -10,7 +10,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ztui
 PKG_VERSION:=0.1.7
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/erikh/ztui/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -22,7 +22,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 indexmap-193 sys-metrics-026
+PKG_BUILD_DEPENDS += chrono-0431 sys-metrics-026
 
 define Package/ztui
   SECTION:=net
@@ -39,14 +39,12 @@ define Package/ztui/description
   in an attempt to transform how people work with it.
 endef
 
-# FIXME
-#	error: failed to run custom build command for `openssl-sys v0.9.87`
+# error: failed to run custom build command for `openssl-sys v0.9.87`
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
-# FIXME (host vs target)
-# X86_64:
-#	error while loading shared libraries: libssl.so.3: cannot open shared object \
-#	file: No such file or directory
+# X86_64: error while loading shared libraries: \
+#	  libssl.so.3: cannot open shared object file: \
+#	  No such file or directory
 ifeq ($(CONFIG_x86_64),y)
 RUSTC_VARS += \
 	X86_64_UNKNOWN_LINUX_GNU_OPENSSL_STATIC=true \
