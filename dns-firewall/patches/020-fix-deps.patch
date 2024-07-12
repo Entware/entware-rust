@@ -1,6 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -52,3 +52,8 @@ conf-files = [
+@@ -19,6 +19,7 @@ ipnet = "2.9.0"
+ hickory-proto = "0.24.0"
+ rand = "0.8.5"
+ chrono = { version = "0.4.31", default-features = false }
++iana-time-zone = "0.1.59"
+ 
+ clap = { version = "4.4.11", features = ["derive", "env"] }
+ 
+@@ -52,3 +53,8 @@ conf-files = [
  section = "net"
  maintainer-scripts = "dist/debian/maintainer-scripts"
  systemd-units = { unit-scripts = "dist/shared/lib/systemd/system" }
