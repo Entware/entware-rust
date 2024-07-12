@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2024 Entware
 
-# arm/i386/mips(el):
+# arm/mips(el):
 #	error[E0308]: mismatched types: expected `u32`, found `u64`
 #					expected `Option<u64>`, found `Option<u32>`
 #	error: could not compile `mountpoints` due to 6 previous errors
@@ -11,7 +11,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=spacedisplay-rs
 PKG_VERSION:=0.3.0
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/funbiscuit/spacedisplay-rs/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -37,11 +37,10 @@ define Package/spacedisplay-rs/description
   Fast and lightweight tool to scan your disk space.
 endef
 
-# FIXME
 ifneq ($(CONFIG_ARCH_64BIT),y)
   define Build/Prepare
 	$(Build/Prepare/Default)
-	patch -p1 -d $(PKG_BUILD_DIR) < ./patches-32bit/010-fix.patch || true
+	patch -p1 -d $(PKG_BUILD_DIR) < ./patches-32bit/010-fix.patch
   endef
 endif
 
