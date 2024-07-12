@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=feroxbuster
-PKG_VERSION:=2.10.1
+PKG_VERSION:=2.10.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/epi052/feroxbuster/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=d51dea67dcf33609aaa3e4e8e07f22c7c53866ff44fa4a68c02233cde95cead7
+PKG_HASH:=6eea0602971de78fe24b5c93c1985e57e0b8cb5a8f3a05688d2465e96b27329c
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -30,8 +30,7 @@ define Package/feroxbuster/description
   A simple, fast, recursive content discovery tool written in Rust.
 endef
 
-# FIXME
-#	error: failed to run custom build command for `openssl-sys v0.9.87`
+# error: failed to run custom build command for `openssl-sys v0.9.102`
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
 # wget https://raw.githubusercontent.com/danielmiessler/SecLists/master/Discovery/Web-Content/raft-medium-directories.txt

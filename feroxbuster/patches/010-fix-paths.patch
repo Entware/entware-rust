@@ -1,17 +1,17 @@
 --- a/src/config/container.rs
 +++ b/src/config/container.rs
-@@ -572,7 +572,7 @@ impl Configuration {
+@@ -576,7 +576,7 @@ impl Configuration {
+         //   - current directory
  
          // merge a config found at /etc/feroxbuster/ferox-config.toml
-         let config_file = PathBuf::new()
--            .join("/etc/feroxbuster")
-+            .join("/opt/etc/feroxbuster")
-             .join(DEFAULT_CONFIG_NAME);
+-        let config_file = Path::new("/etc/feroxbuster").join(DEFAULT_CONFIG_NAME);
++        let config_file = Path::new("/opt/etc/feroxbuster").join(DEFAULT_CONFIG_NAME);
          Self::parse_and_merge_config(config_file, config)?;
  
+         // merge a config found at ~/.config/feroxbuster/ferox-config.toml
 --- a/src/lib.rs
 +++ b/src/lib.rs
-@@ -69,12 +69,12 @@ pub(crate) const DEFAULT_IGNORED_EXTENSI
+@@ -72,12 +72,12 @@ pub(crate) const DEFAULT_BACKUP_EXTENSIO
  /// - `.\seclists\Discovery\Web-Content\raft-medium-directories.txt`
  #[cfg(not(target_os = "windows"))]
  pub const DEFAULT_WORDLIST: &str =
@@ -26,7 +26,7 @@
  
  /// Number of milliseconds to wait between polls of `PAUSE_SCAN` when user pauses a scan
  pub(crate) const SLEEP_DURATION: u64 = 500;
-@@ -189,7 +189,7 @@ mod tests {
+@@ -192,7 +192,7 @@ mod tests {
      fn default_wordlist() {
          assert_eq!(
              DEFAULT_WORDLIST,
@@ -37,7 +37,7 @@
  
 --- a/src/scan_manager/tests.rs
 +++ b/src/scan_manager/tests.rs
-@@ -440,7 +440,7 @@ fn feroxstates_feroxserialize_implementa
+@@ -442,7 +442,7 @@ fn feroxstates_feroxserialize_implementa
          r#""num_requests":0"#,
          r#""config""#,
          r#""type":"configuration""#,
@@ -48,7 +48,7 @@
          r#""replay_proxy":"""#,
 --- a/src/utils.rs
 +++ b/src/utils.rs
-@@ -976,7 +976,7 @@ mod tests {
+@@ -1009,7 +1009,7 @@ mod tests {
      /// provide a denier from which we can't check a host, which results in no comparison, expect false
      fn should_deny_url_doesnt_compare_non_domains() {
          let scan_url = "https://testdomain.com/";
@@ -57,7 +57,7 @@
          let tested_url = Url::parse("https://testdomain.com/denied/").unwrap();
  
          let scans = Arc::new(FeroxScans::default());
-@@ -1025,7 +1025,7 @@ mod tests {
+@@ -1058,7 +1058,7 @@ mod tests {
      /// new expected behavior
      fn should_deny_url_doesnt_compare_non_domains_in_scanned() {
          let deny_url = "https://testdomain.com/";
@@ -66,6 +66,22 @@
          let tested_url = Url::parse("https://testdomain.com/denied/").unwrap();
  
          let scans = Arc::new(FeroxScans::default());
+--- a/tests/test_main.rs
++++ b/tests/test_main.rs
+@@ -21,11 +21,11 @@ fn main_use_root_owned_file_as_wordlist(
+         .arg("--url")
+         .arg(srv.url("/"))
+         .arg("--wordlist")
+-        .arg("/etc/shadow")
++        .arg("/opt/etc/shadow")
+         .arg("-vvvv")
+         .assert()
+         .success()
+-        .stderr(predicate::str::contains("Could not open /etc/shadow"));
++        .stderr(predicate::str::contains("Could not open /opt/etc/shadow"));
+ 
+     assert_eq!(mock.hits(), 0);
+ }
 --- a/ferox-config.toml.example
 +++ b/ferox-config.toml.example
 @@ -25,7 +25,7 @@
