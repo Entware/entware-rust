@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=http
-PKG_VERSION:=1.13.2
+PKG_VERSION:=2.0.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/thecoshman/http/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=7773e0a0d84574d42a93da543b9d20c3798686e5305412fc567c4688a18923ed
+PKG_HASH:=f9f634949c1243918c30e73b116819760646d65d24f026a59879ac037a8c877c
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -28,8 +28,8 @@ define Package/httplz
 endef
 
 define Package/httplz/description
-  Host These Things Please - a basic HTTP server
-  for hosting a folder fast and simply.
+  Host These Things Please - a basic HTTP server for hosting a folder
+  fast and simply.
 endef
 
 define Package/httplz/install
