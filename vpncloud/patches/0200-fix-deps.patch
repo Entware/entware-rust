@@ -1,21 +1,22 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -28,7 +28,7 @@ fnv = "1"
+@@ -27,8 +27,8 @@ rand = "0.8"
+ fnv = "1"
  yaml-rust = "0.4"
  daemonize = "0.5"
- #ring = "0.17"
+-#ring = "0.17"
 -ring = { git = "https://github.com/briansmith/ring", rev = "2afc921" } # https://github.com/briansmith/ring/issues/1707
-+ring = "0.17.5"
++ring = "0.17"
++#ring = { git = "https://github.com/briansmith/ring", rev = "2afc921" } # https://github.com/briansmith/ring/issues/1707
  privdrop = "0.5"
  byteorder = "1.4"
  thiserror = "1.0"
-@@ -95,3 +95,9 @@ buildflags = ["--release"]
+@@ -95,3 +95,8 @@ buildflags = ["--release"]
  
  [package.metadata.rpm.targets]
  vpncloud = { path = "/usr/bin/vpncloud" }
 +
 +[patch.crates-io]
-+ring = { path = "../ring-0.17.5" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.31" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.59" }
