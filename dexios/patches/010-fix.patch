@@ -1,0 +1,25 @@
+warning: virtual workspace defaulting to `resolver = "1"` despite one or
+more workspace members being on edition 2021 which implies `resolver = "2"`
+
+warning: unnecessary trailing semicolon --> dexios-domain/src/hash.rs:39:63
+---
+
+--- a/dexios-domain/src/hash.rs
++++ b/dexios-domain/src/hash.rs
+@@ -36,7 +36,7 @@ pub fn execute<R: Read + Seek>(mut hashe
+         .rewind()
+         .map_err(|_| Error::ResetCursorPosition)?;
+ 
+-    let mut buffer = vec![0u8; BLOCK_SIZE].into_boxed_slice();;
++    let mut buffer = vec![0u8; BLOCK_SIZE].into_boxed_slice();
+ 
+     loop {
+         let read_count = req
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -6,3 +6,5 @@ members = [
+     "dexios-core",
+     "dexios-domain",
+ ]
++
++resolver = "2"
