@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=systeroid
 PKG_VERSION:=0.4.4
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/orhun/systeroid/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -43,6 +43,7 @@ define Package/systeroid/description
   A more powerful alternative to sysctl.
 endef
 
+# clipboard support is enabled by default
 CARGO_ARGS += --no-default-features
 
 # XXX docs
