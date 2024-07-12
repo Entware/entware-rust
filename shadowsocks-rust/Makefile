@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-rust
-PKG_VERSION:=1.18.0
+PKG_VERSION:=1.20.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/shadowsocks/shadowsocks-rust/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=e854743ecef9ab3b371fdcb139e6f4452831b487d449c97c2129abbf4f51e863
+PKG_HASH:=555f0680621d6ebe19eb6b91356068ca7afabf5ef502bbe2a85d779af03e45b9
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -20,13 +20,18 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_SS_RUST_AEAD_CIPHER_2022 \
 	CONFIG_SS_RUST_AEAD_CIPHER_2022_EXTRA \
 	CONFIG_SS_RUST_AEAD_CIPHER_EXTRA \
+	CONFIG_SS_RUST_DNS_OVER_H3 \
 	CONFIG_SS_RUST_DNS_OVER_HTTPS \
+	CONFIG_SS_RUST_DNS_OVER_NATIVE_TLS \
 	CONFIG_SS_RUST_DNS_OVER_TLS \
+	CONFIG_SS_RUST_HICKORY_DNS \
 	CONFIG_SS_RUST_LOCAL \
 	CONFIG_SS_RUST_LOCAL_DNS \
+	CONFIG_SS_RUST_LOCAL_FAKE_DNS \
 	CONFIG_SS_RUST_LOCAL_HTTP \
 	CONFIG_SS_RUST_LOCAL_HTTP_NATIVE_TLS \
 	CONFIG_SS_RUST_LOCAL_HTTP_RUSTLS \
+	CONFIG_SS_RUST_LOCAL_ONLINE_CONFIG \
 	CONFIG_SS_RUST_LOCAL_REDIR \
 	CONFIG_SS_RUST_LOCAL_SOCKS4 \
 	CONFIG_SS_RUST_LOCAL_TUN \
@@ -38,14 +43,13 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_SS_RUST_SERVER \
 	CONFIG_SS_RUST_SERVICE \
 	CONFIG_SS_RUST_STREAM_CIPHER \
-	CONFIG_SS_RUST_TRUST_DNS \
+	CONFIG_SS_RUST_UTILITY_URL_OUTLINE \
 	CONFIG_SS_RUST_UTILITY
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 hickory-dns reqwest-01121 ring-0177
-PKG_BUILD_DEPENDS += tokio-rustls-0250 webpki-roots-0260
+PKG_BUILD_DEPENDS += chrono-0438 quinn-0104
 
 define Package/shadowsocks-rust
   SECTION:=net
@@ -72,6 +76,7 @@ endef
 
 DEFAULT_FEATURES:= \
 	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_2022),aead-cipher-2022) \
+	$(if $(CONFIG_SS_RUST_HICKORY_DNS),hickory-dns) \
 	$(if $(CONFIG_SS_RUST_LOCAL),local) \
 	$(if $(CONFIG_SS_RUST_LOCAL_HTTP),local-http) \
 	$(if $(CONFIG_SS_RUST_LOCAL_SOCKS4),local-socks4) \
@@ -81,34 +86,30 @@ DEFAULT_FEATURES:= \
 	$(if $(CONFIG_SS_RUST_MULTI_THREADED),multi-threaded) \
 	$(if $(CONFIG_SS_RUST_SERVER),server) \
 	$(if $(CONFIG_SS_RUST_SERVICE),service) \
-	$(if $(CONFIG_SS_RUST_TRUST_DNS),trust-dns) \
 	$(if $(CONFIG_SS_RUST_UTILITY),utility)
 
 FEATURES:= \
 	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_2022_EXTRA),aead-cipher-2022-extra) \
 	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_EXTRA),aead-cipher-extra) \
+	$(if $(CONFIG_SS_RUST_DNS_OVER_H3),dns-over-h3) \
 	$(if $(CONFIG_SS_RUST_DNS_OVER_HTTPS),dns-over-https) \
+	$(if $(CONFIG_SS_RUST_DNS_OVER_NATIVE_TLS),dns-over-native-tls) \
 	$(if $(CONFIG_SS_RUST_DNS_OVER_TLS),dns-over-tls) \
 	$(if $(CONFIG_SS_RUST_LOCAL_DNS),local-dns) \
+	$(if $(CONFIG_SS_RUST_LOCAL_FAKE_DNS),local-fake-dns) \
 	$(if $(CONFIG_SS_RUST_LOCAL_HTTP_NATIVE_TLS),local-http-native-tls) \
 	$(if $(CONFIG_SS_RUST_LOCAL_HTTP_RUSTLS),local-http-rustls) \
+	$(if $(CONFIG_SS_RUST_LOCAL_ONLINE_CONFIG),local-online-config) \
 	$(if $(CONFIG_SS_RUST_LOCAL_REDIR),local-redir) \
 	$(if $(CONFIG_SS_RUST_LOCAL_TUN),local-tun) \
 	$(if $(CONFIG_SS_RUST_SECURITY_REPLAY_ATTACK_DETECT),security-replay-attack-detect) \
-	$(if $(CONFIG_SS_RUST_STREAM_CIPHER),stream-cipher)
+	$(if $(CONFIG_SS_RUST_STREAM_CIPHER),stream-cipher) \
+	$(if $(CONFIG_SS_RUST_UTILITY_URL_OUTLINE),utility-url-outline)
 
 CARGO_ARGS += --no-default-features --features "$(DEFAULT_FEATURES) $(FEATURES)"
 
-# FIXME
-# i386/x86_64:
-#	undefined reference to `__stack_chk_guard'
-ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
-RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
-endif
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
+# error: failed to run custom build command for `openssl-sys v0.9.102`
+RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
 define Package/shadowsocks-rust/install
 	$(INSTALL_DIR) $(1)/opt/etc/shadowsocks-rust

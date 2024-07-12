@@ -1,72 +1,21 @@
 if PACKAGE_shadowsocks-rust
 
-comment "Build Options"
+comment "Default features"
+
+	config SS_RUST_AEAD_CIPHER_2022
+		bool "Enable AEAD 2022"
+		default y
+
+	config SS_RUST_HICKORY_DNS
+		bool "Enable Hickory-DNS as DNS resolver"
+		default y
 
 	config SS_RUST_LOCAL
 		bool "Enable local server (sslocal)"
 		default y
 
-	config SS_RUST_SERVER
-		bool "Enable remote server (ssserver)"
-		default y
-
-	config SS_RUST_MANAGER
-		bool "Enable manager server (ssmanager)"
-		default y
-
-	config SS_RUST_UTILITY
-		bool "Enable utility (ssurl)"
-		default y
-
-	config SS_RUST_SERVICE
-		bool "Enable service (ssservice)"
-		depends on SS_RUST_LOCAL && SS_RUST_SERVER && SS_RUST_MANAGER
-		default y
-
-	config SS_RUST_TRUST_DNS
-		bool "Enable trust-dns as DNS resolver"
-		default y
-
-	config SS_RUST_DNS_OVER_TLS
-		bool "Enable dns-over-tls as DNS resolver"
-
-	config SS_RUST_DNS_OVER_HTTPS
-		bool "Enable dns-over-https as DNS resolver"
-
-	config SS_RUST_LOGGING
-		bool "Enable logging output"
-		default y
-
-	config SS_RUST_LOCAL_DNS
-		bool "Enable DNS-relay"
-		depends on SS_RUST_LOCAL
-
 	config SS_RUST_LOCAL_HTTP
 		bool "Enable HTTP protocol for sslocal"
-		depends on SS_RUST_LOCAL
-		default y
-
-choice
-	prompt "Enable HTTP protocol for sslocal"
-		depends on SS_RUST_LOCAL && SS_RUST_LOCAL_HTTP
-		default SS_RUST_LOCAL_HTTP_NATIVE_TLS
-
-	config SS_RUST_LOCAL_HTTP_NATIVE_TLS
-		bool "Support HTTPS with native-tls"
-		depends on SS_RUST_LOCAL_HTTP
-
-	config SS_RUST_LOCAL_HTTP_RUSTLS
-		bool "Support HTTPS with rustls"
-		depends on SS_RUST_LOCAL_HTTP
-
-endchoice
-
-	config SS_RUST_LOCAL_REDIR
-		bool "Enable REDIR protocol for sslocal"
-		depends on SS_RUST_LOCAL
-
-	config SS_RUST_LOCAL_TUNNEL
-		bool "Enable tunnel protocol for sslocal"
 		depends on SS_RUST_LOCAL
 		default y
 
@@ -75,28 +24,103 @@ endchoice
 		depends on SS_RUST_LOCAL
 		default y
 
-	config SS_RUST_LOCAL_TUN
-		bool "Enable Tun interface protocol for sslocal"
+	config SS_RUST_LOCAL_TUNNEL
+		bool "Enable tunnel protocol for sslocal"
 		depends on SS_RUST_LOCAL
+		default y
+
+	config SS_RUST_LOGGING
+		bool "Enable logging output"
+		default y
+
+	config SS_RUST_MANAGER
+		bool "Enable manager server (ssmanager)"
+		default y
 
 	config SS_RUST_MULTI_THREADED
 		bool "Enable tokio's multi-threaded runtime"
 		default y
 
-	config SS_RUST_STREAM_CIPHER
-		bool "Enable Stream Cipher Protocol"
-
-	config SS_RUST_AEAD_CIPHER_EXTRA
-		bool "Enable extra AEAD ciphers"
-
-	config SS_RUST_AEAD_CIPHER_2022
-		bool "Enable AEAD 2022"
+	config SS_RUST_SERVER
+		bool "Enable remote server (ssserver)"
 		default y
+
+	config SS_RUST_SERVICE
+		bool "Enable service (ssservice)"
+		depends on SS_RUST_LOCAL && SS_RUST_SERVER && SS_RUST_MANAGER
+		default y
+
+	config SS_RUST_UTILITY
+		bool "Enable utility (ssurl)"
+		default y
+
+comment "Optional features"
 
 	config SS_RUST_AEAD_CIPHER_2022_EXTRA
 		bool "Enable AEAD 2022 with extra ciphers"
 
+	config SS_RUST_AEAD_CIPHER_EXTRA
+		bool "Enable extra AEAD ciphers"
+
+	config SS_RUST_DNS_OVER_H3
+		bool "Enable support DNS-over-H3"
+		depends on SS_RUST_HICKORY_DNS
+
+	config SS_RUST_DNS_OVER_HTTPS
+		bool "Enable support DNS-over-HTTPS"
+		depends on SS_RUST_HICKORY_DNS
+
+	config SS_RUST_DNS_OVER_NATIVE_TLS
+		bool "Enable feature dns-over-native-tls"
+		depends on SS_RUST_HICKORY_DNS
+
+	config SS_RUST_DNS_OVER_TLS
+		bool "Enable support DNS-over-TLS"
+		depends on SS_RUST_HICKORY_DNS
+
+	config SS_RUST_LOCAL_DNS
+		bool "Enable DNS-relay"
+		depends on SS_RUST_HICKORY_DNS && SS_RUST_LOCAL
+
+	config SS_RUST_LOCAL_FAKE_DNS
+		bool "Enable Fake DNS for sslocal"
+		depends on SS_RUST_HICKORY_DNS && SS_RUST_LOCAL
+
+### error: failed to run custom build command for `aws-lc-sys v0.15.0`
+#choice
+#	prompt "Enable HTTP protocol for sslocal"
+#		depends on SS_RUST_LOCAL && SS_RUST_LOCAL_HTTP
+#		default SS_RUST_LOCAL_HTTP_NATIVE_TLS
+
+	config SS_RUST_LOCAL_HTTP_NATIVE_TLS
+		bool "Support HTTPS with native-tls"
+		depends on SS_RUST_LOCAL_HTTP
+
+#	config SS_RUST_LOCAL_HTTP_RUSTLS
+#		bool "Support HTTPS with rustls"
+#		depends on SS_RUST_LOCAL_HTTP
+
+#endchoice
+
+	config SS_RUST_LOCAL_ONLINE_CONFIG
+		bool "Enable sslocal support online URL (SIP008 Online Configuration Delivery)"
+		depends on SS_RUST_LOCAL && SS_RUST_LOCAL_HTTP
+
+	config SS_RUST_LOCAL_REDIR
+		bool "Enable REDIR protocol for sslocal"
+		depends on SS_RUST_LOCAL
+
+	config SS_RUST_LOCAL_TUN
+		bool "Enable Tun interface protocol for sslocal"
+		depends on SS_RUST_LOCAL
+
 	config SS_RUST_SECURITY_REPLAY_ATTACK_DETECT
 		bool "Enable detection against replay attack"
+
+	config SS_RUST_STREAM_CIPHER
+		bool "Enable Stream Cipher Protocol"
+
+	config SS_RUST_UTILITY_URL_OUTLINE
+		bool "Enable support SIP008 links"
 
 endif

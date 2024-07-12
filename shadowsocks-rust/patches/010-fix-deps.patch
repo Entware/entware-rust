@@ -1,66 +1,18 @@
---- a/crates/shadowsocks-service/Cargo.toml
-+++ b/crates/shadowsocks-service/Cargo.toml
-@@ -141,8 +141,8 @@ tokio = { version = "1.5", features = [
- ] }
- tokio-native-tls = { version = "0.3", optional = true }
- native-tls = { version = "0.2.8", optional = true, features = ["alpn"] }
--tokio-rustls = { version = "0.25", optional = true }
--webpki-roots = { version = "0.26", optional = true }
-+tokio-rustls = { version = "0.25.0", optional = true }
-+webpki-roots = { version = "0.26.0", optional = true }
- rustls-native-certs = { version = "0.7", optional = true }
- async-trait = "0.1"
- 
-@@ -152,7 +152,7 @@ libc = "0.2.141"
- hyper = { version = "1.1", optional = true, features = ["full"] }
- http-body-util = { version = "0.1", optional = true }
- 
--hickory-resolver = { version = "0.24", optional = true, features = [
-+hickory-resolver = { version = "0.24.0", optional = true, features = [
-     "serde-config",
- ] }
- 
---- a/crates/shadowsocks/Cargo.toml
-+++ b/crates/shadowsocks/Cargo.toml
-@@ -83,7 +83,7 @@ tokio = { version = "1.9.0", features =
- ] }
- tokio-tfo = "0.2.0"
- 
--hickory-resolver = { version = "0.24", optional = true }
-+hickory-resolver = { version = "0.24.0", optional = true }
- arc-swap = { version = "1.6", optional = true }
- notify = { version = "6.0", optional = true }
- 
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -200,14 +200,14 @@ windows-service = { version = "0.6", opt
- daemonize = "0.5"
- 
- [target.'cfg(any(target_arch = "x86", target_arch = "x86_64", target_arch = "aarch64"))'.dependencies]
--reqwest = { version = "0.11", features = [
-+reqwest = { version = "0.11.21", features = [
-     "blocking",
-     "rustls-tls",
-     "rustls-tls-native-roots",
- ], default-features = false, optional = true }
- 
- [target.'cfg(not(any(target_arch = "x86", target_arch = "x86_64", target_arch = "aarch64")))'.dependencies]
--reqwest = { version = "0.11", features = [
-+reqwest = { version = "0.11.21", features = [
-     "blocking",
-     "native-tls-vendored",
- ], optional = true }
-@@ -217,3 +217,13 @@ byteorder = "1.5"
+@@ -281,3 +281,15 @@ byteorder = "1.5"
  env_logger = "0.11"
  byte_string = "1.0"
  tokio = { version = "1", features = ["net", "time", "macros", "io-util"] }
++chrono = "=0.4.38"
++quinn = "=0.10.2"
++quinn-proto = "=0.10.4"
 +
 +[patch.crates-io]
-+hickory-resolver = { path = "../hickory-dns-0.24.0/crates/resolver" }
-+reqwest = { path = "../reqwest-0.11.21" }
-+ring = { path = "../ring-0.17.7" }
-+tokio-rustls = { path = "../tokio-rustls-0.25.0" }
-+webpki-roots = { path = "../webpki-roots-0.26.0" }
++# error: failed to run custom build command for `ring v0.16.20`
++quinn = { path = "../quinn-0.10.4/quinn" }
++# error[E0308]: mismatched types
++quinn-proto = { path = "../quinn-0.10.4/quinn-proto" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
