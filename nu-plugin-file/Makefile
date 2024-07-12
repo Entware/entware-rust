@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2024 Entware
 
-# mips(el)/armv5:
+# mips(el):
 #	error[E0412]: cannot find type `AtomicI64` in this scope
 #	error[E0412]: cannot find type `AtomicU64` in this scope
 #	error: could not compile `specta` (lib) due to 2 previous errors
@@ -10,23 +10,23 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-file
-PKG_VERSION:=0.2.0
+PKG_VERSION:=0.5.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-01-15
-PKG_SOURCE_VERSION:=dbbe29ccec62f7cec8322d679f15fe3a965aeb5f
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
+PKG_SOURCE_DATE:=2024-04-08
+PKG_SOURCE_VERSION:=151ba6dd2a488889f8ecf5beaa1eaaa073c3b107
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.zst
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_file
-PKG_MIRROR_HASH:=fd42b28522c8bd251df95c29474e5a0cd17809e6219c81cd70440a6e436019e1
+PKG_MIRROR_HASH:=352be3b96704315cf082c6ffb0135e37972595d220ebc1515877e7cbf1f40e35
 
-PKG_LICENSE:=MIT
+PKG_LICENSE:=AGPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 specta-105
+PKG_BUILD_DEPENDS += chrono-0435 specta-105
 
 define Package/nu-plugin-file
   SECTION:=utils
@@ -38,8 +38,8 @@ define Package/nu-plugin-file
 endef
 
 define Package/nu-plugin-file/description
-  A nushell plugin that will inspect a file and
-  return information based on it's magic number.
+  A nushell plugin that will inspect a file and return information
+  based on it's magic number.
 endef
 
 define Package/nu-plugin-file/install

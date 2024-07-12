@@ -1,23 +1,27 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -11,8 +11,8 @@ license = "MIT"
+@@ -11,8 +11,8 @@ license = "AGPL-3.0-only"
  
  [dependencies]
  # for local development, you can use a path dependency
--nu-plugin = { path = "../nushell/crates/nu-plugin", version = "0.89.1" }
--nu-protocol = { path = "../nushell/crates/nu-protocol", version = "0.89.1" }
-+nu-plugin = { path = "../nushell-0.89.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.89.0/crates/nu-protocol" }
+-nu-plugin = { path = "../nushell/crates/nu-plugin", version = "0.92.2" }
+-nu-protocol = { path = "../nushell/crates/nu-protocol", version = "0.92.2" }
++nu-plugin = { path = "../nushell-0.92.2/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.92.2/crates/nu-protocol" }
  # nu-plugin = "0.80.0"
  # nu-protocol = "0.80.0"
  
-@@ -25,3 +25,9 @@ home = "0.5.5"
+@@ -25,3 +25,13 @@ home = "0.5.5"
  itertools = "0.12.0"
  
  [dev-dependencies]
++# warning: Patch `chrono v0.4.35 (.../chrono-0.4.35)` was not used in the crate graph.
++chrono = "0.4.35"
++# error[E0635]: unknown feature `stdsimd`
++ahash = "0.8.11"
 +
 +[patch.crates-io]
 +specta = { path = "../specta-1.0.5" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
