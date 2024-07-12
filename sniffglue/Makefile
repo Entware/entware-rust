@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sniffglue
 PKG_VERSION:=0.16.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kpcyrd/sniffglue/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -33,8 +33,6 @@ define Package/sniffglue/description
   networks and that it must not crash when processing packets. The output should
   be as useful as possible by default.
 endef
-
-RUSTFLAGS += -C lto=thin
 
 define Package/sniffglue/install
 #	$(INSTALL_DIR) $(1)/opt/etc
