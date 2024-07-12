@@ -1,6 +1,13 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -21,4 +21,9 @@ default = ["cursive/crossterm-backend"]
+@@ -15,10 +15,16 @@ cursive = {version = "0.15", default-fea
+ rand = "0.7"
+ clock-core = "0.0"
+ hhmmss = "0.1"
++chrono = "0.4.31"
+ 
+ [features]
+ default = ["cursive/crossterm-backend"]
  
  [[bin]]
  name = "sudoku"
