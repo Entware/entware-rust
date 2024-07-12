@@ -1,35 +1,59 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -26,12 +26,12 @@ bench = false
- [dependencies]
- chrono = { version = "0.4", features = [ "std" ], default-features = false }
- futures-util = "0.3.28"
--nu-plugin = "0.86.0"
--nu-protocol = "0.86.0"
-+nu-plugin = { path = "../nushell-0.89.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.89.0/crates/nu-protocol" }
- # must keep in lockstep with hickory
--rustls = "0.21.7"
-+rustls = "0.21.9"
- tokio = "1.33.0"
--webpki-roots = "0.25.2"
-+webpki-roots = "0.25.3"
- tracing = "0.1"
- tracing-subscriber = { version = "0.3", features = [ "env-filter" ] }
+@@ -24,10 +24,10 @@ bench = false
+ bench = false
  
-@@ -70,3 +70,15 @@ features = [
+ [dependencies]
+-chrono = { version = "0.4", features = [ "std" ], default-features = false }
++chrono = { version = "=0.4.35", features = [ "std" ], default-features = false }
+ futures-util = "0.3.30"
+-nu-plugin = "0.92.2"
+-nu-protocol = "0.92.2"
++nu-plugin = { path = "../nushell-0.92.2/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.92.2/crates/nu-protocol" }
+ 
+ tokio = "1.37.0"
+ tracing = "0.1"
+@@ -39,7 +39,7 @@ webpki-roots = "0.25.4"
+ tokio-util = { version = "0.7.10", features = ["rt"] }
+ 
+ [dependencies.hickory-resolver]
+-version = "0.24.1"
++version = "=0.24.0"
+ features = [
+   "dnssec-ring",
+   "dns-over-rustls",
+@@ -49,7 +49,7 @@ features = [
+ ]
+ 
+ [dependencies.hickory-proto]
+-version = "0.24.1"
++version = "=0.24.0"
+ features = [
+   "dnssec-ring",
+   "backtrace",
+@@ -60,7 +60,7 @@ features = [
+ ]
+ 
+ [dependencies.hickory-client]
+-version = "0.24.1"
++version = "=0.24.0"
+ features = [
+   "dnssec-ring",
+   "backtrace",
+@@ -71,5 +71,14 @@ features = [
+ ]
+ 
  # For termux
- # [patch.crates-io]
+-# [patch.crates-io]
++[patch.crates-io]
  # pwd = { git = "https://gitlab.com/dead10ck/pwd", branch = "termux" }
 +
-+[patch.crates-io]
++# mips/mipsel: error: failed to run custom build command for `ring v0.16.20`
 +hickory-client = { path = "../hickory-dns-0.24.0/crates/client" }
 +hickory-proto = { path = "../hickory-dns-0.24.0/crates/proto" }
 +hickory-resolver = { path = "../hickory-dns-0.24.0/crates/resolver" }
 +quinn = { path = "../quinn-0.10.4/quinn" }
-+ring = { path = "../ring-0.17.5" }
-+rustls = { path = "../rustls-0.21.9/rustls" }
-+webpki-roots = { path = "../webpki-roots-0.25.3" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }

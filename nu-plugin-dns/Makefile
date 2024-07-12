@@ -2,21 +2,18 @@
 #
 # Copyright (C) 2024 Entware
 
-# mips(el):
-#	error: failed to run custom build command for `ring v0.16.20`
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-dns
-PKG_VERSION:=1.0.4-alpha.1
-PKG_RELEASE:=2
+PKG_VERSION:=2.0.1-alpha.1
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-10-21
-PKG_SOURCE_VERSION:=2c245f75bda308277f4a4e98a48f361b5c0ad26a
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
+PKG_SOURCE_DATE:=2024-04-28
+PKG_SOURCE_VERSION:=0bf9085a52704df5c5630b424b1c096ab78fde12
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.zst
 PKG_SOURCE_URL:=https://github.com/dead10ck/nu_plugin_dns
-PKG_MIRROR_HASH:=2f19300bbef7489eb1d065702c0cca8c61916515e9f71684249b676f0d966644
+PKG_MIRROR_HASH:=90e64c40fd579328537ab95d458933fecf7a954424678005214206aa0d1e19c7
 
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -24,8 +21,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 hickory-dns quinn-0104 rustls-0219
-PKG_BUILD_DEPENDS += webpki-roots-0243
+PKG_BUILD_DEPENDS += chrono-0435 hickory-dns quinn-0104
 
 define Package/nu-plugin-dns
   SECTION:=utils
@@ -37,13 +33,12 @@ define Package/nu-plugin-dns
 endef
 
 define Package/nu-plugin-dns/description
-  Nushell plugin that does DNS queries and parses results into meaningful types.
+  Nushell plugin that does DNS queries and parses results into
+  meaningful types.
 endef
 
-# FIXME
-# i386/x86_64:
-#	undefined reference to `__stack_chk_guard'
-ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+# x86_64: undefined reference to `__stack_chk_guard'
+ifeq ($(CONFIG_x86_64),y)
 RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 
