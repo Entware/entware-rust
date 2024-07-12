@@ -1,0 +1,19 @@
+--- a/tests/integration-tests/Cargo.toml
++++ b/tests/integration-tests/Cargo.toml
+@@ -66,7 +66,7 @@ sqlite = ["rusqlite", "trust-dns-server/
+ 
+ [dependencies]
+ async-trait.workspace = true
+-futures.workspace = true
++futures = { workspace = true, features = ["executor"] }
+ once_cell.workspace = true
+ openssl = { workspace = true, features = ["v102", "v110"] }
+ rand.workspace = true
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -1,4 +1,5 @@
+ [workspace]
++resolver = "2"
+ members = [
+     "crates/proto",
+     "crates/resolver",

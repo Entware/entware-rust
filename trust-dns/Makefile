@@ -2,18 +2,18 @@
 #
 # Copyright (C) 2024 Entware
 
-# mips(el):
-#	error: failed to run custom build command for `ring v0.16.20`
+# XXX The latest version.
+# For details, see: https://www.memorysafety.org/blog/announcing-hickory-dns/
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=trust-dns
 PKG_VERSION:=0.23.0
-PKG_RELEASE:=1
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/bluejekyll/trust-dns/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=258c33f0d0e6a6007afcce1dd9453b14bf4d4f074111ec4488f24be0f11645dd
+PKG_HASH:=8e42149735e43e3a0c8db27d152e8e43c8bb2c59ac6d7f7feb115347eb8fa8d2
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -21,8 +21,8 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += quinn-0104 ring-0175 rustls-0219 rustls-webpki-01017 \
-	tokio-rustls-0241 webpki-roots-0243
+PKG_BUILD_DEPENDS += quinn-0104
+PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/trust-dns
   SECTION:=net
