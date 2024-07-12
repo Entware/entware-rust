@@ -5,15 +5,15 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-pnet
-PKG_VERSION:=1.4.0
+PKG_VERSION:=1.7.0
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-01-15
-PKG_SOURCE_VERSION:=55bd27f8f83a05f4bb57ce9365514f2c6373a966
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
+PKG_SOURCE_DATE:=2024-04-08
+PKG_SOURCE_VERSION:=c5f5f716783d5759c718db8eb4df282805bab719
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.zst
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_pnet
-PKG_MIRROR_HASH:=942fc452bf9d354f28f80f7d80c0524f8d944b0bde1f947c0f60b1f5815cc0a4
+PKG_MIRROR_HASH:=a82f448cb82e2d28d0825ff6fbffaeec3585718ad95a694aaa7154548f80ba03
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=
@@ -21,7 +21,7 @@ PKG_LICENSE_FILES:=
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0435
 
 define Package/nu-plugin-pnet
   SECTION:=utils
@@ -33,12 +33,9 @@ define Package/nu-plugin-pnet
 endef
 
 define Package/nu-plugin-pnet/description
-  A nushell plugin for enumerating network interfaces in a platform-agnostic way.
+  A nushell plugin for enumerating network interfaces in
+  a platform-agnostic way.
 endef
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
 
 define Package/nu-plugin-pnet/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin/nu_plugins
