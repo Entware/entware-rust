@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bottom
 PKG_VERSION:=0.9.6
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ClementTsang/bottom/tar.gz/refs/tags/$(PKG_VERSION)?
@@ -30,10 +30,6 @@ define Package/bottom/description
   interface and a multitude of features. Supports Linux, macOS, and
   Windows. Inspired by both gtop and gotop.
 endef
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
 
 define Package/bottom/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
