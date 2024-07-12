@@ -1,30 +1,66 @@
+--- a/crates/tor-hsrproxy/Cargo.toml
++++ b/crates/tor-hsrproxy/Cargo.toml
+@@ -46,5 +46,6 @@ tracing = "0.1.36"
+ void = "1"
+ 
+ [dev-dependencies]
++chrono = "0.4.38"
+ serde_json = "1.0.50"
+ toml = "0.8.8"
+--- a/crates/tor-hsservice/Cargo.toml
++++ b/crates/tor-hsservice/Cargo.toml
+@@ -91,6 +91,7 @@ tracing = "0.1.36"
+ void = "1"
+ 
+ [dev-dependencies]
++chrono = "0.4.38"
+ libc = { version = "0.2", default-features = false }
+ rmp-serde = "1"
+ serde_json = "1.0.104"
+--- a/crates/tor-linkspec/Cargo.toml
++++ b/crates/tor-linkspec/Cargo.toml
+@@ -50,6 +50,7 @@ tor-llcrypto = { path = "../tor-llcrypto
+ tor-protover = { path = "../tor-protover", version = "0.20.0" }
+ 
+ [dev-dependencies]
++chrono = "0.4.38"
+ hex-literal = "0.4"
+ itertools = "0.13.0"
+ serde_test = "1.0.124"
+--- a/crates/tor-netdoc/Cargo.toml
++++ b/crates/tor-netdoc/Cargo.toml
+@@ -122,6 +122,7 @@ zeroize = "1"
+ 
+ [dev-dependencies]
+ anyhow = "1.0.23"
++chrono = "0.4.38"
+ hex-literal = "0.4"
+ itertools = "0.13.0"
+ serde_json = "1.0.50"
 --- a/crates/tor-proto/Cargo.toml
 +++ b/crates/tor-proto/Cargo.toml
-@@ -57,7 +57,7 @@ asynchronous-codec = "0.7.0"
- bitvec = "1.0.1"
- bytes = "1"
- cipher = { version = "0.4.1", features = ["zeroize"] }
--coarsetime = "0.1.20"
-+coarsetime = "0.1.29"
- derive_builder = { version = "0.11.2", package = "derive_builder_fork_arti" }
- derive_more = "0.99.3"
- digest = "0.10.0"
+@@ -94,6 +94,7 @@ void = "1"
+ zeroize = "1"
+ 
+ [dev-dependencies]
++chrono = "0.4.38"
+ hex = "0.4"
+ hex-literal = "0.4"
+ humantime = "2"
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -104,3 +104,16 @@ incremental = true
+@@ -108,3 +108,14 @@ incremental = true
  # Inherits release build settings, but adds full debug symbols.
  debug = 2
  strip = "none"
 +
 +[patch.crates-io]
-+ring = { path = "../ring-0.17.5" }
-+trust-dns-proto = { path = "../trust-dns-0.23.0/crates/proto" }
-+# armv5/mips/mipsel
-+coarsetime = { path = "../coarsetime-0.1.29" }
++# mips/mipsel Atomic*64
++coarsetime = { path = "../coarsetime-0.1.34" }
 +# mips (big endian)
 +merlin = { path = "../merlin-3.0.0" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
 +# openssl
 +openssl-probe = { path = "../openssl-probe-0.1.5" }

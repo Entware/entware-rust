@@ -2,25 +2,22 @@
 #
 # Copyright (C) 2024 Entware
 
-# mips(el)/armv5:
+# mips(el):
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 #	error: could not compile `coarsetime` due to previous error
-# x86:
-#	error[E0277]: the trait bound `[core::arch::x86::__m128i; 11]: Zeroize` is not satisfied
-#	error: could not compile `aes` due to 6 previous errors
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=arti
-PKG_VERSION:=1.1.13
+PKG_VERSION:=1.2.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://gitlab.torproject.org/tpo/core/arti/-/archive/$(PKG_NAME)-v$(PKG_VERSION)
-PKG_HASH:=d1c8ce40aa8582c121008c014d196c00a22da4887c5f72d222af1832a0ecd081
+PKG_HASH:=0826cabc6a00f6564837ca1a6688566d0e54b399a4f8362b6297552f9167eeba
 
 PKG_LICENSE:=Apache-2.0 MIT
-PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
+PKG_LICENSE_FILES:=GPL-3 LGPL-3 LICENSE-APACHE LICENSE-MIT
 PKG_MAINTAINER:=Entware team, https://entware.net
 
 #PKG_CONFIG_DEPENDS:= \
@@ -29,15 +26,13 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 coarsetime-0129 merlin-300 openssl-probe-015
-PKG_BUILD_DEPENDS += ring-0175 trust-dns
+PKG_BUILD_DEPENDS += chrono-0438 coarsetime-0134 merlin-300 openssl-probe-015
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/arti/Default
   SECTION:=net
   CATEGORY:=Network
   URL:=https://gitlab.torproject.org/tpo/core/arti/-/wikis/home
-  DEPENDS:=@!i386
 endef
 
 define Package/arti
@@ -132,7 +127,7 @@ define Package/arti-pt-proxy/description
 endef
 
 define Package/arti/conffiles
-/opt/etc/arti/arti-config.toml
+/opt/etc/arti/arti.toml
 endef
 
 #define Package/arti/config
@@ -143,16 +138,12 @@ endef
 
 #CARGO_ARGS += $(if $(CONFIG_ARTI_EXPERIMENTAL),--features 'experimental')
 
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
-
 define Package/arti/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/arti $(1)/opt/usr/bin
 	$(INSTALL_DIR) $(1)/opt/etc/arti
 	$(CP) $(PKG_BUILD_DIR)/crates/arti/src/arti-example-config.toml \
-		$(1)/opt/etc/arti/arti-config.toml
+		$(1)/opt/etc/arti/arti.toml
 endef
 
 define Package/arti-bench/install
@@ -191,10 +182,10 @@ define Package/arti-pt-proxy/install
 endef
 
 $(eval $(call BuildPackage,arti))
-$(eval $(call BuildPackage,arti-bench))
-$(eval $(call BuildPackage,arti-testing))
+#$(eval $(call BuildPackage,arti-bench))
 #$(eval $(call BuildPackage,arti-connection-checker))
 #$(eval $(call BuildPackage,arti-dns-resolver))
 #$(eval $(call BuildPackage,arti-download-manager))
 #$(eval $(call BuildPackage,arti-obfs4-checker))
 #$(eval $(call BuildPackage,arti-pt-proxy))
+$(eval $(call BuildPackage,arti-testing))

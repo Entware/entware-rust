@@ -1,0 +1,11 @@
+--- a/crates/arti-client/src/config.rs
++++ b/crates/arti-client/src/config.rs
+@@ -767,7 +767,7 @@ impl TorClientConfigBuilder {
+ 
+ /// Return the filenames for the default user configuration files
+ pub fn default_config_files() -> Result<Vec<ConfigurationSource>, CfgPathError> {
+-    ["${ARTI_CONFIG}/arti.toml", "${ARTI_CONFIG}/arti.d/"]
++    ["/opt/etc/arti/arti.toml", "/opt/etc/arti/arti.d/", "${ARTI_CONFIG}/arti.toml", "${ARTI_CONFIG}/arti.d/"]
+         .into_iter()
+         .map(|f| {
+             let path = CfgPath::new(f.into()).path()?;

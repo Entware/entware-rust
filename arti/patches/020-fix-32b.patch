@@ -55,23 +55,23 @@
  
  /// An object for determining whether an event happened,
  /// and if yes, when it happened.
-@@ -18,13 +18,13 @@ pub(crate) struct OptTimestamp {
+@@ -18,13 +18,13 @@ pub(crate) struct AtomicOptTimestamp {
      ///
      /// I'd rather just use [`coarsetime::Instant`], but that doesn't have
      /// an atomic form.
 -    latest: AtomicU64,
 +    latest: AtomicUsize,
  }
- impl OptTimestamp {
+ impl AtomicOptTimestamp {
      /// Construct a new timestamp that has never been updated.
      pub(crate) const fn new() -> Self {
-         OptTimestamp {
+         AtomicOptTimestamp {
 -            latest: AtomicU64::new(0),
 +            latest: AtomicUsize::new(0),
          }
      }
  
-@@ -42,7 +42,7 @@ impl OptTimestamp {
+@@ -42,7 +42,7 @@ impl AtomicOptTimestamp {
  
          let _ignore = self
              .latest
@@ -80,7 +80,7 @@
      }
  
      /// Clear the timestamp and make it not updated again.
-@@ -67,7 +67,7 @@ impl OptTimestamp {
+@@ -67,7 +67,7 @@ impl AtomicOptTimestamp {
          &self,
          now: coarsetime::Instant,
      ) -> Option<coarsetime::Duration> {
@@ -89,7 +89,7 @@
          let now = now.as_ticks();
          if now >= earlier && earlier != 0 {
              Some(coarsetime::Duration::from_ticks(now - earlier))
-@@ -79,7 +79,7 @@ impl OptTimestamp {
+@@ -79,7 +79,7 @@ impl AtomicOptTimestamp {
      /// Update this timestamp to (at least) the time `now`.
      #[inline]
      pub(crate) fn update_to(&self, now: coarsetime::Instant) {
