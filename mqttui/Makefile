@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mqttui
-PKG_VERSION:=0.19.0
-PKG_RELEASE:=2
+PKG_VERSION:=0.21.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/EdJoPaTo/mqttui/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=76d39f14920eb1cf1a65239f1e54c840f20b35c2be96f074819be5175427a7e7
+PKG_HASH:=64453143e36f59a2fbb0dd67b02437b170d82fa15daf492cff2750cce0f5c126
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0438
 
 define Package/mqttui
   SECTION:=utils
@@ -33,17 +33,8 @@ define Package/mqttui/description
   Subscribe to a MQTT Topic or publish something quickly from the terminal.
 endef
 
-# FIXME
-# mips(el):
-#	error: failed to run custom build command for `ring v0.16.20`
-ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
-CARGO_ARGS += --no-default-features
-endif
-
-# FIXME
-# i386/x86_64:
-#	undefined reference to `__stack_chk_guard'
-ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+# x86_64: undefined reference to `__stack_chk_guard'
+ifeq ($(CONFIG_x86_64),y)
 RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 
