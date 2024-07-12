@@ -2,8 +2,6 @@
 #
 # Copyright (C) 2024 Entware
 
-# FIXME fonts & config
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ox
@@ -39,7 +37,6 @@ endef
 define Package/ox/install
 	$(INSTALL_DIR) $(1)/opt/etc
 	$(INSTALL_DATA) $(PKG_BUILD_DIR)/config/ox.ron $(1)/opt/etc
-
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/ox $(1)/opt/usr/bin
 endef
