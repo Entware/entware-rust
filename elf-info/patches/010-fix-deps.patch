@@ -1,0 +1,9 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -33,3 +33,6 @@ rustc-demangle = "0.1.21"
+ regex = "1.6"
+ iced-x86 = "1.17"
+ byteorder = "1.4.3"
++
++# error[E0635]: unknown feature `proc_macro_span_shrink`
++proc-macro2 = "1.0.57"
