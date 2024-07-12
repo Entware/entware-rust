@@ -5,22 +5,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=miniserve
-PKG_VERSION:=0.26.0
+PKG_VERSION:=0.27.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/svenstaro/miniserve/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=5ac3e7220c0c86c23af46326cf88e4d0dc9eb296ca201c47c4c3f01d607edf63
+PKG_HASH:=b65580574ca624072b1a94d59ebf201ab664eacacb46a5043ef7b81ebb538f80
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
-RUST_MIN_SIZE:=0
-
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0435
 
 define Package/miniserve
   SECTION:=net
@@ -35,17 +33,13 @@ define Package/miniserve/description
   allows you to just grab the binary and serve some file(s) via HTTP. 
 endef
 
-# FIXME
-# mips(el):
-#	error: failed to run custom build command for `ring v0.16.20`
+# mips(el): error: failed to run custom build command for `ring v0.16.20`
 ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
 CARGO_ARGS += --no-default-features
 endif
 
-# FIXME
-# i386/x86_64:
-#	undefined reference to `__stack_chk_guard'
-ifeq ($(or $(CONFIG_i386),$(CONFIG_x86_64)),y)
+# x86_64: undefined reference to `__stack_chk_guard'
+ifeq ($(CONFIG_x86_64),y)
 RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 

@@ -1,5 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
+@@ -26,7 +26,7 @@ actix-web-httpauth = "0.8"
+ alphanumeric-sort = "1"
+ anyhow = "1"
+ bytesize = "1"
+-chrono = "0.4"
++chrono = "0.4.35"
+ chrono-humanize = "0.2"
+ clap = { version = "4", features = ["derive", "cargo", "wrap_help", "deprecated", "env"] }
+ clap_complete = "4"
 @@ -82,3 +82,8 @@ url = "2"
  [target.'cfg(not(windows))'.dev-dependencies]
  # fake_tty does not support Windows for now
@@ -7,5 +16,5 @@
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
