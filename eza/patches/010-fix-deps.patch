@@ -1,11 +1,19 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -140,3 +140,8 @@ panic = 'abort'
+@@ -112,6 +112,7 @@ windows-sys = { version = "0.52.0", feat
+ 
+ [build-dependencies]
+ chrono = { version = "0.4.34", default-features = false, features = ["clock"] }
++iana-time-zone = "0.1.60"
+ 
+ [dev-dependencies]
+ criterion = { version = "0.5.1", features = ["html_reports"] }
+@@ -142,3 +143,8 @@ panic = 'abort'
  [[bench]]
  name = "my_benchmark"
  harness = false
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.34" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
