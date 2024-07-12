@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=netop
 PKG_VERSION:=0.1.4
-PKG_RELEASE:=1
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ZingerLittleBee/netop/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0434
 
 define Package/netop
   SECTION:=net
@@ -33,11 +33,10 @@ define Package/netop/description
   the filter network traffic rule.
 endef
 
-# FIXME 32b
-ifeq ($(or $(CONFIG_TARGET_armv5_3_2),$(CONFIG_TARGET_mips_3_4),$(CONFIG_TARGET_mipsel_3_4)),y)
+ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
   define Build/Prepare
 	$(Build/Prepare/Default)
-	patch -p1 -d $(PKG_BUILD_DIR) < ./patches-32bit/010-fix.patch || true
+	patch -p1 -d $(PKG_BUILD_DIR) < ./patches-32bit/010-fix.patch
   endef
 endif
 
