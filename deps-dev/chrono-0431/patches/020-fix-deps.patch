@@ -1,5 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
+@@ -48,7 +48,7 @@ windows-targets = { version = "0.48", op
+ windows-bindgen = { version = "0.51" }
+ 
+ [target.'cfg(unix)'.dependencies]
+-iana-time-zone = { version = "0.1.45", optional = true, features = ["fallback"] }
++iana-time-zone = { version = "0.1.59", optional = true, features = ["fallback"] }
+ 
+ [target.'cfg(target_os = "android")'.dependencies]
+ android-tzdata = { version = "0.1.1", optional = true }
 @@ -67,3 +67,6 @@ rustdoc-args = ["--cfg", "docsrs"]
  
  [package.metadata.playground]
