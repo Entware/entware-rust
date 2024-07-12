@@ -5,15 +5,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata-update
-PKG_VERSION:=1.3.0
+PKG_VERSION:=1.3.3
 PKG_RELEASE:=1
 
-PYPI_NAME:=suricata-update
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/OISF/suricata-update/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=0f281477904692da2a3b7a784ffe7a79e536068293a39a91c93db78aa931dfd8
+PKG_HASH:=032328182872269662cb5588084b0eb45114486d2f12c45462c683abcab2a954
 
-PKG_BUILD_DIR:=$(BUILD_DIR)/pypi/$(PYPI_NAME)-$(PKG_VERSION)
+PKG_BUILD_DIR:=$(BUILD_DIR)/pypi/$(PKG_NAME)-$(PKG_VERSION)
 
 PKG_LICENSE:=GPL-2.0-or-later
 PKG_LICENSE_FILES:=LICENSE
@@ -39,6 +38,13 @@ endef
 
 define Package/suricata-update/description
   The tool for updating your Suricata rules.
+endef
+
+define Package/suricata-update/postrm
+#!/bin/sh
+
+rm -rf $(PYTHON3_PKG_DIR)/suricata
+rm -rf $(PYTHON3_PKG_DIR)/suricata_update-$(PKG_VERSION).dist-info
 endef
 
 $(eval $(call Py3Package,suricata-update))

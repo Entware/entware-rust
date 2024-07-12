@@ -99,7 +99,7 @@
 +  - /opt/etc/suricata/rules/*.rules
 --- a/suricata/update/main.py
 +++ b/suricata/update/main.py
-@@ -1206,8 +1206,8 @@ def _main():
+@@ -1225,8 +1225,8 @@ def _main():
          except Exception as err:
              logger.warning(
                  "Cache directory does not exist and could not be created. "
