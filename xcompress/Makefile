@@ -27,10 +27,9 @@ define Package/xcompress
 endef
 
 define Package/xcompress/description
-  XCompress is a free file archiver utility on Linux,
-  providing multi-format archiving to and extracting
-  from ZIP, Z, GZIP, BZIP2, LZ, XZ, LZMA, 7ZIP, TAR,
-  RAR and ZSTD.
+  XCompress is a free file archiver utility on Linux, providing
+  multi-format archiving to and extracting from ZIP, Z, GZIP, BZIP2, LZ, XZ,
+  LZMA, 7ZIP, TAR, RAR and ZSTD.
 endef
 
 define Package/xcompress/install
