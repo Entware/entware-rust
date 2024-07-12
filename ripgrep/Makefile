@@ -30,9 +30,9 @@ define Package/ripgrep
 endef
 
 define Package/ripgrep/description
-  ripgrep is a line-oriented search tool that recursively searches the current
-  directory for a regex pattern while respecting gitignore rules. ripgrep has
-  first class support on Windows, macOS and Linux.
+  ripgrep is a line-oriented search tool that recursively searches
+  the current directory for a regex pattern while respecting gitignore rules.
+  ripgrep has first class support on Windows, macOS and Linux.
 endef
 
 define Package/ripgrep/config
@@ -43,10 +43,6 @@ config RIPGREP_PCRE2
 endef
 
 CARGO_ARGS += $(if $(CONFIG_RIPGREP_PCRE2),--features 'pcre2')
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
 
 define Package/ripgrep/install
 	$(INSTALL_DIR) $(1)/opt/bin
