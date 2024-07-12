@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tokei
-PKG_VERSION:=13.0.0-alpha.0
-PKG_RELEASE:=2
+PKG_VERSION:=13.0.0-alpha.1
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/XAMPPRocky/tokei/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=5e5e4a538efdc122d89145f139274350f8e92d76adb3e975a45f717817d4fdf7
+PKG_HASH:=637c6e3d905089f74cf8195666304ac98273cee609541c8a2d87ba438ba08c6e
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -32,10 +32,6 @@ define Package/tokei/description
   Tokei will show the number of files, total lines within those
   files and code, comments, and blanks grouped by language.
 endef
-
-ifeq ($(or $(CONFIG_aarch64),$(CONFIG_i386),$(CONFIG_x86_64)),)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
-endif
 
 define Package/tokei/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
