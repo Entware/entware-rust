@@ -1,6 +1,19 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -26,4 +26,9 @@ indexmap = "1.9.1"
+@@ -15,15 +15,20 @@ license = "MIT OR Apache-2.0"
+ pcap = "0.10.1"
+ etherparse = "0.12.0"
+ clap = { version = "3.2.6", features = ["derive"] }
+-chrono = "0.4.20"
++chrono = "0.4.38"
+ crossterm = "0.13.3"
+ colored = "2.0.0"
+ thousands = "0.2.0"
+-plotters = "0.3.4"
++plotters = "=0.3.6"
+ indexmap = "1.9.1"
+ 
+ 
  #used for debug purposes to measure time needed to write output reports
  #[features]
  #default = ["elapsed_time"]
@@ -10,5 +23,5 @@
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }

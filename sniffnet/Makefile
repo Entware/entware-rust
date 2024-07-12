@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sniffnet
 PKG_VERSION:=0.5.0
-PKG_RELEASE:=3
+PKG_RELEASE:=6
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/GyulyVGC/sniffnet/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -20,7 +20,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0438
 
 define Package/sniffnet
   SECTION:=net
@@ -32,7 +32,8 @@ define Package/sniffnet
 endef
 
 define Package/sniffnet/description
-  Framework to explore network traffic through graphical and textual reports.
+  Framework to explore network traffic through graphical and textual
+  reports.
 endef
 
 define Package/sniffnet/install
@@ -42,6 +43,12 @@ endef
 
 define Package/sniffnet/postinst
 #!/bin/sh
+
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "Build font information caches..."
 
 fc-cache -f
 endef
