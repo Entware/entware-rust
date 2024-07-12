@@ -1,5 +1,14 @@
 --- a/src/args.rs
 +++ b/src/args.rs
+@@ -136,7 +136,7 @@ pub fn build_args() -> Command {
+         .arg(
+             Arg::new("oui-file").long("oui-file")
+                 .value_name("FILE_PATH")
+-                .default_value("/usr/share/arp-scan/ieee-oui.csv")
++                .default_value("/opt/share/arp-scan/ieee-oui.csv")
+                 .help("Path to custom IEEE OUI CSV file for vendor lookup")
+         )
+         .arg(
 @@ -459,7 +459,7 @@ impl ScanOptions {
  
          let oui_file: String = match matches.get_one::<String>("oui-file") {

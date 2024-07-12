@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=arp-scan-rs
 PKG_VERSION:=0.14.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kongbytes/arp-scan-rs/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -32,11 +32,16 @@ define Package/arp-scan-rs/description
   finds all hosts using the ARP protocol.
 endef
 
+define GetDB
+	wget -O $(PKG_BUILD_DIR)/ieee-oui.csv http://standards-oui.ieee.org/oui/oui.csv
+endef
+Hooks/Compile/Pre += GetDB
+
 define Package/arp-scan-rs/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/arp-scan $(1)/opt/usr/bin
 	$(INSTALL_DIR) $(1)/opt/share/arp-scan
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/data/ieee-oui.csv $(1)/opt/share/arp-scan
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/ieee-oui.csv $(1)/opt/share/arp-scan
 endef
 
 $(eval $(call BuildPackage,arp-scan-rs))
