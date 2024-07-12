@@ -6,14 +6,14 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qbtui
 PKG_VERSION:=0.0.5
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2023-05-31
 PKG_SOURCE_VERSION:=4d8bc838ad423a92765c3b096d5f6b36945e3106
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.xz
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.zst
 PKG_SOURCE_URL:=https://github.com/pegov/qbtui
-PKG_MIRROR_HASH:=841bc27b6d2e97c74f0eee7f6794ce45439a204d0f19cf6bc87b40e147f34f86
+PKG_MIRROR_HASH:=6b25b4441b40ab3c805705b2fbedac05e17d3e0949eb18f537b98fe7de8736dc
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -28,7 +28,6 @@ define Package/qbtui
   TITLE:=A terminal user interface for qBittorrent
   URL:=https://github.com/pegov/qbtui
   DEPENDS:=+libopenssl
-  EXTRA_DEPENDS:=qbittorrent
 endef
 
 define Package/qbtui/description
