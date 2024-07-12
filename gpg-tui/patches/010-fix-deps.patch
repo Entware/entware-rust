@@ -1,11 +1,11 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -87,3 +87,8 @@ codegen-units = 1
+@@ -88,3 +88,8 @@ codegen-units = 1
  [profile.bench]
  opt-level = 3
  debug = false
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.35" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
