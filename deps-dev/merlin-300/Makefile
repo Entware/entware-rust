@@ -12,7 +12,7 @@ PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/zkcrypto/merlin/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=skip
+PKG_HASH:=c061f9804321df6aedc1ebe83a7753b7554fb0dfe5d8908e1d9dcdee886b0dc8
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.txt
