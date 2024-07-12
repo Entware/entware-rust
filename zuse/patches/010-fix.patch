@@ -1,0 +1,97 @@
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -1,5 +1,5 @@
+ use anyhow::{Result, Context};
+-use clap::{Arg, App};
++use clap::{Arg, Command};
+ use serde_derive::{Deserialize, Serialize};
+ use std::collections::{HashMap, HashSet};
+ use std::process::exit;
+@@ -207,12 +207,12 @@ type ZuseNotifyGroupMap = HashMap<String
+ const DEFAULT_SENDER_ID: &'static str = "NOTICE";
+ 
+ const DEFAULT_MSG_TMPL_ALRT_SUBJECT: &'static str = "ALRT {{test_name}}";
+-const DEFAULT_MSG_TMPL_ALRT_PLAIN: &'static str = "ALRT Uptime checks failed on '{{test_name}}'. (url: {{test_url}}{{test_opts}})";
+-const DEFAULT_MSG_TMPL_ALRT_HTML: &'static str = "<b>ALRT</b> Uptime checks failed on '{{test_name}}'. (url: {{test_url}}{{test_opts}})";
++const DEFAULT_MSG_TMPL_ALRT_PLAIN: &'static str = "ALRT Uptime checks failed on \"{{test_name}}\". (url: {{test_url}}{{test_opts}})";
++const DEFAULT_MSG_TMPL_ALRT_HTML: &'static str = "<b>ALRT</b> Uptime checks failed on \"{{test_name}}\". (url: {{test_url}}{{test_opts}})";
+ 
+ const DEFAULT_MSG_TMPL_RSLV_SUBJECT: &'static str = "RSVL {{test_name}}";
+-const DEFAULT_MSG_TMPL_RSLV_PLAIN: &'static str = "RSLV Uptime checks recovered on '{{test_name}}'. (duration={{time_state_lasted}}s, url: {{test_url}}{{test_opts}})";
+-const DEFAULT_MSG_TMPL_RSLV_HTML: &'static str = "<b>RSLV</b> Uptime checks recovered on '{{test_name}}'. (duration={{time_state_lasted}}s, url: {{test_url}}{{test_opts}})";
++const DEFAULT_MSG_TMPL_RSLV_PLAIN: &'static str = "RSLV Uptime checks recovered on \"{{test_name}}\". (duration={{time_state_lasted}}s, url: {{test_url}}{{test_opts}})";
++const DEFAULT_MSG_TMPL_RSLV_HTML: &'static str = "<b>RSLV</b> Uptime checks recovered on \"{{test_name}}\". (duration={{time_state_lasted}}s, url: {{test_url}}{{test_opts}})";
+ 
+ #[derive(Debug, Clone)]
+ enum ZuseRunnerStatus {
+@@ -1178,7 +1178,6 @@ impl Zuse {
+ 
+                     let chat_id =
+                         chat_id
+-                            .clone()
+                             .parse::<i64>()
+                             .unwrap();
+ 
+@@ -1496,7 +1495,7 @@ impl Zuse {
+             if jsm.state_changed() {
+                 match jsm.state {
+                     JobSMStates::Failure => {
+-                        tx.send(
++                        let _ = tx.send(
+                             msg.with_state(
+                                 JobSMStates::Failure,
+                             ),
+@@ -1505,7 +1504,7 @@ impl Zuse {
+                     JobSMStates::Recovery => {
+                         jsm.normative();
+ 
+-                        tx.send(
++                        let _ = tx.send(
+                             msg.with_state(
+                                 JobSMStates::Recovery,
+                             ),
+@@ -1584,7 +1583,7 @@ impl Zuse {
+                     msg.clone(),
+                 ).await;
+ 
+-                send_op
++                let _ = send_op
+                     .map_err(|err|
+                         println!(
+                             "WARNING: SENDING MESSAGE VIA CHANNEL {:?} FAILED: {:?}",
+@@ -1611,7 +1610,7 @@ impl Zuse {
+             let args = self.args.clone();
+ 
+             tokio::spawn(async move {
+-                Zuse::test_runner(
++                let _ = Zuse::test_runner(
+                     args,
+                     (test_id, test),
+                     test_tx,
+@@ -1641,22 +1640,22 @@ fn read_config(config_path: &str) -> Res
+ #[tokio::main]
+ async fn main() -> Result<()> {
+     let matches = {
+-        App::new("zuse")
++        Command::new("zuse")
+             .version(env!("CARGO_PKG_VERSION"))
+             .author("Kenan Sulayman <kenan@sig.dev>")
+             .about("The flexible uptime bot, a descendant of the Rust async masterrace.")
+-            .arg(Arg::with_name("config")
++            .arg(Arg::new("config")
+                 .short('c')
+                 .long("config")
+                 .value_name("CONFIG")
+                 .help("Config file")
+                 .takes_value(true)
+                 .default_value("tests.yml"))
+-            .arg(Arg::with_name("verbose")
++            .arg(Arg::new("verbose")
+                 .short('v')
+                 .long("verbose")
+                 .help("Print verbose logs"))
+-            .arg(Arg::with_name("debug")
++            .arg(Arg::new("debug")
+                 .long("debug")
+                 .help("Print debug logs (implies verbose)"))
+             .get_matches()

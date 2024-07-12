@@ -1,0 +1,22 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -38,6 +38,10 @@ native-tls = "0.2.10"
+ pw-telegram-bot-fork = "0.9.0"
+ openssl = { version = "0.10.40", features = ["vendored"] }
+ 
++[dev-dependencies]
++chrono = "0.4.31"
++iana-time-zone = "0.1.59"
++
+ [profile]
+ 
+ [profile.release]
+@@ -48,3 +52,8 @@ lto = true
+ opt-level = 3
+ panic = "abort"
+ rpath = false
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
