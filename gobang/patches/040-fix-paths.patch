@@ -1,0 +1,11 @@
+--- a/src/config.rs
++++ b/src/config.rs
+@@ -145,7 +145,7 @@ impl Config {
+         let config_path = if let Some(config_path) = &config.config_path {
+             config_path.clone()
+         } else {
+-            get_app_config_path()?.join("config.toml")
++            get_app_config_path()?.join("/opt/etc/gobang/config.toml")
+         };
+         if let Ok(file) = File::open(config_path) {
+             let mut buf_reader = BufReader::new(file);
