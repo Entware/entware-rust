@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustube
 PKG_VERSION:=0.6.0
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/DzenanJupic/rustube/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -29,10 +29,11 @@ define Package/rustube
 endef
 
 define Package/rustube/description
-  A YouTube video downloader, originally inspired by pytube, written in Rust.
+  A YouTube video downloader, originally inspired by pytube, written
+  in Rust.
 endef
 
-CARGO_ARGS += --workspace
+CARGO_SOURCE_SUBDIR:=cli
 
 define Package/rustube/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
