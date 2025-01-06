@@ -1,25 +1,16 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -11,11 +11,20 @@ categories = ["command-line-utilities",
- 
- [dependencies]
- # nu
--nu-plugin = { version = "0.92.1", path = "../nushell/crates/nu-plugin" }
--nu-protocol = { version = "0.92.1", path = "../nushell/crates/nu-protocol" }
-+nu-plugin = { path = "../nushell-0.92.2/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.92.2/crates/nu-protocol" }
- 
- # highlighting
- syntect = "5"
- nu-ansi-term = "0.50"
- ansi_colours = "1"
- bat = { version = "0.24", default-features = false }
-+
-+[dev-dependencies]
-+# warning: Patch `chrono v0.4.35 (.../chrono-0.4.35)` was not used in the crate graph.
-+chrono = "=0.4.35"
+@@ -33,3 +33,13 @@ mime_guess = "2"
+ patch-apply = "0.8.3"
+ syntect = {workspace = true}
+ bat = {workspace = true}
++# error: failed to select a version for `chrono`.
++chrono = "=0.4.38"
 +
 +[patch.crates-io]
++nu-path = { path = "../nushell-0.101.0/crates/nu-path" }
++nu-plugin = { path = "../nushell-0.101.0/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.101.0/crates/nu-protocol" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.35" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
