@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=miniserve
-PKG_VERSION:=0.27.1
+PKG_VERSION:=0.28.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/svenstaro/miniserve/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=b65580574ca624072b1a94d59ebf201ab664eacacb46a5043ef7b81ebb538f80
+PKG_HASH:=c4c5e12796bdae2892eff3832b66c4c04364738b62cf1429259428b03363d1f1
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0435
+PKG_BUILD_DEPENDS += chrono-0438
 
 define Package/miniserve
   SECTION:=net
