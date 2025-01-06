@@ -5,17 +5,17 @@
  
  [dependencies]
 -chrono = { version = "0.4", features = [ "std" ], default-features = false }
-+chrono = { version = "=0.4.35", features = [ "std" ], default-features = false }
- futures-util = "0.3.30"
--nu-plugin = "0.92.2"
--nu-protocol = "0.92.2"
-+nu-plugin = { path = "../nushell-0.92.2/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.92.2/crates/nu-protocol" }
++chrono = { version = "=0.4.38", features = [ "std" ], default-features = false }
+ futures-util = "0.3.31"
+-nu-plugin = "0.100.0"
+-nu-protocol = "0.100.0"
++nu-plugin = "0.101.0"
++nu-protocol = "0.101.0"
  
- tokio = "1.37.0"
+ tokio = "1.42.0"
  tracing = "0.1"
 @@ -39,7 +39,7 @@ webpki-roots = "0.25.4"
- tokio-util = { version = "0.7.10", features = ["rt"] }
+ tokio-util = { version = "0.7.13", features = ["rt"] }
  
  [dependencies.hickory-resolver]
 -version = "0.24.1"
@@ -41,7 +41,7 @@
  features = [
    "dnssec-ring",
    "backtrace",
-@@ -71,5 +71,14 @@ features = [
+@@ -71,5 +71,16 @@ features = [
  ]
  
  # For termux
@@ -49,11 +49,13 @@
 +[patch.crates-io]
  # pwd = { git = "https://gitlab.com/dead10ck/pwd", branch = "termux" }
 +
++nu-plugin = { path = "../nushell-0.101.0/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.101.0/crates/nu-protocol" }
 +# mips/mipsel: error: failed to run custom build command for `ring v0.16.20`
 +hickory-client = { path = "../hickory-dns-0.24.0/crates/client" }
 +hickory-proto = { path = "../hickory-dns-0.24.0/crates/proto" }
 +hickory-resolver = { path = "../hickory-dns-0.24.0/crates/resolver" }
 +quinn = { path = "../quinn-0.10.4/quinn" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.35" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }

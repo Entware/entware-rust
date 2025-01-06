@@ -5,15 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-dns
-PKG_VERSION:=2.0.1-alpha.1
+PKG_VERSION:=3.0.6
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2024-04-28
-PKG_SOURCE_VERSION:=0bf9085a52704df5c5630b424b1c096ab78fde12
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.zst
+PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/dead10ck/nu_plugin_dns
-PKG_MIRROR_HASH:=90e64c40fd579328537ab95d458933fecf7a954424678005214206aa0d1e19c7
+PKG_MIRROR_HASH:=7732d65379a6a769d9e28f7221725dfc7a7794165630cc1a6aae4ae85319f7f3
 
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -21,7 +19,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0435 hickory-dns quinn-0104
+PKG_BUILD_DEPENDS += chrono-0438 hickory-dns iana-time-zone-0161 quinn-0104
 
 define Package/nu-plugin-dns
   SECTION:=utils
@@ -51,13 +49,7 @@ endef
 define Package/nu-plugin-dns/postinst
 #!/bin/sh
 
-ansi_blue="\033[1;34m"
-ansi_white="\033[1;37m"
-ansi_white_cur="\033[1;3;37m"
-ansi_std="\033[0m"
-
-printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
-printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_dns"
+nu --commands "plugin add /opt/usr/bin/nu_plugins/nu_plugin_dns"
 endef
 
 $(eval $(call BuildPackage,nu-plugin-dns))
