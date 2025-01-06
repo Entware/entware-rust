@@ -56,7 +56,7 @@
      pub(crate) capabilities: OnceCell<lsp::ServerCapabilities>,
      pub(crate) file_operation_interest: OnceLock<FileOperationsInterest>,
      config: Option<Value>,
-@@ -216,7 +216,7 @@ impl Client {
+@@ -223,7 +223,7 @@ impl Client {
              name,
              _process: process,
              server_tx,
@@ -65,7 +65,7 @@
              capabilities: OnceCell::new(),
              file_operation_interest: OnceLock::new(),
              config,
-@@ -240,7 +240,7 @@ impl Client {
+@@ -247,7 +247,7 @@ impl Client {
  
      fn next_request_id(&self) -> jsonrpc::Id {
          let id = self.request_counter.fetch_add(1, Ordering::Relaxed);
