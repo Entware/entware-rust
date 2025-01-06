@@ -1,0 +1,69 @@
+before:
+root@toor: /opt/root # uv python list -v
+DEBUG uv 0.5.4
+DEBUG Searching for any Python interpreter in managed installations or search path
+DEBUG Searching for managed installations at `.local/share/uv/python`
+DEBUG Failed to inspect Python interpreter from search path at `/opt/bin/python` 
+DEBUG Skipping bad interpreter at /opt/bin/python from search path: Querying Python at `/opt/bin/python` did not return the expected data
+unknown variant `mips`, expected one of `aarch64`, `arm64`, `armv6l`, `armv7l`, `armv8l`, `powerpc64le`, `ppc64le`, `powerpc64`, `ppc64`, `i386`, `i686`, `x86`, `amd64`, `x86_64`, `s390x`, `riscv64`
+...
+
+after:
+root@toor: /opt/root # uv python list -v
+DEBUG uv 0.5.4
+DEBUG Searching for any Python interpreter in managed installations or search path
+DEBUG Searching for managed installations at `.local/share/uv/python`
+DEBUG Found `cpython-3.11.10-linux-mips-gnu` at `/opt/bin/python` (search path)
+DEBUG Found `cpython-3.11.10-linux-mips-gnu` at `/opt/bin/python3` (search path)
+DEBUG Found `cpython-3.11.10-linux-mips-gnu` at `/opt/bin/python3.11` (search path)
+cpython-3.11.10-linux-mips-gnu    /opt/bin/python3.11
+cpython-3.11.10-linux-mips-gnu    /opt/bin/python3 -> python3.11
+cpython-3.11.10-linux-mips-gnu    /opt/bin/python -> python3.11
+...
+
+---
+
+--- a/crates/uv-platform-tags/src/platform.rs
++++ b/crates/uv-platform-tags/src/platform.rs
+@@ -78,6 +78,8 @@ pub enum Arch {
+     Armv6L,
+     #[serde(alias = "armv8l")]
+     Armv7L,
++    Mips,
++    Mipsel,
+     #[serde(alias = "ppc64le")]
+     Powerpc64Le,
+     #[serde(alias = "ppc64")]
+@@ -96,6 +98,8 @@ impl fmt::Display for Arch {
+             Self::Aarch64 => write!(f, "aarch64"),
+             Self::Armv6L => write!(f, "armv6l"),
+             Self::Armv7L => write!(f, "armv7l"),
++            Self::Mips => write!(f, "mips"),
++            Self::Mipsel => write!(f, "mipsel"),
+             Self::Powerpc64Le => write!(f, "ppc64le"),
+             Self::Powerpc64 => write!(f, "ppc64"),
+             Self::X86 => write!(f, "i686"),
+@@ -121,6 +125,8 @@ impl Arch {
+             Self::Riscv64 => Some(31),
+             // unsupported
+             Self::Armv6L => None,
++            Self::Mips => None,
++            Self::Mipsel => None,
+         }
+     }
+ }
+--- a/crates/uv-python/src/platform.rs
++++ b/crates/uv-python/src/platform.rs
+@@ -169,6 +169,12 @@ impl From<&uv_platform_tags::Arch> for A
+             uv_platform_tags::Arch::Armv7L => Self(target_lexicon::Architecture::Arm(
+                 target_lexicon::ArmArchitecture::Armv7,
+             )),
++            uv_platform_tags::Arch::Mips => Self(target_lexicon::Architecture::Mips32(
++                target_lexicon::Mips32Architecture::Mips,
++            )),
++            uv_platform_tags::Arch::Mipsel => Self(target_lexicon::Architecture::Mips32(
++                target_lexicon::Mips32Architecture::Mipsel,
++            )),
+             uv_platform_tags::Arch::S390X => Self(target_lexicon::Architecture::S390x),
+             uv_platform_tags::Arch::Powerpc64 => Self(target_lexicon::Architecture::Powerpc64),
+             uv_platform_tags::Arch::Powerpc64Le => Self(target_lexicon::Architecture::Powerpc64le),

@@ -1,0 +1,34 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -80,7 +80,7 @@ axoupdater = { version = "0.8.0", defaul
+ backoff = { version = "0.4.0" }
+ base64 = { version = "0.22.1" }
+ bitflags = { version = "2.6.0" }
+-boxcar = { version = "0.2.5" }
++boxcar = { version = "=0.2.7" }
+ bytecheck = { version = "0.8.0" }
+ cachedir = { version = "0.3.1" }
+ cargo-util = { version = "0.2.14" }
+@@ -297,6 +297,14 @@ windows-archive = ".zip"
+ unix-archive = ".tar.gz"
+ # Target platforms to build apps for (Rust target-triple syntax)
+ targets = [
++  "aarch64-openwrt-linux-gnu",
++  "aarch64-openwrt-linux-musl",
++  "armv7-openwrt-linux-gnueabi",
++  "mips-openwrt-linux-gnu",
++  "mips-openwrt-linux-musl",
++  "mipsel-openwrt-linux-gnu",
++  "mipsel-openwrt-linux-musl",
++  "x86_64-openwrt-linux-gnu",
+   "aarch64-apple-darwin",
+   "aarch64-unknown-linux-gnu",
+   "aarch64-unknown-linux-musl",
+@@ -338,3 +346,7 @@ github-custom-job-permissions = { "build
+ install-updater = false
+ # Path that installers should place binaries in
+ install-path = ["$XDG_BIN_HOME/", "$XDG_DATA_HOME/../bin", "~/.local/bin"]
++
++[patch.crates-io]
++# mips/mipsel: error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
++boxcar = { path = "../../boxcar-0.2.7" }
