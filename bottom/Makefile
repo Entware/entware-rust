@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bottom
-PKG_VERSION:=0.9.6
-PKG_RELEASE:=2
+PKG_VERSION:=0.10.2
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ClementTsang/bottom/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=202130e0d7c362d0d0cf211f6a13e31be3a02f13f998f88571e59a7735d60667
+PKG_HASH:=1db45fe9bc1fabb62d67bf8a1ea50c96e78ff4d2a5e25bf8ae8880e3ad5af80a
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -26,9 +26,9 @@ define Package/bottom
 endef
 
 define Package/bottom/description
-  A cross-platform graphical process/system monitor with a customizable
-  interface and a multitude of features. Supports Linux, macOS, and
-  Windows. Inspired by both gtop and gotop.
+  A cross-platform graphical process/system monitor with a
+  customizable interface and a multitude of features. Supports Linux,
+  macOS, and Windows. Inspired by both gtop and gotop.
 endef
 
 define Package/bottom/install
