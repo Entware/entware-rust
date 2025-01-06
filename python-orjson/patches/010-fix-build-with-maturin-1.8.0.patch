@@ -1,0 +1,18 @@
+# https://github.com/ijl/orjson/issues/541
+
+💥 maturin failed
+  Caused by: `project.version` field is required in pyproject.toml unless it is present in the `project.dynamic` list
+Error: command ['maturin', 'pep517', 'build-wheel', '-i', '.../python3.11', '--compatibility', 'off'] returned non-zero exit status 1
+
+ERROR Backend subprocess exited when trying to invoke build_wheel
+---
+
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,5 +1,6 @@
+ [project]
+ name = "orjson"
++dynamic = ["version"]
+ repository = "https://github.com/ijl/orjson"
+ requires-python = ">=3.8"
+ classifiers = [
