@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -88,3 +88,7 @@ futures-sink = { version="0.3.28", optio
+ [build-dependencies]
+ vergen = { version = "7.4.2", default-features = false, features = ["build", "git", "cargo"] }
+ anyhow = "1.0"
++
++[dev-dependencies]
++# error[E0282]: type annotations needed for `Box<_>`
++time = "0.3.36"
