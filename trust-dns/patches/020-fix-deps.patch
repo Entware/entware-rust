@@ -62,7 +62,17 @@
  h2 = "0.3.0"
  http = "0.2"
  
-@@ -107,3 +108,6 @@ wasm-bindgen-crate = { version = "0.2.58
+@@ -97,7 +98,8 @@ rusqlite = "0.29.0"
+ serde = "1.0"
+ smallvec = "1.6"
+ socket2 = "0.5"
+-time = "0.3"
++# error[E0282]: type annotations needed for `Box<_>`
++time = "=0.3.36"
+ tinyvec = "1.1.1"
+ toml = "0.7"
+ url = "2.4.0"
+@@ -107,3 +109,6 @@ wasm-bindgen-crate = { version = "0.2.58
  # tokio = { path = "../tokio/tokio" }
  # mio = { git = "https://github.com/tokio-rs/mio.git" }
  # h2 = { git = "https://github.com/hyperium/h2.git" }

@@ -4,15 +4,18 @@
 
 # XXX The latest version.
 # For details, see: https://www.memorysafety.org/blog/announcing-hickory-dns/
+#		    https://github.com/bluejekyll/trust-dns?tab=readme-ov-file
+# Trust-DNS was rebranded to Hickory DNS and moved to github.com/hickory-dns/hickory-dns
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=trust-dns
+PKG_REAL_NAME:=$(subst trust,hickory,$(PKG_NAME))
 PKG_VERSION:=0.23.0
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/bluejekyll/trust-dns/tar.gz/refs/tags/v$(PKG_VERSION)?
+PKG_SOURCE:=$(PKG_REAL_NAME)-$(PKG_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/hickory-dns/hickory-dns/tar.gz/refs/tags/v$(PKG_VERSION)?
 PKG_HASH:=8e42149735e43e3a0c8db27d152e8e43c8bb2c59ac6d7f7feb115347eb8fa8d2
 
 PKG_LICENSE:=Apache-2.0 MIT
