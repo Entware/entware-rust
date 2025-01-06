@@ -1,16 +1,18 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -21,6 +21,11 @@ include = [
- rust-version = "1.70.0"
+@@ -21,6 +21,13 @@ include = [
+ rust-version = "1.72.1"
  
  [dependencies]
--nu-plugin = "0.90"
--nu-protocol = "0.90"
-+nu-plugin = { path = "../nushell-0.92.2/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.92.2/crates/nu-protocol" }
+-nu-plugin = "0.93"
+-nu-protocol = "0.93"
++nu-plugin = "0.101.0"
++nu-protocol = "0.101.0"
  bt_bencode = { version = "0.8", default-features = false, features = ["alloc"] }
 +
 +[patch.crates-io]
++nu-plugin = { path = "../nushell-0.101.0/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.101.0/crates/nu-protocol" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.35" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }

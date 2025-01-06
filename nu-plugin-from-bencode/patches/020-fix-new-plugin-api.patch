@@ -1,68 +1,23 @@
---- a/src/nu.rs
-+++ b/src/nu.rs
-@@ -1,34 +1,49 @@
-+use nu_plugin::{EngineInterface, EvaluatedCall, Plugin, PluginCommand, SimplePluginCommand};
-+use nu_protocol::{Category, LabeledError, Signature, Value};
-+
- use crate::{from_bytes_to_value, FromBencode};
--use nu_plugin::{EvaluatedCall, LabeledError, Plugin};
--use nu_protocol::{Category, PluginSignature, Value};
- 
- const FROM_BENCODE_COMMAND: &str = "from bencode";
- 
- impl Plugin for FromBencode {
--    fn signature(&self) -> Vec<PluginSignature> {
--        vec![PluginSignature::build(FROM_BENCODE_COMMAND)
--            .usage("Parse data as bencode and create table.")
--            .category(Category::Formats)]
-+    fn commands(&self) -> Vec<Box<dyn PluginCommand<Plugin = Self>>> {
-+        vec![Box::new(Implementation)]
-+    }
-+}
-+
-+struct Implementation;
-+
-+impl SimplePluginCommand for Implementation {
-+    type Plugin = FromBencode;
-+
-+    fn name(&self) -> &str {
-+        FROM_BENCODE_COMMAND
-+    }
-+
-+    fn usage(&self) -> &str {
-+        "Parse data as bencode and create table."
-+    }
-+
-+    fn signature(&self) -> Signature {
-+        Signature::build(PluginCommand::name(self))
-+            .category(Category::Formats)
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -21,6 +21,9 @@ impl Plugin for FromBencodePlugin {
+     fn commands(&self) -> Vec<Box<dyn nu_plugin::PluginCommand<Plugin = Self>>> {
+         vec![Box::new(nu::FromBencodeCommand)]
      }
- 
-     fn run(
--        &mut self,
--        name: &str,
--        _config: &Option<Value>,
-+        &self,
-+        _plugin: &FromBencode,
-+        _engine: &EngineInterface,
-         call: &EvaluatedCall,
-         input: &Value,
-     ) -> Result<Value, LabeledError> {
--        match name {
-+        match SimplePluginCommand::name(self) {
-             FROM_BENCODE_COMMAND => {
-                 from_bencode(call, input)
-             },
--            _ => Err(LabeledError {
--                label: "Plugin call with wrong name signature".into(),
--                msg: "the signature used to call the plugin does not match any name in the plugin signature vector".into(),
--                span: Some(call.head),
--            }),
-+            _ => Err(LabeledError::new("Plugin call with wrong name signature")
-+                .with_label("the signature used to call the plugin does not match any name in the plugin signature vector", call.head))
-+            }
-         }
--    }
++    fn version(&self) -> String {
++        env!("CARGO_PKG_VERSION").into()
++    }
  }
  
- fn from_bencode(call: &EvaluatedCall, input: &Value) -> Result<Value, LabeledError> {
+ fn convert_bencode_to_value(
+--- a/src/nu.rs
++++ b/src/nu.rs
+@@ -11,7 +11,7 @@ impl SimplePluginCommand for FromBencode
+         "from bencode"
+     }
+ 
+-    fn usage(&self) -> &str {
++    fn description(&self) -> &str {
+         "Parse data as bencode and create table."
+     }
+ 
