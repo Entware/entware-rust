@@ -1,3 +1,13 @@
+--- a/app/Cargo.toml
++++ b/app/Cargo.toml
+@@ -24,5 +24,6 @@ lazy_static = "1.4.0"
+ log = "0.4.17"
+ num-format = "0.4.3"
+ ratatui = { version = "0.20.1", default-features = false, features = ["crossterm"] }
+-time = { version = "0.3.20", features = ["formatting", "macros"] }
++# error[E0282]: type annotations needed for `Box<_>`
++time = { version = "=0.3.36", features = ["formatting", "macros"] }
+ unicode-width = "0.1.10"
 --- a/lib/Cargo.toml
 +++ b/lib/Cargo.toml
 @@ -20,10 +20,13 @@ log = "0.4.17"
