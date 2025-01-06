@@ -11,7 +11,7 @@
          mirror_session,
 --- a/zellij-utils/src/consts.rs
 +++ b/zellij-utils/src/consts.rs
-@@ -15,7 +15,7 @@ pub const DEFAULT_SCROLL_BUFFER_SIZE: us
+@@ -16,7 +16,7 @@ pub const DEFAULT_SCROLL_BUFFER_SIZE: us
  pub static SCROLL_BUFFER_SIZE: OnceCell<usize> = OnceCell::new();
  pub static DEBUG_MODE: OnceCell<bool> = OnceCell::new();
  
@@ -20,7 +20,7 @@
  pub const SYSTEM_DEFAULT_DATA_DIR_PREFIX: &str = system_default_data_dir();
  
  pub static ZELLIJ_DEFAULT_THEMES: Dir = include_dir!("$CARGO_MANIFEST_DIR/assets/themes");
-@@ -36,7 +36,7 @@ const fn system_default_data_dir() -> &'
+@@ -53,7 +53,7 @@ const fn system_default_data_dir() -> &'
      if let Some(data_dir) = std::option_env!("PREFIX") {
          data_dir
      } else {

@@ -12,7 +12,7 @@
 --- a/zellij-server/Cargo.toml
 +++ b/zellij-server/Cargo.toml
 @@ -24,7 +24,7 @@ cassowary = "0.3.0"
- zellij-utils = { path = "../zellij-utils/", version = "0.40.1" }
+ zellij-utils = { path = "../zellij-utils/", version = "0.41.2" }
  log = "0.4.17"
  typetag = "0.1.7"
 -chrono = "0.4.19"
@@ -22,20 +22,18 @@
  sixel-tokenizer = "0.1.0"
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -27,6 +27,12 @@ insta = { version = "1.6.0", features =
+@@ -28,6 +28,10 @@ insta = { version = "1.6.0", features =
  ssh2 = "0.9.1"
  rand = "0.8.0"
  regex = "1.8.1"
 +# error: could not compile `value-bag` (lib) due to 3 previous errors
 +value-bag = "1.4.1"
-+# error[E0635]: unknown feature `stdsimd`
-+ahash = "0.7.8"
 +# localtime/zoneinfo
 +iana-time-zone = "=0.1.59"
  
  [workspace]
  members = [
-@@ -85,3 +91,8 @@ singlepass = ["zellij-server/singlepass"
+@@ -90,3 +94,8 @@ singlepass = ["zellij-server/singlepass"
  # uncomment this when developing plugins in the Zellij UI to make plugin compilation faster
  # [profile.dev.package."*"]
  # opt-level = 3

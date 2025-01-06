@@ -9,12 +9,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zellij
-PKG_VERSION:=0.40.1
+PKG_VERSION:=0.41.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/zellij-org/zellij/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=1f0bfa13f2dbe657d76341a196f98a3b4caa47ac63abee06b39883a11ca220a8
+PKG_HASH:=12e7f0f80c1e39deed5638c4662fc070855cee0250a7eb1d76cefbeef8c2f376
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
