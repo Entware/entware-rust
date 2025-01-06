@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -58,3 +58,8 @@ rev = "fe5d7dfc7d943d2bd8371309084a775db
+ git = "https://github.com/pandora-web-server/pandora-web-server.git"
+ rev = "fe5d7dfc7d943d2bd8371309084a775db99e84f0"
+ # path = "../pandora-web-server/pandora-module-utils"
++
++[patch.crates-io]
++# localtime/TZ
++chrono = { path = "../chrono-0.4.37" }
++#iana-time-zone = { path = "../iana-time-zone-0.1.60" }
