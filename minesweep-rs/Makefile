@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=minesweep-rs
 PKG_VERSION:=6.0.54
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/cpcloud/minesweep-rs/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -27,7 +27,7 @@ define Package/minesweep-rs
 endef
 
 define Package/minesweep-rs/description
-  A terminal battleship game in Rust.
+  A mine sweeping game written in Rust using tui-rs.
 endef
 
 define Package/minesweep-rs/install
