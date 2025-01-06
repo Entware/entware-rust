@@ -9,3 +9,14 @@
  
  #[cfg(all(unix, target_os = "android"))]
  const FALLBACK_USER_HOME_BASE_DIR: &str = "/data";
+--- a/crates/nu-protocol/src/eval_const.rs
++++ b/crates/nu-protocol/src/eval_const.rs
+@@ -292,7 +292,7 @@ pub fn get_vendor_autoload_dirs(_engine_
+                     }
+                 })
+             })
+-            .unwrap_or_else(|| std::ffi::OsString::from("/usr/local/share/:/usr/share/"))
++            .unwrap_or_else(|| std::ffi::OsString::from("/opt/usr/share:/opt/share:/usr/local/share/:/usr/share/"))
+             .as_encoded_bytes()
+             .split(|b| *b == b':')
+             .map(|split| into_autoload_path_fn(PathBuf::from(std::ffi::OsStr::from_bytes(split))))

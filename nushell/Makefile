@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
-PKG_VERSION:=0.92.2
+PKG_VERSION:=0.101.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=d0424380981164137b9db31f686b048b7a4b9fce1a2e06ae6b8e58df0b8c4d64
+PKG_HASH:=43e4a123e86f0fb4754e40d0e2962b69a04f8c2d58470f47cb9be81daabab347
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -21,7 +21,7 @@ PKG_BUILD_FLAGS:=no-mips16
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0435 openssl-probe-015
+PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161 openssl-probe-015
 
 define Package/nushell/Default
   SECTION:=utils
@@ -84,21 +84,26 @@ endef
 define Package/nu-plugin-query
   $(call Package/nushell/Default)
   TITLE:=Query plugin for Nushell
-  DEPENDS:=+nushell
+  DEPENDS:=+libcurl +nushell
 endef
 
 define Package/nu-plugin-query/description
   A Nushell plugin to query JSON, XML, and various web data.
 endef
 
-CARGO_ARGS += --workspace
+define Package/nu-plugin-stress-internals
+  $(call Package/nushell/Default)
+  TITLE:=Used to test behavior of plugin protocol
+  DEPENDS:=+nushell
+endef
 
-# arm/mips(el):
-#	Some errors have detailed explanations: E0412, E0425, E0432, E0433, E0599.
-#	For more information about an error, try `rustc --explain E0412`.
-#	error: could not compile `simd-json` (lib) due to 149 previous errors
+define Package/nu-plugin-stress-internals/description
+  A test plugin for Nushell to stress aspects of the internals.
+endef
+
 CARGO_ARGS += \
-	--features="$(if $(CONFIG_ARCH_64BIT),dataframe) extra"
+	--workspace \
+	$(if $(CONFIG_ARCH_64BIT),,--exclude nu_plugin_polars)
 
 # arm/mips(el): undefined reference to symbol '__atomic_load_8@@LIBATOMIC_1.0'
 ifneq ($(CONFIG_ARCH_64BIT),y)
@@ -140,64 +145,46 @@ define Package/nu-plugin-query/install
 		$(1)/opt/usr/bin/nu_plugins
 endef
 
+define Package/nu-plugin-stress-internals/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin/nu_plugins
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/nu_plugin_stress_internals \
+		$(1)/opt/usr/bin/nu_plugins
+endef
+
 define Package/nu-plugin-custom-values/postinst
 #!/bin/sh
 
-ansi_blue="\033[1;34m"
-ansi_white="\033[1;37m"
-ansi_white_cur="\033[1;3;37m"
-ansi_std="\033[0m"
-
-printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
-printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_custom_values"
+nu --commands "plugin add /opt/usr/bin/nu_plugins/nu_plugin_custom_values"
 endef
 
 define Package/nu-plugin-formats/postinst
 #!/bin/sh
 
-ansi_blue="\033[1;34m"
-ansi_white="\033[1;37m"
-ansi_white_cur="\033[1;3;37m"
-ansi_std="\033[0m"
-
-printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
-printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_formats"
+nu --commands "plugin add /opt/usr/bin/nu_plugins/nu_plugin_formats"
 endef
 
 define Package/nu-plugin-gstat/postinst
 #!/bin/sh
 
-ansi_blue="\033[1;34m"
-ansi_white="\033[1;37m"
-ansi_white_cur="\033[1;3;37m"
-ansi_std="\033[0m"
-
-printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
-printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_gstat"
+nu --commands "plugin add /opt/usr/bin/nu_plugins/nu_plugin_gstat"
 endef
 
 define Package/nu-plugin-inc/postinst
 #!/bin/sh
 
-ansi_blue="\033[1;34m"
-ansi_white="\033[1;37m"
-ansi_white_cur="\033[1;3;37m"
-ansi_std="\033[0m"
-
-printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
-printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_inc"
+nu --commands "plugin add /opt/usr/bin/nu_plugins/nu_plugin_inc"
 endef
 
 define Package/nu-plugin-query/postinst
 #!/bin/sh
 
-ansi_blue="\033[1;34m"
-ansi_white="\033[1;37m"
-ansi_white_cur="\033[1;3;37m"
-ansi_std="\033[0m"
+nu --commands "plugin add /opt/usr/bin/nu_plugins/nu_plugin_query"
+endef
 
-printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std\n" "Info:" "to register (from inside Nushell):"
-printf "\t$$ansi_white_cur%s $$ansi_std\n\n" "register /opt/usr/bin/nu_plugins/nu_plugin_query"
+define Package/nu-plugin-stress-internals/postinst
+#!/bin/sh
+
+nu --commands "plugin add /opt/usr/bin/nu_plugins/nu_plugin_stress_internals"
 endef
 
 $(eval $(call BuildPackage,nushell))
@@ -206,3 +193,4 @@ $(eval $(call BuildPackage,nu-plugin-formats))
 $(eval $(call BuildPackage,nu-plugin-gstat))
 $(eval $(call BuildPackage,nu-plugin-inc))
 $(eval $(call BuildPackage,nu-plugin-query))
+#$(eval $(call BuildPackage,nu-plugin-stress-internals))

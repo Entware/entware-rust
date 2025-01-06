@@ -27,6 +27,21 @@ error: could not compile `nu_plugin_custom_values` (bin "nu_plugin_custom_values
              call.head,
          ))
      }
+--- a/crates/nu_plugin_custom_values/src/handle_update.rs
++++ b/crates/nu_plugin_custom_values/src/handle_update.rs
+@@ -66,10 +66,10 @@ impl SimplePluginCommand for HandleUpdat
+                     .handles
+                     .lock()
+                     .map_err(|err| LabeledError::new(err.to_string()))?
+-                    .insert(new_id, new_value);
++                    .insert(new_id.try_into().unwrap(), new_value);
+ 
+                 Ok(Value::custom(
+-                    Box::new(HandleCustomValue(new_id)),
++                    Box::new(HandleCustomValue(new_id.try_into().unwrap())),
+                     call.head,
+                 ))
+             } else {
 --- a/crates/nu_plugin_custom_values/src/main.rs
 +++ b/crates/nu_plugin_custom_values/src/main.rs
 @@ -1,6 +1,6 @@
@@ -37,7 +52,7 @@ error: could not compile `nu_plugin_custom_values` (bin "nu_plugin_custom_values
  };
  
  use handle_custom_value::HandleCustomValue;
-@@ -29,7 +29,7 @@ use update_arg::UpdateArg;
+@@ -31,7 +31,7 @@ use update_arg::UpdateArg;
  
  #[derive(Default)]
  pub struct CustomValuePlugin {
