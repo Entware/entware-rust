@@ -1,6 +1,6 @@
 --- a/src/kernel/cmd.rs
 +++ b/src/kernel/cmd.rs
-@@ -106,9 +106,9 @@ impl ModuleCommand {
+@@ -94,9 +94,9 @@ impl ModuleCommand {
                  This command reloads a module, removes and inserts to the kernel.",
                  format!("Reload: {module_name}"), Symbol::FuelPump),
  			Self::Blacklist => Command::new(
