@@ -5,14 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.79.0
+PKG_VERSION:=1.83.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.gz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=172ecf3c7d1f9d9fb16cd2a628869782670416ded0129e524a86751f961448c0
-
-PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-$(PKG_VERSION)
+PKG_HASH:=722d773bd4eab2d828d7dd35b59f0b017ddf9a97ee2b46c1b7f7fac5c8841c6e
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -33,6 +31,7 @@ define Package/rustc
   TITLE:=Rust
   URL:=https://www.rust-lang.org
   DEPENDS:=+libatomic +libcurl +libopenssl +libstdcpp +zlib
+  EXTRA_DEPENDS:=gcc
 endef
 
 define Package/rustc/description
@@ -56,12 +55,12 @@ endif
 
 define Build/Configure
 	( \
-		echo 'change-id = 126219'; \
+		echo 'change-id = 133476'; \
 		echo '[llvm]'; \
-		echo 'targets = "AArch64;ARM;Mips;X86"'; \
-		echo 'experimental-targets = ""'; \
 		echo 'download-ci-llvm = false'; \
 		echo 'allow-old-toolchain = true'; \
+		echo 'targets = "AArch64;ARM;Mips;X86"'; \
+		echo 'experimental-targets = ""'; \
 		echo 'link-shared = false'; \
 		echo 'cflags = "-pthread"'; \
 		echo 'cxxflags = "-pthread"'; \
@@ -102,7 +101,7 @@ define Build/Configure
 		echo '[rust]'; \
 		echo 'incremental = true'; \
 		echo 'channel = "nightly"'; \
-		echo 'rpath = false'; \
+		echo 'rpath = true'; \
 		echo 'codegen-tests = false'; \
 		echo 'dist-src = false'; \
 		echo '[target.$(RUSTC_TARGET_ARCH)]'; \
@@ -115,6 +114,9 @@ define Build/Configure
 		echo 'src-tarball = false'; \
 		echo 'compression-formats = ["gz"]'; \
 	) > $(PKG_BUILD_DIR)/config.toml
+
+	$(FIND) $(PKG_BUILD_DIR)/vendor -type f -name ".cargo-checksum.json" -exec \
+		$(SED) 's/\("files":{\)[^}]*/\1/' {} +
 endef
 
 Build/Compile:=:
@@ -133,10 +135,10 @@ define Build/Install
 	( cd $(PKG_BUILD_DIR); \
 		CARGO_HOME="$(STAGING_DIR)/host/share/cargo.dev" \
 		CXXFLAGS='-I$(PKG_BUILD_DIR)/build/$(RUSTC_TARGET_ARCH)/llvm/include' \
-		HOST_PKG_CONFIG_PATH="$(STAGING_DIR_HOST)/lib/pkgconfig:$(STAGING_DIR_HOSTPKG)/lib/pkgconfig" \
-		RUSTFLAGS='-L native=$(PKG_BUILD_DIR)/build/$(RUSTC_TARGET_ARCH)/llvm/lib' \
-		PKG_CONFIG_ALLOW_CROSS=1 \
 		DESTDIR=$(PKG_INSTALL_DIR) \
+		HOST_PKG_CONFIG_PATH="$(STAGING_DIR_HOST)/lib/pkgconfig:$(STAGING_DIR_HOSTPKG)/lib/pkgconfig" \
+		PKG_CONFIG_ALLOW_CROSS=1 \
+		RUSTFLAGS='-L native=$(PKG_BUILD_DIR)/build/$(RUSTC_TARGET_ARCH)/llvm/lib' \
 		$(STAGING_DIR_HOSTPKG)/bin/python3 x.py install; \
 	)
 endef
