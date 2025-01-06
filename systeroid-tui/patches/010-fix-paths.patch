@@ -1,6 +1,6 @@
 --- a/systeroid-core/src/config.rs
 +++ b/systeroid-core/src/config.rs
-@@ -244,7 +244,7 @@ mod tests {
+@@ -232,7 +232,7 @@ mod tests {
              config.display_deprecated
          );
          assert_eq!(
@@ -85,7 +85,7 @@
          assert_eq!(Section::Unknown, Section::from(Path::new("test")));
 --- a/systeroid-tui/tests/integration_test.rs
 +++ b/systeroid-tui/tests/integration_test.rs
-@@ -45,7 +45,7 @@ fn test_render_tui() -> Result<()> {
+@@ -32,7 +32,7 @@ fn test_render_tui() -> Result<()> {
                  value: String::from("0"),
                  description: Some(String::from("This is a fictional parameter for testing")),
                  section: Section::Kernel,
@@ -94,7 +94,7 @@
                  docs_title: String::from("Test Parameter"),
              },
              Parameter {
-@@ -55,7 +55,7 @@ fn test_render_tui() -> Result<()> {
+@@ -42,7 +42,7 @@ fn test_render_tui() -> Result<()> {
                      "The time interval between which vm statistics are updated",
                  )),
                  section: Section::Vm,

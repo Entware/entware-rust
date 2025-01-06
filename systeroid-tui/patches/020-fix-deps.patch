@@ -1,31 +1,28 @@
 --- a/systeroid-tui/Cargo.toml
 +++ b/systeroid-tui/Cargo.toml
-@@ -25,6 +25,8 @@ getopts = "0.2.21"
- copypasta-ext = { version = "0.4.4", optional = true }
- log.workspace = true
+@@ -41,6 +41,7 @@ features = ["termion"]
  
-+chrono = "0.4.31"
-+
- [dependencies.systeroid-core]
- version = "0.4.4" # managed by release.sh
- path = "../systeroid-core"
+ [dev-dependencies]
+ insta = "1.41.1"
++chrono = "=0.4.38"
+ 
+ # metadata for cargo-binstall to get the right artifacts
+ [package.metadata.binstall]
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -1,6 +1,8 @@
+@@ -1,5 +1,6 @@
  [workspace]
  members = ["systeroid-core", "systeroid-tui", "systeroid"]
- 
 +resolver = "2"
-+
+ 
  [workspace.dependencies]
  parseit = { version = "0.1.2", features = ["gzip"] }
- log = { version = "0.4.20", features = ["std"] }
-@@ -24,3 +26,8 @@ codegen-units = 1
+@@ -25,3 +26,8 @@ codegen-units = 1
  [profile.bench]
  opt-level = 3
  debug = false
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }

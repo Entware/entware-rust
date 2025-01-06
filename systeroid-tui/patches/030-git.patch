@@ -1,0 +1,13 @@
+--- a/scripts/clone-linux-docs.sh
++++ b/scripts/clone-linux-docs.sh
+@@ -10,6 +10,10 @@ mkdir "$docs_dir" && cd "$docs_dir"
+ git init
+ git remote add origin "$kernel_repo"
+ git config core.sparseCheckout true
++# fetch-pack: unexpected disconnect while reading sideband packet
++git config core.compression 0
++git config http.postBuffer 2048M
++git config http.maxRequestBuffer 1024M
+ for path in "${sparse_path[@]}"; do
+     echo "$path" >>.git/info/sparse-checkout
+ done

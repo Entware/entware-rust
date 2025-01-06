@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=systeroid
-PKG_VERSION:=0.4.4
-PKG_RELEASE:=3
+PKG_VERSION:=0.4.5
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/orhun/systeroid/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=b638d1167227a30cf793847a08fee42a5810bfb6a493ea0289e29c8260ef916c
+PKG_HASH:=ed8bea7d111de32d0885fd36664bed8a4acb77775a0cc0034d29b5aa5db255e1
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161
 
 define Package/systeroid-tui
   SECTION:=utils
@@ -52,7 +52,6 @@ define Docs
 		cd $(PKG_BUILD_DIR); \
 		if [ ! -f "$(DL_DIR)/linux-docs.tgz" ]; then \
 			$(SHELL) scripts/clone-linux-docs.sh; \
-			cd $(PKG_BUILD_DIR) && \
 			$(TAR) -czf $(DL_DIR)/linux-docs.tgz linux-docs; \
 		else \
 			$(TAR) -xzf $(DL_DIR)/linux-docs.tgz; \
