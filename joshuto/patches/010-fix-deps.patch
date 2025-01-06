@@ -1,0 +1,31 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -17,7 +17,7 @@ strip = true
+ alphanumeric-sort = "^1"
+ ansi-to-tui = { version = "^3.1.0", optional = true }
+ bitflags = { version = "^2", features = ["serde"] }
+-chrono = "^0"
++chrono = "=0.4.38"
+ clap = { version = "^4", features = ["derive"] }
+ clap_complete = "^4"
+ colors-transform = "^0"
+@@ -48,6 +48,10 @@ walkdir = "^2"
+ whoami = "^1"
+ xdg = "^2"
+ 
++[dev-dependencies]
++# error[E0282]: type annotations needed for `Box<_>`
++time = "0.3.36"
++
+ [dependencies.nix]
+ version = "^0"
+ default_features = false
+@@ -70,3 +74,8 @@ devicons = ["phf"]
+ file_mimetype = []
+ syntax_highlight = ["ansi-to-tui"]
+ default = ["devicons", "syntax_highlight"]
++
++[patch.crates-io]
++# localtime/TZ
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }

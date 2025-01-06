@@ -1,0 +1,59 @@
+--- a/config/bookmarks.toml
++++ b/config/bookmarks.toml
+@@ -1,6 +1,6 @@
+ bookmark = [
+-  { key = "r", path = "/" },
+-  { key = "e", path = "/etc" },
++  { key = "r", path = "/opt" },
++  { key = "e", path = "/opt/etc" },
+ 
+   { key = "h", path = "~/" },
+ ]
+--- a/config/joshuto.toml
++++ b/config/joshuto.toml
+@@ -39,7 +39,7 @@ reverse = false
+ 
+ [preview]
+ max_preview_size = 2097152                           # 2MB
+-preview_script = "~/.config/joshuto/preview_file.sh" # make sure it's marked as executable
++preview_script = "/opt/etc/joshuto/preview_file.sh"  # make sure it's marked as executable
+ 
+ [search]
+ # insensitive, sensitive, smart
+--- a/src/commands/bulk_rename.rs
++++ b/src/commands/bulk_rename.rs
+@@ -20,7 +20,7 @@ const FILE_PREFIX: &str = "joshuto-";
+ const RAND_STR_LEN: usize = 10;
+ 
+ pub fn _bulk_rename(context: &mut AppContext) -> AppResult {
+-    let tmp_directory = env::var(ENV_TMP_DIR).unwrap_or_else(|_| "/tmp".to_string());
++    let tmp_directory = env::var(ENV_TMP_DIR).unwrap_or_else(|_| "/opt/tmp".to_string());
+ 
+     let editor = std::env::var(ENV_EDITOR)?;
+ 
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -40,7 +40,7 @@ use crate::context::AppContext;
+ use crate::error::AppError;
+ 
+ const PROGRAM_NAME: &str = "joshuto";
+-const CONFIG_HOME: &str = "JOSHUTO_CONFIG_HOME";
++const CONFIG_HOME: &str = "/opt/etc/joshuto";
+ 
+ lazy_static! {
+     // dynamically builds the config hierarchy
+@@ -54,10 +54,10 @@ lazy_static! {
+             }
+         }
+ 
+-        if let Ok(dirs) = xdg::BaseDirectories::with_prefix(PROGRAM_NAME) {
+-            config_dirs.push(dirs.get_config_home());
+-        }
+-
++//        if let Ok(dirs) = xdg::BaseDirectories::with_prefix(PROGRAM_NAME) {
++//            config_dirs.push(dirs.get_config_home());
++//        }
++//
+         if let Ok(p) = std::env::var("HOME") {
+             let mut p = PathBuf::from(p);
+             p.push(format!(".config/{}", PROGRAM_NAME));
