@@ -1,0 +1,81 @@
+--- a/Makefile
++++ b/Makefile
+@@ -1,5 +1,5 @@
+ # important directories
+-prefix?=/usr/local
++prefix?=/opt
+ mandir?=$(prefix)/share/man
+ datadir?=$(prefix)/share
+ localedir?=$(datadir)/locale
+@@ -25,7 +25,7 @@ DEFINES=-DLOCALEDIR='"$(localedir)"' -DC
+ WARNFLAGS=-Werror -Wall -Wextra -Wunreachable-code
+ INCLUDES=-Iinclude -Istfl -Ifilter -I. -Irss -I$(CARGO_TARGET_DIR)/cxxbridge/
+ # Keep in sync with c++ version specified in FFI build.rs
+-BARE_CXXFLAGS=-std=c++14 -O2 -ggdb $(INCLUDES)
++BARE_CXXFLAGS=-std=c++14 $(INCLUDES)
+ LDFLAGS+=-L.
+ 
+ # Constants
+@@ -46,6 +46,9 @@ endif
+ CXXFLAGS:=$(BARE_CXXFLAGS) $(WARNFLAGS) $(DEFINES) $(CXXFLAGS)
+ CXXFLAGS_FOR_BUILD?=$(CXXFLAGS)
+ 
++HOST_CXX_FOR_BUILD:=g++
++HOST_CXXFLAGS_FOR_BUILD?=$(BARE_CXXFLAGS) $(WARNFLAGS) $(DEFINES)
++
+ LIB_SRCS:=$(shell cat mk/libboat.deps)
+ LIB_OBJS:=$(patsubst %.cpp,%.o,$(LIB_SRCS))
+ LIB_OUTPUT=libboat.a
+@@ -114,7 +117,7 @@ endif
+ # additional commands
+ MKDIR=mkdir -p
+ INSTALL=install
+-ASCIIDOCTOR=asciidoctor
++ASCIIDOCTOR=true
+ MSGFMT=msgfmt
+ RANLIB?=ranlib
+ AR?=ar
+@@ -279,13 +282,13 @@ doc/xhtml/%.html: doc/%.asciidoc | doc/x
+ 	$(ASCIIDOCTOR) $(ASCIIDOCTOR_OPTS) --backend=html5 -a webfonts! --destination-dir=doc/xhtml $<
+ 
+ doc/generate: doc/generate.cpp doc/split.h
+-	$(CXX_FOR_BUILD) $(CXXFLAGS_FOR_BUILD) -o doc/generate doc/generate.cpp
++	$(HOST_CXX_FOR_BUILD) $(HOST_CXXFLAGS_FOR_BUILD) -o doc/generate doc/generate.cpp
+ 
+ doc/newsboat-cfgcmds.asciidoc: doc/generate doc/configcommands.dsv
+ 	doc/generate doc/configcommands.dsv > doc/newsboat-cfgcmds.asciidoc
+ 
+ doc/generate2: doc/generate2.cpp
+-	$(CXX_FOR_BUILD) $(CXXFLAGS_FOR_BUILD) -o doc/generate2 doc/generate2.cpp
++	$(HOST_CXX_FOR_BUILD) $(HOST_CXXFLAGS_FOR_BUILD) -o doc/generate2 doc/generate2.cpp
+ 
+ doc/newsboat-keycmds.asciidoc: doc/generate2 doc/keycmds.dsv
+ 	doc/generate2 doc/keycmds.dsv > doc/newsboat-keycmds.asciidoc
+@@ -309,7 +312,7 @@ doc/$(PODBOAT).1: doc/manpage-podboat.as
+ 	$(ASCIIDOCTOR) $(ASCIIDOCTOR_OPTS) --require=./doc/man.rb --backend=manpage doc/manpage-podboat.asciidoc
+ 
+ doc/gen-example-config: doc/gen-example-config.cpp doc/split.h
+-	$(CXX_FOR_BUILD) $(CXXFLAGS_FOR_BUILD) -o doc/gen-example-config doc/gen-example-config.cpp
++	$(HOST_CXX_FOR_BUILD) $(HOST_CXXFLAGS_FOR_BUILD) -o doc/gen-example-config doc/gen-example-config.cpp
+ 
+ doc/example-config: doc/gen-example-config doc/configcommands.dsv
+ 	sed 's/+{backslash}"+/`\\"`/g' doc/configcommands.dsv | doc/gen-example-config > doc/example-config
+@@ -363,14 +366,14 @@ install-podboat: $(PODBOAT)
+ 
+ install-docs: doc
+ 	$(MKDIR) $(DESTDIR)$(docdir)
+-	$(INSTALL) -m 644 doc/xhtml/* $(DESTDIR)$(docdir)
++#	$(INSTALL) -m 644 doc/xhtml/* $(DESTDIR)$(docdir)
+ 	$(INSTALL) -m 644 CHANGELOG.md $(DESTDIR)$(docdir)
+ 	find contrib/ -type d ! -path 'contrib/completions' -print0 | xargs -0 -I@ $(MKDIR) $(DESTDIR)$(docdir)/@
+ 	find contrib/ -type f ! -path 'contrib/completions*' -perm /0111 -print0 | xargs -0 -I@ install -m 755 @ $(DESTDIR)$(docdir)/@
+ 	find contrib/ -type f ! -path 'contrib/completions*' ! -perm /0111 -print0 | xargs -0 -I@ install -m 644 @ $(DESTDIR)$(docdir)/@
+-	$(MKDIR) $(DESTDIR)$(mandir)/man1
+-	$(INSTALL) -m 644 doc/$(NEWSBOAT).1 $(DESTDIR)$(mandir)/man1
+-	$(INSTALL) -m 644 doc/$(PODBOAT).1 $(DESTDIR)$(mandir)/man1
++#	$(MKDIR) $(DESTDIR)$(mandir)/man1
++#	$(INSTALL) -m 644 doc/$(NEWSBOAT).1 $(DESTDIR)$(mandir)/man1
++#	$(INSTALL) -m 644 doc/$(PODBOAT).1 $(DESTDIR)$(mandir)/man1
+ 
+ install-examples: doc/example-config
+ 	$(MKDIR) $(DESTDIR)$(docdir)/examples
