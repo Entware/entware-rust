@@ -9,12 +9,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=arti
-PKG_VERSION:=1.2.5
+PKG_VERSION:=1.3.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://gitlab.torproject.org/tpo/core/arti/-/archive/$(PKG_NAME)-v$(PKG_VERSION)
-PKG_HASH:=0826cabc6a00f6564837ca1a6688566d0e54b399a4f8362b6297552f9167eeba
+PKG_HASH:=dd841bfb9e9c11d77ae5ed136d3f0e7a3af570cce5dc0164bbb7f5ea9c26708d
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=GPL-3 LGPL-3 LICENSE-APACHE LICENSE-MIT
@@ -26,7 +26,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 coarsetime-0134 merlin-300 openssl-probe-015
+PKG_BUILD_DEPENDS += chrono-0438 coarsetime-0134 iana-time-zone-0161 merlin-300 openssl-probe-015
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/arti/Default

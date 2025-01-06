@@ -22,9 +22,36 @@
          assert!(token < u64::MAX);
          IsolationToken(token)
      }
+--- a/crates/tor-chanmgr/src/mgr/state.rs
++++ b/crates/tor-chanmgr/src/mgr/state.rs
+@@ -8,7 +8,7 @@ use crate::{ChannelConfig, Dormancy, Err
+ 
+ use futures::FutureExt;
+ use std::result::Result as StdResult;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::sync::Arc;
+ use tor_async_utils::oneshot;
+ use tor_basic_utils::RngExt as _;
+@@ -112,12 +112,12 @@ impl UniqPendingChanId {
+     /// Construct a new `UniqPendingChanId`.
+     pub(crate) fn new() -> Self {
+         /// The next unique ID.
+-        static NEXT_ID: AtomicU64 = AtomicU64::new(0);
++        static NEXT_ID: AtomicUsize = AtomicUsize::new(0);
+         // Relaxed ordering is fine; we don't care about how this
+         // is instantiated with respect to other channels.
+         let id = NEXT_ID.fetch_add(1, Ordering::Relaxed);
+-        assert!(id != u64::MAX, "Exhausted the pending channel ID namespace");
+-        Self(id)
++        assert!(id != usize::MAX, "Exhausted the pending channel ID namespace");
++        Self(id.try_into().unwrap())
+     }
+ }
+ 
 --- a/crates/tor-guardmgr/src/pending.rs
 +++ b/crates/tor-guardmgr/src/pending.rs
-@@ -14,7 +14,7 @@ use futures::{channel::mpsc::UnboundedSe
+@@ -15,7 +15,7 @@ use oneshot_fused_workaround as oneshot;
  use pin_project::pin_project;
  use std::fmt::Debug;
  use std::pin::Pin;
@@ -32,7 +59,7 @@
 +use std::sync::atomic::{AtomicUsize, Ordering};
  use std::task::{Context, Poll};
  use std::time::Instant;
- use tor_async_utils::oneshot;
+ use tor_proto::ClockSkew;
 @@ -258,8 +258,8 @@ impl RequestId {
      /// Panics if we have somehow exhausted a 64-bit space of request IDs.
      pub(crate) fn next() -> RequestId {
