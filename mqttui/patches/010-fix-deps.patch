@@ -9,7 +9,7 @@
  clap = { version = "4", features = ["deprecated", "derive", "env", "wrap_help"] }
  crossterm = "0.27"
  ego-tree = "0.6"
-@@ -77,3 +77,8 @@ assets = [
+@@ -78,3 +78,8 @@ assets = [
  
  	{ source = "target/manpages/*", dest = "/usr/share/man/man1/", mode = "644", doc = true },
  ]
