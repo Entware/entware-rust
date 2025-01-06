@@ -1,20 +1,25 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -23,7 +23,7 @@ description = "Display current network u
+@@ -28,10 +28,11 @@ ui_test = []
  [dependencies]
- anyhow = { version = "1.0.79", features = ["backtrace"] }
- async-trait = "0.1.77"
+ anyhow = { version = "1.0.89", features = ["backtrace"] }
+ async-trait = "0.1.83"
 -chrono = "0.4"
-+chrono = "0.4.34"
- clap-verbosity-flag = "2.1.2"
- clap = { version = "4.4.18", features = ["derive"] }
- crossterm = "0.27.0"
-@@ -72,3 +72,8 @@ strum = { version = "0.25.0", features =
++chrono = "0.4.38"
+ clap-verbosity-flag = "2.2.2"
+ clap = { version = "4.5.19", features = ["derive"] }
+-crossterm = "0.28.1"
++# downgrade: failed to get stdout
++crossterm = "0.27.0"
+ derivative = "2.2.0"
+ ipnetwork = "0.20.0"
+ itertools = "0.13.0"
+@@ -77,3 +78,8 @@ strum = { version = "0.26.3", features =
  [target.'cfg(target_os = "windows")'.build-dependencies]
- http_req = "0.10.2"
- zip = "0.6.6"
+ http_req = "0.12.0"
+ zip = "2.2.0"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.34" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
