@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=coreutils
-PKG_VERSION:=0.0.27
+PKG_VERSION:=0.0.28
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/uutils/coreutils/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=3076543a373c8e727018bd547cc74133f4a6538849e4990388f2bbea9a9aff6b
+PKG_HASH:=b2e8b2531c52e9b09e55a6b41a8875e5770bcea6e5fa7a01d89d7904cf292cb9
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -112,7 +112,8 @@ else
 		cargo build $(CARGO_ARGS) \
 		--profile $(CARGO_PKG_PROFILE) \
 		--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml \
-		--out-dir $(CARGO_INSTALL_ROOT)/bin \
+		--artifact-dir $(CARGO_INSTALL_ROOT)/bin \
+		$(if $(findstring s,$(OPENWRT_VERBOSE)),--verbose) \
 		-p uu_$$$$bins; \
 	done
   endef

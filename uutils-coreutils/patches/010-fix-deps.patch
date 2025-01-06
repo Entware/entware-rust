@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -264,7 +264,7 @@ binary-heap-plus = "0.5.0"
+@@ -271,7 +271,7 @@ binary-heap-plus = "0.5.0"
  bstr = "1.9.1"
  bytecount = "0.6.8"
  byteorder = "1.5.0"
@@ -9,10 +9,10 @@
    "std",
    "alloc",
    "clock",
-@@ -548,3 +548,8 @@ inherits = "release"
- opt-level = "z"
- panic = "abort"
- strip = true
+@@ -573,3 +573,8 @@ if_not_else = "warn"
+ all = { level = "deny", priority = -1 }
+ cargo = { level = "warn", priority = -1 }
+ pedantic = { level = "deny", priority = -1 }
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
