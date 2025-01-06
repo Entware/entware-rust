@@ -1,0 +1,102 @@
+--- a/gix-status/src/index_as_worktree/function.rs
++++ b/gix-status/src/index_as_worktree/function.rs
+@@ -2,7 +2,7 @@ use std::{
+     io,
+     path::Path,
+     slice::Chunks,
+-    sync::atomic::{AtomicU64, AtomicUsize, Ordering},
++    sync::atomic::{AtomicUsize, Ordering},
+ };
+ 
+ use bstr::BStr;
+@@ -208,9 +208,9 @@ where
+         symlink_metadata_calls: symlink_metadata_calls.load(Ordering::Relaxed),
+         racy_clean: racy_clean.load(Ordering::Relaxed),
+         worktree_files_read: worktree_reads.load(Ordering::Relaxed),
+-        worktree_bytes: worktree_bytes.load(Ordering::Relaxed),
++        worktree_bytes: (worktree_bytes.load(Ordering::Relaxed).try_into().unwrap()),
+         odb_objects_read: odb_reads.load(Ordering::Relaxed),
+-        odb_bytes: odb_bytes.load(Ordering::Relaxed),
++        odb_bytes: (odb_bytes.load(Ordering::Relaxed).try_into().unwrap()),
+     })
+ }
+ 
+@@ -234,9 +234,9 @@ struct State<'a, 'b> {
+     symlink_metadata_calls: &'a AtomicUsize,
+     entries_to_update: &'a AtomicUsize,
+     racy_clean: &'a AtomicUsize,
+-    worktree_bytes: &'a AtomicU64,
++    worktree_bytes: &'a AtomicUsize,
+     worktree_reads: &'a AtomicUsize,
+-    odb_bytes: &'a AtomicU64,
++    odb_bytes: &'a AtomicUsize,
+     odb_reads: &'a AtomicUsize,
+ }
+ 
+@@ -503,9 +503,9 @@ where
+     options: &'a Options,
+     id: &'a gix_hash::oid,
+     objects: Find,
+-    worktree_bytes: &'a AtomicU64,
++    worktree_bytes: &'a AtomicUsize,
+     worktree_reads: &'a AtomicUsize,
+-    odb_bytes: &'a AtomicU64,
++    odb_bytes: &'a AtomicUsize,
+     odb_reads: &'a AtomicUsize,
+ }
+ 
+@@ -516,7 +516,7 @@ where
+     fn read_blob(self) -> Result<&'a [u8], Error> {
+         Ok(self.objects.find_blob(self.id, self.buf).map(|b| {
+             self.odb_reads.fetch_add(1, Ordering::Relaxed);
+-            self.odb_bytes.fetch_add(b.data.len() as u64, Ordering::Relaxed);
++            self.odb_bytes.fetch_add((b.data.len() as u64).try_into().unwrap(), Ordering::Relaxed);
+             b.data
+         })?)
+     }
+@@ -533,7 +533,7 @@ where
+             // on unix (by git) so no reason to use the try version here
+             let symlink_path = gix_path::into_bstr(std::fs::read_link(self.path)?);
+             self.buf.extend_from_slice(&symlink_path);
+-            self.worktree_bytes.fetch_add(self.buf.len() as u64, Ordering::Relaxed);
++            self.worktree_bytes.fetch_add((self.buf.len() as u64).try_into().unwrap(), Ordering::Relaxed);
+             Stream {
+                 inner: ToGitOutcome::Buffer(self.buf),
+                 bytes: None,
+--- a/gix-status/src/index_as_worktree/traits.rs
++++ b/gix-status/src/index_as_worktree/traits.rs
+@@ -52,14 +52,14 @@ pub trait ReadData<'a> {
+ ///
+ #[allow(clippy::empty_docs)]
+ pub mod read_data {
+-    use std::sync::atomic::{AtomicU64, Ordering};
++    use std::sync::atomic::{AtomicUsize, Ordering};
+ 
+     use gix_filter::pipeline::convert::ToGitOutcome;
+ 
+     /// A stream with worktree file data.
+     pub struct Stream<'a> {
+         pub(crate) inner: ToGitOutcome<'a, std::fs::File>,
+-        pub(crate) bytes: Option<&'a AtomicU64>,
++        pub(crate) bytes: Option<&'a AtomicUsize>,
+         pub(crate) len: Option<u64>,
+     }
+ 
+@@ -71,7 +71,7 @@ pub mod read_data {
+         pub fn as_bytes(&self) -> Option<&'a [u8]> {
+             self.inner.as_bytes().map(|v| {
+                 if let Some(bytes) = self.bytes {
+-                    bytes.fetch_add(v.len() as u64, Ordering::Relaxed);
++                    bytes.fetch_add((v.len() as u64).try_into().unwrap(), Ordering::Relaxed);
+                 }
+                 v
+             })
+@@ -87,7 +87,7 @@ pub mod read_data {
+         fn read(&mut self, buf: &mut [u8]) -> std::io::Result<usize> {
+             let n = self.inner.read(buf)?;
+             if let Some(bytes) = self.bytes {
+-                bytes.fetch_add(n as u64, Ordering::Relaxed);
++                bytes.fetch_add((n as u64).try_into().unwrap(), Ordering::Relaxed);
+             }
+             Ok(n)
+         }
