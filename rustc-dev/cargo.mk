@@ -5,49 +5,53 @@
 rust_mk_path:=$(dir $(lastword $(MAKEFILE_LIST)))
 include $(rust_mk_path)rust.mk
 
-### cargo-build - Compile local packages and all of their dependencies.
 CARGO_ARGS += -Z unstable-options
-CARGO_COMPILE ?= 1
+USE_CARGO_COMPILE ?= 1
 USE_CARGO_LOCK ?= 1
 
-ifneq ($(USE_CARGO_LOCK),1)
-  define ConfigurePre/Cargo
-	@rm -f $(PKG_BUILD_DIR)/Cargo.lock
-  endef
-  Hooks/Configure/Pre += ConfigurePre/Cargo
-endif
+### skip step
+Build/Configure/Cargo/Default:=:
 
-define Build/Configure/Cargo
-endef
-#define Build/Configure/Cargo
-#	( \
-#		echo ''; \
-#		echo '[patch.crates-io]'; \
-#		echo 'pkg1 = { path = "../pkg1-a.b.c" }'; \
-#		echo 'pkg2 = { path = "$(BUILD_DIR)/pkg2-a.b.c" }'; \
-#	) >> $(PKG_BUILD_DIR)/Cargo.toml
-#endef
-
-ifneq ($(USE_CARGO_LOCK),1)
-  define ConfigurePost/Cargo
-	@CARGO_HOME=$(CARGO_HOME) $(CARGO_BIN) fetch \
-		--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml
-  endef
-  Hooks/Configure/Post += ConfigurePost/Cargo
-endif
-
-ifeq ($(CARGO_COMPILE),1)
-  define Build/Compile/Cargo
-	$(RUSTC_HOST_VARS) \
-	$(RUSTC_VARS) \
-	$(CARGO_VARS) \
-	$(CARGO_BIN) build \
-		--profile $(CARGO_PKG_PROFILE) \
+### remove Cargo.lock; update dependencies and generate new Cargo.lock
+define Build/Configure/Cargo/Fetch
+	@( rm -f $(PKG_BUILD_DIR)/Cargo.lock; )
+	@( \
+		CARGO_HOME=$(CARGO_HOME) $(CARGO_BIN) fetch \
 		--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml \
-		--out-dir $(CARGO_INSTALL_ROOT)/bin \
-	$(CARGO_ARGS)
-  endef
-  define MoveLibs
+		$(if $(findstring s,$(OPENWRT_VERBOSE)),--verbose); \
+	)
+endef
+
+### compile package and all its dependencies
+define Build/Compile/Cargo/Default
+	( \
+		$(RUSTC_HOST_VARS) $(RUSTC_VARS) \
+		$(CARGO_VARS) $(CARGO_BIN) build \
+		--artifact-dir $(CARGO_INSTALL_ROOT)/bin \
+		--manifest-path $(CARGO_BUILD_DIR)/Cargo.toml \
+		--profile $(CARGO_PKG_PROFILE) \
+		$(if $(findstring s,$(OPENWRT_VERBOSE)),--verbose) \
+		$(CARGO_ARGS); \
+	)
+endef
+
+### build and install (I forgot why I needed to)
+define Build/Install/Cargo/Default
+	( \
+		$(RUSTC_HOST_VARS) $(RUSTC_VARS) \
+		$(CARGO_VARS) $(CARGO_BIN) install \
+		--bins \
+		--no-track \
+		--path $(CARGO_BUILD_DIR) \
+		--profile $(CARGO_PKG_PROFILE) \
+		--root $(CARGO_INSTALL_ROOT) \
+		$(if $(findstring s,$(OPENWRT_VERBOSE)),--verbose) \
+		$(CARGO_ARGS); \
+	)
+endef
+
+### move libs
+define Build/Compile/Cargo/Libs
 	@( \
 		[ -d "$(CARGO_INSTALL_ROOT)/lib" ] && rm -fr $(CARGO_INSTALL_ROOT)/lib; \
 		for ext in a rlib so; do \
@@ -57,21 +61,28 @@ ifeq ($(CARGO_COMPILE),1)
 		fi; \
 		done; \
 		find $(CARGO_INSTALL_ROOT) -type d -empty -delete; \
-	);
+	)
+endef
+
+ifneq ($(USE_CARGO_LOCK),1)
+  define Build/Configure/Cargo
+	$(call Build/Configure/Cargo/Default)
+	$(call Build/Configure/Cargo/Fetch)
   endef
-  Hooks/Compile/Post += MoveLibs
+else
+  define Build/Configure/Cargo
+	$(call Build/Configure/Cargo/Default)
+  endef
+endif
+
+ifeq ($(USE_CARGO_COMPILE),1)
+  define Build/Compile/Cargo
+	$(call Build/Compile/Cargo/Default)
+	$(call Build/Compile/Cargo/Libs)
+  endef
 else
   define Build/Install/Cargo
-	$(RUSTC_HOST_VARS) \
-	$(RUSTC_VARS) \
-	$(CARGO_VARS) \
-	$(CARGO_BIN) install \
-		--bins \
-		--no-track \
-		--profile $(CARGO_PKG_PROFILE) \
-		--path $(CARGO_BUILD_DIR) \
-		--root $(CARGO_INSTALL_ROOT) \
-	$(CARGO_ARGS)
+	$(call Build/Install/Cargo/Default)
   endef
 endif
 

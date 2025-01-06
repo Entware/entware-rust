@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.79.0
+PKG_VERSION:=1.83.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.gz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=172ecf3c7d1f9d9fb16cd2a628869782670416ded0129e524a86751f961448c0
+PKG_HASH:=722d773bd4eab2d828d7dd35b59f0b017ddf9a97ee2b46c1b7f7fac5c8841c6e
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-dev-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-dev-$(PKG_VERSION)
@@ -57,8 +57,9 @@ endif
 
 define Host/Configure
 	( \
-		echo 'change-id = 126219'; \
+		echo 'change-id = 133476'; \
 		echo '[llvm]'; \
+		echo 'download-ci-llvm = false'; \
 		echo 'targets = "AArch64;ARM;Mips;X86"'; \
 		echo 'experimental-targets = ""'; \
 		echo 'link-shared = false'; \
@@ -109,6 +110,9 @@ define Host/Configure
 		echo 'src-tarball = false'; \
 		echo 'compression-formats = ["gz"]'; \
 	) > $(HOST_BUILD_DIR)/config.toml
+
+	$(FIND) $(HOST_BUILD_DIR)/vendor -type f -name ".cargo-checksum.json" -exec \
+		$(SED) 's/\("files":{\)[^}]*/\1/' {} +
 endef
 
 Host/Compile:=:
@@ -117,7 +121,7 @@ define Host/Install
 	( cd $(HOST_BUILD_DIR); \
 		CARGO_HOME="$(STAGING_DIR)/host/share/cargo.dev" \
 		DESTDIR=$(HOST_BUILD_DIR)/install \
-		$(STAGING_DIR_HOSTPKG)/bin/python3 x.py install \
+		$(STAGING_DIR_HOSTPKG)/bin/python3 x.py install; \
 	)
 endef
 
@@ -130,7 +134,7 @@ endef
 
 define Build/Configure
 	( \
-		echo 'change-id = 126219'; \
+		echo 'change-id = 133476'; \
 		echo 'profile = "library"'; \
 		echo '[llvm]'; \
 		echo 'download-ci-llvm = false'; \
@@ -172,6 +176,9 @@ define Build/Configure
 		echo 'src-tarball = false'; \
 		echo 'compression-formats = ["gz"]'; \
 	) > $(PKG_BUILD_DIR)/config.toml
+
+	$(FIND) $(PKG_BUILD_DIR)/vendor -type f -name ".cargo-checksum.json" -exec \
+		$(SED) 's/\("files":{\)[^}]*/\1/' {} +
 endef
 
 Build/Compile:=:
@@ -198,11 +205,10 @@ Hooks/Compile/Post += FixPreInstall
 define Build/Install
 	( cd $(PKG_BUILD_DIR); \
 		CARGO_HOME="$(STAGING_DIR)/host/share/cargo.dev" \
+		DESTDIR=$(PKG_INSTALL_DIR) \
 		HOST_PKG_CONFIG_PATH="$(STAGING_DIR_HOST)/lib/pkgconfig:$(STAGING_DIR_HOSTPKG)/lib/pkgconfig" \
 		PKG_CONFIG_ALLOW_CROSS=1 \
-		DESTDIR=$(PKG_INSTALL_DIR) \
-		$(STAGING_DIR_HOSTPKG)/bin/python3 x.py install \
-		library/std --stage 1; \
+		$(STAGING_DIR_HOSTPKG)/bin/python3 x.py install library/std --stage 1; \
 	)
 endef
 
