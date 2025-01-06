@@ -9,3 +9,14 @@
          let mut ssh_config_path = "~/.ssh/config".to_string();
          ssh_config_path = ssh_config_path.replacen('~', &home_dir.to_string_lossy(), 1);
  
+--- a/src/ui/activities/setup/view/setup.rs
++++ b/src/ui/activities/setup/view/setup.rs
+@@ -343,7 +343,7 @@ impl SetupActivity {
+             } else {
+                 // Replace '~' with home path
+                 if path.starts_with('~') {
+-                    let home_dir = dirs::home_dir().unwrap_or_else(|| PathBuf::from("/root"));
++                    let home_dir = dirs::home_dir().unwrap_or_else(|| PathBuf::from("/opt/root"));
+                     path = path.replacen('~', &home_dir.to_string_lossy(), 1);
+                 }
+                 self.config_mut().set_ssh_config(Some(path));
