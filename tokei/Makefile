@@ -5,12 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tokei
-PKG_VERSION:=13.0.0-alpha.1
+PKG_REAL_VERSION:=13.0.0-alpha.7
+PKG_VERSION:=$(subst -alpha.,_alpha,$(PKG_REAL_VERSION))
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/XAMPPRocky/tokei/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=637c6e3d905089f74cf8195666304ac98273cee609541c8a2d87ba438ba08c6e
+PKG_SOURCE:=$(PKG_NAME)-$(PKG_REAL_VERSION).tar.gz
+PKG_SOURCE_URL:=https://codeload.github.com/XAMPPRocky/tokei/tar.gz/refs/tags/v$(PKG_REAL_VERSION)?
+PKG_HASH:=c3c2491b797793a1dac6864df70922f27fa6852f9efee7065f34d3c178a82dec
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -18,7 +19,8 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0438
+PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/tokei
   SECTION:=utils
@@ -29,8 +31,8 @@ endef
 
 define Package/tokei/description
   Tokei is a program that displays statistics about your code.
-  Tokei will show the number of files, total lines within those
-  files and code, comments, and blanks grouped by language.
+  Tokei will show the number of files, total lines within those files and code,
+  comments, and blanks grouped by language.
 endef
 
 define Package/tokei/install
