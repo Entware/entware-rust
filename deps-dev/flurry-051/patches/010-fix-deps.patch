@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -52,3 +52,7 @@ harness = false
+ [[bench]]
+ name = "flurry_hashbrown" 
+ harness = false
++
++[patch.crates-io]
++# mips/mipsel Atomic*64
++seize = { path = "../seize-0.3.3" }

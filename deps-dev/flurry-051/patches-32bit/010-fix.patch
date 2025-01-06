@@ -1,0 +1,50 @@
+--- a/src/node.rs
++++ b/src/node.rs
+@@ -1,6 +1,6 @@
+ use crate::raw::Table;
+ use crate::reclaim::{Atomic, Collector, Guard, RetireShared, Shared};
+-use core::sync::atomic::{AtomicBool, AtomicI64, Ordering};
++use core::sync::atomic::{AtomicBool, AtomicI32, Ordering};
+ use parking_lot::Mutex;
+ use seize::{Link, Linked};
+ use std::borrow::Borrow;
+@@ -210,9 +210,9 @@ impl<K, V> TreeNode<K, V> {
+     }
+ }
+ 
+-const WRITER: i64 = 1; // set while holding write lock
+-const WAITER: i64 = 2; // set when waiting for write lock
+-const READER: i64 = 4; // increment value for setting read lock
++const WRITER: i32 = 1; // set while holding write lock
++const WAITER: i32 = 2; // set when waiting for write lock
++const READER: i32 = 4; // increment value for setting read lock
+ 
+ /// Private representation for movement direction along tree successors.
+ enum Dir {
+@@ -231,7 +231,7 @@ pub(crate) struct TreeBin<K, V> {
+     pub(crate) first: Atomic<BinEntry<K, V>>,
+     pub(crate) waiter: Atomic<Thread>,
+     pub(crate) lock: parking_lot::Mutex<()>,
+-    pub(crate) lock_state: AtomicI64,
++    pub(crate) lock_state: AtomicI32,
+ }
+ 
+ impl<K, V> TreeBin<K, V>
+@@ -325,7 +325,7 @@ where
+             first: Atomic::from(bin),
+             waiter: Atomic::null(),
+             lock: parking_lot::Mutex::new(()),
+-            lock_state: AtomicI64::new(0),
++            lock_state: AtomicI32::new(0),
+         }
+     }
+ }
+@@ -351,7 +351,7 @@ impl<K, V> TreeBin<K, V> {
+     /// Possibly blocks awaiting root lock.
+     fn contended_lock(&self, guard: &Guard<'_>, collector: &Collector) {
+         let mut waiting = false;
+-        let mut state: i64;
++        let mut state: i32;
+         loop {
+             state = self.lock_state.load(Ordering::Acquire);
+             if state & !WAITER == 0 {
