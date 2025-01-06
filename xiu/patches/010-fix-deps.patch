@@ -1,0 +1,106 @@
+--- a/application/xiu/Cargo.toml
++++ b/application/xiu/Cargo.toml
+@@ -24,7 +24,8 @@ serde_json = { version = "1", default-fe
+     "std",
+ ] }
+ axum = "0.6.10"
+-tokio-metrics = { version = "0.2.0", default-features = false }
++# error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
++#tokio-metrics = { version = "0.2.0", default-features = false }
+ 
+ env_logger_extend = { path = "../../library/logger/" }
+ streamhub = { path = "../../library/streamhub/" }
+--- a/library/common/Cargo.toml
++++ b/library/common/Cargo.toml
+@@ -13,7 +13,7 @@ repository = "https://github.com/harlanc
+ anyhow = "^1.0"
+ env_logger = "0.10.0"
+ job_scheduler_ng = "2.0.4"
+-chrono = "0.4"
++chrono = "=0.4.38"
+ failure = "0.1.8"
+ log = "0.4.0"
+ indexmap = "1.9.3"
+--- a/library/logger/Cargo.toml
++++ b/library/logger/Cargo.toml
+@@ -13,6 +13,6 @@ repository = "https://github.com/harlanc
+ anyhow = "^1.0"
+ env_logger = "0.10.0"
+ job_scheduler_ng = "2.0.4"
+-chrono = "0.4"
++chrono = "=0.4.38"
+ failure = "0.1.8"
+ log = "0.4.0"
+--- a/library/streamhub/Cargo.toml
++++ b/library/streamhub/Cargo.toml
+@@ -15,7 +15,7 @@ byteorder = "1.4.2"
+ bytes = "1.0.0"
+ rand = "0.8"
+ log = "0.4"
+-chrono = { version = "0.4", features = ["serde"] }
++chrono = { version = "0.4.38", features = ["serde"] }
+ indexmap = "1.9.3"
+ #use vendored feature to enable cross compile for openssl
+ reqwest = { version = "0.11.24", features = ["native-tls-vendored"] }
+--- a/protocol/httpflv/Cargo.toml
++++ b/protocol/httpflv/Cargo.toml
+@@ -17,7 +17,7 @@ failure = "0.1.8"
+ log = "0.4"
+ axum = { version = "0.7.4" }
+ futures = "0.3"
+-chrono = "0.4"
++chrono = "=0.4.38"
+ 
+ streamhub = { path = "../../library/streamhub/" }
+ xflv = { path = "../../library/container/flv/" }
+--- a/protocol/rtmp/Cargo.toml
++++ b/protocol/rtmp/Cargo.toml
+@@ -19,7 +19,7 @@ hmac = "0.11.0"
+ sha2 = "0.9"
+ # uuid = { version = "0.6.5", features = ["v4"] }
+ log = "0.4"
+-chrono = "0.4"
++chrono = "=0.4.38"
+ indexmap = "1.9.3"
+ async-trait = "0.1.70"
+ hex = "0.4"
+--- a/protocol/rtsp/Cargo.toml
++++ b/protocol/rtsp/Cargo.toml
+@@ -15,7 +15,7 @@ failure = "0.1.8"
+ http = "0.2.9"
+ indexmap = "1.9.3"
+ lazy_static = "1.4.0"
+-chrono = "0.4"
++chrono = "=0.4.38"
+ async-trait = "0.1.70"
+ base64 = "0.21.2"
+ hex = "0.4.3"
+--- a/protocol/webrtc/Cargo.toml
++++ b/protocol/webrtc/Cargo.toml
+@@ -17,7 +17,7 @@ bytes = "1.0.0"
+ tokio = "1.4.0"
+ failure = "0.1.8"
+ log = "0.4"
+-webrtc = "0.8.0"
++webrtc = "0.11.0"
+ async-trait = "0.1.70"
+ fdk-aac = "0.6.0"
+ audiopus = "0.3.0-rc.0"
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -1,5 +1,5 @@
+ [workspace]
+-resolver = "1"
++resolver = "2"
+ members = [
+   "protocol/rtmp",
+   "protocol/httpflv",
+@@ -17,3 +17,8 @@ members = [
+   "library/streamhub",
+   "library/common",
+ ]
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.60" }
