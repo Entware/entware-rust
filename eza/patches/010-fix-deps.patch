@@ -1,19 +1,30 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -112,6 +112,7 @@ windows-sys = { version = "0.52.0", feat
+@@ -85,7 +85,7 @@ name = "eza"
+ 
+ [dependencies]
+ rayon = "1.10.0"
+-chrono = { version = "0.4.34", default-features = false, features = ["clock"] }
++chrono = { version = "=0.4.38", default-features = false, features = ["clock"] }
+ nu-ansi-term = { version = "0.50.1", features = [
+   "serde",
+   "derive_serde_style",
+@@ -131,7 +131,8 @@ windows-sys = { version = "0.59.0", feat
+ ] }
  
  [build-dependencies]
- chrono = { version = "0.4.34", default-features = false, features = ["clock"] }
-+iana-time-zone = "0.1.60"
+-chrono = { version = "0.4.34", default-features = false, features = ["clock"] }
++chrono = { version = "=0.4.38", default-features = false, features = ["clock"] }
++iana-time-zone = "0.1.61"
  
  [dev-dependencies]
  criterion = { version = "0.5.1", features = ["html_reports"] }
-@@ -142,3 +143,8 @@ panic = 'abort'
+@@ -162,3 +163,8 @@ panic = 'abort'
  [[bench]]
  name = "my_benchmark"
  harness = false
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.34" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
