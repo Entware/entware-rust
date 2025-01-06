@@ -1,0 +1,95 @@
+error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
+ --> .../bb8-0.9.0/src/internals.rs:3:25
+  |
+3 | use std::sync::atomic::{AtomicU64, Ordering};
+  |                         ^^^^^^^^^
+  |                         |
+  |                         no `AtomicU64` in `sync::atomic`
+  |                         help: a similar name exists in the module: `AtomicU32`
+
+---
+
+--- a/bb8/src/internals.rs
++++ b/bb8/src/internals.rs
+@@ -1,6 +1,6 @@
+ use std::cmp::min;
+ use std::collections::VecDeque;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::sync::Arc;
+ use std::time::{Duration, Instant};
+ 
+@@ -316,15 +316,15 @@ impl<C: Send> From<Conn<C>> for IdleConn
+ 
+ #[derive(Default)]
+ pub(crate) struct AtomicStatistics {
+-    pub(crate) get_direct: AtomicU64,
+-    pub(crate) get_waited: AtomicU64,
+-    pub(crate) get_timed_out: AtomicU64,
+-    pub(crate) get_wait_time_micros: AtomicU64,
+-    pub(crate) connections_created: AtomicU64,
+-    pub(crate) connections_closed_broken: AtomicU64,
+-    pub(crate) connections_closed_invalid: AtomicU64,
+-    pub(crate) connections_closed_max_lifetime: AtomicU64,
+-    pub(crate) connections_closed_idle_timeout: AtomicU64,
++    pub(crate) get_direct: AtomicUsize,
++    pub(crate) get_waited: AtomicUsize,
++    pub(crate) get_timed_out: AtomicUsize,
++    pub(crate) get_wait_time_micros: AtomicUsize,
++    pub(crate) connections_created: AtomicUsize,
++    pub(crate) connections_closed_broken: AtomicUsize,
++    pub(crate) connections_closed_invalid: AtomicUsize,
++    pub(crate) connections_closed_max_lifetime: AtomicUsize,
++    pub(crate) connections_closed_idle_timeout: AtomicUsize,
+ }
+ 
+ impl AtomicStatistics {
+@@ -338,7 +338,7 @@ impl AtomicStatistics {
+         if let Some(wait_time_start) = wait_time_start {
+             let wait_time = Instant::now() - wait_time_start;
+             self.get_wait_time_micros
+-                .fetch_add(wait_time.as_micros() as u64, Ordering::Relaxed);
++                .fetch_add((wait_time.as_micros() as u64).try_into().unwrap(), Ordering::Relaxed);
+         }
+     }
+ 
+@@ -357,28 +357,28 @@ impl AtomicStatistics {
+         closed_max_lifetime: u64,
+     ) {
+         self.connections_closed_idle_timeout
+-            .fetch_add(closed_idle_timeout, Ordering::Relaxed);
++            .fetch_add(closed_idle_timeout.try_into().unwrap(), Ordering::Relaxed);
+         self.connections_closed_max_lifetime
+-            .fetch_add(closed_max_lifetime, Ordering::Relaxed);
++            .fetch_add(closed_max_lifetime.try_into().unwrap(), Ordering::Relaxed);
+     }
+ }
+ 
+ impl From<&AtomicStatistics> for Statistics {
+     fn from(item: &AtomicStatistics) -> Self {
+         Self {
+-            get_direct: item.get_direct.load(Ordering::Relaxed),
+-            get_waited: item.get_waited.load(Ordering::Relaxed),
+-            get_timed_out: item.get_timed_out.load(Ordering::Relaxed),
+-            get_wait_time: Duration::from_micros(item.get_wait_time_micros.load(Ordering::Relaxed)),
+-            connections_created: item.connections_created.load(Ordering::Relaxed),
+-            connections_closed_broken: item.connections_closed_broken.load(Ordering::Relaxed),
+-            connections_closed_invalid: item.connections_closed_invalid.load(Ordering::Relaxed),
++            get_direct: item.get_direct.load(Ordering::Relaxed).try_into().unwrap(),
++            get_waited: item.get_waited.load(Ordering::Relaxed).try_into().unwrap(),
++            get_timed_out: item.get_timed_out.load(Ordering::Relaxed).try_into().unwrap(),
++            get_wait_time: Duration::from_micros(item.get_wait_time_micros.load(Ordering::Relaxed).try_into().unwrap()),
++            connections_created: item.connections_created.load(Ordering::Relaxed).try_into().unwrap(),
++            connections_closed_broken: item.connections_closed_broken.load(Ordering::Relaxed).try_into().unwrap(),
++            connections_closed_invalid: item.connections_closed_invalid.load(Ordering::Relaxed).try_into().unwrap(),
+             connections_closed_max_lifetime: item
+                 .connections_closed_max_lifetime
+-                .load(Ordering::Relaxed),
++                .load(Ordering::Relaxed).try_into().unwrap(),
+             connections_closed_idle_timeout: item
+                 .connections_closed_idle_timeout
+-                .load(Ordering::Relaxed),
++                .load(Ordering::Relaxed).try_into().unwrap(),
+         }
+     }
+ }
