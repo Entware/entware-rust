@@ -1,6 +1,6 @@
 --- a/src/config/container.rs
 +++ b/src/config/container.rs
-@@ -576,7 +576,7 @@ impl Configuration {
+@@ -613,7 +613,7 @@ impl Configuration {
          //   - current directory
  
          // merge a config found at /etc/feroxbuster/ferox-config.toml
@@ -37,7 +37,7 @@
  
 --- a/src/scan_manager/tests.rs
 +++ b/src/scan_manager/tests.rs
-@@ -442,7 +442,7 @@ fn feroxstates_feroxserialize_implementa
+@@ -478,7 +478,7 @@ fn feroxstates_feroxserialize_implementa
          r#""num_requests":0"#,
          r#""config""#,
          r#""type":"configuration""#,
@@ -48,7 +48,7 @@
          r#""replay_proxy":"""#,
 --- a/src/utils.rs
 +++ b/src/utils.rs
-@@ -1009,7 +1009,7 @@ mod tests {
+@@ -1017,7 +1017,7 @@ mod tests {
      /// provide a denier from which we can't check a host, which results in no comparison, expect false
      fn should_deny_url_doesnt_compare_non_domains() {
          let scan_url = "https://testdomain.com/";
@@ -57,7 +57,7 @@
          let tested_url = Url::parse("https://testdomain.com/denied/").unwrap();
  
          let scans = Arc::new(FeroxScans::default());
-@@ -1058,7 +1058,7 @@ mod tests {
+@@ -1074,7 +1074,7 @@ mod tests {
      /// new expected behavior
      fn should_deny_url_doesnt_compare_non_domains_in_scanned() {
          let deny_url = "https://testdomain.com/";
