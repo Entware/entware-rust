@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=lsd
-PKG_VERSION:=1.1.2
+PKG_VERSION:=1.1.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/lsd-rs/lsd/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=cd80dae9a8f6c4c2061f79084468ea6e04c372e932e3712a165119417960e14e
+PKG_HASH:=120935c7e98f9b64488fde39987154a6a5b2236cb65ae847917012adf5e122d1
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0437
 
 define Package/lsd
   SECTION:=utils
