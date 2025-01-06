@@ -2,6 +2,10 @@ if PACKAGE_shadowsocks-rust
 
 comment "Default features"
 
+	config SS_RUST_AEAD_CIPHER
+		bool "Enable AEAD ciphers"
+		default y
+
 	config SS_RUST_AEAD_CIPHER_2022
 		bool "Enable AEAD 2022"
 		default y
@@ -10,57 +14,38 @@ comment "Default features"
 		bool "Enable Hickory-DNS as DNS resolver"
 		default y
 
-	config SS_RUST_LOCAL
-		bool "Enable local server (sslocal)"
-		default y
-
 	config SS_RUST_LOCAL_HTTP
 		bool "Enable HTTP protocol for sslocal"
-		depends on SS_RUST_LOCAL
+		depends on PACKAGE_shadowsocks-rust-local
 		default y
 
 	config SS_RUST_LOCAL_SOCKS4
 		bool "Enable socks4 protocol for sslocal"
-		depends on SS_RUST_LOCAL
+		depends on PACKAGE_shadowsocks-rust-local
 		default y
 
 	config SS_RUST_LOCAL_TUNNEL
 		bool "Enable tunnel protocol for sslocal"
-		depends on SS_RUST_LOCAL
+		depends on PACKAGE_shadowsocks-rust-local
 		default y
 
 	config SS_RUST_LOGGING
 		bool "Enable logging output"
 		default y
 
-	config SS_RUST_MANAGER
-		bool "Enable manager server (ssmanager)"
-		default y
-
 	config SS_RUST_MULTI_THREADED
 		bool "Enable tokio's multi-threaded runtime"
-		default y
-
-	config SS_RUST_SERVER
-		bool "Enable remote server (ssserver)"
-		default y
-
-	config SS_RUST_SERVICE
-		bool "Enable service (ssservice)"
-		depends on SS_RUST_LOCAL && SS_RUST_SERVER && SS_RUST_MANAGER
-		default y
-
-	config SS_RUST_UTILITY
-		bool "Enable utility (ssurl)"
 		default y
 
 comment "Optional features"
 
 	config SS_RUST_AEAD_CIPHER_2022_EXTRA
 		bool "Enable AEAD 2022 with extra ciphers"
+		depends on SS_RUST_AEAD_CIPHER_2022
 
 	config SS_RUST_AEAD_CIPHER_EXTRA
 		bool "Enable extra AEAD ciphers"
+		depends on SS_RUST_AEAD_CIPHER
 
 	config SS_RUST_DNS_OVER_H3
 		bool "Enable support DNS-over-H3"
@@ -80,16 +65,16 @@ comment "Optional features"
 
 	config SS_RUST_LOCAL_DNS
 		bool "Enable DNS-relay"
-		depends on SS_RUST_HICKORY_DNS && SS_RUST_LOCAL
+		depends on SS_RUST_HICKORY_DNS && PACKAGE_shadowsocks-rust-local
 
 	config SS_RUST_LOCAL_FAKE_DNS
 		bool "Enable Fake DNS for sslocal"
-		depends on SS_RUST_HICKORY_DNS && SS_RUST_LOCAL
+		depends on SS_RUST_HICKORY_DNS && PACKAGE_shadowsocks-rust-local
 
 ### error: failed to run custom build command for `aws-lc-sys v0.15.0`
 #choice
 #	prompt "Enable HTTP protocol for sslocal"
-#		depends on SS_RUST_LOCAL && SS_RUST_LOCAL_HTTP
+#		depends on PACKAGE_shadowsocks-rust-local && SS_RUST_LOCAL_HTTP
 #		default SS_RUST_LOCAL_HTTP_NATIVE_TLS
 
 	config SS_RUST_LOCAL_HTTP_NATIVE_TLS
@@ -104,15 +89,15 @@ comment "Optional features"
 
 	config SS_RUST_LOCAL_ONLINE_CONFIG
 		bool "Enable sslocal support online URL (SIP008 Online Configuration Delivery)"
-		depends on SS_RUST_LOCAL && SS_RUST_LOCAL_HTTP
+		depends on PACKAGE_shadowsocks-rust-local && SS_RUST_LOCAL_HTTP
 
 	config SS_RUST_LOCAL_REDIR
 		bool "Enable REDIR protocol for sslocal"
-		depends on SS_RUST_LOCAL
+		depends on PACKAGE_shadowsocks-rust-local
 
 	config SS_RUST_LOCAL_TUN
 		bool "Enable Tun interface protocol for sslocal"
-		depends on SS_RUST_LOCAL
+		depends on PACKAGE_shadowsocks-rust-local
 
 	config SS_RUST_SECURITY_REPLAY_ATTACK_DETECT
 		bool "Enable detection against replay attack"

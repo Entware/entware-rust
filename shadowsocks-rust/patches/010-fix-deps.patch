@@ -1,18 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -281,3 +281,15 @@ byteorder = "1.5"
+@@ -271,3 +271,11 @@ byteorder = "1.5"
  env_logger = "0.11"
  byte_string = "1.0"
  tokio = { version = "1", features = ["net", "time", "macros", "io-util"] }
 +chrono = "=0.4.38"
-+quinn = "=0.10.2"
-+quinn-proto = "=0.10.4"
++# mips(el): error[E0583]: file not found for module `atomic_time`
++moka = "0.12.10"
 +
 +[patch.crates-io]
-+# error: failed to run custom build command for `ring v0.16.20`
-+quinn = { path = "../quinn-0.10.4/quinn" }
-+# error[E0308]: mismatched types
-+quinn-proto = { path = "../quinn-0.10.4/quinn-proto" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.38" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
