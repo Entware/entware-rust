@@ -1,0 +1,26 @@
+--- a/src/tz_linux.rs
++++ b/src/tz_linux.rs
+@@ -27,12 +27,13 @@ fn etc_localtime() -> Result<String, cra
+     // <https://github.com/systemd/systemd/blob/9102c625a673a3246d7e73d8737f3494446bad4e/src/basic/time-util.c#L1493>
+ 
+     const PREFIXES: &[&str] = &[
++        "/opt/share/zoneinfo/",   // absolute path for Entware
+         "/usr/share/zoneinfo/",   // absolute path
+         "../usr/share/zoneinfo/", // relative path
+         "/etc/zoneinfo/",         // absolute path for NixOS
+         "../etc/zoneinfo/",       // relative path for NixOS
+     ];
+-    let mut s = read_link("/etc/localtime")?
++    let mut s = read_link("/opt/etc/localtime")?
+         .into_os_string()
+         .into_string()
+         .map_err(|_| crate::GetTimezoneError::FailedParsingString)?;
+@@ -53,7 +54,7 @@ mod openwrt {
+     pub(crate) fn etc_config_system() -> Result<String, crate::GetTimezoneError> {
+         let f = fs::OpenOptions::new()
+             .read(true)
+-            .open("/etc/config/system")?;
++            .open("/opt/etc/config/system")?;
+         let mut f = io::BufReader::new(f);
+         let mut in_system_section = false;
+         let mut line = String::with_capacity(80);
