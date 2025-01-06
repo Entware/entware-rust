@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=pastel
-PKG_VERSION:=0.9.0
+PKG_VERSION:=0.10.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/pastel/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=473c805de42f6849a4bb14ec103ca007441f355552bdb6ebc80b60dac1f3a95d
+PKG_HASH:=7848cd6d2ad8db6543b609dece7c9c28b4720c09fb13aeb204dd03d152159dd2
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -27,7 +27,8 @@ define Package/pastel
 endef
 
 define Package/pastel/description
-  A command-line tool to generate, analyze, convert and manipulate colors.
+  A command-line tool to generate, analyze, convert and manipulate
+  colors.
 endef
 
 define Package/pastel/install
