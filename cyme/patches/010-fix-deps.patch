@@ -1,55 +1,18 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -16,7 +16,6 @@ clap = { version = "4.0.22", features =
- colored = "2.0.0"
- itertools = "0.10.5"
- lazy_static = "1.4.0"
--rusb = { version = "0.9.4", optional = true }
- log = "0.4.17"
- serde = { version = "1.0", features = ["derive"] }
- serde_json = "1.0.87"
-@@ -35,21 +34,24 @@ strum_macros = "0.24.3"
+@@ -39,10 +39,15 @@ unicode-width = "0.2.0"
+ 
+ [patch.crates-io]
+ nusb = { git = "https://github.com/kevinmehall/nusb", branch = "main" }
++# mips/mipsel: error[E0308]: mismatched types
++udevrs = { path = "../udevrs-0.3.0" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.38" }
+ 
  [dev-dependencies]
  diff = "0.1"
  assert-json-diff = "2.0.2"
-+chrono = "0.4.31"
++chrono = "=0.4.38"
  
--[target.x86_64-unknown-linux-gnu.dependencies]
--udevrs = { version = "^0.3.0", optional = true }
--udevlib = { package = "udev", version = "^0.8.0", optional = true }
--rusb = "0.9.4"
--
--[target.arm-unknown-linux-gnueabihf.dependencies]
-+# for all target.${arch}
-+[target.'cfg(unix)'.dependencies]
-+#[target.x86_64-unknown-linux-gnu.dependencies]
+ [target.'cfg(target_os="linux")'.dependencies]
  udevrs = { version = "^0.3.0", optional = true }
- udevlib = { package = "udev", version = "^0.8.0", optional = true }
--rusb = "0.9.4"
-+rusb = { version = "0.9.4", optional = true }
- 
--[target.aarch64-unknown-linux-gnu.dependencies]
--udevrs = { version = "^0.3.0", optional = true }
--udevlib = { package = "udev", version = "^0.8.0", optional = true }
--rusb = "0.9.4"
-+#[target.arm-unknown-linux-gnueabihf.dependencies]
-+#udevrs = { version = "^0.3.0", optional = true }
-+#udevlib = { package = "udev", version = "^0.8.0", optional = true }
-+#rusb = "0.9.4"
-+
-+#[target.aarch64-unknown-linux-gnu.dependencies]
-+#udevrs = { version = "^0.3.0", optional = true }
-+#udevlib = { package = "udev", version = "^0.8.0", optional = true }
-+#rusb = "0.9.4"
- 
- [features]
- libusb = ["dep:rusb"]
-@@ -85,3 +87,8 @@ pre-build = ["apt-get update && apt-get
- 
- [package.metadata.deb]
- section = "utility"
-+
-+[patch.crates-io]
-+# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
