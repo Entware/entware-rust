@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=felix
-PKG_VERSION:=2.13.0
+PKG_VERSION:=2.14.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kyoheiu/felix/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=4b52477d2607487d8c8a06e8090cb64ad7a47df9e254ce49888b0fa58d95e56d
+PKG_HASH:=6c6cd8d8e16890c8afc0638af8588a56c40648728feae610b7f3c6886c5a51d3
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0434
+PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161
 
 define Package/felix
   SECTION:=utils

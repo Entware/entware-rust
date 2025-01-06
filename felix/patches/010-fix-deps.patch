@@ -1,15 +1,21 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -50,6 +50,11 @@ version = "1.0.181"
- features = ["derive"]
- 
- [dependencies.chrono]
--version = "0.4.26"
-+version = "=0.4.34"
+@@ -26,7 +26,8 @@ natord = "1.0.9"
+ log = "0.4.22"
+ simplelog = "0.12.2"
+ content_inspector = "0.2.4"
+-crossterm = "0.28.1"
++# downgrade: keymap?
++crossterm = "0.26.1"
+ serde_yaml = "0.9.34"
+ zip = "2.2.0"
+ tar = "0.4.42"
+@@ -53,3 +54,8 @@ features = ["derive"]
+ version = "0.4.38"
  default-features = false
  features = ["clock"]
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.34" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
