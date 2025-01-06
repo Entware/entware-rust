@@ -1,0 +1,52 @@
+error[E0432]: unresolved import `core::sync::atomic::AtomicU64`
+ --> src/raw.rs:6:49
+  |
+6 | use core::sync::atomic::{AtomicBool, AtomicPtr, AtomicU64, AtomicUsize, Ordering};
+  |                                                 ^^^^^^^^^
+  |                                                 |
+  |                                                 no `AtomicU64` in `sync::atomic`
+  |                                                 help: a similar name exists in the module: `AtomicU32`
+
+For more information about this error, try `rustc --explain E0432`.
+error: could not compile `boxcar` (lib) due to 1 previous error
+
+---
+
+--- a/src/raw.rs
++++ b/src/raw.rs
+@@ -3,7 +3,7 @@
+ use core::cell::UnsafeCell;
+ use core::mem::{self, MaybeUninit};
+ use core::ops::Index;
+-use core::sync::atomic::{AtomicBool, AtomicPtr, AtomicU64, AtomicUsize, Ordering};
++use core::sync::atomic::{AtomicBool, AtomicPtr, AtomicUsize, Ordering};
+ use core::{ptr, slice};
+ 
+ use alloc::boxed::Box;
+@@ -17,7 +17,7 @@ pub struct Vec<T> {
+     //
+     // This value may be more than the true length as it will
+     // be incremented before values are actually stored.
+-    inflight: AtomicU64,
++    inflight: AtomicUsize,
+     // Buckets of length 32, 64 .. 2^63.
+     buckets: [Bucket<T>; BUCKETS],
+     // The number of initialized elements in this vector.
+@@ -29,7 +29,7 @@ unsafe impl<T: Sync> Sync for Vec<T> {}
+ 
+ impl<T> Vec<T> {
+     pub const EMPTY: Vec<T> = Vec {
+-        inflight: AtomicU64::new(0),
++        inflight: AtomicUsize::new(0),
+         buckets: [Bucket::EMPTY; BUCKETS],
+         count: AtomicUsize::new(0),
+     };
+@@ -51,7 +51,7 @@ impl<T> Vec<T> {
+ 
+         Vec {
+             buckets,
+-            inflight: AtomicU64::new(0),
++            inflight: AtomicUsize::new(0),
+             count: AtomicUsize::new(0),
+         }
+     }
