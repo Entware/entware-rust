@@ -1,0 +1,24 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -21,7 +21,7 @@ nu-path = "0.101.0"
+ # nu-path = { path = "../nushell/crates/nu-path", version = "0.98.0" }
+ 
+ bytes = "1.9.0"
+-chrono = { version = "0.4.39", features = ["serde"] }
++chrono = { version = "=0.4.38", features = ["serde"] }
+ parquet = "54.0.0"
+ 
+ [dev-dependencies]
+@@ -35,3 +35,12 @@ lto = "thin"
+ 
+ [profile.dev]
+ opt-level = 0
++
++[patch.crates-io]
++nu-path = { path = "../nushell-0.101.0/crates/nu-path" }
++nu-plugin = { path = "../nushell-0.101.0/crates/nu-plugin" }
++nu-plugin-test-support = { path = "../nushell-0.101.0/crates/nu-plugin-test-support" }
++nu-protocol = { path = "../nushell-0.101.0/crates/nu-protocol" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
