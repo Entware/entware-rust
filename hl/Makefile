@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hl
-PKG_VERSION:=0.29.6
+PKG_VERSION:=0.30.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pamburus/hl/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=74a3e889da38691ac6097d9c0daf52e4297581e6328a6aa76db655123de096fe
+PKG_HASH:=70c3fcf2ea4d58b979b45e615270ce60cd3f845924f12ade3bdb86959ff6e572
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -26,6 +26,7 @@ define Package/hl
   CATEGORY:=Utilities
   TITLE:=Utility for viewing json-formatted log files
   URL:=https://github.com/pamburus/hl
+  DEPENDS:=+liblzma
 endef
 
 define Package/hl/description

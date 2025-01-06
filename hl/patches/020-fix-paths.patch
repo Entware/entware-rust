@@ -1,0 +1,11 @@
+--- a/src/appdirs.rs
++++ b/src/appdirs.rs
+@@ -56,7 +56,7 @@ mod sys {
+ 
+     #[cfg(not(target_os = "windows"))]
+     pub(crate) fn system_config_dirs() -> Vec<PathBuf> {
+-        vec![PathBuf::from("/etc")]
++        vec![PathBuf::from("/opt/etc")]
+     }
+ 
+     #[cfg(target_os = "windows")]
