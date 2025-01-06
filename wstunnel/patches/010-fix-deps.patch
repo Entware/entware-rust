@@ -1,19 +1,35 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -66,6 +66,7 @@ tokio-fd = "0.3.0"
+@@ -11,7 +11,7 @@ anyhow = "1.0.94"
+ base64 = "0.22.1"
+ scopeguard = "1.2.0"
+ 
+-bb8 = { version = "0.9.0", features = [] }
++bb8 = { version = "=0.9.0", features = [] }
+ bytes = { version = "1.9.0", features = [] }
+ clap = { version = "4.5.23", features = ["derive", "env"] }
+ fast-socks5 = { version = "0.9.6", features = [] }
+@@ -71,6 +71,9 @@ rcgen = { version = "0.13.1", default-fe
  
  [dev-dependencies]
- testcontainers = "0.17.0"
+ testcontainers = "0.23.1"
++aws-lc-rs = "=1.9.0"
++aws-lc-sys = "=0.21.2"
 +chrono = "=0.4.38"
  
  [profile.release]
  lto = "fat"
-@@ -78,3 +79,8 @@ strip = "symbols"
+@@ -83,3 +86,13 @@ strip = "symbols"
  [profile.release-with-symbols]
  inherits = "release"
  strip = false
 +
 +[patch.crates-io]
++# aarch64
++aws-lc-rs = { path = "../aws-lc-rs-0.21.2/aws-lc-rs" }
++aws-lc-sys = { path = "../aws-lc-rs-0.21.2/aws-lc-sys" }
++# mips(el)
++bb8 = { path = "../bb8-0.9.0/bb8" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.38" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
