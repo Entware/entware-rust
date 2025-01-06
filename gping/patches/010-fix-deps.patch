@@ -1,3 +1,19 @@
+--- a/gping/Cargo.toml
++++ b/gping/Cargo.toml
+@@ -14,7 +14,7 @@ pinger = { version = "^2.0.0", path = ".
+ tui = { package = "ratatui", version = "0.29.0", features = ["crossterm"], default-features = false }
+ crossterm = "0.28.1"
+ anyhow = "1.0.94"
+-chrono = "0.4.39"
++chrono = "=0.4.38"
+ itertools = "0.13.0"
+ shadow-rs = { version = "0.37.0", default-features = false }
+ const_format = "0.2.34"
+@@ -24,3 +24,4 @@ idna = "1.0.3"
+ 
+ [build-dependencies]
+ shadow-rs = { version = "0.37.0", default-features = false }
++iana-time-zone = "=0.1.60"
 --- a/Cargo.toml
 +++ b/Cargo.toml
 @@ -8,3 +8,8 @@ members = [
@@ -7,5 +23,5 @@
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.34" }
++chrono = { path = "../chrono-0.4.38" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.60" }
