@@ -1,0 +1,13 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -18,3 +18,10 @@ nu-plugin = "0.101.0"
+ nu-protocol = { version = "0.101.0", features = ["plugin"] }
+ xz2 = "0.1.7"
+ zstd = "0.13.2"
++
++[patch.crates-io]
++nu-plugin = { path = "../nushell-0.101.0/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.101.0/crates/nu-protocol" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.38" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
