@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=trippy
-PKG_VERSION:=0.10.0
+PKG_VERSION:=0.12.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/fujiapple852/trippy/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=3dd15f6219b9b18da773c7af48e8bf35dec581975742ada5b3d930a1642a73d8
+PKG_HASH:=ae868123cba03977786f0dd74297f2e15e021d753684bd6e47554003f03a3d5b
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0437
+PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161
 
 define Package/trippy
   SECTION:=net
