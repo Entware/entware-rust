@@ -1,0 +1,58 @@
+--- a/ntpd/src/daemon/server.rs
++++ b/ntpd/src/daemon/server.rs
+@@ -1,6 +1,6 @@
+ use std::{
+     sync::{
+-        atomic::{AtomicU64, Ordering},
++        atomic::{AtomicUsize, Ordering},
+         Arc,
+     },
+     time::Duration,
+@@ -68,7 +68,7 @@ impl ServerStatHandler for ServerStats {
+ 
+ #[derive(Debug, Clone, Default)]
+ pub struct Counter {
+-    value: Arc<AtomicU64>,
++    value: Arc<AtomicUsize>,
+ }
+ 
+ impl Counter {
+@@ -77,7 +77,7 @@ impl Counter {
+     }
+ 
+     pub fn get(&self) -> u64 {
+-        self.value.as_ref().load(Ordering::Relaxed)
++        self.value.as_ref().load(Ordering::Relaxed).try_into().unwrap()
+     }
+ }
+ 
+--- a/ntpd/src/daemon/spawn/mod.rs
++++ b/ntpd/src/daemon/spawn/mod.rs
+@@ -1,4 +1,4 @@
+-use std::{net::SocketAddr, path::PathBuf, sync::atomic::AtomicU64};
++use std::{net::SocketAddr, path::PathBuf, sync::atomic::AtomicUsize};
+ 
+ use ntp_proto::{ProtocolVersion, SourceNtsData};
+ use serde::{Deserialize, Serialize};
+@@ -23,8 +23,8 @@ pub struct SpawnerId(u64);
+ 
+ impl SpawnerId {
+     pub fn new() -> SpawnerId {
+-        static COUNTER: AtomicU64 = AtomicU64::new(1);
+-        SpawnerId(COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed))
++        static COUNTER: AtomicUsize = AtomicUsize::new(1);
++        SpawnerId(COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed).try_into().unwrap())
+     }
+ }
+ 
+@@ -42,8 +42,8 @@ pub struct SourceId(u64);
+ 
+ impl SourceId {
+     pub fn new() -> SourceId {
+-        static COUNTER: AtomicU64 = AtomicU64::new(1);
+-        SourceId(COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed))
++        static COUNTER: AtomicUsize = AtomicUsize::new(1);
++        SourceId(COUNTER.fetch_add(1, std::sync::atomic::Ordering::Relaxed).try_into().unwrap())
+     }
+ }
+ 

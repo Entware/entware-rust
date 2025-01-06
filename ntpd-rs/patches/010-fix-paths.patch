@@ -1,0 +1,106 @@
+--- a/docs/examples/conf/ntp.toml.default
++++ b/docs/examples/conf/ntp.toml.default
+@@ -6,7 +6,7 @@ log-level = "info"
+ ## daemon while it is running. You can use the `ntp-ctl` or prometheus based
+ ## `ntp-metrics-exporter` binaries for some default options to read from the
+ ## observe socket.
+-observation-path = "/var/run/ntpd-rs/observe"
++observation-path = "/opt/var/run/ntpd-rs/observe"
+ 
+ ## The sources section allows configuring sources, you may configure multiple of
+ ## these blocks to add more sources to your configuration.
+--- a/ntp.toml
++++ b/ntp.toml
+@@ -1,7 +1,7 @@
+ [observability]
+ # Other values include trace, debug, warn and error
+ log-level = "info"
+-observation-path = "/var/run/ntpd-rs/observe"
++observation-path = "/opt/var/run/ntpd-rs/observe"
+ 
+ # Pool servers from ntppool.org. See http://www.pool.ntp.org/join.html
+ # for more information
+--- a/ntpd/src/ctl.rs
++++ b/ntpd/src/ctl.rs
+@@ -196,7 +196,7 @@ pub async fn main() -> std::io::Result<E
+             let observation = config
+                 .observability
+                 .observation_path
+-                .unwrap_or_else(|| PathBuf::from("/var/run/ntpd-rs/observe"));
++                .unwrap_or_else(|| PathBuf::from("/opt/var/run/ntpd-rs/observe"));
+ 
+             match options.format {
+                 Format::Plain => print_state(Format::Plain, observation).await,
+@@ -396,7 +396,7 @@ mod tests {
+         Ok(())
+     }
+ 
+-    const BINARY: &str = "/usr/bin/ntp-ctl";
++    const BINARY: &str = "/opt/usr/bin/ntp-ctl";
+ 
+     #[test]
+     fn cli_config() {
+--- a/ntpd/src/daemon/config/mod.rs
++++ b/ntpd/src/daemon/config/mod.rs
+@@ -394,7 +394,7 @@ impl Config {
+         }
+ 
+         // for the global file we also ignore it when there are permission errors
+-        let global_path = Path::new("/etc/ntpd-rs/ntp.toml");
++        let global_path = Path::new("/opt/etc/ntpd-rs/ntp.toml");
+         if global_path.exists() {
+             info!("using config file at default location `{:?}`", global_path);
+             match Config::from_file(global_path).await {
+@@ -659,14 +659,14 @@ mod tests {
+ 
+     #[test]
+     fn cli_external_config() {
+-        let arguments = &["/usr/bin/ntp-daemon", "--config", "other.toml"];
++        let arguments = &["/opt/usr/bin/ntp-daemon", "--config", "other.toml"];
+         let parsed_empty = NtpDaemonOptions::try_parse_from(arguments).unwrap();
+ 
+         assert_eq!(parsed_empty.config, Some("other.toml".into()));
+         assert!(parsed_empty.log_level.is_none());
+         assert_eq!(parsed_empty.action, NtpDaemonAction::Run);
+ 
+-        let arguments = &["/usr/bin/ntp-daemon", "-c", "other.toml"];
++        let arguments = &["/opt/usr/bin/ntp-daemon", "-c", "other.toml"];
+         let parsed_empty = NtpDaemonOptions::try_parse_from(arguments).unwrap();
+ 
+         assert_eq!(parsed_empty.config, Some("other.toml".into()));
+@@ -676,13 +676,13 @@ mod tests {
+ 
+     #[test]
+     fn cli_log_level() {
+-        let arguments = &["/usr/bin/ntp-daemon", "--log-level", "debug"];
++        let arguments = &["/opt/usr/bin/ntp-daemon", "--log-level", "debug"];
+         let parsed_empty = NtpDaemonOptions::try_parse_from(arguments).unwrap();
+ 
+         assert!(parsed_empty.config.is_none());
+         assert_eq!(parsed_empty.log_level.unwrap(), LogLevel::Debug);
+ 
+-        let arguments = &["/usr/bin/ntp-daemon", "-l", "debug"];
++        let arguments = &["/opt/usr/bin/ntp-daemon", "-l", "debug"];
+         let parsed_empty = NtpDaemonOptions::try_parse_from(arguments).unwrap();
+ 
+         assert!(parsed_empty.config.is_none());
+--- a/ntpd/src/metrics/exporter.rs
++++ b/ntpd/src/metrics/exporter.rs
+@@ -22,7 +22,7 @@ const DESCRIPTOR: &str = "ntp-metrics-ex
+ 
+ const HELP_MSG: &str = "Options:
+   -c, --config=CONFIG                  ntpd-rs configuration file (default:
+-                                       /etc/ntpd-rs/ntp.toml)
++                                       /opt/etc/ntpd-rs/ntp.toml)
+   -h, --help                           display this help text
+   -v, --version                        display version information";
+ 
+@@ -299,7 +299,7 @@ mod tests {
+ 
+     use super::*;
+ 
+-    const BINARY: &str = "/usr/bin/ntp-metrics-exporter";
++    const BINARY: &str = "/opt/usr/bin/ntp-metrics-exporter";
+ 
+     #[test]
+     fn cli_config() {
