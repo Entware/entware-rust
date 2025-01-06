@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tealdeer
-PKG_VERSION:=1.6.1
-PKG_RELEASE:=4
+PKG_VERSION:=1.7.1
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/dbrgn/tealdeer/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=d42db25a56a72faec173c86192656c5381281dc197171f385fccffd518930430
+PKG_HASH:=2b10e141774d2a50d25a1d3ca3d911dedc0e1313366ce0a364068c7a686300d8
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -48,8 +48,18 @@ endef
 define Package/tealdeer/postinst
 #!/bin/sh
 
-echo "Updating the local cache ..."
-tldr --update
+### colors
+ansi_red="\033[1;31m"
+ansi_blue="\033[1;34m"
+ansi_white="\033[1;37m"
+ansi_std="\033[0m"
+
+printf "\n$$ansi_blue %s $$ansi_white %s $$ansi_std" "Info:" "updating the local cache ..."
+if ! tldr --update > /dev/null 2>&1 ; then
+  printf "$$ansi_red %s $$ansi_std\n\n" "faild"
+else
+  printf "$$ansi_white %s $$ansi_std\n\n" "done"
+fi
 endef
 
 $(eval $(call BuildPackage,tealdeer))
