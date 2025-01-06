@@ -1,0 +1,83 @@
+--- a/Makefile
++++ b/Makefile
+@@ -20,9 +20,9 @@
+ 
+ include Makefile.cfg
+ 
+-export CC = gcc -pthread
+-export CFLAGS += -I. -Wall -Os -ggdb -D_GNU_SOURCE -fPIC
+-export LDLIBS += -lncursesw
++export CC ?= gcc
++export CFLAGS += -I. -Wall -D_GNU_SOURCE -fPIC -pthread
++export LDLIBS += -lncursesw -lpthread
+ 
+ SONAME  := libstfl.so.0
+ VERSION := 0.24
+@@ -65,6 +65,7 @@ install: all stfl.pc
+ 	install -m 644 stfl.pc $(DESTDIR)$(prefix)/$(libdir)/pkgconfig/
+ 	install -m 644 libstfl.so.$(VERSION) $(DESTDIR)$(prefix)/$(libdir)
+ 	ln -fs libstfl.so.$(VERSION) $(DESTDIR)$(prefix)/$(libdir)/libstfl.so
++	ln -fs libstfl.so.$(VERSION) $(DESTDIR)$(prefix)/$(libdir)/$(SONAME)
+ 
+ stfl.pc: stfl.pc.in
+ 	sed 's,@VERSION@,$(VERSION),g' < $< | sed 's,@PREFIX@,$(prefix),g' > $@
+--- a/Makefile.cfg
++++ b/Makefile.cfg
+@@ -19,36 +19,36 @@
+ #
+ 
+ export libdir ?= lib
+-export prefix ?= /usr/local
++export prefix ?= /opt
+ export DESTDIR ?= /
+ 
+-ifneq ($(shell spl-config --cflags 2>/dev/null),)
+-FOUND_SPL = 1
+-else
++#ifneq ($(shell spl-config --cflags 2>/dev/null),)
++#FOUND_SPL = 1
++#else
+ FOUND_SPL = 0
+-endif
++#endif
+ 
+-ifneq ($(shell swig -help 2>/dev/null),)
+-FOUND_SWIG = 1
+-else
++#ifneq ($(shell swig -help 2>/dev/null),)
++#FOUND_SWIG = 1
++#else
+ FOUND_SWIG = 0
+-endif
++#endif
+ 
+-ifneq ($(shell perl -le 'print 1' 2>/dev/null),)
+-FOUND_PERL5 = 1
+-else
++#ifneq ($(shell perl -le 'print 1' 2>/dev/null),)
++#FOUND_PERL5 = 1
++#else
+ FOUND_PERL5 = 0
+-endif
++#endif
+ 
+-ifneq ($(shell python -c 'print 1' 2>/dev/null),)
+-FOUND_PYTHON = 1
+-else
++#ifneq ($(shell python -c 'print 1' 2>/dev/null),)
++#FOUND_PYTHON = 1
++#else
+ FOUND_PYTHON = 0
+-endif
++#endif
+ 
+-ifneq ($(shell ruby -e 'puts 1' 2>/dev/null),)
+-FOUND_RUBY = 1
+-else
++#ifneq ($(shell ruby -e 'puts 1' 2>/dev/null),)
++#FOUND_RUBY = 1
++#else
+ FOUND_RUBY = 0
+-endif
++#endif
+ 
