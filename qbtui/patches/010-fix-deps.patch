@@ -1,11 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -22,6 +22,9 @@ anyhow = "1"
+@@ -22,6 +22,12 @@ anyhow = "1"
  clap = { version = "4.2", features = ["derive"] }
  open = "4"
  
++[dev-dependencies]
 +# error[E0635]: unknown feature `proc_macro_span_shrink`
 +proc-macro2 = "1.0.57"
++# error[E0282]: type annotations needed for `Box<_>`
++time = "0.3.36"
 +
  [[bin]]
  bench = false
