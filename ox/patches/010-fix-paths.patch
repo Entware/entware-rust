@@ -1,49 +1,20 @@
---- a/src/main.rs
-+++ b/src/main.rs
-@@ -31,7 +31,7 @@ mod undo;
- mod util;
- 
- use clap::{App, Arg};
--use directories::BaseDirs;
-+//use directories::BaseDirs;
- use document::Document;
- use editor::{Direction, Editor, Position};
- use oxa::Variable;
-@@ -49,7 +49,7 @@ macro_rules! log {
-         let file = OpenOptions::new()
-             .create(true)
-             .append(true)
--            .open("/tmp/ox.log");
-+            .open("/opt/var/log/ox.log");
-         if let Ok(mut log) = file {
-             writeln!(log, "{}: {}", $type, $msg).unwrap();
-         } else {
-@@ -73,7 +73,7 @@ fn main() {
-         eprintln!("{}", e);
-     }));
-     // Attempt to start an editor instance
--    let config_dir = load_config().unwrap_or_else(|| " ~/.config/ox/ox.ron".to_string());
-+    let config_dir = "/opt/etc/ox.ron";
-     // Gather the command line arguments
-     let cli = App::new("Ox")
-         .version(VERSION)
-@@ -111,11 +111,11 @@ file.txt:100 (This will go to line 100 i
+--- a/src/cli.rs
++++ b/src/cli.rs
+@@ -27,7 +27,7 @@ EXAMPLES:
+   ox test.txt test2.txt
+   ox /home/user/docs/test.txt
+   ox -c config.lua test.txt
+-  ox -r -c ~/.config/.oxrc -f Lua my_file.lua
++  ox -r -c /opt/etc/.oxrc -f Lua my_file.lua
+   tree | ox -r --stdin
+   ox --config-assist\
+ ";
+@@ -78,7 +78,7 @@ impl CommandLineInterface {
+             file_type: j.option_arg::<String, Key>(filetype.clone()),
+             config_path: j
+                 .option_arg::<String, Key>(config.clone())
+-                .unwrap_or_else(|| "~/.oxrc".to_string()),
++                .unwrap_or_else(|| "/opt/etc/.oxrc".to_string()),
+             to_open: j.finish().into_iter().filter(|o| o != "--").collect(),
+         }
      }
- }
- 
--fn load_config() -> Option<String> {
--    // Load the configuration file
--    let base_dirs = BaseDirs::new()?;
--    Some(format!(
--        "{}/ox/ox.ron",
--        base_dirs.config_dir().to_str()?.to_string()
--    ))
--}
-+//fn load_config() -> Option<String> {
-+//    // Load the configuration file
-+//    let base_dirs = BaseDirs::new()?;
-+//    Some(format!(
-+//        "{}/ox/ox.ron",
-+//        base_dirs.config_dir().to_str()?.to_string()
-+//    ))
-+//}

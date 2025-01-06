@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ox
-PKG_VERSION:=0.2.7
+PKG_VERSION:=0.7.6
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/curlpipe/ox/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=ae08c18243b66d8c24f9e0844e499890be2864584a8d3e38f186fdf3aa5c09fc
+PKG_HASH:=03f49425e889e9ee4b747de219261c5aaebbaac11a0aa7266dca4e4c2581f6c4
 
 PKG_LICENSE:=GPL-2.0-only
 PKG_LICENSE_FILES:=LICENSE
@@ -31,12 +31,12 @@ define Package/ox/description
 endef
 
 define Package/ox/conffiles
-/opt/etc/ox.ron
+/opt/etc/.oxrc
 endef
 
 define Package/ox/install
 	$(INSTALL_DIR) $(1)/opt/etc
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/config/ox.ron $(1)/opt/etc
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/config/.oxrc $(1)/opt/etc
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/ox $(1)/opt/usr/bin
 endef
