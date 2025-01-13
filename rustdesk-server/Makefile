@@ -23,8 +23,8 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += async-speed-limit-031-1 chrono-0431 jsonwebtoken-910
-PKG_BUILD_DEPENDS += quinn-0104 sqlx-072
+PKG_BUILD_DEPENDS += async-speed-limit-031-1 chrono-0431 getrandom-0215
+PKG_BUILD_DEPENDS += jsonwebtoken-910 quinn-0104 sqlx-072
 
 define Package/rustdesk-server
   SECTION:=utils
