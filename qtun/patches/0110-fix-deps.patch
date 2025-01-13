@@ -1,0 +1,15 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -32,6 +32,12 @@ log = "0.4"
+ env_logger = "0.9.1"
+ dirs = "4.0.0"
+ 
++[dev-dependencies]
++# all: no SYS_getrandom
++getrandom = "=0.2.15"
++
+ [patch.crates-io]
+ # mips/mipsel: error: failed to run custom build command for `ring v0.16.20`
+ quinn = { path = "../quinn-0.10.4/quinn" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }

@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += quinn-0104
+PKG_BUILD_DEPENDS += getrandom-0215 quinn-0104
 
 define Package/qtun/Default
   SECTION:=net
