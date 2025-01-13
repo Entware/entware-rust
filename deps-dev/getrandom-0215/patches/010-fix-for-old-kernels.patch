@@ -1,0 +1,51 @@
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -217,7 +217,7 @@ mod error;
+ mod util;
+ // To prevent a breaking change when targets are added, we always export the
+ // register_custom_getrandom macro, so old Custom RNG crates continue to build.
+-#[cfg(feature = "custom")]
++// #[cfg(feature = "custom")]
+ mod custom;
+ #[cfg(feature = "std")]
+ mod error_impls;
+@@ -281,23 +281,16 @@ cfg_if! {
+                 any(
+                     target_arch = "aarch64",
+                     target_arch = "arm",
+-                    target_arch = "powerpc",
+-                    target_arch = "powerpc64",
+-                    target_arch = "s390x",
++                    target_arch = "mips",
+                     target_arch = "x86",
+                     target_arch = "x86_64",
+-                    // Minimum supported Linux kernel version for MUSL targets
+-                    // is not specified explicitly (as of Rust 1.77) and they
+-                    // are used in practice to target pre-3.17 kernels.
++                    target_env = "gnu",
+                     target_env = "musl",
+                 ),
+             )
+         ),
+     ))] {
+-        mod util_libc;
+-        mod use_file;
+-        mod lazy;
+-        #[path = "linux_android_with_fallback.rs"] mod imp;
++        use custom as imp;
+     } else if #[cfg(any(target_os = "android", target_os = "linux"))] {
+         mod util_libc;
+         #[path = "linux_android.rs"] mod imp;
+@@ -394,9 +387,9 @@ pub fn getrandom(dest: &mut [u8]) -> Res
+ /// ```
+ #[inline]
+ pub fn getrandom_uninit(dest: &mut [MaybeUninit<u8>]) -> Result<&mut [u8], Error> {
+-    if !dest.is_empty() {
+-        imp::getrandom_inner(dest)?;
+-    }
++//    if !dest.is_empty() {
++//        imp::getrandom_inner(dest)?;
++//    }
+     // SAFETY: `dest` has been fully initialized by `imp::getrandom_inner`
+     // since it returned `Ok`.
+     Ok(unsafe { slice_assume_init_mut(dest) })
