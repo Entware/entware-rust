@@ -21,7 +21,7 @@ PKG_BUILD_FLAGS:=no-mips16
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161 openssl-probe-015
+PKG_BUILD_DEPENDS += chrono-0438 getrandom-0215 iana-time-zone-0161 openssl-probe-015
 
 define Package/nushell/Default
   SECTION:=utils
