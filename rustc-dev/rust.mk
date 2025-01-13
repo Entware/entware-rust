@@ -41,6 +41,10 @@ endif
 RUSTFLAGS += \
 	-C relocation-model=static
 
+### add rpath
+RUSTFLAGS += \
+	-C link-args=-Wl,-rpath,/opt/lib
+
 ### env var for `*-sys` packages
 RUSTC_VARS_COMMON:= \
 	CARGO_HOME=$(CARGO_HOME) \
