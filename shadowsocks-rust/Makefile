@@ -45,7 +45,7 @@ PKG_CONFIG_DEPENDS:= \
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161
+PKG_BUILD_DEPENDS += chrono-0438 getrandom-0215 iana-time-zone-0161
 
 define Package/shadowsocks-rust/Default
   SECTION:=net

@@ -1,0 +1,15 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -274,8 +274,12 @@ tokio = { version = "1", features = ["ne
+ chrono = "=0.4.38"
+ # mips(el): error[E0583]: file not found for module `atomic_time`
+ moka = "0.12.10"
++# all: no SYS_getrandom
++getrandom = "=0.2.15"
+ 
+ [patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
+ # localtime/zoneinfo
+ chrono = { path = "../chrono-0.4.38" }
+ iana-time-zone = { path = "../iana-time-zone-0.1.61" }
