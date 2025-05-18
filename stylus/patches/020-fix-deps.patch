@@ -1,15 +1,16 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -15,7 +15,7 @@ derive_more = "0.99"
+@@ -15,7 +15,8 @@ derive_more = "0.99"
  serde = { version = "1", features = ["derive", "rc"] }
  serde_yaml = "0.9"
  serde_json = { version = "1", features = ["raw_value"] }
 -serde-aux = "4"
-+serde-aux = "4.4.0"
++# error[E0599]: no function or associated item named `from_timestamp_millis` found for struct `chrono::DateTime` in the current scope
++serde-aux = "=4.4.0"
  humantime-serde = "1.1.1"
  walkdir = "2.3.2"
  handlebars = "4.2.2"
-@@ -28,6 +28,14 @@ structopt-flags = "0.3"
+@@ -28,6 +29,14 @@ structopt-flags = "0.3"
  keepcalm = { version = "0.1.5", features = ["serde"] }
  ctrlc = "3"
  
