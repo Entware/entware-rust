@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=felix
-PKG_VERSION:=2.14.0
+PKG_VERSION:=2.16.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kyoheiu/felix/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=6c6cd8d8e16890c8afc0638af8588a56c40648728feae610b7f3c6886c5a51d3
+PKG_HASH:=9fb0a1b120e3171883c8150792808e6871d052190ed8b9bcb0807970545285c6
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
