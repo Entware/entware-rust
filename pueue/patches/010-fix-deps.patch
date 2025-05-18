@@ -1,20 +1,20 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -16,7 +16,7 @@ rust-version = "1.67"
- [workspace.dependencies]
- # Chrono version is hard pinned to a specific version.
- # See https://github.com/Nukesor/pueue/issues/534
--chrono = { version = "0.4", features = ["serde"] }
-+chrono = { version = "0.4.38", features = ["serde"] }
- command-group = "5"
- log = "0.4"
- serde = "1.0"
-@@ -34,3 +34,8 @@ pretty_assertions = "1"
+@@ -13,7 +13,7 @@ rust-version = "1.85"
  
- [profile.release]
+ [workspace.dependencies]
+ better-panic = "0.3"
+-chrono = { version = "0.4", features = ["serde"] }
++chrono = { version = "=0.4.40", features = ["serde"] }
+ color-eyre = "0.6.3"
+ command-group = "5"
+ handlebars = "6.3"
+@@ -38,3 +38,8 @@ tracing-subscriber = { version = "0.3.19
+ codegen-units = 1
  lto = "thin"
+ strip = true
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.40" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
