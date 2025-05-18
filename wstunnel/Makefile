@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += bb8-090 chrono-0440
+PKG_BUILD_DEPENDS += bb8-090 chrono-0440 rust-bindgen/host
 
 define Package/wstunnel
   SECTION:=net
