@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=jql
-PKG_VERSION:=8.0.2
+PKG_VERSION:=8.0.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/yamafaktory/jql/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
-PKG_HASH:=3c591dc7c1f2459d581f3373f0aa81593dcc2596c88078dd851f2f84410dc054
+PKG_HASH:=8df953ecf3ba468b9c9794252cfade9e33b58e88f4079b152ba4d0f4a13438e9
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENCE-APACHE LICENCE-MIT
