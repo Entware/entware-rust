@@ -1,17 +1,17 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tokei
-PKG_REAL_VERSION:=13.0.0-alpha.7
+PKG_REAL_VERSION:=13.0.0-alpha.8
 PKG_VERSION:=$(subst -alpha.,_alpha,$(PKG_REAL_VERSION))
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_REAL_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/XAMPPRocky/tokei/tar.gz/refs/tags/v$(PKG_REAL_VERSION)?
-PKG_HASH:=c3c2491b797793a1dac6864df70922f27fa6852f9efee7065f34d3c178a82dec
+PKG_HASH:=695cda39111e6e95f6927e38fd2feeece37a15e52d320b6da8fcf11cd9542c9b
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
