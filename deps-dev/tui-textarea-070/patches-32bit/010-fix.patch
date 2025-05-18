@@ -1,0 +1,58 @@
+--- a/src/widget.rs
++++ b/src/widget.rs
+@@ -7,7 +7,7 @@ use crate::util::num_digits;
+ #[cfg(feature = "ratatui")]
+ use ratatui::text::Line;
+ use std::cmp;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ #[cfg(feature = "tuirs")]
+ use tui::text::Spans as Line;
+ 
+@@ -20,12 +20,12 @@ use tui::text::Spans as Line;
+ // manage states of textarea instances separately.
+ // https://docs.rs/ratatui/latest/ratatui/terminal/struct.Frame.html#method.render_stateful_widget
+ #[derive(Default, Debug)]
+-pub struct Viewport(AtomicU64);
++pub struct Viewport(AtomicUsize);
+ 
+ impl Clone for Viewport {
+     fn clone(&self) -> Self {
+         let u = self.0.load(Ordering::Relaxed);
+-        Viewport(AtomicU64::new(u))
++        Viewport(AtomicUsize::new(u))
+     }
+ }
+ 
+@@ -37,8 +37,8 @@ impl Viewport {
+ 
+     pub fn rect(&self) -> (u16, u16, u16, u16) {
+         let u = self.0.load(Ordering::Relaxed);
+-        let width = (u >> 48) as u16;
+-        let height = (u >> 32) as u16;
++        let width = (u >> 16) as u16;
++        let height = (u >> 16) as u16;
+         let row = (u >> 16) as u16;
+         let col = u as u16;
+         (row, col, width, height)
+@@ -58,9 +58,9 @@ impl Viewport {
+     }
+ 
+     fn store(&self, row: u16, col: u16, width: u16, height: u16) {
+-        // Pack four u16 values into one u64 value
++        // Pack four u16 values into one usize value
+         let u =
+-            ((width as u64) << 48) | ((height as u64) << 32) | ((row as u64) << 16) | col as u64;
++            ((width as usize) << 16) | ((height as usize) << 16) | ((row as usize) << 16) | col as usize;
+         self.0.store(u, Ordering::Relaxed);
+     }
+ 
+@@ -76,7 +76,7 @@ impl Viewport {
+         let u = self.0.get_mut();
+         let row = apply_scroll((*u >> 16) as u16, rows);
+         let col = apply_scroll(*u as u16, cols);
+-        *u = (*u & 0xffff_ffff_0000_0000) | ((row as u64) << 16) | (col as u64);
++        *u = (*u & 0xffff_ffff) | ((row as usize) << 16) | (col as usize);
+     }
+ }
+ 
