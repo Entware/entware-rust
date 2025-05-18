@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 # XXX The latest version.
 # For details, see: https://www.memorysafety.org/blog/announcing-hickory-dns/
@@ -24,7 +24,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += quinn-0104
+PKG_BUILD_DEPENDS += getrandom-0215 quinn-0104
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/trust-dns

@@ -72,10 +72,12 @@
  tinyvec = "1.1.1"
  toml = "0.7"
  url = "2.4.0"
-@@ -107,3 +109,6 @@ wasm-bindgen-crate = { version = "0.2.58
+@@ -107,3 +109,8 @@ wasm-bindgen-crate = { version = "0.2.58
  # tokio = { path = "../tokio/tokio" }
  # mio = { git = "https://github.com/tokio-rs/mio.git" }
  # h2 = { git = "https://github.com/hyperium/h2.git" }
 +
 +# mips/mipsel: error: failed to run custom build command for `ring v0.16.20`
 +quinn = { path = "../quinn-0.10.4/quinn" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
