@@ -1,26 +1,16 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -25,7 +25,8 @@ winres = "0.1"
- bitflags = { version = "2.6", features = ["std"] }
- capstone = "0.12"
- clap = { version = "4.5", features = ["derive"] }
--crossterm = { version = "0.28", features = ["serde"] }
-+# downgrade: raw mod - not a tty
-+crossterm = { version = "0.27", features = ["serde"] }
- dirs = "5.0"
- keystone-engine = "0.1"
- macro_rules_attribute = "0.2"
-@@ -36,7 +37,7 @@ ratatui = { version = "0.29", features =
+@@ -35,7 +35,7 @@ pdb = "0.8"
+ ratatui = { version = "0.29", features = ["serde"] }
  regex = "1.11"
- russh = "0.48"
- russh-keys = "0.48"
--russh-sftp = "2.0"
-+russh-sftp = "=2.0.6"
+ russh = "0.51"
+-russh-sftp = "2.0.8"
++russh-sftp = "=2.0.8"
  serde = { version = "1.0", features = ["derive"] }
  serde_json = "1.0"
- symbolic-demangle = "12.12"
-@@ -44,5 +45,22 @@ tempfile = "3.13"
- tokio = "1.41"
+ symbolic-demangle = "12.13"
+@@ -43,5 +43,22 @@ tempfile = "3.19"
+ tokio = "1.44"
  termbg = "0.6"
  
 +[dev-dependencies]
@@ -28,8 +18,8 @@
 +flurry = "=0.5.1"
 +seize = "=0.3.3"
 +# localtime/zoneinfo
-+chrono = "=0.4.38"
-+iana-time-zone = "=0.1.60"
++chrono = "=0.4.40"
++iana-time-zone = "=0.1.61"
 +
  [target.'cfg(windows)'.dependencies]
  winapi = "0.3"
@@ -37,8 +27,8 @@
 +[patch.crates-io]
 +# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 +flurry = { path = "../flurry-0.5.1" }
-+russh-sftp = { path = "../russh-sftp-2.0.6" }
++russh-sftp = { path = "../russh-sftp-2.0.8" }
 +seize = { path = "../seize-0.3.3" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.40" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
