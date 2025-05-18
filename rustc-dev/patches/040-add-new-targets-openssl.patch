@@ -16,6 +16,24 @@
          "/data/data/com.termux/files/usr/etc/tls",
          "/boot/system/data/ssl",
      ]
+--- a/vendor/openssl-probe-0.1.6/src/lib.rs
++++ b/vendor/openssl-probe-0.1.6/src/lib.rs
+@@ -29,6 +29,7 @@ pub fn find_certs_dirs() -> Vec<PathBuf>
+ pub fn candidate_cert_dirs() -> impl Iterator<Item = &'static Path> {
+     // see http://gagravarr.org/writing/openssl-certs/others.shtml
+     [
++        "/opt/etc/ssl", // Entware
+         "/var/ssl",
+         "/usr/share/ssl",
+         "/usr/local/ssl",
+@@ -42,7 +43,6 @@ pub fn candidate_cert_dirs() -> impl Ite
+         "/etc/pki/tls",
+         "/etc/ssl",
+         "/etc/certs",
+-        "/opt/etc/ssl", // Entware
+         #[cfg(target_os = "android")]
+         "/data/data/com.termux/files/usr/etc/tls",
+         #[cfg(target_os = "haiku")]
 --- a/vendor/openssl-src-111.17.0+1.1.1m/src/lib.rs
 +++ b/vendor/openssl-src-111.17.0+1.1.1m/src/lib.rs
 @@ -209,6 +209,18 @@ impl Build {

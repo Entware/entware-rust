@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.83.0
+PKG_VERSION:=1.86.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.gz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=722d773bd4eab2d828d7dd35b59f0b017ddf9a97ee2b46c1b7f7fac5c8841c6e
+PKG_HASH:=022a27286df67900a044d227d9db69d4732ec3d833e4ffc259c4425ed71eed80
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-dev-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-dev-$(PKG_VERSION)
@@ -18,16 +18,10 @@ PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-dev-$(PKG_VERSION)
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
-HOST_BUILD_DEPENDS:=libiconv-full/host python3/host
-HOST_BUILD_PARALLEL:=1
-
 PKG_BUILD_DEPENDS:=rustc-dev/host
-PKG_BUILD_PARALLEL:=1
 
 include $(INCLUDE_DIR)/host-build.mk
 include $(INCLUDE_DIR)/package.mk
-include $(INCLUDE_DIR)/nls.mk
-include $(INCLUDE_DIR)/cmake.mk
 
 HOST_UNPACK += --strip-components=1 -C $(HOST_BUILD_DIR)
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
@@ -45,6 +39,7 @@ define Package/rustc-dev/description
 endef
 
 ### host
+HOST_PKG_CONFIG_PATH:="$(STAGING_DIR_HOST)/lib/pkgconfig:$(STAGING_DIR_HOSTPKG)/lib/pkgconfig"
 HOST_STAMP_INSTALLED:=$(STAGING_DIR)/host/stamp/.$(PKG_DIR_NAME)_installed
 RUSTC_HOST_ARCH:=$(HOST_ARCH)-unknown-linux-gnu
 
@@ -57,37 +52,24 @@ endif
 
 define Host/Configure
 	( \
-		echo 'change-id = 133476'; \
+		echo 'change-id = 139182'; \
 		echo '[llvm]'; \
-		echo 'download-ci-llvm = false'; \
-		echo 'targets = "AArch64;ARM;Mips;X86"'; \
-		echo 'experimental-targets = ""'; \
-		echo 'link-shared = false'; \
-		echo 'cflags = "-pthread"'; \
-		echo 'cxxflags = "-pthread"'; \
-		echo 'ldflags = "-lpthread -ldl"'; \
-		echo 'build-config = \
-		{ \
-			LLVM_ENABLE_BINDINGS="OFF", \
-			LLVM_ENABLE_OCAMLDOC="OFF", \
-			LLVM_INCLUDE_BENCHMARKS="OFF", \
-			LLVM_INCLUDE_DOCS="OFF", \
-			LLVM_INCLUDE_EXAMPLES="OFF", \
-			LLVM_INCLUDE_TESTS="OFF" \
-		}'; \
+		echo 'download-ci-llvm = true'; \
 		echo '[build]'; \
-		echo 'test-stage = 0'; \
-		echo 'dist-stage = 0'; \
 		echo 'bench-stage = 0'; \
+		echo 'dist-stage = 0'; \
+		echo 'test-stage = 0'; \
 		echo 'target = ["$(RUSTC_HOST_ARCH)"]'; \
-		echo 'docs = false'; \
+		echo 'bootstrap-cache-path = "$(DL_DIR)/rustc"'; \
+		echo 'python = "$(STAGING_DIR_HOST)/bin/python3"'; \
+		echo 'cargo-native-static = true'; \
 		echo 'compiler-docs = false'; \
-		echo 'submodules = false'; \
-		echo 'python = "$(STAGING_DIR_HOSTPKG)/bin/python3"'; \
-		echo 'vendor = true'; \
+		echo 'docs = false'; \
 		echo 'extended = true'; \
+		echo 'submodules = false'; \
 		echo 'tools = ["cargo", "clippy", "rustdoc", "rustfmt",]'; \
-		echo 'verbose = 0'; \
+		echo 'vendor = true'; \
+		echo 'verbose = $(if $(findstring s,$(OPENWRT_VERBOSE)),1,0)'; \
 		echo '[install]'; \
 		echo 'prefix = "/"'; \
 		echo 'sysconfdir = "/etc"'; \
@@ -96,16 +78,18 @@ define Host/Configure
 		echo 'datadir = "/share"'; \
 		echo '[rust]'; \
 		echo 'backtrace = false'; \
-		echo 'incremental = true'; \
 		echo 'channel = "nightly"'; \
 		echo 'codegen-tests = false'; \
 		echo 'dist-src = false'; \
+		echo 'download-rustc = false'; \
+		echo 'incremental = false'; \
+		echo 'rpath = true'; \
 		echo '[target.$(RUSTC_HOST_ARCH)]'; \
+		echo 'ar = "ar"'; \
 		echo 'cc = "$(HOSTCC_NOCACHE)"'; \
 		echo 'cxx = "$(HOSTCXX_NOCACHE)"'; \
-		echo 'ar = "ar"'; \
-		echo 'ranlib = "ranlib"'; \
 		echo 'linker = "$(HOSTCC_NOCACHE)"'; \
+		echo 'ranlib = "ranlib"'; \
 		echo '[dist]'; \
 		echo 'src-tarball = false'; \
 		echo 'compression-formats = ["gz"]'; \
@@ -115,45 +99,58 @@ define Host/Configure
 		$(SED) 's/\("files":{\)[^}]*/\1/' {} +
 endef
 
-Host/Compile:=:
-
-define Host/Install
+define Host/Compile
 	( cd $(HOST_BUILD_DIR); \
 		CARGO_HOME="$(STAGING_DIR)/host/share/cargo.dev" \
 		DESTDIR=$(HOST_BUILD_DIR)/install \
-		$(STAGING_DIR_HOSTPKG)/bin/python3 x.py install; \
+		$(STAGING_DIR_HOST)/bin/python3 x.py install; \
 	)
+endef
+
+define Host/Install
+	$(INSTALL_DIR) $(STAGING_DIR)/host/bin
+	$(CP) $(HOST_BUILD_DIR)/install/bin/cargo $(STAGING_DIR)/host/bin
+	$(CP) $(HOST_BUILD_DIR)/install/bin/cargo-clippy $(STAGING_DIR)/host/bin
+	$(CP) $(HOST_BUILD_DIR)/install/bin/cargo-fmt $(STAGING_DIR)/host/bin
+	$(CP) $(HOST_BUILD_DIR)/install/bin/clippy-driver $(STAGING_DIR)/host/bin
+	$(CP) $(HOST_BUILD_DIR)/install/bin/rust{c,doc,fmt} $(STAGING_DIR)/host/bin
+	$(INSTALL_DIR) $(STAGING_DIR)/host/lib/rustlib
+	$(CP) $(HOST_BUILD_DIR)/install/lib/lib*.so* $(STAGING_DIR)/host/lib
+	$(CP) $(HOST_BUILD_DIR)/install/lib/rustlib/$(RUSTC_HOST_ARCH) \
+		 $(STAGING_DIR)/host/lib/rustlib
 endef
 
 define Host/Clean
 	$(call Host/Clean/Default)
 	rm -f $(STAGING_DIR)/host/bin/{cargo,clippy,rust}*
+	rm -f $(STAGING_DIR)/host/lib/lib*.so*
 	rm -rf $(STAGING_DIR)/host/lib/rustlib/$(RUSTC_HOST_ARCH)
-	rm -f $(STAGING_DIR)/host/lib/lib{rust,std,test}*.so
 endef
 
 define Build/Configure
 	( \
-		echo 'change-id = 133476'; \
+		echo 'change-id = 139182'; \
 		echo 'profile = "library"'; \
 		echo '[llvm]'; \
-		echo 'download-ci-llvm = false'; \
-		echo 'allow-old-toolchain = true'; \
+		echo 'download-ci-llvm = true'; \
 		echo '[build]'; \
 		echo 'host = ["$(RUSTC_TARGET_ARCH)"]'; \
 		echo 'target = ["$(RUSTC_TARGET_ARCH)"]'; \
+		echo 'bootstrap-cache-path = "$(DL_DIR)/rustc"'; \
 		echo 'cargo = "$(STAGING_DIR)/host/bin/cargo"'; \
+		echo 'cargo-clippy = "$(STAGING_DIR)/host/bin/cargo-clippy"'; \
+		echo 'python = "$(STAGING_DIR_HOST)/bin/python3"'; \
 		echo 'rustc = "$(STAGING_DIR)/host/bin/rustc"'; \
-		echo 'docs = false'; \
+		echo 'rustfmt = "$(STAGING_DIR)/host/bin/rustfmt"'; \
 		echo 'compiler-docs = false'; \
-		echo 'submodules = false'; \
-		echo 'python = "$(STAGING_DIR_HOSTPKG)/bin/python3"'; \
-		echo 'vendor = true'; \
-		echo 'full-bootstrap = false'; \
+		echo 'docs = false'; \
 		echo 'extended = false'; \
-		echo 'tools = ["",]'; \
-		echo 'verbose = 0'; \
+		echo 'full-bootstrap = false'; \
 		echo 'local-rebuild = false'; \
+		echo 'submodules = false'; \
+		echo 'tools = ["",]'; \
+		echo 'vendor = true'; \
+		echo 'verbose = $(if $(findstring s,$(OPENWRT_VERBOSE)),1,0)'; \
 		echo '[install]'; \
 		echo 'prefix = "/opt"'; \
 		echo 'sysconfdir = "/opt/etc"'; \
@@ -161,11 +158,12 @@ define Build/Configure
 		echo 'libdir = "/opt/lib"'; \
 		echo 'datadir = "/opt/share"'; \
 		echo '[rust]'; \
-		echo 'incremental = true'; \
 		echo 'channel = "nightly"'; \
-		echo 'rpath = false'; \
 		echo 'codegen-tests = false'; \
 		echo 'dist-src = false'; \
+		echo 'download-rustc = false'; \
+		echo 'incremental = false'; \
+		echo 'rpath = false'; \
 		echo '[target.$(RUSTC_TARGET_ARCH)]'; \
 		echo 'ar = "$(TARGET_CROSS)ar"'; \
 		echo 'cc = "$(TARGET_CROSS)gcc"'; \
@@ -181,106 +179,29 @@ define Build/Configure
 		$(SED) 's/\("files":{\)[^}]*/\1/' {} +
 endef
 
-Build/Compile:=:
-
-define FixPreInstall
-	$(INSTALL_DIR) $(PKG_BUILD_DIR)/build/$(RUSTC_HOST_ARCH)
-	$(LN) $(HOST_BUILD_DIR)/build/$(RUSTC_HOST_ARCH)/llvm \
-		$(PKG_BUILD_DIR)/build/$(RUSTC_HOST_ARCH)
-	$(LN) $(HOST_BUILD_DIR)/build/$(RUSTC_HOST_ARCH)/stage0-bootstrap-tools \
-		$(PKG_BUILD_DIR)/build/$(RUSTC_HOST_ARCH)
-	$(INSTALL_DIR) $(STAGING_DIR)/host/bin $(STAGING_DIR)/host/lib/rustlib
-	$(CP) $(HOST_BUILD_DIR)/install/bin/cargo $(STAGING_DIR)/host/bin
-	$(CP) $(HOST_BUILD_DIR)/install/bin/cargo-clippy $(STAGING_DIR)/host/bin
-	$(CP) $(HOST_BUILD_DIR)/install/bin/cargo-fmt $(STAGING_DIR)/host/bin
-	$(CP) $(HOST_BUILD_DIR)/install/bin/clippy-driver $(STAGING_DIR)/host/bin
-	$(CP) $(HOST_BUILD_DIR)/install/bin/rust{c,doc,fmt} $(STAGING_DIR)/host/bin
-	$(CP) $(HOST_BUILD_DIR)/install/lib/lib*.so $(STAGING_DIR)/host/lib
-	$(CP) $(HOST_BUILD_DIR)/install/lib/rustlib/$(RUSTC_HOST_ARCH) \
-		 $(STAGING_DIR)/host/lib/rustlib
-endef
-
-Hooks/Compile/Post += FixPreInstall
-
-define Build/Install
+define Build/Compile
 	( cd $(PKG_BUILD_DIR); \
 		CARGO_HOME="$(STAGING_DIR)/host/share/cargo.dev" \
 		DESTDIR=$(PKG_INSTALL_DIR) \
-		HOST_PKG_CONFIG_PATH="$(STAGING_DIR_HOST)/lib/pkgconfig:$(STAGING_DIR_HOSTPKG)/lib/pkgconfig" \
+		HOST_PKG_CONFIG_PATH="$(HOST_PKG_CONFIG_PATH)" \
 		PKG_CONFIG_ALLOW_CROSS=1 \
-		$(STAGING_DIR_HOSTPKG)/bin/python3 x.py install library/std --stage 1; \
+		$(STAGING_DIR_HOST)/bin/python3 x.py install library/std; \
 	)
 endef
+
+Build/Install:=:
 
 define Build/InstallDev
 	$(INSTALL_DIR) $(2)/include $(2)/lib/rustlib
 	$(CP) $(PKG_INSTALL_DIR)/opt/lib/rustlib/$(RUSTC_TARGET_ARCH) \
 		 $(2)/lib/rustlib
 	$(INSTALL_DIR) $(2)/share/cargo
-	( \
-		echo '### host'; \
-		echo '[target.$(RUSTC_HOST_ARCH)]'; \
-		echo 'linker = "$(HOSTCC_NOCACHE)"'; \
-		echo ''; \
-		echo '### target'; \
-		echo '[target.$(RUSTC_TARGET_ARCH)]'; \
-		echo 'linker = "$(TARGET_CROSS)gcc"'; \
-		echo ''; \
-		echo '### Custom profiles:'; \
-		echo '### strip'; \
-		echo '[profile.strip]'; \
-		echo 'inherits = "release"'; \
-		echo 'opt-level = "z"'; \
-		echo 'debug = false'; \
-		echo 'split-debuginfo = "off"'; \
-		echo 'debug-assertions = false'; \
-		echo 'overflow-checks = false'; \
-		echo 'lto = "thin"'; \
-		echo 'panic = "abort"'; \
-		echo 'incremental = false'; \
-		echo 'codegen-units = 1'; \
-		echo 'rpath = false'; \
-		echo 'strip = true'; \
-		echo ''; \
-		echo '### s(uper)strip'; \
-		echo '[profile.sstrip]'; \
-		echo 'inherits = "release"'; \
-		echo 'opt-level = "z"'; \
-		echo 'debug = false'; \
-		echo 'split-debuginfo = "off"'; \
-		echo 'debug-assertions = false'; \
-		echo 'overflow-checks = false'; \
-		echo 'lto = "fat"'; \
-		echo 'panic = "abort"'; \
-		echo 'incremental = false'; \
-		echo 'codegen-units = 1'; \
-		echo 'rpath = false'; \
-		echo 'strip = "symbols"'; \
-		echo ''; \
-		echo '### Overrides build-script settings:'; \
-		echo '### Only for build scripts, proc macros, and their dependencies'; \
-		echo '[profile.release.build-override]'; \
-		echo 'opt-level = "z"'; \
-		echo 'debug = false'; \
-		echo 'split-debuginfo = "off"'; \
-		echo 'debug-assertions = false'; \
-		echo 'overflow-checks = false'; \
-		echo 'incremental = false'; \
-		echo 'codegen-units = 1'; \
-		echo 'strip = true'; \
-		echo ''; \
-		echo '### For any non-workspace member'; \
-		echo '[profile.release.package."*"]'; \
-		echo 'opt-level = "z"'; \
-		echo 'debug = false'; \
-		echo 'split-debuginfo = "off"'; \
-		echo 'debug-assertions = false'; \
-		echo 'overflow-checks = false'; \
-		echo 'incremental = false'; \
-		echo 'codegen-units = 1'; \
-		echo 'strip = true'; \
-		echo ''; \
-	) > $(2)/share/cargo/config.toml
+	$(CP) ./files/cargo-config.toml $(2)/share/cargo/config.toml
+	$(SED) 's,@RUSTC_HOST_ARCH@,$(RUSTC_HOST_ARCH),; \
+		s,@HOST_CC@,$(HOSTCC_NOCACHE),; \
+		s,@RUSTC_TARGET_ARCH@,$(RUSTC_TARGET_ARCH),; \
+		s,@TARGET_CC@,$(TARGET_CC),' \
+			$(2)/share/cargo/config.toml
 endef
 
 $(eval $(call HostBuild))
