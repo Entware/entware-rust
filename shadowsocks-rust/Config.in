@@ -55,10 +55,6 @@ comment "Optional features"
 		bool "Enable support DNS-over-HTTPS"
 		depends on SS_RUST_HICKORY_DNS
 
-	config SS_RUST_DNS_OVER_NATIVE_TLS
-		bool "Enable feature dns-over-native-tls"
-		depends on SS_RUST_HICKORY_DNS
-
 	config SS_RUST_DNS_OVER_TLS
 		bool "Enable support DNS-over-TLS"
 		depends on SS_RUST_HICKORY_DNS

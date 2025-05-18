@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-rust
-PKG_VERSION:=1.22.0
+PKG_VERSION:=1.23.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/shadowsocks/shadowsocks-rust/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=2857372667b66aa7f8ef2d27a8a19209cbf3e5da2e6d1d1d493411d72d173861
+PKG_HASH:=13307594159cfe23f91e69c8b08ba7a41a17a2f36a4bfb3821476026f7518cac
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -23,7 +23,6 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_SS_RUST_AEAD_CIPHER_EXTRA \
 	CONFIG_SS_RUST_DNS_OVER_H3 \
 	CONFIG_SS_RUST_DNS_OVER_HTTPS \
-	CONFIG_SS_RUST_DNS_OVER_NATIVE_TLS \
 	CONFIG_SS_RUST_DNS_OVER_TLS \
 	CONFIG_SS_RUST_HICKORY_DNS \
 	CONFIG_SS_RUST_LOCAL_DNS \
@@ -45,7 +44,7 @@ PKG_CONFIG_DEPENDS:= \
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 getrandom-0215 iana-time-zone-0161
+PKG_BUILD_DEPENDS += chrono-0440 getrandom-0215
 
 define Package/shadowsocks-rust/Default
   SECTION:=net
@@ -63,7 +62,7 @@ endef
 define Package/shadowsocks-rust-local
   $(call Package/shadowsocks-rust/Default)
   TITLE:=local server (sslocal)
-  DEPENDS:=shadowsocks-rust +SS_RUST_LOCAL_HTTP_NATIVE_TLS:libopenssl
+  DEPENDS:=shadowsocks-rust +libstdcpp +SS_RUST_LOCAL_HTTP_NATIVE_TLS:libopenssl
 endef
 
 define Package/shadowsocks-rust-manager
@@ -129,7 +128,6 @@ FEATURES:= \
 	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_EXTRA),aead-cipher-extra) \
 	$(if $(CONFIG_SS_RUST_DNS_OVER_H3),dns-over-h3) \
 	$(if $(CONFIG_SS_RUST_DNS_OVER_HTTPS),dns-over-https) \
-	$(if $(CONFIG_SS_RUST_DNS_OVER_NATIVE_TLS),dns-over-native-tls) \
 	$(if $(CONFIG_SS_RUST_DNS_OVER_TLS),dns-over-tls) \
 	$(if $(CONFIG_SS_RUST_LOCAL_DNS),local-dns) \
 	$(if $(CONFIG_SS_RUST_LOCAL_FAKE_DNS),local-fake-dns) \
@@ -146,6 +144,11 @@ CARGO_ARGS += --no-default-features --features "$(BINS) $(DEFAULT_FEATURES) $(FE
 
 # error: failed to run custom build command for `openssl-sys v0.9.102`
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
+
+# arm/mips(el): .../libatomic.so.1: error adding symbols: DSO missing from command line
+ifneq ($(CONFIG_ARCH_64BIT),y)
+RUSTFLAGS += -l dylib=atomic
+endif
 
 define Package/shadowsocks-rust/install
 	$(INSTALL_DIR) $(1)/opt/etc/shadowsocks-rust
