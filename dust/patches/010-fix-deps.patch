@@ -1,0 +1,20 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -42,7 +42,7 @@ serde_json = "1.0"
+ directories = "4"
+ sysinfo = "0.27"
+ ctrlc = "3.4"
+-chrono = "0.4"
++chrono = "=0.4.40"
+ 
+ [target.'cfg(not(target_has_atomic = "64"))'.dependencies]
+ portable-atomic = "1.4"
+@@ -102,3 +102,8 @@ Dust is meant to give you an instant ove
+ disk space without requiring sort or head. Dust will print a maximum of one
+ 'Did not have permissions message'.
+ """
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.40" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
