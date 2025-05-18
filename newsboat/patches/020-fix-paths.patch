@@ -1,6 +1,6 @@
 --- a/src/controller.cpp
 +++ b/src/controller.cpp
-@@ -183,7 +183,7 @@ int Controller::run(const CliArgsParser&
+@@ -174,7 +174,7 @@ int Controller::run(const CliArgsParser&
  	cfgparser.register_handler("highlight-feed", rxman);
  
  	try {
@@ -9,7 +9,7 @@
  		cfgparser.parse_file(configpaths.config_file());
  	} catch (const ConfigException& ex) {
  		LOG(Level::ERROR,
-@@ -936,7 +936,7 @@ std::string Controller::write_temporary_
+@@ -927,7 +927,7 @@ std::string Controller::write_temporary_
  	} else {
  		snprintf(filename,
  			sizeof(filename),
@@ -20,7 +20,7 @@
  	if (fd != -1) {
 --- a/src/pbcontroller.cpp
 +++ b/src/pbcontroller.cpp
-@@ -289,7 +289,7 @@ void PbController::initialize(int argc,
+@@ -290,7 +290,7 @@ void PbController::initialize(int argc,
  	cfgparser.register_handler("run-on-startup", null_cah);
  
  	try {

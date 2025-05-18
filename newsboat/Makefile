@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=newsboat
-PKG_VERSION:=2.38
+PKG_VERSION:=2.39
 PKG_RELEASE:=1
 
 PKG_GIT_TAG:=r$(subst $(space),.,$(wordlist 1,2,$(subst .,$(space),$(PKG_VERSION))))
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/newsboat/newsboat/tar.gz/refs/tags/$(PKG_GIT_TAG)?
-PKG_HASH:=f02341cc0437d6bd364f03f5b6df950b3bc59513250c3dbb38f8f9b59022d26e
+PKG_HASH:=7444d16c3bc1dbdf7121dd4678ed58353b809d5b2db29ef0c4c839e2c6307516
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
 include ../rustc-dev/rust.mk
 
-PKG_BUILD_DEPENDS += chrono-0438
+PKG_BUILD_DEPENDS += chrono-0440
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/newsboat

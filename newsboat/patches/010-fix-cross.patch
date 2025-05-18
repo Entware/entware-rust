@@ -11,8 +11,8 @@
  WARNFLAGS=-Werror -Wall -Wextra -Wunreachable-code
  INCLUDES=-Iinclude -Istfl -Ifilter -I. -Irss -I$(CARGO_TARGET_DIR)/cxxbridge/
  # Keep in sync with c++ version specified in FFI build.rs
--BARE_CXXFLAGS=-std=c++14 -O2 -ggdb $(INCLUDES)
-+BARE_CXXFLAGS=-std=c++14 $(INCLUDES)
+-BARE_CXXFLAGS=-std=c++17 -O2 -ggdb $(INCLUDES)
++BARE_CXXFLAGS=-std=c++17 $(INCLUDES)
  LDFLAGS+=-L.
  
  # Constants
@@ -60,7 +60,7 @@
  
  doc/example-config: doc/gen-example-config doc/configcommands.dsv
  	sed 's/+{backslash}"+/`\\"`/g' doc/configcommands.dsv | doc/gen-example-config > doc/example-config
-@@ -363,14 +366,14 @@ install-podboat: $(PODBOAT)
+@@ -368,14 +371,14 @@ install-podboat: $(PODBOAT)
  
  install-docs: doc
  	$(MKDIR) $(DESTDIR)$(docdir)
