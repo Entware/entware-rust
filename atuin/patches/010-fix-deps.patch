@@ -1,22 +1,11 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -53,7 +53,7 @@ features = ["json", "rustls-tls-native-r
- default-features = false
- 
- [workspace.dependencies.sqlx]
--version = "0.7"
-+version = "=0.7.3"
- features = ["runtime-tokio-rustls", "time", "postgres", "uuid"]
- 
- # Config for 'cargo dist'
-@@ -96,3 +96,10 @@ protobuf = '*'
- 
- [workspace.metadata.dist.dependencies.apt]
- protobuf-compiler = '*'
+@@ -60,3 +60,8 @@ features = ["runtime-tokio-rustls", "tim
+ [profile.dist]
+ inherits = "release"
+ lto = "thin"
 +
 +[patch.crates-io]
-+# armv5te/mips/mipsel (Atomic*64)
-+sqlx = { path = "../sqlx-0.7.3" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.38" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.60" }
