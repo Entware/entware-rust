@@ -1,20 +1,22 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -271,7 +271,7 @@ binary-heap-plus = "0.5.0"
+@@ -273,7 +273,7 @@ binary-heap-plus = "0.5.0"
  bstr = "1.9.1"
  bytecount = "0.6.8"
  byteorder = "1.5.0"
 -chrono = { version = "0.4.38", default-features = false, features = [
-+chrono = { version = "=0.4.38", default-features = false, features = [
++chrono = { version = "=0.4.39", default-features = false, features = [
    "std",
    "alloc",
    "clock",
-@@ -573,3 +573,8 @@ if_not_else = "warn"
+@@ -581,3 +581,10 @@ manual_let_else = "warn"
  all = { level = "deny", priority = -1 }
  cargo = { level = "warn", priority = -1 }
  pedantic = { level = "deny", priority = -1 }
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../../chrono-0.4.38" }
-+iana-time-zone = { path = "../../iana-time-zone-0.1.60" }
++chrono = { path = "../../chrono-0.4.39" }
++iana-time-zone = { path = "../../iana-time-zone-0.1.61" }
++# all: no SYS_getrandom
++getrandom = { path = "../../getrandom-0.2.15" }
