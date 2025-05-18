@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ripcalc
-PKG_VERSION:=0.1.12
+PKG_VERSION:=0.2.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://gitlab.com/edneville/ripcalc/-/archive/v$(PKG_VERSION)
-PKG_HASH:=092912e00684c3437fd9193a926c4dc0c702cc55687bd46e33542b8e4319a112
+PKG_HASH:=c31e5c537214c17ea32affcca577c188816b8b0d3348060133ba28ef5f9723f3
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
