@@ -1,20 +1,20 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=uv
-PKG_VERSION:=0.5.4
+PKG_VERSION:=0.6.12
 PKG_RELEASE:=1
 
 PYPI_NAME:=uv
-PKG_HASH:=cd7a5a3a36f975a7678f27849a2d49bafe7272143d938e9b6f3bf28392a3ba00
+PKG_HASH:=b6f67fb3458b2c856152b54b54102f0f3b82cfd18fddbbc38b59ff7fa87e5291
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
-PKG_BUILD_DEPENDS:=boxcar-027 maturin/host
+PKG_BUILD_DEPENDS:=boxcar-027 getrandom-0215 maturin/host
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
@@ -32,6 +32,7 @@ define Package/python3-uv
 	+python3-logging \
 	+python3-setuptools \
 	+python3-urllib
+  EXTRA_DEPENDS:=maturin
 endef
 
 RUSTFLAGS += -C relocation-model=pic
