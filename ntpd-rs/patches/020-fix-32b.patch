@@ -32,9 +32,9 @@
 -use std::{net::SocketAddr, path::PathBuf, sync::atomic::AtomicU64};
 +use std::{net::SocketAddr, path::PathBuf, sync::atomic::AtomicUsize};
  
- use ntp_proto::{ProtocolVersion, SourceNtsData};
+ use ntp_proto::{ProtocolVersion, SourceConfig, SourceNtsData};
  use serde::{Deserialize, Serialize};
-@@ -23,8 +23,8 @@ pub struct SpawnerId(u64);
+@@ -25,8 +25,8 @@ pub struct SpawnerId(u64);
  
  impl SpawnerId {
      pub fn new() -> SpawnerId {
@@ -45,7 +45,7 @@
      }
  }
  
-@@ -42,8 +42,8 @@ pub struct SourceId(u64);
+@@ -44,8 +44,8 @@ pub struct SourceId(u64);
  
  impl SourceId {
      pub fn new() -> SourceId {

@@ -22,16 +22,16 @@
  # for more information
 --- a/ntpd/src/ctl.rs
 +++ b/ntpd/src/ctl.rs
-@@ -196,7 +196,7 @@ pub async fn main() -> std::io::Result<E
+@@ -197,7 +197,7 @@ pub fn main() -> std::io::Result<ExitCod
              let observation = config
                  .observability
                  .observation_path
 -                .unwrap_or_else(|| PathBuf::from("/var/run/ntpd-rs/observe"));
 +                .unwrap_or_else(|| PathBuf::from("/opt/var/run/ntpd-rs/observe"));
  
-             match options.format {
-                 Format::Plain => print_state(Format::Plain, observation).await,
-@@ -396,7 +396,7 @@ mod tests {
+             Builder::new_current_thread()
+                 .enable_all()
+@@ -402,7 +402,7 @@ mod tests {
          Ok(())
      }
  
@@ -50,8 +50,8 @@
 +        let global_path = Path::new("/opt/etc/ntpd-rs/ntp.toml");
          if global_path.exists() {
              info!("using config file at default location `{:?}`", global_path);
-             match Config::from_file(global_path).await {
-@@ -659,14 +659,14 @@ mod tests {
+             match Config::from_file(global_path) {
+@@ -685,14 +685,14 @@ mod tests {
  
      #[test]
      fn cli_external_config() {
@@ -68,7 +68,7 @@
          let parsed_empty = NtpDaemonOptions::try_parse_from(arguments).unwrap();
  
          assert_eq!(parsed_empty.config, Some("other.toml".into()));
-@@ -676,13 +676,13 @@ mod tests {
+@@ -702,13 +702,13 @@ mod tests {
  
      #[test]
      fn cli_log_level() {
@@ -86,7 +86,7 @@
          assert!(parsed_empty.config.is_none());
 --- a/ntpd/src/metrics/exporter.rs
 +++ b/ntpd/src/metrics/exporter.rs
-@@ -22,7 +22,7 @@ const DESCRIPTOR: &str = "ntp-metrics-ex
+@@ -23,7 +23,7 @@ const DESCRIPTOR: &str = "ntp-metrics-ex
  
  const HELP_MSG: &str = "Options:
    -c, --config=CONFIG                  ntpd-rs configuration file (default:
@@ -95,7 +95,7 @@
    -h, --help                           display this help text
    -v, --version                        display version information";
  
-@@ -299,7 +299,7 @@ mod tests {
+@@ -303,7 +303,7 @@ mod tests {
  
      use super::*;
  
