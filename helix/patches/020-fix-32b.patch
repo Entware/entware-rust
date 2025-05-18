@@ -38,7 +38,7 @@
      // Internal, called by specific DAP commands when resuming
 --- a/helix-lsp/src/client.rs
 +++ b/helix-lsp/src/client.rs
-@@ -18,7 +18,7 @@ use parking_lot::Mutex;
+@@ -17,7 +17,7 @@ use parking_lot::Mutex;
  use serde::Deserialize;
  use serde_json::Value;
  use std::sync::{
@@ -47,7 +47,7 @@
      Arc,
  };
  use std::{collections::HashMap, path::PathBuf};
-@@ -50,7 +50,7 @@ pub struct Client {
+@@ -49,7 +49,7 @@ pub struct Client {
      name: String,
      _process: Child,
      server_tx: UnboundedSender<Payload>,
@@ -56,7 +56,7 @@
      pub(crate) capabilities: OnceCell<lsp::ServerCapabilities>,
      pub(crate) file_operation_interest: OnceLock<FileOperationsInterest>,
      config: Option<Value>,
-@@ -223,7 +223,7 @@ impl Client {
+@@ -222,7 +222,7 @@ impl Client {
              name,
              _process: process,
              server_tx,
@@ -65,7 +65,7 @@
              capabilities: OnceCell::new(),
              file_operation_interest: OnceLock::new(),
              config,
-@@ -247,7 +247,7 @@ impl Client {
+@@ -246,7 +246,7 @@ impl Client {
  
      fn next_request_id(&self) -> jsonrpc::Id {
          let id = self.request_counter.fetch_add(1, Ordering::Relaxed);
@@ -74,3 +74,70 @@
      }
  
      fn value_into_params(value: Value) -> jsonrpc::Params {
+--- a/helix-event/src/cancel.rs
++++ b/helix-event/src/cancel.rs
+@@ -1,6 +1,6 @@
+ use std::borrow::Borrow;
+ use std::future::Future;
+-use std::sync::atomic::AtomicU64;
++use std::sync::atomic::AtomicUsize;
+ use std::sync::atomic::Ordering::Relaxed;
+ use std::sync::Arc;
+ 
+@@ -23,7 +23,7 @@ pub async fn cancelable_future<T>(
+ 
+ #[derive(Default, Debug)]
+ struct Shared {
+-    state: AtomicU64,
++    state: AtomicUsize,
+     // `Notify` has some features that we don't really need here because it
+     // supports waking single tasks (`notify_one`) and does its own (more
+     // complicated) state tracking, we could reimplement the waiter linked list
+@@ -45,7 +45,7 @@ impl Shared {
+     }
+ 
+     fn num_running(&self) -> u32 {
+-        (self.state.load(Relaxed) >> 32) as u32
++        self.state.load(Relaxed) as u32
+     }
+ 
+     /// Increments the generation count and sets `num_running`
+@@ -56,14 +56,14 @@ impl Shared {
+     fn inc_generation(&self, num_running: u32) -> (u32, u32) {
+         let state = self.state.load(Relaxed);
+         let generation = state as u32;
+-        let prev_running = (state >> 32) as u32;
++        let prev_running = state as u32;
+         // no need to create a new generation if the refcount is zero (fastpath)
+         if prev_running == 0 && num_running == 0 {
+             return (generation, 0);
+         }
+         let new_generation = generation.saturating_add(1);
+         self.state.store(
+-            new_generation as u64 | ((num_running as u64) << 32),
++            (new_generation as u64 | ((num_running as u64) << 32)).try_into().unwrap(),
+             Relaxed,
+         );
+         self.notify.notify_waiters();
+@@ -77,7 +77,7 @@ impl Shared {
+             if current_generation != generation {
+                 break;
+             }
+-            let off = 1 << 32;
++            let off = (1 < 32) as usize;
+             let res = self.state.compare_exchange_weak(
+                 state,
+                 state.saturating_add(off),
+@@ -98,10 +98,10 @@ impl Shared {
+             if current_generation != generation {
+                 break;
+             }
+-            let num_running = (state >> 32) as u32;
++            let num_running = state as u32;
+             // running can't be zero here, that would mean we miscounted somewhere
+             assert_ne!(num_running, 0);
+-            let off = 1 << 32;
++            let off = (1 < 32) as usize;
+             let res = self
+                 .state
+                 .compare_exchange_weak(state, state - off, Relaxed, Relaxed);
