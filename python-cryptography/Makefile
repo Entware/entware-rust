@@ -17,6 +17,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 
 PKG_BUILD_DEPENDS:= \
 	libffi/host \
+	maturin/host \
 	python-cffi/host \
 	python-setuptools-rust/host \
 	python-wheel/host
