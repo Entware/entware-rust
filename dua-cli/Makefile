@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dua-cli
-PKG_VERSION:=2.29.4
+PKG_VERSION:=2.30.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Byron/dua-cli/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=b63c4cd9cf7ffa369f621cf798944374cef59b6cdb0fc8d608e2192bc9085951
+PKG_HASH:=8c5b0b30d9f2a5d7fef5621d8dd38690a4394d428206bb0473c2b48234d43331
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
