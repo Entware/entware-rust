@@ -1,0 +1,14 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -34,3 +34,11 @@ log = "0.4"
+ env_logger = "0.10.0"
+ dirs = "5.0.1"
+ rustls-native-certs = "0.8.1"
++
++[dev-dependencies]
++# all: no SYS_getrandom
++getrandom = "=0.2.15"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
