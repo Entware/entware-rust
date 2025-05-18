@@ -1,20 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
-
-# mips(el):
-#	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
-#	error: could not compile `fclones` (lib) due to previous error
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fclones
-PKG_VERSION:=0.34.0
-PKG_RELEASE:=3
+PKG_VERSION:=0.35.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pkolaczk/fclones/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=5e8c94bb5fb313a5c228bdc870cf6605487338f31c5a14305e54e7e3ac15d0ad
+PKG_HASH:=9d8bb36076190f799f01470f80e64c6a1f15f0d938793f8f607a2544cdd6115a
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
