@@ -1,20 +1,17 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
-
-# mips(el):
-#	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
-#	error: could not compile `async-speed-limit` due to previous error
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustdesk-server
-PKG_VERSION:=1.1.12
+PKG_VERSION:=1.1.14
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/rustdesk/rustdesk-server/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=48c85d9032043d644cee12ccbf4025ea4dc2f4c271fb3f73d836d8e1c67083a0
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_VERSION:=$(PKG_VERSION)
+PKG_SOURCE_URL:=https://github.com/rustdesk/rustdesk-server
+PKG_MIRROR_HASH:=e300079a0b442ef4eb4d129338d0d7b1dd1d3505720e20735dac5f6ea65ee93a
 
 PKG_LICENSE:=AGPL-3.0
 PKG_LICENSE_FILES:=LICENSE
@@ -23,8 +20,8 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += async-speed-limit-031-1 chrono-0431 getrandom-0215
-PKG_BUILD_DEPENDS += jsonwebtoken-910 quinn-0104 sqlx-072
+PKG_BUILD_DEPENDS += async-speed-limit-031-1 chrono-0439 getrandom-0215
+PKG_BUILD_DEPENDS += jsonwebtoken-910 sqlx-072
 
 define Package/rustdesk-server
   SECTION:=utils
@@ -36,6 +33,9 @@ endef
 define Package/rustdesk-server/description
   RustDesk Server Program.
 endef
+
+# cannot be used when making a shared object; recompile with -fPIC
+RUSTFLAGS += -C relocation-model=pic
 
 ifneq ($(CONFIG_ARCH_64BIT),y)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
