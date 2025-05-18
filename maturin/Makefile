@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=maturin
-PKG_VERSION:=1.8.0
+PKG_VERSION:=1.8.3
 PKG_RELEASE:=1
 
 PYPI_NAME:=maturin
-PKG_HASH:=2f4abdf33e87ccb0d035a838e832945c6f7374222eacde508fafc752dda8ba6e
+PKG_HASH:=304762f86fd53a8031b1bf006d12572a2aa0a5235485031113195cc0152e1e12
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=license-apache license-mit
@@ -37,7 +37,8 @@ define Package/maturin
   CATEGORY:=Development
   TITLE:=Build and publish crates
   URL:=https://github.com/pyo3/maturin
-  DEPENDS:=+python3 +rustc
+  DEPENDS:=+python3
+  EXTRA_DEPENDS:=rustc
 endef
 
 define Package/maturin/description
