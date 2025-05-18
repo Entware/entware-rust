@@ -1,11 +1,44 @@
+--- a/crates/arti/src/rpc/listener.rs
++++ b/crates/arti/src/rpc/listener.rs
+@@ -45,7 +45,7 @@ fn listener_map_defaults() -> BTreeMap<S
+ 
+         ["system-default"]
+         enable = false
+-        dir = "/etc/arti-rpc/connect.d"
++        dir = "/opt/etc/arti-rpc/connect.d"
+         "#,
+     )
+     .expect("Could not parse defaults!")
 --- a/crates/arti-client/src/config.rs
 +++ b/crates/arti-client/src/config.rs
-@@ -878,7 +878,7 @@ pub fn default_config_files() -> Result<
+@@ -817,7 +817,7 @@ pub fn default_config_files() -> Result<
      // the base path resolver includes the 'ARTI_CONFIG' variable
-     let path_resolver = base_path_resolver();
+     let path_resolver = tor_config_path::arti_client_base_resolver();
  
 -    ["${ARTI_CONFIG}/arti.toml", "${ARTI_CONFIG}/arti.d/"]
 +    ["/opt/etc/arti/arti.toml", "/opt/etc/arti/arti.d/", "${ARTI_CONFIG}/arti.toml", "${ARTI_CONFIG}/arti.d/"]
          .into_iter()
          .map(|f| {
              let path = CfgPath::new(f.into()).path(&path_resolver)?;
+--- a/crates/arti-rpc-client-core/src/conn/builder.rs
++++ b/crates/arti-rpc-client-core/src/conn/builder.rs
+@@ -260,7 +260,7 @@ impl RpcConnBuilder {
+             }),
+             #[cfg(unix)]
+             dflt(Path {
+-                path: CfgPath::new_literal("/etc/arti-rpc/connect.d/"),
++                path: CfgPath::new_literal("/opt/etc/arti-rpc/connect.d/"),
+                 is_default_entry: true,
+             }),
+             dflt(Literal(
+--- a/crates/tor-rpc-connect/src/lib.rs
++++ b/crates/tor-rpc-connect/src/lib.rs
+@@ -239,7 +239,7 @@ pub const SYSTEM_DEFAULT_CONNECT_POINT:
+             Some(
+ r#"
+ [connect]
+-socket = "unix:/var/run/arti-rpc/arti_rpc_socket"
++socket = "unix:/opt/var/run/arti-rpc/arti_rpc_socket"
+ auth = "none"
+ "#
+             )

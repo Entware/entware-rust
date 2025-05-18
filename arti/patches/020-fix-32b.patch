@@ -33,7 +33,7 @@
  use std::sync::Arc;
  use tor_async_utils::oneshot;
  use tor_basic_utils::RngExt as _;
-@@ -112,12 +112,12 @@ impl UniqPendingChanId {
+@@ -122,12 +122,12 @@ impl UniqPendingChanId {
      /// Construct a new `UniqPendingChanId`.
      pub(crate) fn new() -> Self {
          /// The next unique ID.
