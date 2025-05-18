@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mprocs
-PKG_VERSION:=0.7.1
+PKG_VERSION:=0.7.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pvolok/mprocs/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=17dcb04d2d7caf8c1263b124cf5ecb145d28ac6d0717c2de78c988858c0572af
+PKG_HASH:=13059e3f474b17b0d806b2b6a79c17dd9b817793a0a6442ffd43ddaacb1db60c
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
