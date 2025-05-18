@@ -1,28 +1,20 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -33,13 +33,14 @@ anyhow = "1.0.91"
+@@ -33,7 +33,7 @@ anyhow = "1.0.91"
  arrayvec = { version = "0.7.6", default-features = false }
  bitflags = "2.6.0"
  caps = "0.5.5"
 -chrono = { version = "0.4.38", default-features = false }
-+chrono = { version = "=0.4.38", default-features = false }
++chrono = { version = "=0.4.39", default-features = false }
  clap = { version = "4.5.20", default-features = false }
  clap_complete = "4.4.9"
  clap_mangen = "0.2.20"
- comfy-table = { version = "7.1.3", default-features = false }
- crossbeam = "0.8.4"
--crossterm = { version = "0.28.1",  default-features = false }
-+# downgrade: not a tty
-+crossterm = { version = "0.27.0",  default-features = false }
- csv = "1.3.1"
- derive_more = { version = "1.0.0", default-features = false }
- dns-lookup = "2.0.4"
-@@ -97,3 +98,8 @@ bool_assert_comparison = "allow"
+@@ -97,3 +97,8 @@ bool_assert_comparison = "allow"
  
  [profile.release]
  lto = true
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
++chrono = { path = "../chrono-0.4.39" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.61" }
