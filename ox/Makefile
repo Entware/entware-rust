@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ox
-PKG_VERSION:=0.7.6
+PKG_VERSION:=0.7.7
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/curlpipe/ox/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=03f49425e889e9ee4b747de219261c5aaebbaac11a0aa7266dca4e4c2581f6c4
+PKG_HASH:=9dc869836e92beb5806739da25bf929b45bbb4173a6bffac31b762fcece74a0a
 
 PKG_LICENSE:=GPL-2.0-only
 PKG_LICENSE_FILES:=LICENSE
