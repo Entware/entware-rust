@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bat
-PKG_VERSION:=0.24.0
-PKG_RELEASE:=2
+PKG_VERSION:=0.25.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/bat/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=907554a9eff239f256ee8fe05a922aad84febe4fe10a499def72a4557e9eedfb
+PKG_HASH:=4433403785ebb61d1e5d4940a8196d020019ce11a6f7d4553ea1d324331d8924
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
