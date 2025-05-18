@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zoxide
-PKG_VERSION:=0.9.6
+PKG_VERSION:=0.9.7
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ajeetdsouza/zoxide/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=e1811511a4a9caafa18b7d1505147d4328b39f6ec88b88097fe0dad59919f19c
+PKG_HASH:=d93ab17a01de68529ef37b599524f882dc654835cc121a9097dd3f2952fd207e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
