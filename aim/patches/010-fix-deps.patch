@@ -1,14 +1,16 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -58,4 +58,11 @@ uuid = { version = "1.4", features = ["v
- warpy = "0.3.28"
+@@ -58,6 +58,13 @@ warpy = "0.3.54"
  
  [dev-dependencies]
-+# localtime/zoneinfo
-+chrono = "0.4.35"
  serial_test = "2.0.0"
++# localtime/zoneinfo
++chrono = "=0.4.40"
+ 
+ [lints.rust]
+ unexpected_cfgs = { level = "warn", check-cfg = ["cfg(tarpaulin_include)"] }
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.35" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.40" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }

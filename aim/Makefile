@@ -1,26 +1,24 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=aim
-PKG_VERSION:=1.8.5
-PKG_RELEASE:=3
+PKG_VERSION:=1.8.6
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/mihaigalos/aim/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=d27327538d4526e944400d3c425d7c4298725b60ddd1ca23d678f0dd3009b149
+PKG_HASH:=1f6b7bce494106e0503024eecbc75b449c9bd30a12f3286a9c44bd0dfdd2c3fb
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
 
-USE_CARGO_LOCK:=0
-
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0435
+PKG_BUILD_DEPENDS += chrono-0440
 
 define Package/aim
   SECTION:=net
