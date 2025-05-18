@@ -1,0 +1,27 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -24,10 +24,10 @@ bitflags = { version = "2.8", features =
+ 
+ async-trait = "0.1"
+ thiserror = "2.0"
+-chrono = "0.4"
++chrono = "=0.4.40"
+ bytes = "~1.9"
+ log = "0.4"
+-flurry = "0.5"
++flurry = "=0.5.1"
+ 
+ [dev-dependencies]
+ russh = "0.49"
+@@ -40,3 +40,11 @@ futures = "0.3"
+ [[bench]]
+ name = "upload_benchmark"
+ harness = false
++
++[patch.crates-io]
++# mips/mipsel Atomic*64
++flurry = { path = "../flurry-0.5.1" }
++seize = { path = "../seize-0.3.3" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.40" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
