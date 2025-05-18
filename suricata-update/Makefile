@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata-update
-PKG_VERSION:=1.3.3
+PKG_VERSION:=1.3.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/OISF/suricata-update/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=032328182872269662cb5588084b0eb45114486d2f12c45462c683abcab2a954
+PKG_HASH:=5aa3b07a078d793c8e4cdd54b9022e0fe024ade7522d5ddc3167449279490f9c
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/pypi/$(PKG_NAME)-$(PKG_VERSION)
 
