@@ -1,19 +1,19 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -19,6 +19,7 @@ ipnet = "2.9.0"
- hickory-proto = "0.24.0"
- rand = "0.8.5"
- chrono = { version = "0.4.31", default-features = false }
-+iana-time-zone = "0.1.59"
+@@ -19,6 +19,7 @@ ipnet = "2.11.0"
+ hickory-proto = "0.25.1"
+ rand = "0.9.0"
+ chrono = { version = "0.4.40", default-features = false }
++iana-time-zone = "0.1.61"
  
- clap = { version = "4.4.11", features = ["derive", "env"] }
+ clap = { version = "4.5.32", features = ["derive", "env"] }
  
-@@ -52,3 +53,8 @@ conf-files = [
+@@ -51,3 +52,8 @@ conf-files = [
  section = "net"
  maintainer-scripts = "dist/debian/maintainer-scripts"
  systemd-units = { unit-scripts = "dist/shared/lib/systemd/system" }
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.40" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
