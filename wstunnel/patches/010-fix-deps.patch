@@ -1,35 +1,31 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -11,7 +11,7 @@ anyhow = "1.0.94"
+@@ -14,7 +14,7 @@ anyhow = "1.0.97"
  base64 = "0.22.1"
  scopeguard = "1.2.0"
  
 -bb8 = { version = "0.9.0", features = [] }
 +bb8 = { version = "=0.9.0", features = [] }
- bytes = { version = "1.9.0", features = [] }
- clap = { version = "4.5.23", features = ["derive", "env"] }
- fast-socks5 = { version = "0.9.6", features = [] }
-@@ -71,6 +71,9 @@ rcgen = { version = "0.13.1", default-fe
+ bytes = { version = "1.10.1", features = [] }
+ clap = { version = "4.5.31", features = ["derive", "env"], optional = true }
+ fast-socks5 = { version = "0.10.0", features = [] }
+@@ -72,6 +72,8 @@ rcgen = { version = "0.13.2", default-fe
  
  [dev-dependencies]
- testcontainers = "0.23.1"
-+aws-lc-rs = "=1.9.0"
-+aws-lc-sys = "=0.21.2"
-+chrono = "=0.4.38"
- 
- [profile.release]
- lto = "fat"
-@@ -83,3 +86,13 @@ strip = "symbols"
+ testcontainers = "0.23.3"
++# localtime/zoneinfo
++chrono = "=0.4.40"
+ test-case = "3.3.1"
+ collection_macros = "0.2.0"
+ rstest = "0.25.0"
+@@ -94,3 +96,10 @@ strip = "symbols"
  [profile.release-with-symbols]
  inherits = "release"
  strip = false
 +
 +[patch.crates-io]
-+# aarch64
-+aws-lc-rs = { path = "../aws-lc-rs-0.21.2/aws-lc-rs" }
-+aws-lc-sys = { path = "../aws-lc-rs-0.21.2/aws-lc-sys" }
 +# mips(el)
 +bb8 = { path = "../bb8-0.9.0/bb8" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
++chrono = { path = "../chrono-0.4.40" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.61" }
