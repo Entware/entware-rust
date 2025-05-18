@@ -1,0 +1,60 @@
+error[E0283]: type annotations needed
+   --> leaf/src/proxy/failover/mod.rs:179:46
+    |
+179 |         if last_active < health_check_active.into() {
+    |                        -                     ^^^^
+    |                        |
+    |                        type must be known at this point
+    |
+    = note: multiple `impl`s satisfying `u64: PartialOrd<_>` found in the following crates: `core`, `deranged`:
+            - impl PartialOrd for u64;
+            - impl<MIN, MAX> PartialOrd<deranged::RangedU64<MIN, MAX>> for u64
+              where the constant `MIN` has type `u64`, the constant `MAX` has type `u64`;
+help: try using a fully qualified path to specify the expected types
+    |
+179 -         if last_active < health_check_active.into() {
+179 +         if last_active < <u32 as Into<T>>::into(health_check_active) {
+    |
+
+error[E0283]: type annotations needed
+  --> leaf/src/proxy/amux/mod.rs:63:65
+   |
+63 |                 assert!(data.len() <= MAX_STREAM_FRAME_DATA_LEN.into());
+   |                                    --                           ^^^^
+   |                                    |
+   |                                    type must be known at this point
+   |
+   = note: multiple `impl`s satisfying `usize: PartialOrd<_>` found in the following crates: `core`, `deranged`:
+           - impl PartialOrd for usize;
+           - impl<MIN, MAX> PartialOrd<deranged::RangedUsize<MIN, MAX>> for usize
+             where the constant `MIN` has type `usize`, the constant `MAX` has type `usize`;
+help: try using a fully qualified path to specify the expected types
+   |
+63 -                 assert!(data.len() <= MAX_STREAM_FRAME_DATA_LEN.into());
+63 +                 assert!(data.len() <= <u16 as Into<T>>::into(MAX_STREAM_FRAME_DATA_LEN));
+   |
+
+---
+
+--- a/leaf/src/proxy/amux/mod.rs
++++ b/leaf/src/proxy/amux/mod.rs
+@@ -60,7 +60,7 @@ impl MuxFrame {
+             MuxFrame::Stream(id, data) => {
+                 buf.put_u8(FRAME_STREAM);
+                 buf.put_u16(*id as u16);
+-                assert!(data.len() <= MAX_STREAM_FRAME_DATA_LEN.into());
++                assert!(data.len() <= MAX_STREAM_FRAME_DATA_LEN as usize);
+                 buf.put_u16(data.len() as u16);
+                 buf.put_slice(data);
+             }
+--- a/leaf/src/proxy/failover/mod.rs
++++ b/leaf/src/proxy/failover/mod.rs
+@@ -176,7 +176,7 @@ pub(self) async fn health_check_task(
+             .duration_since(*last_active.lock().await)
+             .as_secs();
+ 
+-        if last_active < health_check_active.into() {
++        if last_active < health_check_active as u64 {
+             let mut checks = Vec::new();
+             let mut rng = StdRng::from_entropy();
+             for (i, a) in (&actors).iter().enumerate() {
