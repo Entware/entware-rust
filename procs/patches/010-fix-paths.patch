@@ -1,6 +1,6 @@
 --- a/src/main.rs
 +++ b/src/main.rs
-@@ -202,7 +202,7 @@ fn get_config(opt: &Opt) -> Result<Confi
+@@ -46,7 +46,7 @@ fn get_config(opt: &Opt) -> Result<Confi
                  .join("config.toml")
          })
          .filter(|path| path.exists());
