@@ -1,6 +1,6 @@
 ### host/target
 [target.@RUSTC_TARGET_ARCH@]
-linker = "@TARGET_CROSS@gcc"
+linker = "@TARGET_CC@"
 
 ### additional environment variables
 #[env]

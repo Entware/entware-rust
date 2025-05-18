@@ -1,24 +1,3 @@
---- a/vendor/libc-0.2.150/Cargo.toml
-+++ b/vendor/libc-0.2.150/Cargo.toml
-@@ -49,6 +49,18 @@ features = [
-     "extra_traits",
- ]
- targets = [
-+    "aarch64-openwrt-linux-gnu",
-+    "aarch64-openwrt-linux-musl",
-+    "arm-openwrt-linux-gnueabi",
-+    "armv5te-openwrt-linux-gnueabi",
-+    "armv7-openwrt-linux-gnueabi",
-+    "i586-openwrt-linux-gnu",
-+    "i686-openwrt-linux-gnu",
-+    "mips-openwrt-linux-gnu",
-+    "mips-openwrt-linux-musl",
-+    "mipsel-openwrt-linux-gnu",
-+    "mipsel-openwrt-linux-musl",
-+    "x86_64-openwrt-linux-gnu",
-     "aarch64-apple-ios",
-     "aarch64-linux-android",
-     "aarch64-pc-windows-msvc",
 --- a/vendor/libc-0.2.155/Cargo.toml
 +++ b/vendor/libc-0.2.155/Cargo.toml
 @@ -53,6 +53,18 @@ features = [
@@ -40,11 +19,11 @@
      "aarch64-apple-darwin",
      "aarch64-apple-ios",
      "aarch64-linux-android",
---- a/vendor/libc-0.2.158/Cargo.toml
-+++ b/vendor/libc-0.2.158/Cargo.toml
-@@ -53,6 +53,18 @@ features = [
-     "extra_traits",
- ]
+--- a/vendor/libc-0.2.167/Cargo.toml
++++ b/vendor/libc-0.2.167/Cargo.toml
+@@ -53,6 +53,18 @@ cargo-args = ["-Zbuild-std=core"]
+ default-target = "x86_64-unknown-linux-gnu"
+ features = ["extra_traits"]
  targets = [
 +    "aarch64-openwrt-linux-gnu",
 +    "aarch64-openwrt-linux-musl",
@@ -61,11 +40,11 @@
      "aarch64-apple-darwin",
      "aarch64-apple-ios",
      "aarch64-linux-android",
---- a/vendor/libc-0.2.159/Cargo.toml
-+++ b/vendor/libc-0.2.159/Cargo.toml
-@@ -53,6 +53,18 @@ features = [
-     "extra_traits",
- ]
+--- a/vendor/libc-0.2.168/Cargo.toml
++++ b/vendor/libc-0.2.168/Cargo.toml
+@@ -53,6 +53,18 @@ cargo-args = ["-Zbuild-std=core"]
+ default-target = "x86_64-unknown-linux-gnu"
+ features = ["extra_traits"]
  targets = [
 +    "aarch64-openwrt-linux-gnu",
 +    "aarch64-openwrt-linux-musl",
@@ -82,11 +61,11 @@
      "aarch64-apple-darwin",
      "aarch64-apple-ios",
      "aarch64-linux-android",
---- a/vendor/libc-0.2.161/Cargo.toml
-+++ b/vendor/libc-0.2.161/Cargo.toml
-@@ -53,6 +53,18 @@ features = [
-     "extra_traits",
- ]
+--- a/vendor/libc-0.2.169/Cargo.toml
++++ b/vendor/libc-0.2.169/Cargo.toml
+@@ -53,6 +53,18 @@ cargo-args = ["-Zbuild-std=core"]
+ default-target = "x86_64-unknown-linux-gnu"
+ features = ["extra_traits"]
  targets = [
 +    "aarch64-openwrt-linux-gnu",
 +    "aarch64-openwrt-linux-musl",

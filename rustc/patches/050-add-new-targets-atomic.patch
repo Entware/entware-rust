@@ -68,8 +68,8 @@
      "arm-linux-androideabi",
      "armebv7r-none-eabi",
      "armebv7r-none-eabihf",
---- a/vendor/portable-atomic-1.9.0/no_atomic.rs
-+++ b/vendor/portable-atomic-1.9.0/no_atomic.rs
+--- a/vendor/portable-atomic-1.10.0/no_atomic.rs
++++ b/vendor/portable-atomic-1.10.0/no_atomic.rs
 @@ -20,6 +20,11 @@ static NO_ATOMIC_CAS: &[&str] = &[
  // nightly-2022-02-11+ because feature(cfg_target_has_atomic) stabilized.
  #[rustfmt::skip]
@@ -96,3 +96,17 @@
      "arm-linux-androideabi",
      "armebv7r-none-eabi",
      "armebv7r-none-eabihf",
+--- a/vendor/valuable-0.1.1/no_atomic.rs
++++ b/vendor/valuable-0.1.1/no_atomic.rs
+@@ -22,6 +22,11 @@ const NO_ATOMIC_CAS: &[&str] = &[
+ ];
+ 
+ const NO_ATOMIC_64: &[&str] = &[
++    "armv5te-openwrt-linux-gnueabi",	// Entware/OpenWrt
++    "mips-openwrt-linux-gnu",		// Entware/OpenWrt
++    "mips-openwrt-linux-musl",		// Entware/OpenWrt
++    "mipsel-openwrt-linux-gnu",	// Entware/OpenWrt
++    "mipsel-openwrt-linux-musl",	// Entware/OpenWrt
+     "arm-linux-androideabi",
+     "armv4t-none-eabi",
+     "armv4t-unknown-linux-gnueabi",

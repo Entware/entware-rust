@@ -1,6 +1,6 @@
 --- a/compiler/rustc_target/src/spec/base/mod.rs
 +++ b/compiler/rustc_target/src/spec/base/mod.rs
-@@ -21,6 +21,9 @@ pub(crate) mod msvc;
+@@ -22,6 +22,9 @@ pub(crate) mod msvc;
  pub(crate) mod netbsd;
  pub(crate) mod nto_qnx;
  pub(crate) mod openbsd;
@@ -46,7 +46,7 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/base/openwrt_linux_musl.rs
-@@ -0,0 +1,15 @@
+@@ -0,0 +1,12 @@
 +use crate::spec::{LinkSelfContainedDefault, TargetOptions, base, crt_objects};
 +
 +pub(crate) fn opts() -> TargetOptions {
@@ -56,9 +56,6 @@
 +    base.pre_link_objects_self_contained = crt_objects::pre_musl_self_contained();
 +    base.post_link_objects_self_contained = crt_objects::post_musl_self_contained();
 +    base.link_self_contained = LinkSelfContainedDefault::InferredForMusl;
-+
-+    // These targets statically link libc by default
-+    base.crt_static_default = false;
 +
 +    base
 +}
@@ -77,7 +74,7 @@
 +            std: Some(true),
 +        },
 +        pointer_width: 64,
-+        data_layout: "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128-Fn32".into(),
++        data_layout: "e-m:e-p270:32:32-p271:32:32-p272:64:64-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128-Fn32".into(),
 +        arch: "aarch64".into(),
 +        options: TargetOptions {
 +            features: "+v8a".into(),
@@ -99,7 +96,7 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/aarch64_openwrt_linux_musl.rs
-@@ -0,0 +1,28 @@
+@@ -0,0 +1,31 @@
 +use crate::spec::{SanitizerSet, StackProbeType, Target, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
@@ -114,6 +111,9 @@
 +        | SanitizerSet::MEMORY
 +        | SanitizerSet::THREAD;
 +
++    // FIXME(compiler-team#422): musl targets should be dynamically linked by default.
++    base.crt_static_default = false;
++
 +    Target {
 +        llvm_target: "aarch64-openwrt-linux-musl".into(),
 +        metadata: crate::spec::TargetMetadata {
@@ -123,15 +123,15 @@
 +            std: Some(true),
 +        },
 +        pointer_width: 64,
-+        data_layout: "e-m:e-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128-Fn32".into(),
++        data_layout: "e-m:e-p270:32:32-p271:32:32-p272:64:64-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128-Fn32".into(),
 +        arch: "aarch64".into(),
 +        options: TargetOptions { mcount: "\u{1}_mcount".into(), ..base },
 +    }
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/arm_openwrt_linux_gnueabi.rs
-@@ -0,0 +1,24 @@
-+use crate::spec::{Target, TargetOptions, base};
+@@ -0,0 +1,25 @@
++use crate::spec::{FloatAbi, Target, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -147,6 +147,7 @@
 +        arch: "arm".into(),
 +        options: TargetOptions {
 +            abi: "eabi".into(),
++            llvm_floatabi: Some(FloatAbi::Soft),
 +            features: "+soft-float,+strict-align,+v6".into(),
 +            max_atomic_width: Some(64),
 +            mcount: "\u{1}__gnu_mcount_nc".into(),
@@ -157,8 +158,8 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/armv5te_openwrt_linux_gnueabi.rs
-@@ -0,0 +1,25 @@
-+use crate::spec::{Target, TargetOptions, base};
+@@ -0,0 +1,26 @@
++use crate::spec::{FloatAbi, Target, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -174,6 +175,7 @@
 +        arch: "arm".into(),
 +        options: TargetOptions {
 +            abi: "eabi".into(),
++            llvm_floatabi: Some(FloatAbi::Soft),
 +            features: "+soft-float,+strict-align".into(),
 +            // Atomic operations provided by compiler-builtins
 +            max_atomic_width: Some(32),
@@ -185,8 +187,8 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/armv7_openwrt_linux_gnueabi.rs
-@@ -0,0 +1,27 @@
-+use crate::spec::{Target, TargetOptions, base};
+@@ -0,0 +1,28 @@
++use crate::spec::{FloatAbi, Target, TargetOptions, base};
 +
 +// This target is for glibc Linux on ARMv7 without thumb-mode, NEON or
 +// hardfloat.
@@ -205,6 +207,7 @@
 +        arch: "arm".into(),
 +        options: TargetOptions {
 +            abi: "eabi".into(),
++            llvm_floatabi: Some(FloatAbi::Soft),
 +            features: "+v7,+thumb2,+soft-float,-neon".into(),
 +            max_atomic_width: Some(64),
 +            mcount: "\u{1}__gnu_mcount_nc".into(),
@@ -215,22 +218,35 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/i586_openwrt_linux_gnu.rs
-@@ -0,0 +1,8 @@
+@@ -0,0 +1,9 @@
 +use crate::spec::Target;
 +
 +pub(crate) fn target() -> Target {
 +    let mut base = super::i686_openwrt_linux_gnu::target();
++    base.rustc_abi = None; // overwrite the SSE2 ABI set by the base target
 +    base.cpu = "pentium".into();
 +    base.llvm_target = "i586-openwrt-linux-gnu".into();
 +    base
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/i686_openwrt_linux_gnu.rs
-@@ -0,0 +1,26 @@
-+use crate::spec::{Cc, LinkerFlavor, Lld, SanitizerSet, StackProbeType, Target, base};
+@@ -0,0 +1,38 @@
++use crate::spec::{Cc, LinkerFlavor, Lld, RustcAbi, SanitizerSet, StackProbeType, Target, base};
 +
 +pub(crate) fn target() -> Target {
 +    let mut base = base::openwrt_linux_gnu::opts();
++    base.rustc_abi = Some(RustcAbi::X86Sse2);
++    // Dear distribution packager, if you are changing the base CPU model with the goal of removing
++    // the SSE2 requirement, make sure to also set the `rustc_abi` to `None` above or else the compiler
++    // will complain that the chosen ABI cannot be realized with the given CPU features.
++    // Also note that x86 without SSE2 is *not* considered a Tier 1 target by the Rust project, and
++    // it has some known floating-point correctness issues mostly caused by a lack of people caring
++    // for LLVM's x87 support (double-rounding, value truncation; see
++    // <https://github.com/rust-lang/rust/issues/114479> for details). This can lead to incorrect
++    // math (Rust generally promises exact math, so this can break code in unexpected ways) and it
++    // can lead to memory safety violations if floating-point values are used e.g. to access an
++    // array. If users run into such issues and report bugs upstream and then it turns out that the
++    // bugs are caused by distribution patches, that leads to confusion and frustration.
 +    base.cpu = "pentium4".into();
 +    base.max_atomic_width = Some(64);
 +    base.supported_sanitizers = SanitizerSet::ADDRESS;
@@ -255,8 +271,9 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mips_openwrt_linux_gnu.rs
-@@ -0,0 +1,26 @@
-+use crate::abi::Endian;
+@@ -0,0 +1,27 @@
++use rustc_abi::Endian;
++
 +use crate::spec::{Target, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
@@ -285,7 +302,8 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mips_openwrt_linux_musl.rs
 @@ -0,0 +1,23 @@
-+use crate::abi::Endian;
++use rustc_abi::Endian;
++
 +use crate::spec::{Target, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
@@ -293,7 +311,6 @@
 +    base.cpu = "mips32r2".into();
 +    base.features = "+mips32r2,+soft-float".into();
 +    base.max_atomic_width = Some(32);
-+    base.crt_static_default = false;
 +    Target {
 +        llvm_target: "mips-openwrt-linux-musl".into(),
 +        metadata: crate::spec::TargetMetadata {
@@ -338,7 +355,7 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mipsel_openwrt_linux_musl.rs
-@@ -0,0 +1,22 @@
+@@ -0,0 +1,21 @@
 +use crate::spec::{Target, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
@@ -346,7 +363,6 @@
 +    base.cpu = "mips32r2".into();
 +    base.features = "+mips32r2,+soft-float".into();
 +    base.max_atomic_width = Some(32);
-+    base.crt_static_default = false;
 +    Target {
 +        llvm_target: "mipsel-openwrt-linux-musl".into(),
 +        metadata: crate::spec::TargetMetadata {
@@ -408,51 +424,54 @@
 +}
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -1618,6 +1618,20 @@ macro_rules! supported_targets {
+@@ -1672,6 +1672,21 @@ macro_rules! supported_targets {
  }
  
  supported_targets! {
-+    ("aarch64-openwrt-linux-gnu", aarch64_openwrt_linux_gnu), // Entware/OpenWrt
-+    ("arm-openwrt-linux-gnueabi", arm_openwrt_linux_gnueabi), // Entware/OpenWrt
-+    ("armv5te-openwrt-linux-gnueabi", armv5te_openwrt_linux_gnueabi), // Entware/OpenWrt
-+    ("armv7-openwrt-linux-gnueabi", armv7_openwrt_linux_gnueabi), // Entware/OpenWrt
-+    ("i586-openwrt-linux-gnu", i586_openwrt_linux_gnu), // Entware/OpenWrt
-+    ("i686-openwrt-linux-gnu", i686_openwrt_linux_gnu), // Entware/OpenWrt
-+    ("mips-openwrt-linux-gnu", mips_openwrt_linux_gnu), // Entware/OpenWrt
-+    ("mipsel-openwrt-linux-gnu", mipsel_openwrt_linux_gnu), // Entware/OpenWrt
-+    ("x86_64-openwrt-linux-gnu", x86_64_openwrt_linux_gnu), // Entware/OpenWrt
++    // Entware/OpenWrt
++    ("aarch64-openwrt-linux-gnu", aarch64_openwrt_linux_gnu),
++    ("arm-openwrt-linux-gnueabi", arm_openwrt_linux_gnueabi),
++    ("armv5te-openwrt-linux-gnueabi", armv5te_openwrt_linux_gnueabi),
++    ("armv7-openwrt-linux-gnueabi", armv7_openwrt_linux_gnueabi),
++    ("i586-openwrt-linux-gnu", i586_openwrt_linux_gnu),
++    ("i686-openwrt-linux-gnu", i686_openwrt_linux_gnu),
++    ("mips-openwrt-linux-gnu", mips_openwrt_linux_gnu),
++    ("mipsel-openwrt-linux-gnu", mipsel_openwrt_linux_gnu),
++    ("x86_64-openwrt-linux-gnu", x86_64_openwrt_linux_gnu),
 +    // add *-openwrt-linux-musl
-+    ("aarch64-openwrt-linux-musl", aarch64_openwrt_linux_musl), // Entware/OpenWrt
-+    ("mips-openwrt-linux-musl", mips_openwrt_linux_musl), // Entware/OpenWrt
-+    ("mipsel-openwrt-linux-musl", mipsel_openwrt_linux_musl), // Entware/OpenWrt
++    ("aarch64-openwrt-linux-musl", aarch64_openwrt_linux_musl),
++    ("mips-openwrt-linux-musl", mips_openwrt_linux_musl),
++    ("mipsel-openwrt-linux-musl", mipsel_openwrt_linux_musl),
 +    //
      ("x86_64-unknown-linux-gnu", x86_64_unknown_linux_gnu),
      ("x86_64-unknown-linux-gnux32", x86_64_unknown_linux_gnux32),
      ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
 --- a/src/tools/build-manifest/src/main.rs
 +++ b/src/tools/build-manifest/src/main.rs
-@@ -50,6 +50,18 @@ static HOSTS: &[&str] = &[
+@@ -51,6 +51,20 @@ static HOSTS: &[&str] = &[
  ];
  
  static TARGETS: &[&str] = &[
-+    "aarch64-openwrt-linux-gnu", // Entware/OpenWrt
-+    "aarch64-openwrt-linux-musl", // Entware/OpenWrt
-+    "arm-openwrt-linux-gnueabi", // Entware/OpenWrt
-+    "armv5te-openwrt-linux-gnueabi", // Entware/OpenWrt
-+    "armv7-openwrt-linux-gnueabi", // Entware/OpenWrt
-+    "i586-openwrt-linux-gnu", // Entware/OpenWrt
-+    "i686-openwrt-linux-gnu", // Entware/OpenWrt
-+    "mips-openwrt-linux-gnu", // Entware/OpenWrt
-+    "mips-openwrt-linux-musl", // Entware/OpenWrt
-+    "mipsel-openwrt-linux-gnu", // Entware/OpenWrt
-+    "mipsel-openwrt-linux-musl", // Entware/OpenWrt
-+    "x86_64-openwrt-linux-gnu", // Entware/OpenWrt
++    // Entware/OpenWrt
++    "aarch64-openwrt-linux-gnu",
++    "aarch64-openwrt-linux-musl",
++    "arm-openwrt-linux-gnueabi",
++    "armv5te-openwrt-linux-gnueabi",
++    "armv7-openwrt-linux-gnueabi",
++    "i586-openwrt-linux-gnu",
++    "i686-openwrt-linux-gnu",
++    "mips-openwrt-linux-gnu",
++    "mips-openwrt-linux-musl",
++    "mipsel-openwrt-linux-gnu",
++    "mipsel-openwrt-linux-musl",
++    "x86_64-openwrt-linux-gnu",
++    //
      "aarch64-apple-darwin",
      "aarch64-apple-ios",
      "aarch64-apple-ios-macabi",
---- a/vendor/target-lexicon-0.12.16/src/targets.rs
-+++ b/vendor/target-lexicon-0.12.16/src/targets.rs
-@@ -583,6 +583,7 @@ pub enum Vendor {
+--- a/vendor/target-lexicon-0.13.1/src/targets.rs
++++ b/vendor/target-lexicon-0.13.1/src/targets.rs
+@@ -585,6 +585,7 @@ pub enum Vendor {
      Kmc,
      Nintendo,
      Nvidia,
@@ -460,7 +479,7 @@
      Pc,
      Rumprun,
      Sun,
-@@ -615,6 +616,7 @@ impl Vendor {
+@@ -617,6 +618,7 @@ impl Vendor {
              Kmc => "kmc",
              Nintendo => "nintendo",
              Nvidia => "nvidia",
@@ -468,7 +487,7 @@
              Pc => "pc",
              Rumprun => "rumprun",
              Sun => "sun",
-@@ -1319,6 +1321,7 @@ impl FromStr for Vendor {
+@@ -1386,6 +1388,7 @@ impl FromStr for Vendor {
              "kmc" => Kmc,
              "nintendo" => Nintendo,
              "nvidia" => Nvidia,
@@ -476,22 +495,24 @@
              "pc" => Pc,
              "rumprun" => Rumprun,
              "sun" => Sun,
-@@ -1552,6 +1555,18 @@ mod tests {
+@@ -1662,6 +1665,20 @@ mod tests {
          //  - targets emitted by "rustc +nightly --print target-list"
          //  - targets contributors have added
          let targets = [
-+            "aarch64-openwrt-linux-gnu", // Entware/OpenWrt
-+            "aarch64-openwrt-linux-musl", // Entware/OpenWrt
-+            "arm-openwrt-linux-gnueabi", // Entware/OpenWrt
-+            "armv5te-openwrt-linux-gnueabi", // Entware/OpenWrt
-+            "armv7-openwrt-linux-gnueabi", // Entware/OpenWrt
-+            "i586-openwrt-linux-gnu", // Entware/OpenWrt
-+            "i686-openwrt-linux-gnu", // Entware/OpenWrt
-+            "mips-openwrt-linux-gnu", // Entware/OpenWrt
-+            "mips-openwrt-linux-musl", // Entware/OpenWrt
-+            "mipsel-openwrt-linux-gnu", // Entware/OpenWrt
-+            "mipsel-openwrt-linux-musl", // Entware/OpenWrt
-+            "x86_64-openwrt-linux-gnu", // Entware/OpenWrt
++            // Entware/OpenWrt
++            "aarch64-openwrt-linux-gnu",
++            "aarch64-openwrt-linux-musl",
++            "arm-openwrt-linux-gnueabi",
++            "armv5te-openwrt-linux-gnueabi",
++            "armv7-openwrt-linux-gnueabi",
++            "i586-openwrt-linux-gnu",
++            "i686-openwrt-linux-gnu",
++            "mips-openwrt-linux-gnu",
++            "mips-openwrt-linux-musl",
++            "mipsel-openwrt-linux-gnu",
++            "mipsel-openwrt-linux-musl",
++            "x86_64-openwrt-linux-gnu",
++            //
              "aarch64-apple-darwin",
              "aarch64-apple-ios",
              "aarch64-apple-ios-macabi",
