@@ -14,8 +14,8 @@
  notify = "6"
  notify-rust = { version = "^4.5", default-features = false, features = ["d"] }
 -nucleo = "0.5"
-+# downgrade: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
-+nucleo = "0.2.1"
++# error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
++nucleo = "=0.5.0"
  open = "^5.0"
  rand = "^0.8.5"
  regex = "^1"
@@ -29,4 +29,4 @@
 +chrono = { path = "../chrono-0.4.38" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.61" }
 +# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
-+nucleo = { path = "../nucleo-0.2.1" }
++nucleo = { path = "../nucleo-0.5.0" }
