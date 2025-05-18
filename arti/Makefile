@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += chrono-0440 coarsetime-0136 iana-time-zone-0162 \
-		merlin-300 openssl-probe-016
+		merlin-300 openssl-probe-016 rust-bindgen/host
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/arti/Default
