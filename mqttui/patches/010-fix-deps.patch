@@ -5,16 +5,16 @@
  [dependencies]
  anyhow = "1"
 -chrono = { version = "0.4", default-features = false, features = ["clock", "serde"] }
-+chrono = { version = "=0.4.38", default-features = false, features = ["clock", "serde"] }
++chrono = { version = "=0.4.40", default-features = false, features = ["clock", "serde"] }
  clap = { version = "4", features = ["deprecated", "derive", "env", "wrap_help"] }
  crossterm = "0.27"
- ego-tree = "0.6"
-@@ -78,3 +78,8 @@ assets = [
+ ego-tree = "0.10"
+@@ -79,3 +79,8 @@ assets = [
  
  	{ source = "target/manpages/*", dest = "/usr/share/man/man1/", mode = "644", doc = true },
  ]
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.40" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
