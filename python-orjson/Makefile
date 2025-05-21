@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=orjson
-PKG_VERSION:=3.10.12
+PKG_VERSION:=3.10.18
 PKG_RELEASE:=1
 
 PYPI_NAME:=orjson
-PKG_HASH:=0a78bbda3aea0f9f079057ee1ee8a1ecf790d4f1af88dd67493c6b8ee52506ff
+PKG_HASH:=e8da3947d92123eda795b68228cafe2724815621fe35e8e320a9e9593a4bcd53
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
