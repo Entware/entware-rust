@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -96,3 +96,10 @@ assets = [
+@@ -112,3 +112,12 @@ assets = [
    ["README.md", "usr/share/doc/cyme/README", "644"],
    ["doc/cyme.1", "/usr/share/man/man1/cyme.1", "644"],
  ]
@@ -11,3 +11,5 @@
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.40" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
