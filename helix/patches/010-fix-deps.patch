@@ -5,7 +5,7 @@
  # Logging
  fern = "0.7"
 -chrono = { version = "0.4", default-features = false, features = ["clock"] }
-+chrono = { version = "=0.4.38", default-features = false, features = ["clock"] }
++chrono = { version = "=0.4.41", default-features = false, features = ["clock"] }
  log = "0.4"
  
  # File picker
@@ -29,5 +29,5 @@
 +# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 +nucleo = { path = "../nucleo-0.5.0" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.41" }
++iana-time-zone = { path = "../iana-time-zone-0.1.63" }
