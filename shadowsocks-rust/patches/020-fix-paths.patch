@@ -1,11 +1,11 @@
 --- a/src/config.rs
 +++ b/src/config.rs
 @@ -68,7 +68,7 @@ pub fn get_default_config_path(config_fi
+     // UNIX global configuration file
      #[cfg(unix)]
      {
+-        let mut global_config_path = PathBuf::from("/etc/shadowsocks-rust");
++        let mut global_config_path = PathBuf::from("/opt/etc/shadowsocks-rust");
          for filename in &config_files {
--            let path_str = "/etc/shadowsocks-rust/".to_owned() + filename;
-+            let path_str = "/opt/etc/shadowsocks-rust/".to_owned() + filename;
-             let global_config_path = Path::new(&path_str);
+             global_config_path.push(filename);
              if global_config_path.exists() {
-                 return Some(global_config_path.to_path_buf());

@@ -5,19 +5,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shadowsocks-rust
-PKG_VERSION:=1.23.0
+PKG_VERSION:=1.23.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/shadowsocks/shadowsocks-rust/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=13307594159cfe23f91e69c8b08ba7a41a17a2f36a4bfb3821476026f7518cac
+PKG_HASH:=8a91836256989e3a56409d0e83da6549ecf727e2d6642cd4e707993d9c8a23d3
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 PKG_MAINTAINER:=Entware team, https://entware.net
 
 PKG_CONFIG_DEPENDS:= \
-	CONFIG_SS_RUST_AEAD \
+	CONFIG_SS_RUST_AEAD_CIPHER \
 	CONFIG_SS_RUST_AEAD_CIPHER_2022 \
 	CONFIG_SS_RUST_AEAD_CIPHER_2022_EXTRA \
 	CONFIG_SS_RUST_AEAD_CIPHER_EXTRA \
@@ -28,7 +28,6 @@ PKG_CONFIG_DEPENDS:= \
 	CONFIG_SS_RUST_LOCAL_DNS \
 	CONFIG_SS_RUST_LOCAL_FAKE_DNS \
 	CONFIG_SS_RUST_LOCAL_HTTP \
-	CONFIG_SS_RUST_LOCAL_HTTP_NATIVE_TLS \
 	CONFIG_SS_RUST_LOCAL_HTTP_RUSTLS \
 	CONFIG_SS_RUST_LOCAL_ONLINE_CONFIG \
 	CONFIG_SS_RUST_LOCAL_REDIR \
@@ -44,7 +43,7 @@ PKG_CONFIG_DEPENDS:= \
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440 getrandom-0215
+PKG_BUILD_DEPENDS += chrono-0441 getrandom-0216 iana-time-zone-0163
 
 define Package/shadowsocks-rust/Default
   SECTION:=net
@@ -62,7 +61,7 @@ endef
 define Package/shadowsocks-rust-local
   $(call Package/shadowsocks-rust/Default)
   TITLE:=local server (sslocal)
-  DEPENDS:=shadowsocks-rust +libstdcpp +SS_RUST_LOCAL_HTTP_NATIVE_TLS:libopenssl
+  DEPENDS:=shadowsocks-rust +libstdcpp +(arm||mips||mipsel):libatomic
 endef
 
 define Package/shadowsocks-rust-manager
@@ -80,16 +79,13 @@ endef
 define Package/shadowsocks-rust-service
   $(call Package/shadowsocks-rust/Default)
   TITLE:=service (ssservice)
-  DEPENDS:= \
-	+shadowsocks-rust-local \
-	+shadowsocks-rust-manager \
-	+shadowsocks-rust-server
+  DEPENDS:=+shadowsocks-rust-local +shadowsocks-rust-manager +shadowsocks-rust-server
 endef
 
 define Package/shadowsocks-rust-utility
   $(call Package/shadowsocks-rust/Default)
   TITLE:=encode and decode ShadowSocks URL (ssurl)
-  DEPENDS:=+shadowsocks-rust-local +SS_RUST_LOCAL_HTTP_NATIVE_TLS:libopenssl
+  DEPENDS:=+shadowsocks-rust-local +libopenssl
 endef
 
 define Package/shadowsocks-rust/description
@@ -114,33 +110,34 @@ endef
 BINS:=local manager server service utility
 
 DEFAULT_FEATURES:= \
-	$(if $(CONFIG_SS_RUST_AEAD),aead-cipher) \
+	$(if $(CONFIG_SS_RUST_AEAD_CIPHER),aead-cipher) \
 	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_2022),aead-cipher-2022) \
-	$(if $(CONFIG_SS_RUST_HICKORY_DNS),hickory-dns) \
-	$(if $(CONFIG_SS_RUST_LOCAL_HTTP),local-http) \
-	$(if $(CONFIG_SS_RUST_LOCAL_SOCKS4),local-socks4) \
-	$(if $(CONFIG_SS_RUST_LOCAL_TUNNEL),local-tunnel) \
-	$(if $(CONFIG_SS_RUST_LOGGING),logging) \
-	$(if $(CONFIG_SS_RUST_MULTI_THREADED),multi-threaded)
-
-FEATURES:= \
-	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_2022_EXTRA),aead-cipher-2022-extra) \
-	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_EXTRA),aead-cipher-extra) \
-	$(if $(CONFIG_SS_RUST_DNS_OVER_H3),dns-over-h3) \
 	$(if $(CONFIG_SS_RUST_DNS_OVER_HTTPS),dns-over-https) \
 	$(if $(CONFIG_SS_RUST_DNS_OVER_TLS),dns-over-tls) \
+	$(if $(CONFIG_SS_RUST_HICKORY_DNS),hickory-dns) \
 	$(if $(CONFIG_SS_RUST_LOCAL_DNS),local-dns) \
-	$(if $(CONFIG_SS_RUST_LOCAL_FAKE_DNS),local-fake-dns) \
-	$(if $(CONFIG_SS_RUST_LOCAL_HTTP_NATIVE_TLS),local-http-native-tls) \
+	$(if $(CONFIG_SS_RUST_LOCAL_HTTP),local-http) \
 	$(if $(CONFIG_SS_RUST_LOCAL_HTTP_RUSTLS),local-http-rustls) \
 	$(if $(CONFIG_SS_RUST_LOCAL_ONLINE_CONFIG),local-online-config) \
 	$(if $(CONFIG_SS_RUST_LOCAL_REDIR),local-redir) \
+	$(if $(CONFIG_SS_RUST_LOCAL_SOCKS4),local-socks4) \
 	$(if $(CONFIG_SS_RUST_LOCAL_TUN),local-tun) \
-	$(if $(CONFIG_SS_RUST_SECURITY_REPLAY_ATTACK_DETECT),security-replay-attack-detect) \
-	$(if $(CONFIG_SS_RUST_STREAM_CIPHER),stream-cipher) \
+	$(if $(CONFIG_SS_RUST_LOCAL_TUNNEL),local-tunnel) \
+	$(if $(CONFIG_SS_RUST_LOGGING),logging) \
+	$(if $(CONFIG_SS_RUST_MULTI_THREADED),multi-threaded) \
+	$(if $(CONFIG_SS_RUST_STREAM_CIPHER),stream-cipher)
+
+EXTRA_FEATURES:= \
+	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_2022_EXTRA),aead-cipher-2022-extra) \
+	$(if $(CONFIG_SS_RUST_AEAD_CIPHER_EXTRA),aead-cipher-extra) \
+	$(if $(CONFIG_SS_RUST_DNS_OVER_H3),dns-over-h3) \
+	$(if $(CONFIG_SS_RUST_LOCAL_FAKE_DNS),local-fake-dns) \
+	$(if $(CONFIG_SS_RUST_SECURITY_REPLAY_ATTACK_DETECT),security-replay-attack-detect)
+
+EXTRA_FEATURES += \
 	$(if $(CONFIG_SS_RUST_UTILITY_URL_OUTLINE),utility-url-outline)
 
-CARGO_ARGS += --no-default-features --features "$(BINS) $(DEFAULT_FEATURES) $(FEATURES)"
+CARGO_ARGS += --no-default-features --features "$(BINS) $(DEFAULT_FEATURES) $(EXTRA_FEATURES)"
 
 # error: failed to run custom build command for `openssl-sys v0.9.102`
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
