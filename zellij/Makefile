@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 # arm/mips(el):
 #	error: Unsupported target
@@ -9,12 +9,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zellij
-PKG_VERSION:=0.41.2
+PKG_VERSION:=0.42.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/zellij-org/zellij/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=12e7f0f80c1e39deed5638c4662fc070855cee0250a7eb1d76cefbeef8c2f376
+PKG_HASH:=f1cd4b36775dd367b839e394b54e91042b0cd0f2b9e0901b1dec8517ff3929c0
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
@@ -22,7 +22,7 @@ PKG_LICENSE_FILES:=LICENSE.md
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0439 iana-time-zone-0161
 
 define Package/zellij
   SECTION:=utils
