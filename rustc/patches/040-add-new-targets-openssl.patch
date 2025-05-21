@@ -55,24 +55,26 @@
              "aarch64-apple-darwin" => "darwin64-arm64-cc",
              // Note that this, and all other android targets, aren't using the
              // `android64-aarch64` (or equivalent) builtin target. That
---- a/vendor/openssl-src-111.28.2+1.1.1w/src/lib.rs
-+++ b/vendor/openssl-src-111.28.2+1.1.1w/src/lib.rs
-@@ -229,6 +229,18 @@ impl Build {
+--- a/vendor/openssl-src-300.4.2+3.4.1/src/lib.rs
++++ b/vendor/openssl-src-300.4.2+3.4.1/src/lib.rs
+@@ -294,6 +294,20 @@ impl Build {
          }
  
          let os = match target {
-+            "aarch64-openwrt-linux-gnu" => "linux-aarch64", // Entware/OpenWrt
-+            "aarch64-openwrt-linux-musl" => "linux-aarch64", // Entware/OpenWrt
-+            "arm-openwrt-linux-gnueabi" => "linux-armv4", // Entware/OpenWrt
-+            "armv5te-openwrt-linux-gnueabi" => "linux-armv4", // Entware/OpenWrt
-+            "armv7-openwrt-linux-gnueabi" => "linux-armv4", // Entware/OpenWrt
-+            "i586-openwrt-linux-gnu" => "linux-elf", // Entware/OpenWrt
-+            "i686-openwrt-linux-gnu" => "linux-elf", // Entware/OpenWrt
-+            "mips-openwrt-linux-gnu" => "linux-mips32", // Entware/OpenWrt
-+            "mips-openwrt-linux-musl" => "linux-mips32", // Entware/OpenWrt
-+            "mipsel-openwrt-linux-gnu" => "linux-mips32", // Entware/OpenWrt
-+            "mipsel-openwrt-linux-musl" => "linux-mips32", // Entware/OpenWrt
-+            "x86_64-openwrt-linux-gnu" => "linux-x86_64", // Entware/OpenWrt
++            // Entware/OpenWrt
++            "aarch64-openwrt-linux-gnu" => "linux-aarch64",
++            "aarch64-openwrt-linux-musl" => "linux-aarch64",
++            "arm-openwrt-linux-gnueabi" => "linux-armv4",
++            "armv5te-openwrt-linux-gnueabi" => "linux-armv4",
++            "armv7-openwrt-linux-gnueabi" => "linux-armv4",
++            "i586-openwrt-linux-gnu" => "linux-elf",
++            "i686-openwrt-linux-gnu" => "linux-elf",
++            "mips-openwrt-linux-gnu" => "linux-mips32",
++            "mips-openwrt-linux-musl" => "linux-mips32",
++            "mipsel-openwrt-linux-gnu" => "linux-mips32",
++            "mipsel-openwrt-linux-musl" => "linux-mips32",
++            "x86_64-openwrt-linux-gnu" => "linux-x86_64",
++            //
              "aarch64-apple-darwin" => "darwin64-arm64-cc",
              // Note that this, and all other android targets, aren't using the
              // `android64-aarch64` (or equivalent) builtin target. That

@@ -82,3 +82,45 @@
      "aarch64-apple-darwin",
      "aarch64-apple-ios",
      "aarch64-linux-android",
+--- a/vendor/libc-0.2.170/Cargo.toml
++++ b/vendor/libc-0.2.170/Cargo.toml
+@@ -53,6 +53,18 @@ cargo-args = ["-Zbuild-std=core"]
+ default-target = "x86_64-unknown-linux-gnu"
+ features = ["extra_traits"]
+ targets = [
++    "aarch64-openwrt-linux-gnu",
++    "aarch64-openwrt-linux-musl",
++    "arm-openwrt-linux-gnueabi",
++    "armv5te-openwrt-linux-gnueabi",
++    "armv7-openwrt-linux-gnueabi",
++    "i586-openwrt-linux-gnu",
++    "i686-openwrt-linux-gnu",
++    "mips-openwrt-linux-gnu",
++    "mips-openwrt-linux-musl",
++    "mipsel-openwrt-linux-gnu",
++    "mipsel-openwrt-linux-musl",
++    "x86_64-openwrt-linux-gnu",
+     "aarch64-apple-darwin",
+     "aarch64-apple-ios",
+     "aarch64-linux-android",
+--- a/vendor/libc-0.2.171/Cargo.toml
++++ b/vendor/libc-0.2.171/Cargo.toml
+@@ -53,6 +53,18 @@ cargo-args = ["-Zbuild-std=core"]
+ default-target = "x86_64-unknown-linux-gnu"
+ features = ["extra_traits"]
+ targets = [
++    "aarch64-openwrt-linux-gnu",
++    "aarch64-openwrt-linux-musl",
++    "arm-openwrt-linux-gnueabi",
++    "armv5te-openwrt-linux-gnueabi",
++    "armv7-openwrt-linux-gnueabi",
++    "i586-openwrt-linux-gnu",
++    "i686-openwrt-linux-gnu",
++    "mips-openwrt-linux-gnu",
++    "mips-openwrt-linux-musl",
++    "mipsel-openwrt-linux-gnu",
++    "mipsel-openwrt-linux-musl",
++    "x86_64-openwrt-linux-gnu",
+     "aarch64-apple-darwin",
+     "aarch64-apple-ios",
+     "aarch64-linux-android",
