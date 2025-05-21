@@ -1,22 +1,23 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -36,6 +36,10 @@ xz2 = "0.1.7"
- zip = { version = "0.6.6", default-features = false, features = ["time"] }
- zstd = { version = "0.13.0", default-features = false }
- 
+@@ -68,6 +68,9 @@ rand = { version = "0.8.5", default-feat
+ ] }
+ regex = "1.10.4"
+ test-strategy = "0.4.0"
 +# localtime/zoneinfo
-+chrono = "0.4.31"
-+iana-time-zone = "0.1.59"
-+
- [target.'cfg(not(unix))'.dependencies]
- is_executable = "1.0.1"
++chrono = "=0.4.40"
++iana-time-zone = "0.1.63"
  
-@@ -63,3 +67,8 @@ lto = true
- codegen-units = 1
- opt-level = 3
- strip = true
+ [features]
+ default = ["unrar", "use_zlib", "use_zstd_thin"]
+@@ -89,3 +92,10 @@ lto = false
+ opt-level = 2
+ incremental = true
+ codegen-units = 16
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.40" }
++iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }

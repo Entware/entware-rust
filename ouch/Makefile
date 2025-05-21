@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ouch
-PKG_VERSION:=0.5.1
-PKG_RELEASE:=2
+PKG_VERSION:=0.6.1
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ouch-org/ouch/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=46cc2b14f53de2f706436df59300eb90c5a58f08ac8c738fd976fcb8ec0cd335
+PKG_HASH:=e6265071affab228ba7d3ca85f2206029445038b3a3d96036e9bf02b795ad651
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0440 getrandom-0215 iana-time-zone-0163
 
 define Package/ouch
   SECTION:=utils
