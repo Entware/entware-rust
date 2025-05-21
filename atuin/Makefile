@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=atuin
-PKG_VERSION:=18.4.0
+PKG_VERSION:=18.6.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ellie/atuin/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=de6d2bcf10de4d757916c7e92a70f15929fc1dea75abc4df09b0baedf26a53b2
+PKG_HASH:=aba26698471ef7ad2757416d01fcc327d3bd800c58cc3fcae638e625524e1b40
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438
+PKG_BUILD_DEPENDS += chrono-0440 getrandom-0215 iana-time-zone-0161
 
 define Package/atuin
   SECTION:=utils
