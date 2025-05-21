@@ -10,12 +10,18 @@
  serde_yaml = "0.9.34"
  zip = "2.2.0"
  tar = "0.4.42"
-@@ -53,3 +54,8 @@ features = ["derive"]
- version = "0.4.38"
+@@ -51,6 +52,13 @@ version = "1.0.210"
+ features = ["derive"]
+ 
+ [dependencies.chrono]
+-version = "0.4.38"
++version = "0.4.40"
  default-features = false
  features = ["clock"]
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++chrono = { path = "../chrono-0.4.40" }
++iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }

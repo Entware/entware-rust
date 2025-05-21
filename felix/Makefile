@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=felix
-PKG_VERSION:=2.16.0
+PKG_VERSION:=2.16.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kyoheiu/felix/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=9fb0a1b120e3171883c8150792808e6871d052190ed8b9bcb0807970545285c6
+PKG_HASH:=a001dfe81cdbdfa19ba653a4711a17e4c92aa528139739c895df5791a26ea9f5
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161
+PKG_BUILD_DEPENDS += chrono-0440 getrandom-0215 iana-time-zone-0163
 
 define Package/felix
   SECTION:=utils
@@ -27,7 +27,7 @@ define Package/felix
   SUBMENU:=Shells
   TITLE:=tui file manager with vim-like key mapping
   URL:=https://github.com/kyoheiu/felix
-  DEPENDS:=+zlib
+  DEPENDS:=+liblzma +zlib
 endef
 
 define Package/felix/description
