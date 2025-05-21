@@ -2,19 +2,21 @@
 +++ b/Cargo.toml
 @@ -33,7 +33,7 @@ anyhow = "1.0.91"
  arrayvec = { version = "0.7.6", default-features = false }
- bitflags = "2.6.0"
+ bitflags = "2.9.0"
  caps = "0.5.5"
--chrono = { version = "0.4.38", default-features = false }
-+chrono = { version = "=0.4.39", default-features = false }
+-chrono = { version = "0.4.41", default-features = false }
++chrono = { version = "=0.4.41", default-features = false }
+ chrono-tz = "0.10.3"
  clap = { version = "4.5.20", default-features = false }
  clap_complete = "4.4.9"
- clap_mangen = "0.2.20"
-@@ -97,3 +97,8 @@ bool_assert_comparison = "allow"
+@@ -100,3 +100,10 @@ struct_field_names = "allow"
  
  [profile.release]
  lto = true
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.39" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++chrono = { path = "../chrono-0.4.41" }
++iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
