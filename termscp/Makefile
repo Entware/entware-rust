@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=termscp
-PKG_VERSION:=0.16.1
-PKG_RELEASE:=2
+PKG_VERSION:=0.17.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/veeso/termscp/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=318673db7d4c8b580f8f6a2b4e305fed3e7afc151217be5e16cf1a8f33fc2af4
+PKG_HASH:=ada7bbf513104272687c703217f2cc45f834af979fa6bde1b7ab4ee059d67669
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,8 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161 nucleo-050
+PKG_BUILD_DEPENDS += chrono-0440 crc64fast-nvme-120 getrandom-0215 \
+	iana-time-zone-0161 nucleo-050
 
 define Package/termscp
   SECTION:=net
@@ -37,9 +38,9 @@ endef
 # all: samba4-dev
 #	error: failed to run custom build command for `pavao v0.2.3`
 #	error: could not find system library 'smbclient' required by the 'pavao' crate
-CARGO_ARGS += --no-default-features --features with-keyring
+CARGO_ARGS += --no-default-features --features keyring
 
-# error: failed to run custom build command for `openssl-sys v0.9.87`
+# error: failed to run custom build command for `openssl-sys v0.9.108`
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
 # x86_64: undefined reference to `__stack_chk_guard'

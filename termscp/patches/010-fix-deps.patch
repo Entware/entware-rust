@@ -1,32 +1,36 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -34,7 +34,7 @@ path = "src/main.rs"
+@@ -35,7 +35,7 @@ path = "src/main.rs"
  argh = "^0.1"
  bitflags = "^2"
- bytesize = "^1"
+ bytesize = "^2"
 -chrono = "^0.4"
-+chrono = "=0.4.38"
++chrono = "=0.4.40"
  content_inspector = "^0.2"
- dirs = "^5.0"
+ dirs = "^6"
  edit = "^0.1"
-@@ -51,7 +51,8 @@ log = "^0.4"
- magic-crypt = "^3"
- notify = "6"
- notify-rust = { version = "^4.5", default-features = false, features = ["d"] }
+@@ -53,7 +53,8 @@ log = "^0.4"
+ magic-crypt = "4"
+ notify = "8"
+ notify-rust = { version = "^4", default-features = false, features = ["d"] }
 -nucleo = "0.5"
 +# error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 +nucleo = "=0.5.0"
  open = "^5.0"
- rand = "^0.8.5"
+ rand = "^0.9"
  regex = "^1"
-@@ -119,3 +120,10 @@ incremental = true
+@@ -116,3 +117,14 @@ incremental = true
  
  [profile.release]
  strip = true
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
++chrono = { path = "../chrono-0.4.40" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.61" }
 +# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 +nucleo = { path = "../nucleo-0.5.0" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
++# all: cannot be used when making a shared object; recompile with -fPIC
++crc64fast-nvme = { path = "../crc64fast-nvme-1.2.0" }
