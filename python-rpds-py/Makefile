@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rpds-py
-PKG_VERSION:=0.21.0
+PKG_VERSION:=0.24.0
 PKG_RELEASE:=1
 
 PYPI_NAME:=rpds_py
-PKG_HASH:=ed6378c9d66d0de903763e7706383d60c33829581f0adff47b6535f1802fa6db
+PKG_HASH:=772cc1b2cd963e7e17e6cc55fe0371fb9c704d63e44cacec7b9b7f523b78919e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
