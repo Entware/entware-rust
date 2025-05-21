@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=spider
-PKG_VERSION:=2.36.6
+PKG_VERSION:=2.37.54
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/spider-rs/spider/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=6b5cd1d18b27d47b07cf8275c92e9b4792839653de16d4f0720a3d03574403c4
+PKG_HASH:=cb4d2548b70897b843177247edc3ef289ca128a389ea18814206dda77acf17f5
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440 iana-time-zone-0162
+PKG_BUILD_DEPENDS += chrono-0441 getrandom-0216 iana-time-zone-0163
 
 define Package/spider/Default
   SECTION:=net

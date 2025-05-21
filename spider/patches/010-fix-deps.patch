@@ -5,7 +5,7 @@
  case_insensitive_string = { version = "0.2", features = ["compact", "serde"] }
  sitemap = { version = "0.4", optional = true }
 -chrono = { version = "0.4", optional = true }
-+chrono = { version = "=0.4.40", optional = true }
++chrono = { version = "=0.4.41", optional = true }
  cron = { version = "0.15", optional = true }
  async-trait = { version = "0.1", optional = true }
  strum = { version = "0.26", features = ["derive"] }
@@ -19,14 +19,26 @@
      "runtime-tokio",
      "sqlite",
  ], optional = true }
+@@ -95,6 +96,9 @@ rquest = { version = "5", optional = tru
+ ] }
+ rquest-util = { version = "2", optional = true, features = ["emulation-serde"] }
+ 
++[build-dependencies]
++openssl = { version = "0.10.72", features = [ "vendored" ] }
++
+ [dependencies.spider_chrome]
+ version = "2"
+ path = "../spider_chrome"
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -10,3 +10,8 @@ members = [
+@@ -11,3 +11,10 @@ members = [
      "examples",
      "benches"]
  resolver = "2"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.40" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.62" }
++chrono = { path = "../chrono-0.4.41" }
++iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
