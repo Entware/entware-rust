@@ -1,0 +1,8 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -44,4 +44,4 @@ strip = true
+ 
+ [lib]
+ name = "crc64fast_nvme"
+-crate-type = ["lib", "cdylib"]
++crate-type = ["lib", "rlib"]
