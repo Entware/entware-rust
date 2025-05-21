@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rmesg
-PKG_VERSION:=1.0.21
+PKG_VERSION:=1.0.23
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/archisgore/rmesg/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=8397406c08ca2baaca4194ea5196d47be6ddc8242da4d187a25562b653f2c485
+PKG_HASH:=4beeb1bfb540d9d4b843698fe0f2d90a3fedaf99f33d1c364304c9433e295ccf
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
