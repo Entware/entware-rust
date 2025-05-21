@@ -1,15 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -50,7 +50,7 @@ humantime = "2.1"
- itertools = "0.12.1"
- md5 = "0.7"
- memchr = "2.7"
--moka = { version = "0.12.0", features = ["future"] }
-+moka = { version = "0.12.10", features = ["future"] }
- path-clean = "1.0.1"
- rand = "0.8.5"
- rkyv = { version = "0.8", features = [
-@@ -92,6 +92,12 @@ zlib-ng = ["flate2/zlib-ng", "gix/zlib-n
+@@ -93,6 +93,12 @@ zlib-ng = ["flate2/zlib-ng", "gix/zlib-n
  [build-dependencies]
  anyhow = "1.0"
  rsass = "0.28.0"
