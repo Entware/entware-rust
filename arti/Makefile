@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=arti
-PKG_VERSION:=1.4.2
+PKG_VERSION:=1.4.3
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://gitlab.torproject.org/tpo/core/arti/-/archive/$(PKG_NAME)-v$(PKG_VERSION)
-PKG_HASH:=551bccd10186988d20a94f0a96eac10d7e36512608543170361b79d27e69eaa9
+PKG_HASH:=5d54ce2e29b6b23107277dd8d1dea8a5bff56ddf04fb46ce851013fddb14639e
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=GPL-3 LGPL-3 LICENSE-APACHE LICENSE-MIT
@@ -22,8 +22,9 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440 coarsetime-0136 iana-time-zone-0162 \
-		merlin-300 openssl-probe-016 rust-bindgen/host
+PKG_BUILD_DEPENDS += chrono-0441 coarsetime-0136 getrandom-0216 \
+		iana-time-zone-0163 merlin-300 openssl-probe-016 \
+		rust-bindgen/host
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/arti/Default
@@ -35,7 +36,7 @@ endef
 define Package/arti
   $(call Package/arti/Default)
   TITLE:=A rust implementation of the Tor privacy tools
-  DEPENDS+=+liblzma +libopenssl +libsqlite3
+  DEPENDS:=+liblzma +libopenssl +libsqlite3
 endef
 
 define Package/arti/description

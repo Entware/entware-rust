@@ -11,7 +11,7 @@
      .expect("Could not parse defaults!")
 --- a/crates/arti-client/src/config.rs
 +++ b/crates/arti-client/src/config.rs
-@@ -817,7 +817,7 @@ pub fn default_config_files() -> Result<
+@@ -854,7 +854,7 @@ pub fn default_config_files() -> Result<
      // the base path resolver includes the 'ARTI_CONFIG' variable
      let path_resolver = tor_config_path::arti_client_base_resolver();
  
@@ -33,7 +33,7 @@
              dflt(Literal(
 --- a/crates/tor-rpc-connect/src/lib.rs
 +++ b/crates/tor-rpc-connect/src/lib.rs
-@@ -239,7 +239,7 @@ pub const SYSTEM_DEFAULT_CONNECT_POINT:
+@@ -242,7 +242,7 @@ pub const SYSTEM_DEFAULT_CONNECT_POINT:
              Some(
  r#"
  [connect]
