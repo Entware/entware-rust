@@ -35,3 +35,40 @@
      for line in s.lines() {
          let mut parts = line.split(':');
          if let Some(username) = parts.next() {
+--- a/vendor/sysinfo-0.33.0/src/unix/linux/system.rs
++++ b/vendor/sysinfo-0.33.0/src/unix/linux/system.rs
+@@ -379,6 +379,7 @@ impl SystemInner {
+     pub(crate) fn name() -> Option<String> {
+         get_system_info_linux(
+             InfoType::Name,
++            Path::new("/opt/etc/os-release"), // Entware
+             Path::new("/etc/os-release"),
+             Path::new("/etc/lsb-release"),
+         )
+@@ -446,6 +447,7 @@ impl SystemInner {
+     pub(crate) fn os_version() -> Option<String> {
+         get_system_info_linux(
+             InfoType::OsVersion,
++            Path::new("/opt/etc/os-release"), // Entware
+             Path::new("/etc/os-release"),
+             Path::new("/etc/lsb-release"),
+         )
+@@ -460,6 +462,7 @@ impl SystemInner {
+     pub(crate) fn distribution_id() -> String {
+         get_system_info_linux(
+             InfoType::DistributionID,
++            Path::new("/opt/etc/os-release"), // Entware
+             Path::new("/etc/os-release"),
+             Path::new(""),
+         )
+--- a/vendor/sysinfo-0.33.0/src/unix/users.rs
++++ b/vendor/sysinfo-0.33.0/src/unix/users.rs
+@@ -128,7 +128,7 @@ pub(crate) fn get_users(users: &mut Vec<
+ 
+     let mut s = String::new();
+ 
+-    let _ = File::open("/etc/passwd").and_then(|mut f| f.read_to_string(&mut s));
++    let _ = File::open("/opt/etc/passwd").and_then(|mut f| f.read_to_string(&mut s));
+     for line in s.lines() {
+         let mut parts = line.split(':');
+         if let Some(username) = parts.next() {

@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.86.0
+PKG_VERSION:=1.87.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.gz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=022a27286df67900a044d227d9db69d4732ec3d833e4ffc259c4425ed71eed80
+PKG_HASH:=149bb9fd29be592da4e87900fc68f0629a37bf6850b46339dd44434c04fd8e76
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-dev-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-dev-$(PKG_VERSION)
@@ -52,7 +52,7 @@ endif
 
 define Host/Configure
 	( \
-		echo 'change-id = 139182'; \
+		echo 'change-id = 140859'; \
 		echo '[llvm]'; \
 		echo 'download-ci-llvm = true'; \
 		echo '[build]'; \
@@ -93,7 +93,7 @@ define Host/Configure
 		echo '[dist]'; \
 		echo 'src-tarball = false'; \
 		echo 'compression-formats = ["gz"]'; \
-	) > $(HOST_BUILD_DIR)/config.toml
+	) > $(HOST_BUILD_DIR)/bootstrap.toml
 
 	$(FIND) $(HOST_BUILD_DIR)/vendor -type f -name ".cargo-checksum.json" -exec \
 		$(SED) 's/\("files":{\)[^}]*/\1/' {} +
@@ -129,7 +129,7 @@ endef
 
 define Build/Configure
 	( \
-		echo 'change-id = 139182'; \
+		echo 'change-id = 140859'; \
 		echo 'profile = "library"'; \
 		echo '[llvm]'; \
 		echo 'download-ci-llvm = true'; \
@@ -173,7 +173,7 @@ define Build/Configure
 		echo '[dist]'; \
 		echo 'src-tarball = false'; \
 		echo 'compression-formats = ["gz"]'; \
-	) > $(PKG_BUILD_DIR)/config.toml
+	) > $(PKG_BUILD_DIR)/bootstrap.toml
 
 	$(FIND) $(PKG_BUILD_DIR)/vendor -type f -name ".cargo-checksum.json" -exec \
 		$(SED) 's/\("files":{\)[^}]*/\1/' {} +
@@ -203,6 +203,11 @@ define Build/InstallDev
 		s,@TARGET_CC@,$(TARGET_CC),' \
 			$(2)/share/cargo/config.toml
 endef
+
+#define Build/Clean
+#	rm -rf $(STAGING_DIR)/host/share/cargo.dev
+#	rm -rf $(STAGING_DIR)/host/share/cargo
+#endef
 
 $(eval $(call HostBuild))
 $(eval $(call BuildPackage,rustc-dev))

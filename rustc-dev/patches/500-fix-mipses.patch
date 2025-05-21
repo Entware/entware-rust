@@ -67,7 +67,7 @@ Subject: [PATCH] Don't use `f16` and `f128` directly in `clippy_utils`
      }
  }
  
-@@ -871,10 +873,10 @@ pub fn mir_to_const<'tcx>(tcx: TyCtxt<'t
+@@ -868,10 +870,10 @@ pub fn mir_to_const<'tcx>(tcx: TyCtxt<'t
              ty::Adt(adt_def, _) if adt_def.is_struct() => Some(Constant::Adt(result)),
              ty::Bool => Some(Constant::Bool(int == ScalarInt::TRUE)),
              ty::Uint(_) | ty::Int(_) => Some(Constant::Int(int.to_bits(int.size()))),
@@ -80,7 +80,7 @@ Subject: [PATCH] Don't use `f16` and `f128` directly in `clippy_utils`
              ty::RawPtr(_, _) => Some(Constant::RawPtr(int.to_bits(int.size()))),
              _ => None,
          },
-@@ -895,10 +897,10 @@ pub fn mir_to_const<'tcx>(tcx: TyCtxt<'t
+@@ -892,10 +894,10 @@ pub fn mir_to_const<'tcx>(tcx: TyCtxt<'t
                  let range = alloc_range(offset + size * idx, size);
                  let val = alloc.read_scalar(&tcx, range, /* read_provenance */ false).ok()?;
                  res.push(match flt {
