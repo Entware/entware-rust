@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2025 Entware
 
 # arm|mips(el):
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=http
-PKG_VERSION:=2.1.0
+PKG_VERSION:=2.2.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/thecoshman/http/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=01e891a86ed051d6cdafff073873692387dff2e6c7ad3475aa96a804b850a1c3
+PKG_HASH:=f575f2c336cf34dc91d2018d9716446955f03bb1710e0c9cb3051bec2073b78c
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE

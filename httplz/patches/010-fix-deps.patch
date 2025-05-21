@@ -1,0 +1,44 @@
+error[E0119]: conflicting implementations of trait `Trait` for type `(dyn Send + Sync + 'static)`
+  --> .../rust-traitobject-*/b3471a1/src/impls.rs:72:1
+   |
+71 | unsafe impl Trait for ::std::marker::Send + Sync { }
+   | ------------------------------------------------ first implementation here
+72 | unsafe impl Trait for ::std::marker::Send + Send + Sync { }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ conflicting implementation for `(dyn Send + Sync + 'static)`
+
+error[E0119]: conflicting implementations of trait `Trait` for type `(dyn Send + Sync + 'static)`
+  --> .../rust-traitobject-*/b3471a1/src/impls.rs:73:1
+   |
+71 | unsafe impl Trait for ::std::marker::Send + Sync { }
+   | ------------------------------------------------ first implementation here
+72 | unsafe impl Trait for ::std::marker::Send + Send + Sync { }
+73 | unsafe impl Trait for ::std::marker::Sync + Send { }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ conflicting implementation for `(dyn Send + Sync + 'static)`
+
+error[E0119]: conflicting implementations of trait `Trait` for type `(dyn Send + Sync + 'static)`
+  --> .../rust-traitobject-*/b3471a1/src/impls.rs:75:1
+   |
+71 | unsafe impl Trait for ::std::marker::Send + Sync { }
+   | ------------------------------------------------ first implementation here
+...
+75 | unsafe impl Trait for ::std::marker::Sync + Send + Sync { }
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ conflicting implementation for `(dyn Send + Sync + 'static)`
+
+For more information about this error, try `rustc --explain E0119`.
+error: could not compile `traitobject` (lib) due to 3 previous errors
+
+---
+
+--- a/vendor/hyper-0.10.16/Cargo.toml
++++ b/vendor/hyper-0.10.16/Cargo.toml
+@@ -39,8 +39,8 @@ version = "1.0"
+ version = "0.1"
+ 
+ [dependencies.traitobject]
+-git = "https://github.com/reem/rust-traitobject"
+-rev = "b3471a15917b2caf5a8b27debb0b4b390fc6634f"
++git = "https://github.com/alexreg/rust-traitobject"
++rev = "04a666e6cf50b3f4e7d2dfce47d21fb6100b2f89"
+ 
+ [dependencies.typeable]
+ version = "0.1"
