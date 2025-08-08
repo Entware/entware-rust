@@ -1,0 +1,24 @@
+--- a/src/backends/use_file.rs
++++ b/src/backends/use_file.rs
+@@ -9,6 +9,9 @@ use core::{
+ #[cfg(not(any(target_os = "android", target_os = "linux")))]
+ pub use crate::util::{inner_u32, inner_u64};
+ 
++#[cfg(all(target_os = "linux", target_vendor = "openwrt"))]
++pub use crate::util::{inner_u32, inner_u64};
++
+ #[path = "../util_libc.rs"]
+ pub(super) mod util_libc;
+ 
+--- a/src/backends.rs
++++ b/src/backends.rs
+@@ -38,6 +38,9 @@ cfg_if! {
+                 );
+             }
+         }
++    } else if #[cfg(all(target_os = "linux", target_vendor = "openwrt"))] {
++        mod use_file;
++        pub use use_file::*;
+     } else if #[cfg(all(target_os = "linux", target_env = ""))] {
+         mod linux_raw;
+         pub use linux_raw::*;
