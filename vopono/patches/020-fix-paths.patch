@@ -1,0 +1,173 @@
+--- a/vopono_core/src/network/dns_config.rs
++++ b/vopono_core/src/network/dns_config.rs
+@@ -27,13 +27,13 @@ impl DnsConfig {
+         allow_host_access: bool,
+         firewall: Firewall,
+     ) -> anyhow::Result<Self> {
+-        let dir_path = format!("/etc/netns/{ns_name}");
++        let dir_path = format!("/opt/etc/netns/{ns_name}");
+         std::fs::create_dir_all(&dir_path)
+             .with_context(|| format!("Failed to create directory: {}", &dir_path))?;
+         std::fs::set_permissions(&dir_path, PermissionsExt::from_mode(0o755)) // Directories usually need execute permission
+             .with_context(|| format!("Failed to set directory permissions for {dir_path}"))?;
+ 
+-        let resolv_conf_path = format!("/etc/netns/{ns_name}/resolv.conf");
++        let resolv_conf_path = format!("/opt/etc/netns/{ns_name}/resolv.conf");
+         let mut resolv = std::fs::File::create(&resolv_conf_path)
+             .with_context(|| format!("Failed to open resolv.conf: {}", &resolv_conf_path))?;
+         std::fs::set_permissions(&resolv_conf_path, PermissionsExt::from_mode(0o644))
+@@ -78,7 +78,7 @@ impl DnsConfig {
+         };
+ 
+         if !effective_hosts_entries.is_empty() {
+-            let hosts_path = format!("/etc/netns/{ns_name}/hosts");
++            let hosts_path = format!("/opt/etc/netns/{ns_name}/hosts");
+             let mut hosts = std::fs::File::create(&hosts_path)
+                 .with_context(|| format!("Failed to open hosts: {}", &hosts_path))?;
+             std::fs::set_permissions(&hosts_path, PermissionsExt::from_mode(0o644))
+@@ -93,9 +93,9 @@ impl DnsConfig {
+             }
+         }
+ 
+-        if std::path::Path::new("/etc/nsswitch.conf").exists() {
+-            let nsswitch_src = std::fs::File::open("/etc/nsswitch.conf")?;
+-            let nsswitch_path = format!("/etc/netns/{ns_name}/nsswitch.conf");
++        if std::path::Path::new("/opt/etc/nsswitch.conf").exists() {
++            let nsswitch_src = std::fs::File::open("/opt/etc/nsswitch.conf")?;
++            let nsswitch_path = format!("/opt/etc/netns/{ns_name}/nsswitch.conf");
+             let mut nsswitch = std::fs::File::create(&nsswitch_path)?;
+             std::fs::set_permissions(&nsswitch_path, PermissionsExt::from_mode(0o644))?;
+ 
+@@ -217,7 +217,7 @@ fn open_dns_ports(netns_name: &str, host
+ 
+ impl Drop for DnsConfig {
+     fn drop(&mut self) {
+-        let path = format!("/etc/netns/{}", self.ns_name);
++        let path = format!("/opt/etc/netns/{}", self.ns_name);
+         match std::fs::remove_dir_all(&path) {
+             Ok(_) => {}
+             Err(e) => warn!(
+--- a/vopono_core/src/network/openfortivpn.rs
++++ b/vopono_core/src/network/openfortivpn.rs
+@@ -44,7 +44,7 @@ impl OpenFortiVpn {
+ 
+         // TODO: Remove need for log file (and hardcoded path!)
+         // Delete log file if exists
+-        let pppd_log = std::path::PathBuf::from_str("/tmp/pppd.log")?;
++        let pppd_log = std::path::PathBuf::from_str("/opt/tmp/pppd.log")?;
+         std::fs::remove_file(&pppd_log).ok();
+ 
+         // TODO - better handle forwarding output when blocking on password entry (no newline!)
+--- a/vopono_core/src/network/warp.rs
++++ b/vopono_core/src/network/warp.rs
+@@ -34,8 +34,8 @@ impl Warp {
+         }
+ 
+         // Ensure /etc/netns/{netns.name}/resolv.conf exists
+-        let resolv_conf_path = format!("/etc/netns/{}/resolv.conf", netns.name);
+-        let dir_path = format!("/etc/netns/{}", netns.name);
++        let resolv_conf_path = format!("/opt/etc/netns/{}/resolv.conf", netns.name);
++        let dir_path = format!("/opt/etc/netns/{}", netns.name);
+         if !std::path::Path::new(&resolv_conf_path).exists() {
+             std::fs::create_dir_all(Path::new(&dir_path))?;
+             std::fs::File::create(&resolv_conf_path)
+--- a/vopono_core/src/network/wireguard.rs
++++ b/vopono_core/src/network/wireguard.rs
+@@ -80,8 +80,8 @@ impl Wireguard {
+                 "PersistentKeepalive",
+             ];
+ 
+-            let mut f = std::fs::File::create("/tmp/vopono_wg.conf")
+-                .context("Creating file: /tmp/vopono_wg.conf")?;
++            let mut f = std::fs::File::create("/opt/tmp/vopono_wg.conf")
++                .context("Creating file: /opt/tmp/vopono_wg.conf")?;
+             write!(
+                 f,
+                 "{}",
+@@ -171,11 +171,11 @@ impl Wireguard {
+ 
+         NetworkNamespace::exec(
+             &namespace.name,
+-            &["wg", "setconf", &if_name, "/tmp/vopono_wg.conf"],
++            &["wg", "setconf", &if_name, "/opt/tmp/vopono_wg.conf"],
+         )
+         .context("Failed to run wg setconf - is wireguard-tools installed?")?;
+-        std::fs::remove_file("/tmp/vopono_wg.conf")
+-            .context("Deleting file: /tmp/vopono_wg.conf")
++        std::fs::remove_file("/opt/tmp/vopono_wg.conf")
++            .context("Deleting file: /opt/tmp/vopono_wg.conf")
+             .ok();
+         let mut interface_addresses: Vec<IpAddr> = Vec::new();
+         // Extract addresses
+@@ -373,14 +373,14 @@ impl Wireguard {
+ 
+                 let nftcmd = nftcmd.join("\n");
+                 {
+-                    let mut f = std::fs::File::create("/tmp/vopono_nft.sh")
+-                        .context("Creating file: /tmp/vopono_nft.sh")?;
++                    let mut f = std::fs::File::create("/opt/tmp/vopono_nft.sh")
++                        .context("Creating file: /opt/tmp/vopono_nft.sh")?;
+                     write!(f, "{nftcmd}")?;
+                 }
+ 
+-                NetworkNamespace::exec(&namespace.name, &["nft", "-f", "/tmp/vopono_nft.sh"])?;
+-                std::fs::remove_file("/tmp/vopono_nft.sh")
+-                    .context("Deleting file: /tmp/vopono_nft.sh")
++                NetworkNamespace::exec(&namespace.name, &["nft", "-f", "/opt/tmp/vopono_nft.sh"])?;
++                std::fs::remove_file("/opt/tmp/vopono_nft.sh")
++                    .context("Deleting file: /opt/tmp/vopono_nft.sh")
+                     .ok();
+             }
+             Firewall::IpTables => {
+--- a/vopono_core/src/util/mod.rs
++++ b/vopono_core/src/util/mod.rs
+@@ -44,7 +44,7 @@ pub fn config_dir() -> anyhow::Result<Pa
+                 if path.exists() {
+                     // Work-around for case when root $HOME is set but user's is not
+                     // It seems we cannot distinguish these cases
+-                    if path.to_string_lossy().contains("/root") {
++                    if path.to_string_lossy().contains("/opt/root") {
+                         None
+                     } else {
+                         Some(path.into())
+@@ -59,7 +59,7 @@ pub fn config_dir() -> anyhow::Result<Pa
+         .or_else(|| {
+             if let Ok(user) = std::env::var("SUDO_USER") {
+                 // TODO: DRY
+-                let confpath = format!("/home/{user}/.config");
++                let confpath = format!("/opt/home/{user}/.config");
+                 let path = Path::new(&confpath);
+                 debug!(
+                     "Using config dir from $SUDO_USER config: {}",
+@@ -89,9 +89,9 @@ pub fn config_dir() -> anyhow::Result<Pa
+             if let Some(user) = get_user_by_uid(get_current_uid()) {
+                 // Handles case when run as root directly
+                 let confpath = if get_current_uid() == 0 {
+-                    "/root/.config".to_string()
++                    "/opt/root/.config".to_string()
+                 } else {
+-                    format!("/home/{}/.config", user.name().to_str().unwrap())
++                    format!("/opt/home/{}/.config", user.name().to_str().unwrap())
+                 };
+                 let path = Path::new(&confpath);
+                 debug!(
+@@ -325,7 +325,7 @@ pub fn clean_dead_namespaces() -> anyhow
+         })
+         .try_for_each(|x| {
+             debug!("Removing dead namespace: {x}");
+-            let path = format!("/etc/netns/{x}");
++            let path = format!("/opt/etc/netns/{x}");
+             std::fs::remove_dir_all(path).ok();
+ 
+             sudo_command(&["ip", "netns", "delete", x.as_str()])
+--- a/vopono_core/src/util/unix.rs
++++ b/vopono_core/src/util/unix.rs
+@@ -17,7 +17,7 @@ pub fn run_program_in_netns_with_path_re
+ ) -> Result<u32> {
+     // TODO: We could receive netns file descriptor from the caller
+     // Validate that network namespace exists
+-    let netns_path = format!("/var/run/netns/{netns_name}");
++    let netns_path = format!("/opt/var/run/netns/{netns_name}");
+     if !Path::new(&netns_path).exists() {
+         return Err(anyhow!("Network namespace '{netns_name}' does not exist"));
+     }
