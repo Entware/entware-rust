@@ -18,7 +18,7 @@
  test-case = "3.3.1"
  collection_macros = "0.2.0"
  rstest = "0.25.0"
-@@ -95,3 +97,12 @@ strip = "symbols"
+@@ -95,3 +97,13 @@ strip = "symbols"
  [profile.release-with-symbols]
  inherits = "release"
  strip = false
@@ -30,4 +30,5 @@
 +chrono = { path = "../chrono-0.4.41" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.63" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.16" }
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
