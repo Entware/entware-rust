@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vopono
 PKG_VERSION:=0.10.14
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/jamesmcm/vopono/tar.gz/refs/tags/$(PKG_VERSION)?
@@ -21,7 +21,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0437 getrandom-0216 getrandom-033 iana-time-zone-0160
+PKG_BUILD_DEPENDS += chrono-0441 getrandom-0216 getrandom-033 iana-time-zone-0163
 
 define Package/vopono
   SECTION:=net

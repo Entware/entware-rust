@@ -5,7 +5,7 @@
  sha2 = "0.10"
  tiny_http = "0.12"
 -chrono = "0.4"
-+chrono = "=0.4.37"
++chrono = "=0.4.41"
  json = "0.12"
  shell-words = "1"
  dns-lookup = "2"
@@ -16,7 +16,7 @@
  signal-hook = "0.3"
  walkdir = "2"
 -chrono = "0.4"
-+chrono = "=0.4.37"
++chrono = "=0.4.41"
  bs58 = "0.5"
  nix = { version = "0.30", features = ["signal", "process"] }
  config = "0.15"
@@ -27,8 +27,8 @@
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.37" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.41" }
++iana-time-zone = { path = "../iana-time-zone-0.1.63" }
 +# all: no SYS_getrandom
 +getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
 +getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
