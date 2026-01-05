@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
@@ -49,6 +49,22 @@ ifeq ($(CONFIG_TARGET_armv7_3_2),y)
 else
   RUSTC_TARGET_ARCH:=$(REAL_GNU_TARGET_NAME)
 endif
+
+PRE_BUILD_VERSION:=$(PKG_VERSION)
+PRE_BUILD_FILE:=rust-dev-$(PRE_BUILD_VERSION)-$(RUSTC_HOST_ARCH).tar.xz
+PRE_LLVM_DIR:=llvm-17067e9ac6d7ecb70e50f92c1944e545188d2359-false
+
+define Download/rust-dev
+  FILE:=$(PRE_BUILD_FILE)
+  URL:=https://src.entware.net/rustc/$(PRE_LLVM_DIR)
+  HASH:=c5d532076fb49f2d6165795e068292e5ecd4b05a82fb407722adb7873406f67f
+endef
+
+define Host/Prepare
+	$(INSTALL_DIR) $(DL_DIR)/$(PKG_NAME)/$(PRE_LLVM_DIR)
+	$(CP) $(DL_DIR)/$(PRE_BUILD_FILE) $(DL_DIR)/$(PKG_NAME)/$(PRE_LLVM_DIR)
+	$(call Host/Prepare/Default)
+endef
 
 define Host/Configure
 	( \
@@ -209,5 +225,6 @@ endef
 #	rm -rf $(STAGING_DIR)/host/share/cargo
 #endef
 
+$(eval $(call Download,rust-dev))
 $(eval $(call HostBuild))
 $(eval $(call BuildPackage,rustc-dev))
