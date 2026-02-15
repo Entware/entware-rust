@@ -1,25 +1,29 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-regex
-PKG_VERSION:=0.10.0
-PKG_RELEASE:=1
+PKG_VERSION:=0.15.0
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_regex
-PKG_MIRROR_HASH:=9cdf53dd4735613688eff7a9640b337ae9213cadaddb646e7f7a842e083a8c5b
+PKG_MIRROR_HASH:=e9f6449cfbab42d3712d11b093cd5891538865abacb6dd7c8a0d3add22fa4857
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
+NU_VERSION:=$(shell grep '^PKG_VERSION' ../nushell/Makefile | cut -d'=' -f2-)
+NU_RELEASE:=$(shell grep '^PKG_RELEASE' ../nushell/Makefile | cut -d'=' -f2-)
+
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161
+PKG_BUILD_DEPENDS += \
+	chrono-0440 getrandom-0216 iana-time-zone-0161 nushell
 
 define Package/nu-plugin-regex
   SECTION:=utils
@@ -27,7 +31,7 @@ define Package/nu-plugin-regex
   SUBMENU:=Shells
   TITLE:=nu plugin to search text with regex
   URL:=https://github.com/fdncred/nu_plugin_regex
-  DEPENDS:=+nushell
+  EXTRA_DEPENDS:=nushell (=$(NU_VERSION)-$(NU_RELEASE))
 endef
 
 define Package/nu-plugin-regex/description
