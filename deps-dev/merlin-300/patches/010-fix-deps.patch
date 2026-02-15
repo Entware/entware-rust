@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -38,3 +38,7 @@ default = ["std"]
+ nightly = []
+ debug-transcript = ["hex"]
+ std = ["rand_core/std", "byteorder/std"]
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
