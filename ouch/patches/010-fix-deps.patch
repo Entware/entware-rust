@@ -1,23 +1,13 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -68,6 +68,9 @@ rand = { version = "0.8.5", default-feat
- ] }
- regex = "1.10.4"
- test-strategy = "0.4.0"
-+# localtime/zoneinfo
-+chrono = "=0.4.40"
-+iana-time-zone = "0.1.63"
- 
- [features]
- default = ["unrar", "use_zlib", "use_zstd_thin"]
-@@ -89,3 +92,10 @@ lto = false
+@@ -89,3 +89,10 @@ lto = false
  opt-level = 2
  incremental = true
  codegen-units = 16
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.40" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++chrono = { path = "../chrono-0.4.41" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.15" }
++getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../getrandom-0.3.1", package = "getrandom", version = "0.3.1" }
