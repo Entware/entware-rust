@@ -1,22 +1,24 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hyperfine
-PKG_VERSION:=1.19.0
+PKG_VERSION:=1.20.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/hyperfine/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=d1c782a54b9ebcdc1dedf8356a25ee11e11099a664a7d9413fdd3742138fa140
+PKG_HASH:=f90c3b096af568438be7da52336784635a962c9822f10f98e5ad11ae8c7f5c64
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += getrandom-0216 getrandom-034
 
 define Package/hyperfine
   SECTION:=utils
