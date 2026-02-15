@@ -6,6 +6,19 @@
  unicode-width = "0.1"
 -sqlx = { version = "0.5.6", features = ["mysql", "postgres", "sqlite", "chrono", "runtime-tokio-rustls", "decimal", "json"], default-features = false }
 +sqlx = { version = "0.5.13", features = ["mysql", "postgres", "sqlite", "chrono", "runtime-actix-native-tls", "decimal", "json"], default-features = false }
- chrono = "0.4.31"
+ chrono = "0.4"
  tokio = { version = "1.11.0", features = ["full"] }
  futures = "0.3.5"
+@@ -40,3 +40,12 @@ structopt = "0.3.22"
+ 
+ [target.'cfg(all(target_family="unix",not(target_os="macos")))'.dependencies]
+ which = "4.1"
++
++[patch.crates-io]
++sqlx = { path = "../sqlx-0.5.13" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.31" }
++iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }

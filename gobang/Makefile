@@ -1,16 +1,13 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
-
-# mips(el):
-#	error: failed to run custom build command for `ring v0.16.20`
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gobang
 PKG_REAL_VERSION:=0.1.0-alpha.5
 PKG_VERSION:=$(subst -alpha.,_alpha,$(PKG_REAL_VERSION))
-PKG_RELEASE:=1
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_REAL_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/TaKO8Ki/gobang/tar.gz/refs/tags/v$(PKG_REAL_VERSION)?
@@ -22,7 +19,8 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 sqlx-0513
+PKG_BUILD_DEPENDS += \
+	chrono-0431 getrandom-0215 getrandom-034 iana-time-zone-0159 sqlx-0513
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/gobang
