@@ -1,0 +1,30 @@
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -208,7 +208,7 @@ fn start_zenith(
+     let run = || async {
+         //check lock
+         let (db, lock) = if use_history {
+-            let db_path = Path::new(db_path);
++            let db_path = Path::new("/opt/var/lib/zenith");
+ 
+             if !db_path.exists() {
+                 debug!("Creating DB dir.");
+@@ -284,8 +284,7 @@ fn validate_refresh_rate(arg: &str) -> R
+ }
+ 
+ fn default_db_path() -> String {
+-    dirs_next::cache_dir()
+-        .unwrap_or_else(|| Path::new("./").to_owned())
++    Path::new("/opt/var/lib/")
+         .join("zenith")
+         .to_str()
+         .expect("Couldn't set default db path")
+@@ -301,7 +300,7 @@ fn main() -> Result<(), Box<dyn Error>>
+         println!(
+             "zenith {}
+ Benjamin Vaisvil <ben@neuon.com>
+-Zenith, sort of like top but with histograms.
++Zenith, soft of like top but with histograms.
+ Up/down arrow keys move around the process table. Return (enter) will focus on a process.
+ Tab switches the active section. Active sections can be expanded (e) and minimized (m).
+ Using this you can create the layout you want.
