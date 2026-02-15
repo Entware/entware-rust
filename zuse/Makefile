@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
+
+# Abandoned in 2022
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zuse
 PKG_VERSION:=0.5.0
-PKG_RELEASE:=1
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/19h/zuse/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -18,7 +20,7 @@ PKG_LICENSE_FILES:=readme.md
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0431 getrandom-0215 iana-time-zone-0159
 
 define Package/zuse
   SECTION:=net
