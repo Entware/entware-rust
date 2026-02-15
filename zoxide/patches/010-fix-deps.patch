@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -112,3 +112,7 @@ directories you use most frequently, so
+ keystrokes."""
+ priority = "optional"
+ section = "utils"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }

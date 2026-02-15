@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zoxide
-PKG_VERSION:=0.9.7
-PKG_RELEASE:=1
+PKG_VERSION:=0.9.8
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ajeetdsouza/zoxide/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=d93ab17a01de68529ef37b599524f882dc654835cc121a9097dd3f2952fd207e
+PKG_HASH:=1b276edbf328aafc86afe1ebce41f45ccba3a3125412e89c8c5d8e825b0c7407
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,12 +18,14 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
+PKG_BUILD_DEPENDS += getrandom-0216
+
 define Package/zoxide
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=A smarter cd command for your terminal
   URL:=https://github.com/ajeetdsouza/zoxide
-#  EXTRA_DEPENDS:=fzf
+  EXTRA_DEPENDS:=fzf
 endef
 
 define Package/zoxide/description
