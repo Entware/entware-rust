@@ -1,25 +1,29 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-periodic-table
-PKG_VERSION:=0.2.10
-PKG_RELEASE:=1
+PKG_VERSION:=0.2.11
+PKG_RELEASE:=3
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=90707e528a64191480f88d2649e8eb509caacd76
+PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/JosephTLyons/nu_plugin_periodic_table
-PKG_MIRROR_HASH:=cd539aa8a1b7d5ab5194466adbcc4fc936028e30f5061a3887d57df261451b53
+PKG_MIRROR_HASH:=773da9c5f45c31ba07293a3eef6a5cf82f5d0c176cd5c55ab93468feb39ef30f
 
 PKG_LICENSE:=GPL-3.0-only
 PKG_LICENSE_FILES:=License.txt
 
+NU_VERSION:=$(shell grep '^PKG_VERSION' ../nushell/Makefile | cut -d'=' -f2-)
+NU_RELEASE:=$(shell grep '^PKG_RELEASE' ../nushell/Makefile | cut -d'=' -f2-)
+
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161
+PKG_BUILD_DEPENDS += \
+	chrono-0440 getrandom-0216 iana-time-zone-0161 nushell
 
 define Package/nu-plugin-periodic-table
   SECTION:=utils
@@ -27,7 +31,7 @@ define Package/nu-plugin-periodic-table
   SUBMENU:=Shells
   TITLE:=nu plugin a periodic table of elements
   URL:=https://github.com/JosephTLyons/nu_plugin_periodic_table
-  DEPENDS:=+nushell
+  EXTRA_DEPENDS:=nushell (=$(NU_VERSION)-$(NU_RELEASE))
 endef
 
 define Package/nu-plugin-periodic-table/description
