@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rs-tftpd
-PKG_VERSION:=0.4.0
+PKG_VERSION:=0.5.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/altugbakan/rs-tftpd/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=0fc37672cd49ec2696dadda255ac65963b2c50b860e0ddf68ccc598e07047253
+PKG_HASH:=ed6c384b5da77c5080bce3a9fe6b774321e31da6e9d447f2c72d40f6bd62ed73
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
