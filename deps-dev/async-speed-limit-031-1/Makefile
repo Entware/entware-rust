@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX mips(el) (rustdesk-server)
 
@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=async-speed-limit
 PKG_VERSION:=0.3.1-1
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2022-06-14
@@ -21,6 +21,8 @@ PKG_LICENSE_FILES:=LICENSE-Apache LICENSE-MIT
 
 include $(INCLUDE_DIR)/package.mk
 include ../../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += getrandom-0216
 
 define Package/async-speed-limit-$(PKG_VERSION)
   SECTION:=devel
@@ -36,7 +38,6 @@ define Package/async-speed-limit-$(PKG_VERSION)/description
 endef
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,async-speed-limit-$(PKG_VERSION)))

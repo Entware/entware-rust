@@ -1,0 +1,19 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -21,7 +21,7 @@ pin-project-lite = "0.2"
+ default = ["futures-io", "fused-future", "standard-clock"]
+ standard-clock = ["futures-timer"]
+ fused-future = ["futures-core"]
+-read-initializer = ["futures-io/unstable", "futures-io/read-initializer"]
++read-initializer = []
+ doc = []
+ 
+ [dev-dependencies]
+@@ -34,3 +34,7 @@ criterion = "0.3"
+ [[bench]]
+ name = "standard_clock"
+ harness = false
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
