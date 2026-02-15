@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=elf-info
 PKG_VERSION:=0.3.0
-PKG_RELEASE:=4
+PKG_RELEASE:=5
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kevin-lesenechal/elf-info/tar.gz/refs/tags/v$(PKG_VERSION)?
