@@ -151,7 +151,7 @@
                  };
                  let path = Path::new(&confpath);
                  debug!(
-@@ -325,7 +325,7 @@ pub fn clean_dead_namespaces() -> anyhow
+@@ -345,7 +345,7 @@ pub fn clean_dead_namespaces() -> anyhow
          })
          .try_for_each(|x| {
              debug!("Removing dead namespace: {x}");
