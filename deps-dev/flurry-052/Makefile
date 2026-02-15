@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX mips(el) (hex-patch)
 
@@ -20,7 +20,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += seize-033
+PKG_BUILD_DEPENDS += getrandom-0215 seize-033
 
 define Package/flurry-$(PKG_VERSION)
   SECTION:=devel
@@ -43,7 +43,6 @@ ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
 endif
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,flurry-$(PKG_VERSION)))
