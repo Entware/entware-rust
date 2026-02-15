@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX mips(el) (nu-plugin-file)
 
@@ -20,7 +20,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0431 getrandom-0216 getrandom-034 iana-time-zone-0159
 
 define Package/specta-$(PKG_VERSION)
   SECTION:=devel
@@ -43,7 +43,6 @@ ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
 endif
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,specta-$(PKG_VERSION)))

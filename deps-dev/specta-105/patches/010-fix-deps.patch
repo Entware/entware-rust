@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -118,3 +118,8 @@ thiserror = "1.0.38"
+@@ -118,3 +118,11 @@ thiserror = "1.0.38"
  doc-comment = "0.3.3"
  serde = { version = "1.0.147", features = ["derive"] }
  trybuild = "1.0.77"
@@ -9,3 +9,6 @@
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.31" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
