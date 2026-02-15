@@ -1,0 +1,125 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -168,7 +168,7 @@ dependencies = [
+  "clap-verbosity-flag",
+  "clap_complete",
+  "clap_mangen",
+- "crossterm",
++ "crossterm 0.27.0",
+  "derivative",
+  "http_req",
+  "insta",
+@@ -291,8 +291,6 @@ checksum = "baf1de4339761588bc0619e3cbc0
+ [[package]]
+ name = "chrono"
+ version = "0.4.38"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "a21f936df1771bf62b77f047b726c4625ff2e8aa607c01ec06e5a05bd8463401"
+ dependencies = [
+  "android-tzdata",
+  "iana-time-zone",
+@@ -495,13 +493,29 @@ checksum = "22ec99545bb0ed0ea7bb9b8e1e91
+ 
+ [[package]]
+ name = "crossterm"
++version = "0.27.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "f476fe445d41c9e991fd07515a6f463074b782242ccf4a5b7b1d1012e70824df"
++dependencies = [
++ "bitflags 2.6.0",
++ "crossterm_winapi",
++ "libc",
++ "mio 0.8.11",
++ "parking_lot",
++ "signal-hook",
++ "signal-hook-mio",
++ "winapi",
++]
++
++[[package]]
++name = "crossterm"
+ version = "0.28.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "829d955a0bb380ef178a640b91779e3987da38c9aea133b20614cfed8cdea9c6"
+ dependencies = [
+  "bitflags 2.6.0",
+  "crossterm_winapi",
+- "mio",
++ "mio 1.0.2",
+  "parking_lot",
+  "rustix",
+  "signal-hook",
+@@ -798,8 +812,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.2.15"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -880,8 +892,6 @@ dependencies = [
+ [[package]]
+ name = "iana-time-zone"
+ version = "0.1.61"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "235e081f3925a06703c2d0117ea8b91f042756fd6e7a6e5d901e8ca1a996b220"
+ dependencies = [
+  "android_system_properties",
+  "core-foundation-sys",
+@@ -894,8 +904,6 @@ dependencies = [
+ [[package]]
+ name = "iana-time-zone-haiku"
+ version = "0.1.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+ dependencies = [
+  "cc",
+ ]
+@@ -1124,6 +1132,18 @@ dependencies = [
+ 
+ [[package]]
+ name = "mio"
++version = "0.8.11"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "a4a650543ca06a924e8b371db273b2756685faae30f8487da1b56505a8f78b0c"
++dependencies = [
++ "libc",
++ "log",
++ "wasi",
++ "windows-sys 0.48.0",
++]
++
++[[package]]
++name = "mio"
+ version = "1.0.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "80e04d1dcff3aae0704555fe5fee3bcfaf3d1fdf8a7e521d5b9d2b42acb52cec"
+@@ -1552,7 +1572,7 @@ dependencies = [
+  "bitflags 2.6.0",
+  "cassowary",
+  "compact_str",
+- "crossterm",
++ "crossterm 0.28.1",
+  "instability",
+  "itertools",
+  "lru",
+@@ -1812,7 +1832,8 @@ source = "registry+https://github.com/ru
+ checksum = "34db1a06d485c9142248b7a054f034b349b212551f3dfd19c94d45a754a217cd"
+ dependencies = [
+  "libc",
+- "mio",
++ "mio 0.8.11",
++ "mio 1.0.2",
+  "signal-hook",
+ ]
+ 
+@@ -2048,7 +2069,7 @@ dependencies = [
+  "backtrace",
+  "bytes",
+  "libc",
+- "mio",
++ "mio 1.0.2",
+  "pin-project-lite",
+  "socket2",
+  "windows-sys 0.52.0",

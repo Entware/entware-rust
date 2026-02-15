@@ -1,11 +1,7 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -28,10 +28,11 @@ ui_test = []
- [dependencies]
- anyhow = { version = "1.0.89", features = ["backtrace"] }
- async-trait = "0.1.83"
--chrono = "0.4"
-+chrono = "0.4.38"
+@@ -31,7 +31,8 @@ async-trait = "0.1.83"
+ chrono = "0.4"
  clap-verbosity-flag = "2.2.2"
  clap = { version = "4.5.19", features = ["derive"] }
 -crossterm = "0.28.1"
@@ -14,7 +10,7 @@
  derivative = "2.2.0"
  ipnetwork = "0.20.0"
  itertools = "0.13.0"
-@@ -77,3 +78,8 @@ strum = { version = "0.26.3", features =
+@@ -77,3 +78,10 @@ strum = { version = "0.26.3", features =
  [target.'cfg(target_os = "windows")'.build-dependencies]
  http_req = "0.12.0"
  zip = "2.2.0"
@@ -23,3 +19,5 @@
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.38" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
