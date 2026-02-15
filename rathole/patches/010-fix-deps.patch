@@ -5,6 +5,6 @@
  vergen = { version = "7.4.2", default-features = false, features = ["build", "git", "cargo"] }
  anyhow = "1.0"
 +
-+[dev-dependencies]
-+# error[E0282]: type annotations needed for `Box<_>`
-+time = "0.3.36"
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
