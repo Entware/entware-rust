@@ -1,22 +1,24 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tealdeer
-PKG_VERSION:=1.7.2
+PKG_VERSION:=1.8.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/dbrgn/tealdeer/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=d0675b9aa48c00e78abafc318b9bfbcb7ea3cce63e58a42c1f9e2395abcfe0e8
+PKG_HASH:=8b9ea7ef8dd594d6fb8b452733b0c883a68153cec266b23564ce185bdf22fcfa
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += getrandom-0216 getrandom-033
 
 define Package/tealdeer
   SECTION:=utils
@@ -39,6 +41,9 @@ endif
 ifneq ($(CONFIG_ARCH_64BIT),y)
 RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
+
+# cannot be used when making a shared object; recompile with -fPIC
+RUSTFLAGS += -C relocation-model=pic
 
 define Package/tealdeer/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
