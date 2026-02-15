@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX aarch64/arm (ztui)
 
@@ -43,7 +43,6 @@ ifeq ($(or $(CONFIG_aarch64),$(CONFIG_arm)),y)
 endif
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,sys-metrics-$(PKG_VERSION)))
