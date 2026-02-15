@@ -1,13 +1,22 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -18,3 +18,10 @@ nu-plugin = "0.101.0"
- nu-protocol = { version = "0.101.0", features = ["plugin"] }
+@@ -14,7 +14,17 @@ keywords = ["nu", "plugin", "compression
+ [dependencies]
+ bzip2 = "0.5.2"
+ flate2 = "1.1.1"
+-nu-plugin = "0.106.0"
+-nu-protocol = { version = "0.106.0", features = ["plugin"] }
++nu-plugin = "0.106.1"
++nu-protocol = { version = "0.106.1", features = ["plugin"] }
  xz2 = "0.1.7"
- zstd = "0.13.2"
+ zstd = "0.13.3"
 +
 +[patch.crates-io]
-+nu-plugin = { path = "../nushell-0.101.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.101.0/crates/nu-protocol" }
++nu-plugin = { path = "../nushell-0.106.1/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.106.1/crates/nu-protocol" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
++chrono = { path = "../chrono-0.4.40" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
