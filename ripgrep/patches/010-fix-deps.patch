@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -115,3 +115,7 @@ ripgrep (rg) recursively searches your c
+ By default, ripgrep will respect your .gitignore and automatically skip hidden
+ files/directories and binary files.
+ """
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.3.4" }
