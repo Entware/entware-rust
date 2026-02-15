@@ -50,7 +50,7 @@
  tokio = { version = "1", features = ["rt"] }
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -281,3 +281,8 @@ required-features = ["mssql"]
+@@ -281,3 +281,11 @@ required-features = ["mssql"]
  name = "mssql-macros"
  path = "tests/mssql/macros.rs"
  required-features = ["mssql", "macros"]
@@ -59,3 +59,6 @@
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.31" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }

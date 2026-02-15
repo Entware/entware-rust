@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX mips(el) (gobang)
 
@@ -22,7 +22,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0431 getrandom-0216 getrandom-034 iana-time-zone-0159
 
 define Package/sqlx-$(PKG_VERSION)
   SECTION:=devel
@@ -47,7 +47,6 @@ endef
 #endif
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,sqlx-$(PKG_VERSION)))

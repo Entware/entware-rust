@@ -1,0 +1,42 @@
+--- a/sqlx-core/src/postgres/connection/executor.rs
++++ b/sqlx-core/src/postgres/connection/executor.rs
+@@ -62,7 +62,7 @@ async fn prepare(
+     conn.stream.flush().await?;
+ 
+     // indicates that the SQL query string is now successfully parsed and has semantic validity
+-    let _ = conn
++    let _: () = conn
+         .stream
+         .recv_expect(MessageFormat::ParseComplete)
+         .await?;
+--- a/sqlx-core/src/postgres/copy.rs
++++ b/sqlx-core/src/postgres/copy.rs
+@@ -258,7 +258,7 @@ impl<C: DerefMut<Target = PgConnection>>
+                     Some(Cow::Borrowed("57014")) => {
+                         // postgres abort received error code
+                         conn.stream
+-                            .recv_expect(MessageFormat::ReadyForQuery)
++                            .recv_expect::<()>(MessageFormat::ReadyForQuery)
+                             .await?;
+                         Ok(())
+                     }
+@@ -285,7 +285,7 @@ impl<C: DerefMut<Target = PgConnection>>
+             .await?;
+ 
+         conn.stream
+-            .recv_expect(MessageFormat::ReadyForQuery)
++            .recv_expect::<()>(MessageFormat::ReadyForQuery)
+             .await?;
+ 
+         Ok(cc.rows_affected())
+@@ -321,8 +321,8 @@ async fn pg_begin_copy_out<'c, C: DerefM
+                 MessageFormat::CopyData => r#yield!(msg.decode::<CopyData<Bytes>>()?.0),
+                 MessageFormat::CopyDone => {
+                     let _ = msg.decode::<CopyDone>()?;
+-                    conn.stream.recv_expect(MessageFormat::CommandComplete).await?;
+-                    conn.stream.recv_expect(MessageFormat::ReadyForQuery).await?;
++                    conn.stream.recv_expect::<()>(MessageFormat::CommandComplete).await?;
++                    conn.stream.recv_expect::<()>(MessageFormat::ReadyForQuery).await?;
+                     return Ok(())
+                 },
+                 _ => return Err(err_protocol!("unexpected message format during copy out: {:?}", msg.format))
