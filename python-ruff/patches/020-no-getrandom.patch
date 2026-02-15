@@ -1,0 +1,28 @@
+--- a/crates/ty_vendored/vendor/typeshed/stdlib/os/__init__.pyi
++++ b/crates/ty_vendored/vendor/typeshed/stdlib/os/__init__.pyi
+@@ -226,7 +226,6 @@ if sys.platform == "linux":
+         "XATTR_REPLACE",
+         "XATTR_SIZE_MAX",
+         "copy_file_range",
+-        "getrandom",
+         "getxattr",
+         "listxattr",
+         "memfd_create",
+@@ -2933,7 +2932,6 @@ if sys.platform != "win32":
+         """Return an integer-valued system configuration variable."""
+ 
+ if sys.platform == "linux":
+-    def getrandom(size: int, flags: int = 0) -> bytes:
+         """Obtain a series of random bytes."""
+ 
+ def urandom(size: int, /) -> bytes:
+--- a/crates/ty_vendored/vendor/typeshed/stdlib/posix.pyi
++++ b/crates/ty_vendored/vendor/typeshed/stdlib/posix.pyi
+@@ -351,7 +351,6 @@ if sys.platform != "win32":
+             XATTR_REPLACE as XATTR_REPLACE,
+             XATTR_SIZE_MAX as XATTR_SIZE_MAX,
+             copy_file_range as copy_file_range,
+-            getrandom as getrandom,
+             getxattr as getxattr,
+             listxattr as listxattr,
+             memfd_create as memfd_create,

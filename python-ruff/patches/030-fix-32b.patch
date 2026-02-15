@@ -1,0 +1,74 @@
+--- a/crates/ruff/src/cache.rs
++++ b/crates/ruff/src/cache.rs
+@@ -4,7 +4,7 @@ use std::hash::Hasher;
+ use std::io::{self, BufReader, Write};
+ use std::path::{Path, PathBuf};
+ use std::sync::Mutex;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::time::{Duration, SystemTime};
+ 
+ use anyhow::{Context, Result};
+@@ -79,7 +79,7 @@ pub(crate) struct Cache {
+     /// The "current" timestamp used as cache for the updates of
+     /// [`FileCache::last_seen`]
+     #[expect(clippy::struct_field_names)]
+-    last_seen_cache: u64,
++    last_seen_cache: usize,
+ }
+ 
+ impl Cache {
+@@ -147,7 +147,7 @@ impl Cache {
+             changes: Mutex::new(Vec::new()),
+             // SAFETY: this will be truncated to the year ~2554 (so don't use
+             // this code after that!).
+-            last_seen_cache: SystemTime::UNIX_EPOCH.elapsed().unwrap().as_millis() as u64,
++            last_seen_cache: SystemTime::UNIX_EPOCH.elapsed().unwrap().as_millis() as usize,
+         }
+     }
+ 
+@@ -211,7 +211,7 @@ impl Cache {
+         let now = self.last_seen_cache;
+         self.package.files.retain(|_, file| {
+             // SAFETY: this will be truncated to the year ~2554.
+-            (now - *file.last_seen.get_mut()) <= MAX_LAST_SEEN.as_millis() as u64
++            (now - *file.last_seen.get_mut()) <= MAX_LAST_SEEN.as_millis() as usize
+         });
+ 
+         // Apply any changes made and keep track of when we last saw files.
+@@ -233,7 +233,7 @@ impl Cache {
+                 })
+                 .or_insert_with(|| FileCache {
+                     key: change.new_key,
+-                    last_seen: AtomicU64::new(self.last_seen_cache),
++                    last_seen: AtomicUsize::new(self.last_seen_cache),
+                     data: FileCacheData::default(),
+                 });
+ 
+@@ -319,7 +319,7 @@ pub(crate) struct FileCache {
+     ///
+     /// Represented as the number of milliseconds since Unix epoch. This will
+     /// break in 1970 + ~584 years (~2554).
+-    last_seen: AtomicU64,
++    last_seen: AtomicUsize,
+ 
+     data: FileCacheData,
+ }
+@@ -480,7 +480,7 @@ mod tests {
+     use std::io;
+     use std::io::Write;
+     use std::path::{Path, PathBuf};
+-    use std::sync::atomic::AtomicU64;
++    use std::sync::atomic::AtomicUsize;
+     use std::time::SystemTime;
+ 
+     use anyhow::Result;
+@@ -833,7 +833,7 @@ mod tests {
+             old_path_key,
+             FileCache {
+                 key: 123,
+-                last_seen: AtomicU64::new(123),
++                last_seen: AtomicUsize::new(123),
+                 data: FileCacheData::default(),
+             },
+         );
