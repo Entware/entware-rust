@@ -1,0 +1,10 @@
+--- a/src/_bcrypt/Cargo.toml
++++ b/src/_bcrypt/Cargo.toml
+@@ -26,3 +26,7 @@ crate-type = ["cdylib"]
+ [profile.release]
+ lto = "thin"
+ overflow-checks = true
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../../../../getrandom-0.3.3" }
