@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -131,3 +131,7 @@ features = ["wrap_help", "cargo"]
+ lto = true
+ strip = true
+ codegen-units = 1
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.3.1" }
