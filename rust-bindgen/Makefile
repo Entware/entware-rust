@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2025 Entware
+# Copyright (C) 2025-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bindgen
-PKG_VERSION:=0.71.1
+PKG_VERSION:=0.72.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/rust-lang/rust-bindgen/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=620d80c32b6aaf42d12d85de86fc56950c86b2a13a5b943c10c29d30c4f3efb0
+PKG_HASH:=4ffb17061b2d71f19c5062d2e17e64107248f484f9775c0b7d30a16a8238dfd1
 
 PKG_LICENSE:=BSD-2-Clause
 PKG_LICENSE_FILES:=LICENSE
@@ -24,7 +24,6 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/rust.mk
 
 HOST_UNPACK += --strip-components=1 -C $(HOST_BUILD_DIR)
-HOST_STAMP_INSTALLED:=$(STAGING_DIR)/host/stamp/.$(PKG_DIR_NAME)_installed
 
 define Package/bindgen
   SECTION:=devel
@@ -51,12 +50,12 @@ define Host/Compile
 endef
 
 define Host/Install
-	$(INSTALL_DIR) $(STAGING_DIR)/host/bin
-	$(INSTALL_BIN) $(HOST_BUILD_DIR)/bins/bindgen $(STAGING_DIR)/host/bin
+	$(INSTALL_DIR) $(STAGING_DIR_HOSTPKG)/bin
+	$(INSTALL_BIN) $(HOST_BUILD_DIR)/bins/bindgen $(STAGING_DIR_HOSTPKG)/bin
 endef
 
 define Host/Clean
-	rm -f $(STAGING_DIR)/host/bin/bindgen
+	rm -f $(STAGING_DIR_HOSTPKG)/bin/bindgen
 endef
 
 $(eval $(call HostBuild))
