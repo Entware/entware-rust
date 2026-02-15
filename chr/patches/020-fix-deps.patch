@@ -1,10 +1,10 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -45,8 +45,9 @@ predicates = "1.0.6"
+@@ -45,8 +45,14 @@ predicates = "1.0.6"
  
  [build-dependencies]
  csv = "1.1.5"
-+openssl = { version = "0.10.72", features = [ "vendored" ] }
++openssl = { version = "0.10.72", features = ["vendored"] }
  reqwest = { version = "0.10.10", features = ["blocking"] }
  rusqlite = { version = "0.24.2", features = ["bundled"] }
  serde = { version = "1.0.118", features = ["derive"] }
@@ -12,3 +12,8 @@
 -zip = "0.5.9"
 \ No newline at end of file
 +zip = "0.5.9"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }

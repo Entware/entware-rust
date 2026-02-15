@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
+
+# Abandoned in 2021
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=chr
 PKG_VERSION:=1.0.0
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pemistahl/chr/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -17,6 +19,8 @@ PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += getrandom-0216 getrandom-034
 
 define Package/chr
   SECTION:=utils
