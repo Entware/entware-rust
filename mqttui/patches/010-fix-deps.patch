@@ -1,15 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -29,7 +29,7 @@ url = "2"
- 
- [dependencies]
- anyhow = "1"
--chrono = { version = "0.4", default-features = false, features = ["clock", "serde"] }
-+chrono = { version = "=0.4.40", default-features = false, features = ["clock", "serde"] }
- clap = { version = "4", features = ["deprecated", "derive", "env", "wrap_help"] }
- crossterm = "0.27"
- ego-tree = "0.10"
-@@ -80,3 +80,10 @@ assets = [
+@@ -80,3 +80,11 @@ assets = [
  
  	{ source = "target/manpages/*", dest = "/usr/share/man/man1/", mode = "644", doc = true },
  ]
@@ -19,4 +10,5 @@
 +chrono = { path = "../chrono-0.4.40" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.63" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.15" }
++getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../getrandom-0.3.2", package = "getrandom", version = "0.3.2" }
