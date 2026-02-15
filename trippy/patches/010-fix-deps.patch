@@ -1,15 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -33,7 +33,7 @@ anyhow = "1.0.91"
- arrayvec = { version = "0.7.6", default-features = false }
- bitflags = "2.9.0"
- caps = "0.5.5"
--chrono = { version = "0.4.41", default-features = false }
-+chrono = { version = "=0.4.41", default-features = false }
- chrono-tz = "0.10.3"
- clap = { version = "4.5.20", default-features = false }
- clap_complete = "4.4.9"
-@@ -100,3 +100,10 @@ struct_field_names = "allow"
+@@ -100,3 +100,11 @@ struct_field_names = "allow"
  
  [profile.release]
  lto = true
@@ -19,4 +10,5 @@
 +chrono = { path = "../chrono-0.4.41" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.63" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.16" }
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.2", package = "getrandom", version = "0.3.2" }
