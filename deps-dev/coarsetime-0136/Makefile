@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2025 Entware
+# Copyright (C) 2025-2026 Entware
 
 # XXX mips(el) (arti)
 
@@ -43,7 +43,6 @@ ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
 endif
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,coarsetime-$(PKG_VERSION)))
