@@ -1,0 +1,220 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -51,6 +51,12 @@ checksum = "ace50bade8e6234aa140d9a2f552
+ 
+ [[package]]
+ name = "bitflags"
++version = "1.3.2"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
++
++[[package]]
++name = "bitflags"
+ version = "2.9.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "5c8214115b7bf84099f1309324e63141d4c5d7cc26862f97a0a857dbefe165bd"
+@@ -130,8 +136,6 @@ checksum = "613afe47fcd5fac7ccf1db93babc
+ [[package]]
+ name = "chrono"
+ version = "0.4.40"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "1a7964611d71df112cb1730f2ee67324fcf4d0fc6606acbbe9bfe06df124637c"
+ dependencies = [
+  "android-tzdata",
+  "iana-time-zone",
+@@ -230,15 +234,15 @@ checksum = "d0a5c400df2834b80a4c3327b3aa
+ 
+ [[package]]
+ name = "crossterm"
+-version = "0.28.1"
++version = "0.26.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "829d955a0bb380ef178a640b91779e3987da38c9aea133b20614cfed8cdea9c6"
++checksum = "a84cda67535339806297f1b331d6dd6320470d2a0fe65381e79ee9e156dd3d13"
+ dependencies = [
+- "bitflags",
++ "bitflags 1.3.2",
+  "crossterm_winapi",
++ "libc",
+  "mio",
+  "parking_lot",
+- "rustix 0.38.44",
+  "signal-hook",
+  "signal-hook-mio",
+  "winapi",
+@@ -439,8 +443,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.2.15"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -450,8 +452,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.3.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "73fea8450eea4bac3940448fb7ae50d91f034f941199fcd9d909a5a07aa455f0"
+ dependencies = [
+  "cfg-if",
+  "js-sys",
+@@ -467,7 +467,7 @@ version = "0.19.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "b903b73e45dc0c6c596f2d37eccece7c1c8bb6e4407b001096387c63d0d93724"
+ dependencies = [
+- "bitflags",
++ "bitflags 2.9.0",
+  "libc",
+  "libgit2-sys",
+  "log",
+@@ -492,8 +492,6 @@ dependencies = [
+ [[package]]
+ name = "iana-time-zone"
+ version = "0.1.63"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b0c919e5debc312ad217002b8048a17b7d83f80703865bbfcfebb0458b0b27d8"
+ dependencies = [
+  "android_system_properties",
+  "core-foundation-sys",
+@@ -507,8 +505,6 @@ dependencies = [
+ [[package]]
+ name = "iana-time-zone-haiku"
+ version = "0.1.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+ dependencies = [
+  "cc",
+ ]
+@@ -721,7 +717,7 @@ version = "0.1.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "c0ff37bd590ca25063e35af745c343cb7a0271906fb7b37e4813e8f79f00268d"
+ dependencies = [
+- "bitflags",
++ "bitflags 2.9.0",
+  "libc",
+  "redox_syscall",
+ ]
+@@ -740,12 +736,6 @@ dependencies = [
+ 
+ [[package]]
+ name = "linux-raw-sys"
+-version = "0.4.15"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d26c52dbd32dccf2d10cac7725f8eae5296885fb5703b261f7d0a0739ec807ab"
+-
+-[[package]]
+-name = "linux-raw-sys"
+ version = "0.9.4"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "cd945864f07fe9f5371a27ad7b52a172b4b499999f1d97574c9fa68373937e12"
+@@ -816,14 +806,14 @@ dependencies = [
+ 
+ [[package]]
+ name = "mio"
+-version = "1.0.3"
++version = "0.8.11"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "2886843bf800fba2e3377cff24abf6379b4c4d5c6681eaf9ea5b0d15090450bd"
++checksum = "a4a650543ca06a924e8b371db273b2756685faae30f8487da1b56505a8f78b0c"
+ dependencies = [
+  "libc",
+  "log",
+  "wasi 0.11.0+wasi-snapshot-preview1",
+- "windows-sys 0.52.0",
++ "windows-sys 0.48.0",
+ ]
+ 
+ [[package]]
+@@ -838,7 +828,7 @@ version = "0.29.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "71e2746dc3a24dd78b3cfcb7be93368c6de9963d30f43a6a73998a9cf4b17b46"
+ dependencies = [
+- "bitflags",
++ "bitflags 2.9.0",
+  "cfg-if",
+  "cfg_aliases",
+  "libc",
+@@ -990,7 +980,7 @@ version = "0.5.11"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "d2f103c6d277498fbceb16e84d317e2a400f160f46904d5f5410848c829511a3"
+ dependencies = [
+- "bitflags",
++ "bitflags 2.9.0",
+ ]
+ 
+ [[package]]
+@@ -1006,27 +996,14 @@ dependencies = [
+ 
+ [[package]]
+ name = "rustix"
+-version = "0.38.44"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "fdb5bc1ae2baa591800df16c9ca78619bf65c0488b41b96ccec5d11220d8c154"
+-dependencies = [
+- "bitflags",
+- "errno",
+- "libc",
+- "linux-raw-sys 0.4.15",
+- "windows-sys 0.59.0",
+-]
+-
+-[[package]]
+-name = "rustix"
+ version = "1.0.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "d97817398dd4bb2e6da002002db259209759911da105da92bec29ccb12cf58bf"
+ dependencies = [
+- "bitflags",
++ "bitflags 2.9.0",
+  "errno",
+  "libc",
+- "linux-raw-sys 0.9.4",
++ "linux-raw-sys",
+  "windows-sys 0.59.0",
+ ]
+ 
+@@ -1214,7 +1191,7 @@ dependencies = [
+  "fastrand",
+  "getrandom 0.3.2",
+  "once_cell",
+- "rustix 1.0.5",
++ "rustix",
+  "windows-sys 0.59.0",
+ ]
+ 
+@@ -1539,15 +1516,6 @@ dependencies = [
+ 
+ [[package]]
+ name = "windows-sys"
+-version = "0.52.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d"
+-dependencies = [
+- "windows-targets 0.52.6",
+-]
+-
+-[[package]]
+-name = "windows-sys"
+ version = "0.59.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "1e38bc4d79ed67fd075bcc251a1c39b32a1776bbe92e5bef1f0bf1f8c531853b"
+@@ -1682,7 +1650,7 @@ version = "0.39.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "6f42320e61fe2cfd34354ecb597f86f413484a798ba44a8ca1165c58d42da6c1"
+ dependencies = [
+- "bitflags",
++ "bitflags 2.9.0",
+ ]
+ 
+ [[package]]
+@@ -1704,7 +1672,7 @@ source = "registry+https://github.com/ru
+ checksum = "0d65cbf2f12c15564212d48f4e3dfb87923d25d611f2aed18f4cb23f0413d89e"
+ dependencies = [
+  "libc",
+- "rustix 1.0.5",
++ "rustix",
+ ]
+ 
+ [[package]]

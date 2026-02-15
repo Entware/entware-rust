@@ -10,7 +10,7 @@
  serde_yaml = "0.9.34"
  zip = "2.2.0"
  tar = "0.4.42"
-@@ -51,6 +52,13 @@ version = "1.0.210"
+@@ -51,6 +52,14 @@ version = "1.0.210"
  features = ["derive"]
  
  [dependencies.chrono]
@@ -24,4 +24,5 @@
 +chrono = { path = "../chrono-0.4.40" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.63" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.16" }
++getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../getrandom-0.3.2", package = "getrandom", version = "0.3.2" }
