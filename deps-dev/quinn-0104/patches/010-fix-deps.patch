@@ -67,7 +67,7 @@
  lazy_static = "1"
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -1,6 +1,7 @@
+@@ -1,9 +1,17 @@
  [workspace]
  members = ["quinn", "quinn-proto", "quinn-udp", "bench", "perf", "fuzz"]
  default-members = ["quinn", "quinn-proto", "quinn-udp", "bench", "perf"]
@@ -75,3 +75,13 @@
  
  [profile.bench]
  debug = true
+ 
+ [profile.release]
+ debug = true
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
++# all (openssl)
++openssl-probe = { path = "../openssl-probe-0.1.6" }

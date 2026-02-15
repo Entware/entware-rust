@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX mips(el) (hickory-dns, leaf, nu-plugin-dns, rustdesk-server, qtun)
 
@@ -20,6 +20,8 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../../rustc-dev/cargo.mk
 
+PKG_BUILD_DEPENDS += getrandom-0216 getrandom-034 openssl-probe-016
+
 define Package/quinn-$(PKG_VERSION)
   SECTION:=devel
   CATEGORY:=Development
@@ -35,7 +37,6 @@ define Package/quinn-$(PKG_VERSION)/description
 endef
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,quinn-$(PKG_VERSION)))
