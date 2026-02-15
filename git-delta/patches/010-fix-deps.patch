@@ -5,11 +5,11 @@
  box_drawing = "0.1.2"
  bytelines = { version = "2.5.0", default-features = false }
 -chrono = "0.4.26"
-+chrono = "0.4.31"
++chrono = "0.4"
  chrono-humanize = "0.2.2"
  clap_complete = "4.4.4"
  clap = { version = "4.3.14", features = [
-@@ -73,3 +73,8 @@ opt-level = 3
+@@ -73,3 +73,10 @@ opt-level = 3
  
  [profile.dev.package.similar]
  opt-level = 3
@@ -18,3 +18,5 @@
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.31" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
