@@ -1,0 +1,11 @@
+--- a/systeroid-core/src/parsers.rs
++++ b/systeroid-core/src/parsers.rs
+@@ -17,7 +17,7 @@ lazy_static! {
+     /// Pre-defined parsers for parsing the kernel documentation.
+     pub static ref PARSERS: Vec<Parser<'static>> = vec![
+         Parser {
+-            glob_path: &["admin-guide/sysctl/*.rst*"],
++            glob_path: &["sysctl/*.txt*", "admin-guide/sysctl/*.rst*"],
+             required_files: &["index.rst"],
+             regex: RegexBuilder::new("^\n([a-z].*)\n[=,-]{2,}+\n\n")
+                 .multi_line(true)

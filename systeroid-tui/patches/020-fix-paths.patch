@@ -1,3 +1,23 @@
+--- a/config/systeroid.conf
++++ b/config/systeroid.conf
+@@ -14,7 +14,7 @@ display_deprecated = false
+ ; - /usr/share/doc/linux-doc/
+ ; - /usr/share/doc/linux-docs/
+ ; - /usr/share/doc/kernel-doc-*/Documentation/
+-kernel_docs = "/usr/share/doc/linux"
++kernel_docs = "/opt/share/doc/linux-docs"
+ 
+ [cli]
+ ; ignore unknown variable errors
+@@ -56,7 +56,7 @@ tick_rate = 250
+ ; disable showing the parameter documentation
+ no_docs = true
+ ; path for saving the changed kernel parameters
+-save_path = "/etc/sysctl.conf"
++save_path = "/opt/etc/sysctl.conf"
+ ; file to save the logs
+ ;log_file = "systeroid.log"
+ 
 --- a/systeroid-core/src/config.rs
 +++ b/systeroid-core/src/config.rs
 @@ -232,7 +232,7 @@ mod tests {
@@ -94,12 +114,13 @@
                  docs_title: String::from("Test Parameter"),
              },
              Parameter {
-@@ -42,7 +42,7 @@ fn test_render_tui() -> Result<()> {
+@@ -42,7 +42,8 @@ fn test_render_tui() -> Result<()> {
                      "The time interval between which vm statistics are updated",
                  )),
                  section: Section::Vm,
 -                docs_path: PathBuf::from("/usr/share/doc/linux/admin-guide/sysctl/vm.rst"),
-+                docs_path: PathBuf::from("/opt/share/doc/linux/admin-guide/sysctl/vm.rst"),
++                docs_path: PathBuf::from("/opt/share/doc/linux-docs/sysctl/vm.txt"),
++                docs_path: PathBuf::from("/opt/share/doc/linux-docs/admin-guide/sysctl/vm.rst"),
                  docs_title: String::from("stat_interval"),
              },
          ],
