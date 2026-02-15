@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -51,3 +51,7 @@ regex-automata = "0.4.3"
+ opt-level = 3
+ lto = true
+ strip = true
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
