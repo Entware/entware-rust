@@ -1,31 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -85,7 +85,7 @@ name = "eza"
- 
- [dependencies]
- rayon = "1.10.0"
--chrono = { version = "0.4.40", default-features = false, features = ["clock"] }
-+chrono = { version = "=0.4.41", default-features = false, features = ["clock"] }
- nu-ansi-term = { version = "0.50.1", features = [
-   "serde",
-   "derive_serde_style",
-@@ -130,7 +130,7 @@ windows-sys = { version = "0.59.0", feat
- ] }
- 
- [build-dependencies]
--chrono = { version = "0.4.40", default-features = false, features = ["clock"] }
-+chrono = { version = "=0.4.41", default-features = false, features = ["clock"] }
- 
- [dev-dependencies]
- criterion = { version = "0.5.1", features = ["html_reports"] }
-@@ -161,3 +161,10 @@ panic = 'abort'
+@@ -160,3 +160,11 @@ panic = 'abort'
  [[bench]]
  name = "my_benchmark"
  harness = false
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.41" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.16" }
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
