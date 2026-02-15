@@ -1,0 +1,206 @@
+--- a/include/cargo/cc-1.2.48/Cargo.lock
++++ b/include/cargo/cc-1.2.48/Cargo.lock
+@@ -50,8 +50,6 @@ checksum = "3a3076410a55c90011c298b04d0c
+ [[package]]
+ name = "getrandom"
+ version = "0.3.4"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
+ dependencies = [
+  "cfg-if",
+  "libc",
+--- a/include/cargo/cc-1.2.48/Cargo.toml
++++ b/include/cargo/cc-1.2.48/Cargo.toml
+@@ -77,3 +77,7 @@ check-cfg = ["cfg(disable_clang_cl_tests
+ [profile.release]
+ opt-level = 3
+ lto = true
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../../../../../getrandom-0.3.4" }
+--- a/include/cargo/half-2.7.1/Cargo.lock
++++ b/include/cargo/half-2.7.1/Cargo.lock
+@@ -266,8 +266,6 @@ checksum = "877a4ace8713b0bcf2a4e7eec825
+ [[package]]
+ name = "getrandom"
+ version = "0.2.15"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -277,8 +275,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.3.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "43a49c392881ce6d5c3b8cb70f98717b7c07aabbdff06687b9030dbfbe2725f8"
+ dependencies = [
+  "cfg-if",
+  "libc",
+--- a/include/cargo/half-2.7.1/Cargo.toml
++++ b/include/cargo/half-2.7.1/Cargo.toml
+@@ -135,3 +135,8 @@ version = "0.9.0"
+ 
+ [target.'cfg(target_arch = "spirv")'.dependencies.crunchy]
+ version = "0.2.2"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom2 = { path = "../../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../../getrandom-0.3.1", package = "getrandom", version = "0.3.1" }
+--- a/include/cargo/jiff-0.2.16/Cargo.lock
++++ b/include/cargo/jiff-0.2.16/Cargo.lock
+@@ -123,8 +123,6 @@ checksum = "1ced73b1dacfc750a6db6c0a0c3a
+ [[package]]
+ name = "getrandom"
+ version = "0.2.16"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "335ff9f135e4384c8150d6f27c6daed433577f86b4750418338c01a1a2528592"
+ dependencies = [
+  "cfg-if",
+  "libc",
+--- a/include/cargo/jiff-0.2.16/Cargo.toml
++++ b/include/cargo/jiff-0.2.16/Cargo.toml
+@@ -223,3 +223,7 @@ check-cfg = ["cfg(docsrs_jiff)"]
+ [profile.testrelease]
+ debug-assertions = false
+ inherits = "test"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../../../../../getrandom-0.2.16" }
+--- a/include/cargo/portable-atomic-1.11.1/Cargo.lock
++++ b/include/cargo/portable-atomic-1.11.1/Cargo.lock
+@@ -38,8 +38,6 @@ checksum = "37909eebbb50d72f9059c3b6d82c
+ [[package]]
+ name = "getrandom"
+ version = "0.2.16"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "335ff9f135e4384c8150d6f27c6daed433577f86b4750418338c01a1a2528592"
+ dependencies = [
+  "cfg-if",
+  "libc",
+--- a/include/cargo/portable-atomic-1.11.1/Cargo.toml
++++ b/include/cargo/portable-atomic-1.11.1/Cargo.toml
+@@ -252,3 +252,7 @@ check-cfg = [
+     "cfg(portable_atomic_unstable_coerce_unsized)",
+     "cfg(portable_atomic_test_detect_false,portable_atomic_test_no_std_static_assert_ffi,qemu,valgrind)",
+ ]
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../../../../../getrandom-0.2.16" }
+--- a/include/cargo/ryu-1.0.20/Cargo.lock
++++ b/include/cargo/ryu-1.0.20/Cargo.lock
+@@ -23,8 +23,6 @@ checksum = "baf1de4339761588bc0619e3cbc0
+ [[package]]
+ name = "getrandom"
+ version = "0.3.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "43a49c392881ce6d5c3b8cb70f98717b7c07aabbdff06687b9030dbfbe2725f8"
+ dependencies = [
+  "cfg-if",
+  "libc",
+--- a/include/cargo/ryu-1.0.20/Cargo.toml
++++ b/include/cargo/ryu-1.0.20/Cargo.toml
+@@ -106,3 +106,7 @@ version = "0.9"
+ 
+ [dev-dependencies.rand_xorshift]
+ version = "0.4"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../../../../../getrandom-0.3.1" }
+--- a/include/cargo/syn-2.0.111/Cargo.lock
++++ b/include/cargo/syn-2.0.111/Cargo.lock
+@@ -298,8 +298,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.2.16"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "335ff9f135e4384c8150d6f27c6daed433577f86b4750418338c01a1a2528592"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -309,8 +307,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.3.4"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
+ dependencies = [
+  "cfg-if",
+  "libc",
+--- a/include/cargo/syn-2.0.111/Cargo.toml
++++ b/include/cargo/syn-2.0.111/Cargo.toml
+@@ -270,3 +270,8 @@ version = "0.4.16"
+ 
+ [target."cfg(not(miri))".dev-dependencies.walkdir]
+ version = "2.3.2"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom2 = { path = "../../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
+--- a/include/cargo/unicode-ident-1.0.22/Cargo.lock
++++ b/include/cargo/unicode-ident-1.0.22/Cargo.lock
+@@ -136,7 +136,6 @@ source = "registry+https://github.com/ru
+ [[package]]
+ name = "getrandom"
+ version = "0.3.4"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+ dependencies = [
+  "cfg-if 1.0.4 (registry+https://github.com/rust-lang/crates.io-index)",
+  "libc 0.2.177 (registry+https://github.com/rust-lang/crates.io-index)",
+--- a/include/cargo/unicode-ident-1.0.22/Cargo.toml
++++ b/include/cargo/unicode-ident-1.0.22/Cargo.toml
+@@ -82,3 +82,7 @@ default-features = false
+ 
+ [dev-dependencies.unicode-xid]
+ version = "0.2.6"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../../../../../getrandom-0.3.4" }
+--- a/include/cargo/uuid-1.19.0/Cargo.lock
++++ b/include/cargo/uuid-1.19.0/Cargo.lock
+@@ -188,8 +188,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.3.4"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
+ dependencies = [
+  "cfg-if",
+  "libc",
+--- a/include/cargo/uuid-1.19.0/Cargo.toml
++++ b/include/cargo/uuid-1.19.0/Cargo.toml
+@@ -249,3 +249,7 @@ optional = true
+ level = "allow"
+ priority = 0
+ check-cfg = ["cfg(uuid_unstable)"]
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../../../../../getrandom-0.3.4" }
+--- a/include/cargo/xxhash-rust-0.8.15/Cargo.toml
++++ b/include/cargo/xxhash-rust-0.8.15/Cargo.toml
+@@ -73,7 +73,7 @@ name = "test-vectors"
+ path = "tests/test-vectors.rs"
+ 
+ [dev-dependencies.getrandom]
+-version = "0.2"
++version = "=0.2.15"
+ 
+ [dev-dependencies.xxhash-c-sys]
+ version = "0.8.6"
+@@ -86,3 +86,7 @@ std = []
+ xxh3 = []
+ xxh32 = []
+ xxh64 = []
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../../../../../getrandom-0.2.15" }
