@@ -1,22 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -273,7 +273,7 @@ binary-heap-plus = "0.5.0"
- bstr = "1.9.1"
- bytecount = "0.6.8"
- byteorder = "1.5.0"
--chrono = { version = "0.4.38", default-features = false, features = [
-+chrono = { version = "=0.4.39", default-features = false, features = [
-   "std",
-   "alloc",
-   "clock",
-@@ -581,3 +581,10 @@ manual_let_else = "warn"
- all = { level = "deny", priority = -1 }
- cargo = { level = "warn", priority = -1 }
- pedantic = { level = "deny", priority = -1 }
+@@ -700,3 +700,11 @@ large_types_passed_by_value = "allow"
+ 
+ [workspace.metadata.cargo-shear]
+ ignored = ["fluent", "libstdbuf"]
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../../chrono-0.4.39" }
-+iana-time-zone = { path = "../../iana-time-zone-0.1.61" }
++chrono = { path = "../../chrono-0.4.43" }
++iana-time-zone = { path = "../../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../../getrandom-0.2.15" }
++getrandom2 = { path = "../../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
++getrandom3 = { path = "../../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
