@@ -1,14 +1,5 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -35,7 +35,7 @@ path = "src/main.rs"
- argh = "^0.1"
- bitflags = "^2"
- bytesize = "^2"
--chrono = "^0.4"
-+chrono = "=0.4.40"
- content_inspector = "^0.2"
- dirs = "^6"
- edit = "^0.1"
 @@ -53,7 +53,8 @@ log = "^0.4"
  magic-crypt = "4"
  notify = "8"
@@ -16,21 +7,51 @@
 -nucleo = "0.5"
 +# error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 +nucleo = "=0.5.0"
- open = "^5.0"
+ open = "5"
  rand = "^0.9"
  regex = "^1"
-@@ -116,3 +117,14 @@ incremental = true
+@@ -73,7 +74,8 @@ self_update = { version = "^0.42", defau
+ serde = { version = "^1", features = ["derive"] }
+ shellexpand = "3"
+ simplelog = "^0.12"
+-ssh2-config = "^0.6"
++# keep
++ssh2-config = "=0.4.0"
+ tempfile = "3"
+ thiserror = "2"
+ tokio = { version = "1", features = ["rt"] }
+@@ -91,15 +93,17 @@ remotefs-ftp = { version = "^0.3", featu
+   "native-tls-vendored",
+   "native-tls",
+ ] }
+-remotefs-ssh = { version = "^0.7", default-features = false, features = [
++# keep
++remotefs-ssh = { version = "=0.6.0", default-features = false, features = [
+   "find",
+-  "libssh-vendored",
++  "ssh2-vendored",
+ ] }
+ uzers = "0.12"
+ 
+ [target."cfg(target_family = \"windows\")".dependencies]
+ remotefs-ftp = { version = "^0.3", features = ["native-tls"] }
+-remotefs-ssh = { version = "^0.7" }
++# keep
++remotefs-ssh = { version = "=0.6.0" }
+ 
+ [dev-dependencies]
+ pretty_assertions = "^1"
+@@ -122,3 +126,13 @@ incremental = true
  
  [profile.release]
  strip = true
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.40" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
 +nucleo = { path = "../nucleo-0.5.0" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.15" }
-+# all: cannot be used when making a shared object; recompile with -fPIC
-+crc64fast-nvme = { path = "../crc64fast-nvme-1.2.0" }
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }

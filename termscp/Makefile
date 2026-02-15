@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=termscp
-PKG_VERSION:=0.17.0
+PKG_VERSION:=0.19.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/veeso/termscp/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=ada7bbf513104272687c703217f2cc45f834af979fa6bde1b7ab4ee059d67669
+PKG_HASH:=04248fc89e71a050463ad1824eccab4c04d34bff3126a8f9e26a77c75fe55b0f
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,8 +18,8 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440 crc64fast-nvme-120 getrandom-0215 \
-	iana-time-zone-0161 nucleo-050
+PKG_BUILD_DEPENDS += \
+	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 nucleo-050
 
 define Package/termscp
   SECTION:=net
@@ -45,7 +45,7 @@ RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
 # x86_64: undefined reference to `__stack_chk_guard'
 ifeq ($(CONFIG_x86_64),y)
-RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp) -C relocation-model=pic
 endif
 
 define Package/termscp/install

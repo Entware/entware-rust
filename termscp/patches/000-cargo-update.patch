@@ -1,0 +1,191 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -737,8 +737,6 @@ checksum = "613afe47fcd5fac7ccf1db93babc
+ [[package]]
+ name = "chrono"
+ version = "0.4.42"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "145052bdd345b87320e369255277e3fb5152762ad123a901ef5c262dd38fe8d2"
+ dependencies = [
+  "iana-time-zone",
+  "js-sys",
+@@ -1597,8 +1595,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.2.16"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "335ff9f135e4384c8150d6f27c6daed433577f86b4750418338c01a1a2528592"
+ dependencies = [
+  "cfg-if",
+  "js-sys",
+@@ -1610,8 +1606,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.3.4"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
+ dependencies = [
+  "cfg-if",
+  "js-sys",
+@@ -1993,8 +1987,6 @@ dependencies = [
+ [[package]]
+ name = "iana-time-zone"
+ version = "0.1.64"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "33e57f83510bb73707521ebaffa789ec8caf86f9657cad665b092b581d40e9fb"
+ dependencies = [
+  "android_system_properties",
+  "core-foundation-sys",
+@@ -2002,14 +1994,12 @@ dependencies = [
+  "js-sys",
+  "log",
+  "wasm-bindgen",
+- "windows-core 0.62.2",
++ "windows-core 0.57.0",
+ ]
+ 
+ [[package]]
+ name = "iana-time-zone-haiku"
+ version = "0.1.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+ dependencies = [
+  "cc",
+ ]
+@@ -2468,31 +2458,6 @@ dependencies = [
+ ]
+ 
+ [[package]]
+-name = "libssh-rs"
+-version = "0.3.6"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3066e110d6bb95a5addbd9c2ee595efdaeecaddd4793f3803dfee2968a74c685"
+-dependencies = [
+- "bitflags 1.3.2",
+- "libc",
+- "libssh-rs-sys",
+- "openssl-sys",
+- "thiserror 1.0.69",
+-]
+-
+-[[package]]
+-name = "libssh-rs-sys"
+-version = "0.2.6"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "01d528ea9ac190fa364ff12193da82222dfc645e7ab28666ae91493bd288a1a0"
+-dependencies = [
+- "cc",
+- "libz-sys",
+- "openssl-sys",
+- "pkg-config",
+-]
+-
+-[[package]]
+ name = "libssh2-sys"
+ version = "0.3.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+@@ -2716,8 +2681,6 @@ dependencies = [
+ [[package]]
+ name = "nucleo"
+ version = "0.5.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5262af4c94921c2646c5ac6ff7900c2af9cbb08dc26a797e18130a7019c039d4"
+ dependencies = [
+  "nucleo-matcher",
+  "parking_lot",
+@@ -2727,8 +2690,6 @@ dependencies = [
+ [[package]]
+ name = "nucleo-matcher"
+ version = "0.3.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "bf33f538733d1a5a3494b836ba913207f14d9d4a1d3cd67030c5061bdd2cac85"
+ dependencies = [
+  "memchr",
+  "unicode-segmentation",
+@@ -3493,13 +3454,12 @@ dependencies = [
+ 
+ [[package]]
+ name = "remotefs-ssh"
+-version = "0.7.1"
++version = "0.6.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5ca8b65fbd60801ac03973a41196b030fb04d1ce1af33d3c58c5bad94d46eb27"
++checksum = "1b903d59822f962aa9ddcb922b4ca45a78c13b509df7d0b9be6daf9bda133300"
+ dependencies = [
+  "chrono",
+  "lazy-regex",
+- "libssh-rs",
+  "log",
+  "path-slash",
+  "remotefs",
+@@ -4268,14 +4228,12 @@ dependencies = [
+ 
+ [[package]]
+ name = "ssh2-config"
+-version = "0.6.2"
++version = "0.4.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "bc7aae258493fa8ea06796b133b9076f3002c46cd1a4085ddd6df7236fee7034"
++checksum = "b54c1f8a904a031c129e6e258994999839d6f0ffad4964062cb76d975259a0d8"
+ dependencies = [
+- "anyhow",
+  "bitflags 2.10.0",
+  "dirs",
+- "git2",
+  "glob",
+  "log",
+  "thiserror 2.0.17",
+@@ -5398,20 +5356,7 @@ dependencies = [
+  "windows-interface 0.59.3",
+  "windows-link 0.1.3",
+  "windows-result 0.3.4",
+- "windows-strings 0.4.2",
+-]
+-
+-[[package]]
+-name = "windows-core"
+-version = "0.62.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b8e83a14d34d0623b51dce9581199302a221863196a1dde71a7663a4c2be9deb"
+-dependencies = [
+- "windows-implement 0.60.2",
+- "windows-interface 0.59.3",
+- "windows-link 0.2.1",
+- "windows-result 0.4.1",
+- "windows-strings 0.5.1",
++ "windows-strings",
+ ]
+ 
+ [[package]]
+@@ -5510,15 +5455,6 @@ dependencies = [
+ ]
+ 
+ [[package]]
+-name = "windows-result"
+-version = "0.4.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7781fa89eaf60850ac3d2da7af8e5242a5ea78d1a11c49bf2910bb5a73853eb5"
+-dependencies = [
+- "windows-link 0.2.1",
+-]
+-
+-[[package]]
+ name = "windows-strings"
+ version = "0.4.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+@@ -5528,15 +5464,6 @@ dependencies = [
+ ]
+ 
+ [[package]]
+-name = "windows-strings"
+-version = "0.5.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7837d08f69c77cf6b07689544538e017c1bfcf57e34b4c0ff58e6c2cd3b37091"
+-dependencies = [
+- "windows-link 0.2.1",
+-]
+-
+-[[package]]
+ name = "windows-sys"
+ version = "0.48.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
