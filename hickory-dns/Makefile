@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hickory-dns
 PKG_VERSION:=0.24.0
-PKG_RELEASE:=4
+PKG_RELEASE:=5
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/hickory-dns/hickory-dns/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += quinn-0104
+PKG_BUILD_DEPENDS += getrandom-0215 quinn-0104
 
 define Package/hickory-dns
   SECTION:=net
@@ -26,7 +26,8 @@ define Package/hickory-dns
   SUBMENU:=IP Addresses and Names
   TITLE:=A Rust based DNS client, server, and resolver
   URL:=https://hickory-dns.org
-#  DEPENDS:=+libopenssl # --features="dns-over-openssl"
+# --features="dns-over-openssl"
+#  DEPENDS:=+libopenssl
 endef
 
 define Package/hickory-dns/description
@@ -54,7 +55,5 @@ define Package/hickory-dns/install
 	$(INSTALL_DIR) $(1)/opt/var/lib/named
 	$(CP) $(PKG_BUILD_DIR)/tests/test-data/test_configs/* $(1)/opt/var/lib/named
 endef
-
-Build/InstallDev:=:
 
 $(eval $(call BuildPackage,hickory-dns))
