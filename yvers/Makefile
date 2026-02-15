@@ -1,19 +1,20 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=yvers
-PKG_VERSION:=0.0.5
+PKG_REAL_VERSION:=0.0.5
 PKG_RELEASE:=3
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_DATE:=2023-06-12
 PKG_SOURCE_VERSION:=5e6e49d43e94975182453cb6e3af77bd6aa63325
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.zst
 PKG_SOURCE_URL:=https://github.com/TokieSan/yvers
-PKG_MIRROR_HASH:=32c4827b4d6af2c6ca71fcc53ee6e65c66f14fdcbcefc0b8ff7f6560b4ef4c29
+PKG_MIRROR_HASH:=865b5269295e32ad9f3610b8ddf146594f485ea050379da9e633f0d4a5d28008
+
+PKG_VERSION:=$(PKG_REAL_VERSION)_git$(subst -,,$(PKG_SOURCE_DATE))~$(call version_abbrev,$(PKG_SOURCE_VERSION))
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -21,7 +22,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0441 getrandom-0215 iana-time-zone-0163
 
 define Package/yvers
   SECTION:=admin
