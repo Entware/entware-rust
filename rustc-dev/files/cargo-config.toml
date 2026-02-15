@@ -4,15 +4,15 @@ linker = "@HOST_CC@"
 
 ### targets
 ### aarch64
-[target.mipsel-openwrt-linux-gnu]
+[target.aarch64-openwrt-linux-gnu]
 linker = "aarch64-openwrt-linux-gnu-gcc"
 
 ### arm (armv7)
-[target.mipsel-openwrt-linux-gnu]
+[target.arm-openwrt-linux-gnu]
 linker = "arm-openwrt-linux-gnu-gcc"
 
 ### mips
-[target.mipsel-openwrt-linux-gnu]
+[target.mips-openwrt-linux-gnu]
 linker = "mips-openwrt-linux-gnu-gcc"
 
 ### mipsel
@@ -20,7 +20,7 @@ linker = "mips-openwrt-linux-gnu-gcc"
 linker = "mipsel-openwrt-linux-gnu-gcc"
 
 ### x86-64
-[target.mipsel-openwrt-linux-gnu]
+[target.x86_64-openwrt-linux-gnu]
 linker = "x86_64-openwrt-linux-gnu-gcc"
 
 ### Custom profiles:
