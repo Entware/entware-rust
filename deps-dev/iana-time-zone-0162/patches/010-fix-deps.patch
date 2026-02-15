@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -53,3 +53,8 @@ getrandom = "0.2.1"
+ [workspace]
+ members = [".", "haiku"]
+ default-members = ["."]
++
++[patch.crates-io]
++chrono = { path = "../chrono-0.4.42" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
