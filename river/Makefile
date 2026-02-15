@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX Atomic{I,U}64
 
@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=river
 PKG_VERSION:=0.5.0
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/memorysafety/river/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -20,7 +20,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0437
+PKG_BUILD_DEPENDS += chrono-0437 getrandom-0215
 
 define Package/river
   SECTION:=net
