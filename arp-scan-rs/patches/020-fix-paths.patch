@@ -1,20 +1,20 @@
 --- a/src/args.rs
 +++ b/src/args.rs
-@@ -136,7 +136,7 @@ pub fn build_args() -> Command {
-         .arg(
-             Arg::new("oui-file").long("oui-file")
+@@ -163,7 +163,7 @@ pub fn build_args() -> Command {
+             Arg::new("oui-file")
+                 .long("oui-file")
                  .value_name("FILE_PATH")
 -                .default_value("/usr/share/arp-scan/ieee-oui.csv")
 +                .default_value("/opt/share/arp-scan/ieee-oui.csv")
-                 .help("Path to custom IEEE OUI CSV file for vendor lookup")
+                 .help("Path to custom IEEE OUI CSV file for vendor lookup"),
          )
          .arg(
-@@ -459,7 +459,7 @@ impl ScanOptions {
+@@ -476,7 +476,7 @@ impl ScanOptions {
  
          let oui_file: String = match matches.get_one::<String>("oui-file") {
              Some(file) => file.to_string(),
--            None => "/usr/share/arp-scan/ieee-oui.csv".to_string()
-+            None => "/opt/share/arp-scan/ieee-oui.csv".to_string()
+-            None => "/usr/share/arp-scan/ieee-oui.csv".to_string(),
++            None => "/opt/share/arp-scan/ieee-oui.csv".to_string(),
          };
  
          let hw_type = match matches.get_one::<String>("hw_type") {
