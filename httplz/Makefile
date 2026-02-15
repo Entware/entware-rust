@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 # arm|mips(el):
 #	error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
@@ -8,18 +8,20 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=http
-PKG_VERSION:=2.2.0
+PKG_VERSION:=2.5.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/thecoshman/http/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=f575f2c336cf34dc91d2018d9716446955f03bb1710e0c9cb3051bec2073b78c
+PKG_HASH:=63ffb4a99684e7afdca6549191e4901cce1407d4b33a2ce6380883373585f044
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += chrono-0442 getrandom-034 iana-time-zone-0164
 
 define Package/httplz
   SECTION:=net
