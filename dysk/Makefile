@@ -1,19 +1,20 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dysk
-PKG_VERSION:=2.10.1
+PKG_VERSION:=3.6.0b
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Canop/dysk/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=3b7576b700b11052123a91780a6af26fbbd2560ad31fef917af8df8fcceffa04
+PKG_HASH:=59125412523853348218ff57eb1f58f31158e88dc172949d1007b4adbc7a4e61
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
