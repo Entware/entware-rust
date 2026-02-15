@@ -1,6 +1,6 @@
 --- a/qscan/Cargo.toml
 +++ b/qscan/Cargo.toml
-@@ -19,11 +19,15 @@ futures = "0.3"
+@@ -19,7 +19,7 @@ futures = "0.3"
  itertools = "0.10.3"
  surge-ping = "0.7.0"
  rand = "0.8.5"
@@ -9,17 +9,9 @@
  serde = { version = "1.0", optional = true }
  serde_json = { version = "1.0", optional = true }
  # serde = { version = "1.0" }
- # serde_json = { version = "1.0" }
- 
-+[dev-dependencies]
-+# mips/mipsel: error: failed to run custom build command for `ring v0.16.20`
-+sct = "0.7.1"
-+
- [features]
- serialize = ["serde", "serde_json" ]
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -4,7 +4,12 @@ members = [
+@@ -4,7 +4,14 @@ members = [
      "qsc",
  ]
  
@@ -32,3 +24,5 @@
 +[patch.crates-io]
 +# mips/mipsel: error: failed to run custom build command for `ring v0.16.20`
 +trust-dns-resolver = { path = "../trust-dns-0.23.0/crates/resolver" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }

@@ -1,16 +1,22 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
+
+# Abandoned in 2022
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qsc
-PKG_VERSION:=0.4.2
-PKG_RELEASE:=3
+PKG_REAL_VERSION:=0.4.3
+PKG_RELEASE:=2
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/0xor0ne/qscan/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
-PKG_HASH:=cd7703e5b718be5a1b9268e0807cff9c7fc87e3952bd550d4af34a4de6da2658
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_DATE:=2022-12-26
+PKG_SOURCE_VERSION:=dd3e8bd0421d05ab43a01b823d3d0a96c6b1ad3e
+PKG_SOURCE_URL:=https://github.com/0xor0ne/qscan
+PKG_MIRROR_HASH:=d4fc8dee4ed876c8e8fc4a99abe80e416fdba64bfab7f983615b15811910bff0
+
+PKG_VERSION:=$(PKG_REAL_VERSION)_git$(subst -,,$(PKG_SOURCE_DATE))~$(call version_abbrev,$(PKG_SOURCE_VERSION))
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE.txt
@@ -18,7 +24,7 @@ PKG_LICENSE_FILES:=LICENSE.txt
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += trust-dns
+PKG_BUILD_DEPENDS += getrandom-0215 trust-dns
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/qsc
