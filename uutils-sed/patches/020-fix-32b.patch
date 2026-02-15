@@ -1,0 +1,35 @@
+--- a/src/sed/fast_io.rs
++++ b/src/sed/fast_io.rs
+@@ -744,7 +744,7 @@ impl OutputBuffer {
+                         chunk.out_ptr,
+                         chunk.in_fast_copy.fd,
+                         // Input file offset
+-                        unsafe { chunk.out_ptr.offset_from(chunk.base_ptr) } as i64,
++                        (unsafe { chunk.out_ptr.offset_from(chunk.base_ptr) } as i64).try_into().unwrap(),
+                         self.fast_copy.fd,
+                         chunk.len,
+                         // Alignment block size: the largest of the two
+@@ -867,7 +867,7 @@ fn reliable_copy_file_range(
+ ) -> std::io::Result<usize> {
+     let mut pending = len;
+     while pending > 0 {
+-        let in_off_ptr: *mut i64 = &mut in_off;
++        let in_off_ptr: *mut i64 = &mut in_off.try_into().unwrap();
+         let ret = unsafe {
+             libc::copy_file_range(
+                 in_fd,
+@@ -935,7 +935,14 @@ fn aligned_copy_file_range(
+         let head_len = head_align.min(pending);
+         reliable_write(out_fd, in_ptr, head_len)?;
+         in_ptr = unsafe { in_ptr.add(head_len) };
++        #[cfg(all(target_pointer_width = "32", target_vendor = "openwrt"))]
++        {
++        in_off += head_len as i32;
++        }
++        #[cfg(all(target_pointer_width = "64", target_vendor = "openwrt"))]
++        {
+         in_off += head_len as i64;
++        }
+         pending -= head_len;
+     }
+ 

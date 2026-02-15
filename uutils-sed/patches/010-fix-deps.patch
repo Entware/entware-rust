@@ -1,0 +1,16 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -128,3 +128,13 @@ strip = true
+ [profile.dist]
+ inherits = "release"
+ lto = "thin"
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
++# mips{,el}: error[E0308]: mismatched types
++uucore = { path = "../coreutils-apps/coreutils-0.5.0/src/uucore" }
