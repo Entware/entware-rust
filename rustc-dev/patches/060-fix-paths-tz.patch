@@ -1,0 +1,169 @@
+--- a/vendor/chrono-0.4.38/src/offset/local/tz_info/timezone.rs
++++ b/vendor/chrono-0.4.38/src/offset/local/tz_info/timezone.rs
+@@ -39,7 +39,7 @@ impl TimeZone {
+         }
+ 
+         if tz_string == "localtime" {
+-            return Self::from_tz_data(&fs::read("/etc/localtime")?);
++            return Self::from_tz_data(&fs::read("/opt/etc/localtime")?);
+         }
+ 
+         // attributes are not allowed on if blocks in Rust 1.38
+@@ -631,8 +631,8 @@ fn find_tz_file(path: impl AsRef<Path>)
+ 
+ // Possible system timezone directories
+ #[cfg(unix)]
+-const ZONE_INFO_DIRECTORIES: [&str; 4] =
+-    ["/usr/share/zoneinfo", "/share/zoneinfo", "/etc/zoneinfo", "/usr/share/lib/zoneinfo"];
++const ZONE_INFO_DIRECTORIES: [&str; 5] =
++    ["/opt/share/zoneinfo", "/usr/share/zoneinfo", "/share/zoneinfo", "/etc/zoneinfo", "/usr/share/lib/zoneinfo"];
+ 
+ /// Number of seconds in one week
+ pub(crate) const SECONDS_PER_WEEK: i64 = SECONDS_PER_DAY * DAYS_PER_WEEK;
+--- a/vendor/chrono-0.4.38/src/offset/local/unix.rs
++++ b/vendor/chrono-0.4.38/src/offset/local/unix.rs
+@@ -48,7 +48,7 @@ impl Source {
+                 let hash = hasher.finish();
+                 Source::Environment { hash }
+             }
+-            None => match fs::symlink_metadata("/etc/localtime") {
++            None => match fs::symlink_metadata("/opt/etc/localtime") {
+                 Ok(data) => Source::LocalTime {
+                     // we have to pick a sensible default when the mtime fails
+                     // by picking SystemTime::now() we raise the probability of
+@@ -75,7 +75,7 @@ struct Cache {
+ const TZDB_LOCATION: &str = "/usr/share/lib/zoneinfo";
+ 
+ #[cfg(not(any(target_os = "android", target_os = "aix")))]
+-const TZDB_LOCATION: &str = "/usr/share/zoneinfo";
++const TZDB_LOCATION: &str = "/opt/share/zoneinfo";
+ 
+ fn fallback_timezone() -> Option<TimeZone> {
+     let tz_name = iana_time_zone::get_timezone().ok()?;
+--- a/vendor/chrono-0.4.40/src/offset/local/tz_info/timezone.rs
++++ b/vendor/chrono-0.4.40/src/offset/local/tz_info/timezone.rs
+@@ -42,7 +42,7 @@ impl TimeZone {
+         }
+ 
+         if tz_string == "localtime" {
+-            return Self::from_tz_data(&fs::read("/etc/localtime")?);
++            return Self::from_tz_data(&fs::read("/opt/etc/localtime")?);
+         }
+ 
+         // attributes are not allowed on if blocks in Rust 1.38
+@@ -689,8 +689,8 @@ fn find_ohos_tz_data(tz_string: &str) ->
+ 
+ // Possible system timezone directories
+ #[cfg(unix)]
+-const ZONE_INFO_DIRECTORIES: [&str; 4] =
+-    ["/usr/share/zoneinfo", "/share/zoneinfo", "/etc/zoneinfo", "/usr/share/lib/zoneinfo"];
++const ZONE_INFO_DIRECTORIES: [&str; 5] =
++    ["/opt/share/zoneinfo", "/usr/share/zoneinfo", "/share/zoneinfo", "/etc/zoneinfo", "/usr/share/lib/zoneinfo"];
+ 
+ /// Number of seconds in one week
+ pub(crate) const SECONDS_PER_WEEK: i64 = SECONDS_PER_DAY * DAYS_PER_WEEK;
+--- a/vendor/chrono-0.4.40/src/offset/local/unix.rs
++++ b/vendor/chrono-0.4.40/src/offset/local/unix.rs
+@@ -48,7 +48,7 @@ impl Source {
+                 let hash = hasher.finish();
+                 Source::Environment { hash }
+             }
+-            None => match fs::symlink_metadata("/etc/localtime") {
++            None => match fs::symlink_metadata("/opt/etc/localtime") {
+                 Ok(data) => Source::LocalTime {
+                     // we have to pick a sensible default when the mtime fails
+                     // by picking SystemTime::now() we raise the probability of
+@@ -75,7 +75,7 @@ struct Cache {
+ const TZDB_LOCATION: &str = "/usr/share/lib/zoneinfo";
+ 
+ #[cfg(not(any(target_os = "android", target_os = "aix")))]
+-const TZDB_LOCATION: &str = "/usr/share/zoneinfo";
++const TZDB_LOCATION: &str = "/opt/share/zoneinfo";
+ 
+ fn fallback_timezone() -> Option<TimeZone> {
+     let tz_name = iana_time_zone::get_timezone().ok()?;
+--- a/vendor/chrono-0.4.41/src/offset/local/tz_info/timezone.rs
++++ b/vendor/chrono-0.4.41/src/offset/local/tz_info/timezone.rs
+@@ -43,7 +43,7 @@ impl TimeZone {
+         }
+ 
+         if tz_string == "localtime" {
+-            return Self::from_tz_data(&fs::read("/etc/localtime")?);
++            return Self::from_tz_data(&fs::read("/opt/etc/localtime")?);
+         }
+ 
+         // attributes are not allowed on if blocks in Rust 1.38
+@@ -690,8 +690,8 @@ fn find_ohos_tz_data(tz_string: &str) ->
+ 
+ // Possible system timezone directories
+ #[cfg(unix)]
+-const ZONE_INFO_DIRECTORIES: [&str; 4] =
+-    ["/usr/share/zoneinfo", "/share/zoneinfo", "/etc/zoneinfo", "/usr/share/lib/zoneinfo"];
++const ZONE_INFO_DIRECTORIES: [&str; 5] =
++    ["/opt/share/zoneinfo", "/usr/share/zoneinfo", "/share/zoneinfo", "/etc/zoneinfo", "/usr/share/lib/zoneinfo"];
+ 
+ /// Number of seconds in one week
+ pub(crate) const SECONDS_PER_WEEK: i64 = SECONDS_PER_DAY * DAYS_PER_WEEK;
+--- a/vendor/chrono-0.4.41/src/offset/local/unix.rs
++++ b/vendor/chrono-0.4.41/src/offset/local/unix.rs
+@@ -48,7 +48,7 @@ impl Source {
+                 let hash = hasher.finish();
+                 Source::Environment { hash }
+             }
+-            None => match fs::symlink_metadata("/etc/localtime") {
++            None => match fs::symlink_metadata("/opt/etc/localtime") {
+                 Ok(data) => Source::LocalTime {
+                     // we have to pick a sensible default when the mtime fails
+                     // by picking SystemTime::now() we raise the probability of
+@@ -75,7 +75,7 @@ struct Cache {
+ const TZDB_LOCATION: &str = "/usr/share/lib/zoneinfo";
+ 
+ #[cfg(not(any(target_os = "android", target_os = "aix")))]
+-const TZDB_LOCATION: &str = "/usr/share/zoneinfo";
++const TZDB_LOCATION: &str = "/opt/share/zoneinfo";
+ 
+ fn fallback_timezone() -> Option<TimeZone> {
+     let tz_name = iana_time_zone::get_timezone().ok()?;
+--- a/vendor/iana-time-zone-0.1.53/src/tz_linux.rs
++++ b/vendor/iana-time-zone-0.1.53/src/tz_linux.rs
+@@ -25,12 +25,13 @@ fn etc_localtime() -> Result<String, cra
+     // <https://github.com/systemd/systemd/blob/9102c625a673a3246d7e73d8737f3494446bad4e/src/basic/time-util.c#L1493>
+ 
+     const PREFIXES: &[&str] = &[
++        "/opt/share/zoneinfo/",   // absolute path for Entware
+         "/usr/share/zoneinfo/",   // absolute path
+         "../usr/share/zoneinfo/", // relative path
+         "/etc/zoneinfo/",         // absolute path for NixOS
+         "../etc/zoneinfo/",       // relative path for NixOS
+     ];
+-    let mut s = read_link("/etc/localtime")?
++    let mut s = read_link("/opt/etc/localtime")?
+         .into_os_string()
+         .into_string()
+         .map_err(|_| crate::GetTimezoneError::FailedParsingString)?;
+--- a/vendor/iana-time-zone-0.1.63/src/tz_linux.rs
++++ b/vendor/iana-time-zone-0.1.63/src/tz_linux.rs
+@@ -27,12 +27,13 @@ fn etc_localtime() -> Result<String, cra
+     // <https://github.com/systemd/systemd/blob/9102c625a673a3246d7e73d8737f3494446bad4e/src/basic/time-util.c#L1493>
+ 
+     const PREFIXES: &[&str] = &[
++        "/opt/share/zoneinfo/",   // absolute path for Entware
+         "/usr/share/zoneinfo/",   // absolute path
+         "../usr/share/zoneinfo/", // relative path
+         "/etc/zoneinfo/",         // absolute path for NixOS
+         "../etc/zoneinfo/",       // relative path for NixOS
+     ];
+-    let mut s = read_link("/etc/localtime")?
++    let mut s = read_link("/opt/etc/localtime")?
+         .into_os_string()
+         .into_string()
+         .map_err(|_| crate::GetTimezoneError::FailedParsingString)?;
+@@ -53,7 +54,7 @@ mod openwrt {
+     pub(crate) fn etc_config_system() -> Result<String, crate::GetTimezoneError> {
+         let f = fs::OpenOptions::new()
+             .read(true)
+-            .open("/etc/config/system")?;
++            .open("/opt/etc/config/system")?;
+         let mut f = io::BufReader::new(f);
+         let mut in_system_section = false;
+         let mut line = String::with_capacity(80);

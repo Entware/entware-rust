@@ -1,13 +1,13 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 ### deps
 PKG_BUILD_DEPENDS += rustc-dev
 
-CARGO_BUILD_DIR = $(PKG_BUILD_DIR)$(if $(CARGO_SOURCE_SUBDIR),/$(CARGO_SOURCE_SUBDIR))
+CARGO_SOURCE_DIR = $(PKG_BUILD_DIR)$(if $(CARGO_SOURCE_SUBDIR),/$(CARGO_SOURCE_SUBDIR))
 
-CARGO_HOME:=$(STAGING_DIR)/host/share/cargo
+CARGO_HOME:=$(DL_DIR)/cargo
 
 CARGO_INSTALL_ROOT:=$(PKG_INSTALL_DIR)/opt
 CARGO_TARGET_DIR:=$(PKG_BUILD_DIR)/openwrt-build
@@ -38,12 +38,15 @@ else
   CARGO_PKG_PROFILE=strip
 endif
 
-RUSTFLAGS += \
-	-C relocation-model=static
+### https://blog.rust-lang.org/2025/12/11/Rust-1.92.0/#emit-unwind-tables-even-when-cpanic-abort-is-enabled-on-linux
+ifneq ($(CONFIG_DEBUG),y)
+  RUSTFLAGS += -C force-unwind-tables=no
+endif
+
+RUSTFLAGS += -C relocation-model=static
 
 ### add rpath
-RUSTFLAGS += \
-	-C link-args=-Wl,-rpath,/opt/lib
+RUSTFLAGS += -C link-args=-Wl,-rpath,/opt/lib
 
 ### env var for `*-sys` packages
 RUSTC_VARS_COMMON:= \

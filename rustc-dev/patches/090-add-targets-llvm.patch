@@ -1,18 +1,25 @@
 --- a/src/llvm-project/clang/lib/Driver/ToolChains/Linux.cpp
 +++ b/src/llvm-project/clang/lib/Driver/ToolChains/Linux.cpp
-@@ -343,6 +343,9 @@ Linux::Linux(const Driver &D, const llvm
-   }
+@@ -318,6 +318,16 @@ Linux::Linux(const Driver &D, const llvm
+   const std::string OSLibDir = std::string(getOSLibDir(Triple, Args));
+   const std::string MultiarchTriple = getMultiarchTriple(D, Triple, SysRoot);
  
-   addPathIfExists(D, concat(SysRoot, "/usr/lib", MultiarchTriple), Paths);
 +  // Entware prefix
-+  if (Triple.getVendor() == llvm::Triple::OpenWrt)
-+    addPathIfExists(D, concat(SysRoot, "/opt", OSLibDir), Paths);
-   // 64-bit OpenEmbedded sysroots may not have a /usr/lib dir. So they cannot
-   // find /usr/lib64 as it is referenced as /usr/lib/../lib64. So we handle
-   // this here.
++  if (Triple.getVendor() == llvm::Triple::OpenWrt) {
++    addPathIfExists(D, concat(SysRoot, "/opt/lib", OSLibDir), Paths);
++  }
++
++  Generic_GCC::AddMultiarchPaths(D, SysRoot, OSLibDir, Paths);
++
++  addPathIfExists(D, concat(SysRoot, "/opt/lib"), Paths);
++  addPathIfExists(D, concat(SysRoot, "/opt/usr/lib"), Paths);
++
+   // mips32: Debian multilib, we use /libo32, while in other case, /lib is
+   // used. We need add both libo32 and /lib.
+   if (Arch == llvm::Triple::mips || Arch == llvm::Triple::mipsel) {
 --- a/src/llvm-project/llvm/unittests/TargetParser/TripleTest.cpp
 +++ b/src/llvm-project/llvm/unittests/TargetParser/TripleTest.cpp
-@@ -775,6 +775,18 @@ TEST(TripleTest, ParsedIDs) {
+@@ -776,6 +776,18 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::Linux, T.getOS());
    EXPECT_EQ(Triple::UnknownEnvironment, T.getEnvironment());
  
@@ -31,7 +38,7 @@
    T = Triple("armv7hl-suse-linux-gnueabi");
    EXPECT_EQ(Triple::arm, T.getArch());
    EXPECT_EQ(Triple::SUSE, T.getVendor());
-@@ -929,6 +941,18 @@ TEST(TripleTest, ParsedIDs) {
+@@ -930,6 +942,18 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::GNUABIN32, T.getEnvironment());
    EXPECT_EQ(Triple::MipsSubArch_r6, T.getSubArch());
  
@@ -50,7 +57,7 @@
    T = Triple("mipsel-unknown-linux-gnu");
    EXPECT_EQ(Triple::mipsel, T.getArch());
    EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
-@@ -941,6 +965,18 @@ TEST(TripleTest, ParsedIDs) {
+@@ -942,6 +966,18 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::GNU, T.getEnvironment());
    EXPECT_EQ(Triple::NoSubArch, T.getSubArch());
  
@@ -69,7 +76,7 @@
    T = Triple("mips-unknown-linux-gnu");
    EXPECT_EQ(Triple::mips, T.getArch());
    EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
-@@ -1042,6 +1078,13 @@ TEST(TripleTest, ParsedIDs) {
+@@ -1043,6 +1079,13 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::MuslABIN32, T.getEnvironment());
    EXPECT_EQ(Triple::MipsSubArch_r6, T.getSubArch());
  
@@ -83,7 +90,7 @@
    T = Triple("mipsel-unknown-linux-musl");
    EXPECT_EQ(Triple::mipsel, T.getArch());
    EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
-@@ -1049,6 +1092,13 @@ TEST(TripleTest, ParsedIDs) {
+@@ -1050,6 +1093,13 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::Musl, T.getEnvironment());
    EXPECT_EQ(Triple::NoSubArch, T.getSubArch());
  
@@ -97,7 +104,7 @@
    T = Triple("mips-unknown-linux-musl");
    EXPECT_EQ(Triple::mips, T.getArch());
    EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
-@@ -1083,6 +1133,20 @@ TEST(TripleTest, ParsedIDs) {
+@@ -1084,6 +1134,20 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::UnknownEnvironment, T.getEnvironment());
    EXPECT_TRUE(T.isArch64Bit());
  
@@ -118,7 +125,7 @@
    T = Triple("arm64_32-apple-ios");
    EXPECT_EQ(Triple::aarch64_32, T.getArch());
    EXPECT_EQ(Triple::IOS, T.getOS());
-@@ -1619,6 +1683,8 @@ TEST(TripleTest, Normalization) {
+@@ -1638,6 +1702,8 @@ TEST(TripleTest, Normalization) {
    // is given in the comment.
    EXPECT_EQ("i386-unknown-windows-gnu",
              Triple::normalize("i386-mingw32")); // i386-pc-mingw32

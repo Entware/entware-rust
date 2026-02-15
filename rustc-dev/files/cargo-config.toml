@@ -2,9 +2,26 @@
 [target.@RUSTC_HOST_ARCH@]
 linker = "@HOST_CC@"
 
-### target
-[target.@RUSTC_TARGET_ARCH@]
-linker = "@TARGET_CC@"
+### targets
+### aarch64
+[target.mipsel-openwrt-linux-gnu]
+linker = "aarch64-openwrt-linux-gnu-gcc"
+
+### arm (armv7)
+[target.mipsel-openwrt-linux-gnu]
+linker = "arm-openwrt-linux-gnu-gcc"
+
+### mips
+[target.mipsel-openwrt-linux-gnu]
+linker = "mips-openwrt-linux-gnu-gcc"
+
+### mipsel
+[target.mipsel-openwrt-linux-gnu]
+linker = "mipsel-openwrt-linux-gnu-gcc"
+
+### x86-64
+[target.mipsel-openwrt-linux-gnu]
+linker = "x86_64-openwrt-linux-gnu-gcc"
 
 ### Custom profiles:
 ### strip

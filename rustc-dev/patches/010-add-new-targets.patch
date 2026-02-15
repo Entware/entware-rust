@@ -1,6 +1,6 @@
 --- a/compiler/rustc_target/src/spec/base/mod.rs
 +++ b/compiler/rustc_target/src/spec/base/mod.rs
-@@ -23,6 +23,9 @@ pub(crate) mod msvc;
+@@ -26,6 +26,9 @@ pub(crate) mod msvc;
  pub(crate) mod netbsd;
  pub(crate) mod nto_qnx;
  pub(crate) mod openbsd;
@@ -12,7 +12,7 @@
  pub(crate) mod solid;
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/base/openwrt_linux.rs
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,26 @@
 +use std::borrow::Cow;
 +
 +use crate::spec::{RelroLevel, SplitDebuginfo, TargetOptions, cvs};
@@ -28,6 +28,9 @@
 +        relro_level: RelroLevel::None,
 +        has_thread_local: true,
 +        crt_static_respected: true,
++        // We want backtraces to work by default and they rely on unwind tables
++        // (regardless of `-C panic` strategy).
++        default_uwtable: true,
 +        supported_split_debuginfo: Cow::Borrowed(&[
 +            SplitDebuginfo::Packed,
 +            SplitDebuginfo::Unpacked,
@@ -38,37 +41,47 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/base/openwrt_linux_gnu.rs
-@@ -0,0 +1,5 @@
-+use crate::spec::{TargetOptions, base};
+@@ -0,0 +1,14 @@
++use crate::spec::{Cc, LinkerFlavor, Lld, TargetOptions, base};
 +
 +pub(crate) fn opts() -> TargetOptions {
-+    TargetOptions { env: "gnu".into(), ..base::openwrt_linux::opts() }
-+}
---- /dev/null
-+++ b/compiler/rustc_target/src/spec/base/openwrt_linux_musl.rs
-@@ -0,0 +1,12 @@
-+use crate::spec::{LinkSelfContainedDefault, TargetOptions, base, crt_objects};
++    let mut base = TargetOptions { env: "gnu".into(), ..base::openwrt_linux::opts() };
 +
-+pub(crate) fn opts() -> TargetOptions {
-+    let mut base = base::openwrt_linux::opts();
-+
-+    base.env = "musl".into();
-+    base.pre_link_objects_self_contained = crt_objects::pre_musl_self_contained();
-+    base.post_link_objects_self_contained = crt_objects::post_musl_self_contained();
-+    base.link_self_contained = LinkSelfContainedDefault::InferredForMusl;
++    // When we're asked to use the `rust-lld` linker by default, set the appropriate lld-using
++    // linker flavor, and self-contained linker component.
++    if option_env!("CFG_DEFAULT_LINKER_SELF_CONTAINED_LLD_CC").is_some() {
++        base.linker_flavor = LinkerFlavor::Gnu(Cc::Yes, Lld::Yes);
++        base.link_self_contained = crate::spec::LinkSelfContainedDefault::with_linker();
++    }
 +
 +    base
 +}
 --- /dev/null
++++ b/compiler/rustc_target/src/spec/base/openwrt_linux_musl.rs
+@@ -0,0 +1,11 @@
++use crate::spec::{LinkSelfContainedDefault, TargetOptions, base, crt_objects};
++
++pub(crate) fn opts() -> TargetOptions {
++    TargetOptions {
++        env: "musl".into(),
++        pre_link_objects_self_contained: crt_objects::pre_musl_self_contained(),
++        post_link_objects_self_contained: crt_objects::post_musl_self_contained(),
++        link_self_contained: LinkSelfContainedDefault::InferredForMusl,
++        ..base::openwrt_linux::opts()
++    }
++}
+--- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/aarch64_openwrt_linux_gnu.rs
-@@ -0,0 +1,32 @@
-+use crate::spec::{SanitizerSet, StackProbeType, Target, TargetMetadata, TargetOptions, base};
+@@ -0,0 +1,38 @@
++use crate::spec::{
++    FramePointer, SanitizerSet, StackProbeType, Target, TargetMetadata, TargetOptions, base,
++};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
 +        llvm_target: "aarch64-openwrt-linux-gnu".into(),
 +        metadata: TargetMetadata {
-+            description: Some("ARM64 Linux (kernel 4.1, glibc 2.17+)".into()),
++            description: Some("ARM64 Linux (kernel 3.10+, glibc 2.27+)".into()),
 +            tier: Some(1),
 +            host_tools: Some(true),
 +            std: Some(true),
@@ -78,6 +91,10 @@
 +        arch: "aarch64".into(),
 +        options: TargetOptions {
 +            features: "+v8a".into(),
++            // the AAPCS64 expects use of non-leaf frame pointers per
++            // https://github.com/ARM-software/abi-aa/blob/4492d1570eb70c8fd146623e0db65b2d241f12e7/aapcs64/aapcs64.rst#the-frame-pointer
++            // and we tend to encounter interesting bugs in AArch64 unwinding code if we do not
++            frame_pointer: FramePointer::NonLeaf,
 +            mcount: "\u{1}_mcount".into(),
 +            max_atomic_width: Some(128),
 +            stack_probes: StackProbeType::Inline,
@@ -96,14 +113,16 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/aarch64_openwrt_linux_musl.rs
-@@ -0,0 +1,31 @@
-+use crate::spec::{SanitizerSet, StackProbeType, Target, TargetMetadata, TargetOptions, base};
+@@ -0,0 +1,39 @@
++use crate::spec::{
++    FramePointer, SanitizerSet, StackProbeType, Target, TargetMetadata, TargetOptions, base,
++};
 +
 +pub(crate) fn target() -> Target {
 +    let mut base = base::openwrt_linux_musl::opts();
 +    base.max_atomic_width = Some(128);
 +    base.supports_xray = true;
-+    base.features = "+v8a".into();
++    base.features = "+v8a,+outline-atomics".into();
 +    base.stack_probes = StackProbeType::Inline;
 +    base.supported_sanitizers = SanitizerSet::ADDRESS
 +        | SanitizerSet::CFI
@@ -125,7 +144,13 @@
 +        pointer_width: 64,
 +        data_layout: "e-m:e-p270:32:32-p271:32:32-p272:64:64-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128-Fn32".into(),
 +        arch: "aarch64".into(),
-+        options: TargetOptions { mcount: "\u{1}_mcount".into(), ..base },
++        options: TargetOptions {
++            // the AAPCS64 expects use of non-leaf frame pointers per
++            // https://github.com/ARM-software/abi-aa/blob/4492d1570eb70c8fd146623e0db65b2d241f12e7/aapcs64/aapcs64.rst#the-frame-pointer
++            // and we tend to encounter interesting bugs in AArch64 unwinding code if we do not
++            frame_pointer: FramePointer::NonLeaf,
++             mcount: "\u{1}_mcount".into(), ..base
++         },
 +    }
 +}
 --- /dev/null
@@ -228,7 +253,7 @@
 +    Target {
 +        llvm_target: "armv7-openwrt-linux-gnueabi".into(),
 +        metadata: TargetMetadata {
-+            description: Some("Armv7-A Linux (kernel 4.15, glibc 2.27)".into()),
++            description: Some("Armv7-A Linux (kernel 3.2, glibc 2.23)".into()),
 +            tier: Some(2),
 +            host_tools: Some(false),
 +            std: Some(true),
@@ -313,7 +338,7 @@
 +    Target {
 +        llvm_target: "mips-openwrt-linux-gnu".into(),
 +        metadata: TargetMetadata {
-+            description: Some("MIPS Linux (kernel 4.4, glibc 2.23)".into()),
++            description: Some("MIPS Linux (kernel 3.4+, glibc 2.27+)".into()),
 +            tier: Some(3),
 +            host_tools: Some(true),
 +            std: Some(true),
@@ -367,7 +392,7 @@
 +    Target {
 +        llvm_target: "mipsel-openwrt-linux-gnu".into(),
 +        metadata: TargetMetadata {
-+            description: Some("MIPS (little endian) Linux (kernel 4.4, glibc 2.23)".into()),
++            description: Some("MIPS (little endian) Linux (kernel 3.4+, glibc 2.27+)".into()),
 +            tier: Some(3),
 +            host_tools: Some(true),
 +            std: Some(true),
@@ -412,9 +437,9 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/x86_64_openwrt_linux_gnu.rs
-@@ -0,0 +1,44 @@
+@@ -0,0 +1,37 @@
 +use crate::spec::{
-+    Cc, LinkerFlavor, Lld, SanitizerSet, StackProbeType, Target, TargetMetadata, base
++    Cc, LinkerFlavor, Lld, SanitizerSet, StackProbeType, Target, TargetMetadata, base,
 +};
 +
 +pub(crate) fn target() -> Target {
@@ -435,17 +460,10 @@
 +        | SanitizerSet::THREAD;
 +    base.supports_xray = true;
 +
-+    // When we're asked to use the `rust-lld` linker by default, set the appropriate lld-using
-+    // linker flavor, and self-contained linker component.
-+    if option_env!("CFG_USE_SELF_CONTAINED_LINKER").is_some() {
-+        base.linker_flavor = LinkerFlavor::Gnu(Cc::Yes, Lld::Yes);
-+        base.link_self_contained = crate::spec::LinkSelfContainedDefault::with_linker();
-+    }
-+
 +    Target {
 +        llvm_target: "x86_64-openwrt-linux-gnu".into(),
 +        metadata: TargetMetadata {
-+            description: Some("64-bit Linux (kernel 3.2+, glibc 2.17+)".into()),
++            description: Some("64-bit Linux (kernel 3.2+, glibc 2.23+)".into()),
 +            tier: Some(1),
 +            host_tools: Some(true),
 +            std: Some(true),
@@ -459,7 +477,7 @@
 +}
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -1733,6 +1733,21 @@ macro_rules! supported_targets {
+@@ -1429,6 +1429,21 @@ macro_rules! supported_targets {
  }
  
  supported_targets! {
@@ -483,7 +501,7 @@
      ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
 --- a/src/tools/build-manifest/src/main.rs
 +++ b/src/tools/build-manifest/src/main.rs
-@@ -51,6 +51,20 @@ static HOSTS: &[&str] = &[
+@@ -55,6 +55,20 @@ static HOSTS: &[&str] = &[
  ];
  
  static TARGETS: &[&str] = &[
