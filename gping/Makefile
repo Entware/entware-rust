@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gping
-PKG_VERSION:=1.19.0
+PKG_VERSION:=1.20.1
 PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/orf/gping/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
-PKG_HASH:=a979c9a8c7a1a540bb48a1e90bb7ad294560bddc16ca977bc8475fb14f20155d
+PKG_HASH:=0df965111429d5fcef832a4ff23b452a1ec8f683d51ed31ce9b10902c0a18a9c
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0439 iana-time-zone-0161
+PKG_BUILD_DEPENDS += chrono-0441 getrandom-033 iana-time-zone-0163
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/gping
@@ -32,10 +32,6 @@ endef
 define Package/gping/description
   Ping, but with a graph.
 endef
-
-# CARGO_ARGS += --workspace
-# or
-CARGO_SOURCE_SUBDIR:=gping
 
 define Package/gping/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
