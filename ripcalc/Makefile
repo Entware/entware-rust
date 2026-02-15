@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ripcalc
-PKG_VERSION:=0.2.6
+PKG_VERSION:=0.3.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://gitlab.com/edneville/ripcalc/-/archive/v$(PKG_VERSION)
-PKG_HASH:=33a3b8c7c0b7814102e2cb17b671048056efbce561381c98c0835b00254f0a25
+PKG_HASH:=b0c03b0986caa8b6d9e0ce4c969aa253dacf39301916e4be4bbe6a2048ada8f3
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
@@ -18,6 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
+PKG_BUILD_DEPENDS += chrono-0442 getrandom-0216 getrandom-033 iana-time-zone-0164
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/ripcalc
@@ -25,6 +26,7 @@ define Package/ripcalc
   CATEGORY:=Network
   TITLE:=format and lookup IP addresses
   URL:=https://www.usenix.org.uk/content/ripcalc.html
+  DEPENDS:=+libopenssl
 endef
 
 define Package/ripcalc/description
