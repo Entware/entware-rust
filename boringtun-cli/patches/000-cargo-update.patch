@@ -1,0 +1,13 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -464,9 +464,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "getrandom"
+-version = "0.2.10"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "be4136b2a15dd319360be1c07d9933517ccf0be8f16bf62a3bee4f0d618df427"
++version = "0.2.15"
+ dependencies = [
+  "cfg-if",
+  "libc",
