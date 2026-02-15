@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX mips(el) (gitui)
 
@@ -19,6 +19,8 @@ PKG_LICENSE_FILES:=LICENSE.txt
 
 include $(INCLUDE_DIR)/package.mk
 include ../../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += getrandom-0216 getrandom-034
 
 define Package/tui-textarea-$(PKG_VERSION)
   SECTION:=devel
@@ -43,7 +45,6 @@ ifeq ($(or $(CONFIG_mips),$(CONFIG_mipsel)),y)
 endif
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,tui-textarea-$(PKG_VERSION)))
