@@ -42,7 +42,7 @@
  ipnetwork = "0.20.0"
  mac_address = "1.1.5"
  rust_decimal = "1.26.1"
-@@ -346,3 +346,7 @@ name = "postgres-migrate"
+@@ -346,3 +346,9 @@ name = "postgres-migrate"
  path = "tests/postgres/migrate.rs"
  required-features = ["postgres", "macros", "migrate"]
  
@@ -50,3 +50,5 @@
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.31" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
