@@ -26,14 +26,3 @@
      }
  
      info!("stage 2/2 is active");
---- a/src/sandbox/seccomp.rs
-+++ b/src/sandbox/seccomp.rs
-@@ -133,7 +133,7 @@ pub fn activate_stage1() -> Result<()> {
-         target_arch = "loongarch64"
-     ))]
-     ctx.allow_syscall(Syscall::newfstatat)?;
--    ctx.allow_syscall(Syscall::seccomp)?; // needed for stage2
-+//    ctx.allow_syscall(Syscall::seccomp)?; // needed for stage2
-     ctx.allow_syscall(Syscall::getrandom)?;
-     #[cfg(not(any(
-         target_arch = "aarch64",

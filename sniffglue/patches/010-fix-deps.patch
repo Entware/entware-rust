@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -61,3 +61,7 @@ syscallz = "0.17"
+ 
+ [dev-dependencies]
+ boxxy = "0.13"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
