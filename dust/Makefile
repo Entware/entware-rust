@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dust
-PKG_VERSION:=1.2.0
+PKG_VERSION:=1.2.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/bootandy/dust/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=e879e6bf662e07cff2962b68529dd78c3bafb67541aaa76e8c9d25ecb505b850
+PKG_HASH:=2f6768534bd01727234e67f1dd3754c9547aa18c715f6ee52094e881ebac50e3
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440
+PKG_BUILD_DEPENDS += chrono-0442 getrandom-034 iana-time-zone-0164
 
 define Package/dust
   SECTION:=utils
