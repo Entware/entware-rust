@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=diskus
-PKG_VERSION:=0.8.0
+PKG_VERSION:=0.9.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/diskus/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=9733570d64a1eafcf96fe233fd978ec3855c77705005037ad253c49a188fdf51
+PKG_HASH:=c4c9e4cd3cda25f55172130e3d6a58b389f0113fcefa96c73e4c80565547d1bf
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
