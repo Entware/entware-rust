@@ -1,20 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -26,7 +26,7 @@ actix-web-httpauth = "0.8"
- alphanumeric-sort = "1"
- anyhow = "1"
- bytesize = "1"
--chrono = "0.4"
-+chrono = "=0.4.40"
- chrono-humanize = "0.2"
- clap = { version = "4", features = ["derive", "cargo", "wrap_help", "deprecated", "env"] }
- clap_complete = "4"
-@@ -83,3 +83,8 @@ url = "2"
+@@ -85,3 +85,11 @@ url = "2"
  [target.'cfg(not(windows))'.dev-dependencies]
  # fake_tty does not support Windows for now
  fake-tty = "0.3.1"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.40" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
