@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -112,3 +112,12 @@ assets = [
+@@ -113,3 +113,12 @@ assets = [
    ["README.md", "usr/share/doc/cyme/README", "644"],
    ["doc/cyme.1", "/usr/share/man/man1/cyme.1", "644"],
  ]
@@ -9,7 +9,7 @@
 +# mips/mipsel: error[E0308]: mismatched types
 +udevrs = { path = "../udevrs-0.4.0" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.40" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.15" }
++getrandom = { path = "../getrandom-0.2.16" }

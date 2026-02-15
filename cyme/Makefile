@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cyme
-PKG_VERSION:=2.2.1
+PKG_VERSION:=2.2.10
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/tuna-f1sh/cyme/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=c02856a2e360d2ccb05137352a2aad3805a35d32571839d4fb232a2d40c630f8
+PKG_HASH:=53246a12e1feb09c5301dc1d391c574ad38ab909c301db1a79628445945c2425
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440 getrandom-0215 iana-time-zone-0163 udevrs-040
+PKG_BUILD_DEPENDS += chrono-0442 getrandom-0216 iana-time-zone-0164 udevrs-040
 
 define Package/cyme
   SECTION:=utils
