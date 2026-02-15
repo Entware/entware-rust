@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gitui
-PKG_VERSION:=0.27.0
+PKG_VERSION:=0.28.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/extrawurst/gitui/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=55a85f4a3ce97712b618575aa80f3c15ea4004d554e8899669910d7fb4ff6e4b
+PKG_HASH:=3d7d1deef84b8cb3f59882b57b9a70d39ddd6491bd4539504d69b2b3924c044f
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
@@ -18,7 +18,8 @@ PKG_LICENSE_FILES:=LICENSE.md
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161 tui-textarea-070
+PKG_BUILD_DEPENDS += \
+	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 tui-textarea-070
 
 define Package/gitui
   SECTION:=net
