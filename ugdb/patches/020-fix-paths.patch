@@ -1,0 +1,22 @@
+--- a/src/ipc.rs
++++ b/src/ipc.rs
+@@ -195,7 +195,7 @@ impl IPCRequest {
+     }
+ }
+ 
+-const FALLBACK_RUNTIME_DIR: &str = "/tmp/";
++const FALLBACK_RUNTIME_DIR: &str = "/opt/tmp/";
+ const RUNTIME_SUBDIR: &str = "ugdb";
+ const SOCKET_IDENTIFIER_LENGTH: usize = 64;
+ const IPC_MSG_IDENTIFIER: &[u8] = b"ugdb-ipc";
+--- a/src/main.rs
++++ b/src/main.rs
+@@ -112,7 +112,7 @@ struct Options {
+         long = "log_dir",
+         help = "Directory in which the log file will be stored.",
+         parse(from_os_str),
+-        default_value = "/tmp"
++        default_value = "/opt/tmp"
+     )]
+     log_dir: PathBuf,
+     #[structopt(
