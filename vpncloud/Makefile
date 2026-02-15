@@ -1,16 +1,20 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vpncloud
-PKG_VERSION:=2.3.0
-PKG_RELEASE:=3
+PKG_REAL_VERSION:=2.4.0
+PKG_RELEASE:=2
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/dswd/vpncloud/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=b1f3ee63458899d43ca3515322246ad8a2a5a5de6cc9da84927f486e110d9789
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_DATE:=2024-03-21
+PKG_SOURCE_VERSION:=bef99162fe0d66e2c9fbf6421a69ca8ec2ac8f55
+PKG_SOURCE_URL:=https://github.com/dswd/vpncloud
+PKG_MIRROR_HASH:=8acd1a09b451c196c1d690e808e6e4db5b9385c68daf9cfa84db911925d252db
+
+PKG_VERSION:=$(PKG_REAL_VERSION)_git$(subst -,,$(PKG_SOURCE_DATE))~$(call version_abbrev,$(PKG_SOURCE_VERSION))
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE.md
@@ -18,7 +22,7 @@ PKG_LICENSE_FILES:=LICENSE.md
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0441 getrandom-0215 iana-time-zone-0163
 
 define Package/vpncloud
   SECTION:=net
@@ -30,13 +34,13 @@ define Package/vpncloud
 endef
 
 define Package/vpncloud/description
-  VpnCloud is a high performance peer-to-peer mesh VPN over UDP supporting
-  strong encryption, NAT traversal and a simple configuration. It establishes
-  a fully-meshed self-healing VPN network in a peer-to-peer manner with strong
-  end-to-end encryption based on elliptic curve keys and AES-256. VpnCloud
-  creates a virtual network interface on the host and forwards all received
-  data via UDP to the destination. It can work on TUN devices (IP based) and
-  TAP devices (Ethernet based).
+  VpnCloud is a high performance peer-to-peer mesh VPN over UDP
+ supporting strong encryption, NAT traversal and a simple configuration. It
+ establishes a fully-meshed self-healing VPN network in a peer-to-peer manner
+ with strong end-to-end encryption based on elliptic curve keys and AES-256.
+ VpnCloud creates a virtual network interface on the host and forwards all
+ received data via UDP to the destination. It can work on TUN devices (IP based)
+ and TAP devices (Ethernet based).
 endef
 
 # x86_64: undefined reference to `__stack_chk_guard'

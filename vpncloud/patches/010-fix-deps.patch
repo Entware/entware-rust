@@ -1,0 +1,25 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -15,7 +15,7 @@ toolchain = "1.75.0"
+ upx_version = "4.2.2"
+ 
+ [dependencies]
+-chrono = { version = "0.4", features = ["std", "clock"], default_features = false}
++chrono = { version = "0.4", features = ["std", "clock"], default-features = false}
+ structopt = "0.3"
+ serde = { version = "1.0", features = ["derive"] }
+ serde_yaml = "0.9"
+@@ -98,4 +98,11 @@ assets = [
+   { source = "assets/vpncloud-wsproxy.service", dest = "/lib/systemd/system/vpncloud-wsproxy.service", mode = "644" },
+   { source = "target/vpncloud.1.gz", dest = "/usr/share/man/man1/vpncloud.1.gz", mode = "644" }
+ ]
+-auto-req = "no"
+\ No newline at end of file
++auto-req = "no"
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.41" }
++iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }
