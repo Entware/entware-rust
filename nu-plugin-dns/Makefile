@@ -1,25 +1,29 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-dns
-PKG_VERSION:=3.0.6
-PKG_RELEASE:=1
+PKG_VERSION:=4.0.3
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/dead10ck/nu_plugin_dns
-PKG_MIRROR_HASH:=7732d65379a6a769d9e28f7221725dfc7a7794165630cc1a6aae4ae85319f7f3
+PKG_MIRROR_HASH:=60532eac6550265238798863f1713ea5f4aab1bff5f0bc12230aff0c80eb7dbb
 
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
 
+NU_VERSION:=$(shell grep '^PKG_VERSION' ../nushell/Makefile | cut -d'=' -f2-)
+NU_RELEASE:=$(shell grep '^PKG_RELEASE' ../nushell/Makefile | cut -d'=' -f2-)
+
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 hickory-dns iana-time-zone-0161 quinn-0104
+PKG_BUILD_DEPENDS += \
+	chrono-0440 getrandom-0216 getrandom-033 iana-time-zone-0161 nushell
 
 define Package/nu-plugin-dns
   SECTION:=utils
@@ -27,7 +31,7 @@ define Package/nu-plugin-dns
   SUBMENU:=Shells
   TITLE:=A DNS utility for nushell
   URL:=https://github.com/dead10ck/nu_plugin_dns
-  DEPENDS:=+nushell
+  EXTRA_DEPENDS:=nushell (=$(NU_VERSION)-$(NU_RELEASE))
 endef
 
 define Package/nu-plugin-dns/description
