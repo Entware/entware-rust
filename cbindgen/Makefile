@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2025 Entware
+# Copyright (C) 2025-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cbindgen
-PKG_VERSION:=0.28.0
-PKG_RELEASE:=1
+PKG_VERSION:=0.29.0
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/mozilla/cbindgen/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=620d569c431f8c15b69e1455695cf4be44c11678cc08b25a35b312109baf1980
+PKG_HASH:=6697f449d4a15d814d991249a611af961c97e36d9344c7ced6df35c5c25b40cc
 
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -22,8 +22,6 @@ PKG_HOST_ONLY:=1
 include $(INCLUDE_DIR)/host-build.mk
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/rust.mk
-
-HOST_STAMP_INSTALLED:=$(STAGING_DIR)/host/stamp/.$(PKG_DIR_NAME)_installed
 
 define Package/cbindgen
   SECTION:=devel
@@ -51,12 +49,12 @@ define Host/Compile
 endef
 
 define Host/Install
-	$(INSTALL_DIR) $(STAGING_DIR)/host/bin
-	$(INSTALL_BIN) $(HOST_BUILD_DIR)/bins/cbindgen $(STAGING_DIR)/host/bin
+	$(INSTALL_DIR) $(STAGING_DIR_HOSTPKG)/bin
+	$(INSTALL_BIN) $(HOST_BUILD_DIR)/bins/cbindgen $(STAGING_DIR_HOSTPKG)/bin
 endef
 
 define Host/Clean
-	rm -f $(STAGING_DIR)/host/bin/cbindgen
+	rm -f $(STAGING_DIR_HOSTPKG)/bin/cbindgen
 endef
 
 $(eval $(call HostBuild))
