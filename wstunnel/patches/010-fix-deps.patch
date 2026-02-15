@@ -1,34 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -14,7 +14,7 @@ anyhow = "1.0.98"
- base64 = "0.22.1"
- scopeguard = "1.2.0"
- 
--bb8 = { version = "0.9.0", features = [] }
-+bb8 = { version = "=0.9.0", features = [] }
- bytes = { version = "1.10.1", features = [] }
- clap = { version = "4.5.38", features = ["derive", "env"], optional = true }
- fast-socks5 = { version = "0.10.0", features = [] }
-@@ -73,6 +73,8 @@ hickory-resolver = { version = "0.25.2",
- 
- [dev-dependencies]
- testcontainers = "0.24.0"
-+# localtime/zoneinfo
-+chrono = "=0.4.41"
- test-case = "3.3.1"
- collection_macros = "0.2.0"
- rstest = "0.25.0"
-@@ -95,3 +97,13 @@ strip = "symbols"
+@@ -16,3 +16,11 @@ strip = "symbols"
  [profile.release-with-symbols]
  inherits = "release"
  strip = false
 +
 +[patch.crates-io]
-+# mips(el)
-+bb8 = { path = "../bb8-0.9.0/bb8" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.41" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
 +getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
-+getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }

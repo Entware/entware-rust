@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=wstunnel
-PKG_VERSION:=10.3.0
-PKG_RELEASE:=2
+PKG_VERSION:=10.5.1
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/erebe/wstunnel/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=ede8dfb23fbab3ed5090a256ea79290c036b04e3312b8ad487d47bc5e71ff570
+PKG_HASH:=cf600e97ec15d243be6f32f5418ff48ab59f0714258f18f7dc7b95759847a9d7
 
 PKG_LICENSE:=BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	bb8-090 chrono-0441 getrandom-0216 getrandom-033 iana-time-zone-0163 \
+	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 \
 	rust-bindgen/host
 
 define Package/wstunnel
@@ -27,16 +27,15 @@ define Package/wstunnel
   CATEGORY:=Network
   TITLE:=Tunneling over websocket protocol
   URL:=https://github.com/erebe/wstunnel
-  DEPENDS:=+ca-certificates
+  EXTRA_DEPENDS:=ca-certificates
 endef
 
 define Package/wstunnel/description
   Tunnel all your traffic over Websocket or HTTP2.
 endef
 
-CARGO_SOURCE_SUBDIR:=wstunnel-cli
-
 # cannot be used when making a shared object; recompile with -fPIC
+CARGO_ARGS += --no-default-features --features=ring
 RUSTFLAGS += -C relocation-model=pic
 
 define Package/wstunnel/install
