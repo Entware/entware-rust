@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -34,3 +34,7 @@ libm = "0.2"
+ ahash = "0.8.12"
+ rand = "0.9"
+ serde_cbor = "0.11.2"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.3.3" }

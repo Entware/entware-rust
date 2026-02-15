@@ -1,0 +1,77 @@
+--- a/src/bit_vector.rs
++++ b/src/bit_vector.rs
+@@ -1,4 +1,4 @@
+-use crate::AtomicU64;
++use crate::AtomicUsize;
+ use alloc::{boxed::Box, vec::Vec};
+ use core::sync::atomic::Ordering::Relaxed;
+ 
+@@ -13,7 +13,7 @@ pub(crate) struct BitVec {
+ #[derive(Debug)]
+ #[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
+ pub(crate) struct AtomicBitVec {
+-    bits: Box<[AtomicU64]>,
++    bits: Box<[AtomicUsize]>,
+ }
+ 
+ macro_rules! impl_bitvec {
+@@ -67,7 +67,7 @@ macro_rules! impl_bitvec {
+ }
+ 
+ impl_bitvec!(BitVec, u64);
+-impl_bitvec!(AtomicBitVec, AtomicU64);
++impl_bitvec!(AtomicBitVec, AtomicUsize);
+ 
+ impl BitVec {
+     #[inline(always)]
+@@ -114,20 +114,20 @@ impl BitVec {
+ 
+ impl AtomicBitVec {
+     #[inline(always)]
+-    fn new(x: u64) -> AtomicU64 {
+-        AtomicU64::new(x)
++    fn new(x: u64) -> AtomicUsize {
++        AtomicUsize::new(x.try_into().unwrap())
+     }
+ 
+     #[inline(always)]
+-    fn fetch(x: &AtomicU64) -> u64 {
+-        x.load(Relaxed)
++    fn fetch(x: &AtomicUsize) -> u64 {
++        x.load(Relaxed).try_into().unwrap()
+     }
+ 
+     #[inline(always)]
+     pub(crate) fn set(&self, index: usize) -> bool {
+         let (index, bit) = coord(index);
+-        let previously_contained = self.bits[index].load(Relaxed) & bit > 0;
+-        self.bits[index].fetch_or(bit, Relaxed);
++        let previously_contained = self.bits[index].load(Relaxed) & (bit as usize) > 0;
++        self.bits[index].fetch_or(bit.try_into().unwrap(), Relaxed);
+         previously_contained
+     }
+ 
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -20,10 +20,10 @@ use bit_vector::{AtomicBitVec, BitVec};
+ mod math;
+ 
+ #[cfg(feature = "loom")]
+-pub(crate) use loom::sync::atomic::AtomicU64;
++pub(crate) use loom::sync::atomic::AtomicUsize;
+ 
+ #[cfg(not(feature = "loom"))]
+-pub(crate) use core::sync::atomic::AtomicU64;
++pub(crate) use core::sync::atomic::AtomicUsize;
+ 
+ #[cfg(all(feature = "loom", feature = "serde"))]
+ compile_error!("features `loom` and `serde` are mutually exclusive");
+@@ -255,7 +255,7 @@ impl_bloom!(
+     AtomicBuilderWithBits,
+     AtomicBuilderWithFalsePositiveRate,
+     AtomicBitVec,
+-    AtomicU64,
++    AtomicUsize,
+     ""
+ );
+ 
