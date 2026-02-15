@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -65,3 +65,8 @@ unexpected_cfgs = { level = "warn", chec
+ [[bench]]
+ name = "benchmark_portscan"
+ harness = false
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../getrandom-0.3.1", package = "getrandom", version = "0.3.1" }
