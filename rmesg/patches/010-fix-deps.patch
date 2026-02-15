@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -77,3 +77,7 @@ skip_optional_dependencies = true
+ name = "benchmark"
+ harness = false
+ required-features = ["sync", "async"]
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.3.3" }
