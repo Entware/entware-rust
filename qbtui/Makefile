@@ -1,25 +1,28 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=qbtui
-PKG_VERSION:=0.0.5
-PKG_RELEASE:=4
+PKG_REAL_VERSION:=0.0.5
+PKG_RELEASE:=2
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2023-05-31
-PKG_SOURCE_VERSION:=4d8bc838ad423a92765c3b096d5f6b36945e3106
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-$(PKG_SOURCE_DATE).tar.zst
+PKG_SOURCE_DATE:=2025-07-20
+PKG_SOURCE_VERSION:=5ad98da425cdda93a8d23de6c2979b83312ee6c5
 PKG_SOURCE_URL:=https://github.com/pegov/qbtui
-PKG_MIRROR_HASH:=6b25b4441b40ab3c805705b2fbedac05e17d3e0949eb18f537b98fe7de8736dc
+PKG_MIRROR_HASH:=2f17c207030c7a7e81fb5be31cbce20d081dc958f8888a95e95a14ca23eced0c
+
+PKG_VERSION:=$(PKG_REAL_VERSION)_git$(subst -,,$(PKG_SOURCE_DATE))~$(call version_abbrev,$(PKG_SOURCE_VERSION))
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += getrandom-033
 
 define Package/qbtui
   SECTION:=net
