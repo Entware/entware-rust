@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 # all (localtime/TZ)
 
@@ -34,7 +34,6 @@ define Package/iana-time-zone-$(PKG_VERSION)/description
 endef
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,iana-time-zone-$(PKG_VERSION)))
