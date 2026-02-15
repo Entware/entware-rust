@@ -1,29 +1,9 @@
---- a/helix-term/Cargo.toml
-+++ b/helix-term/Cargo.toml
-@@ -64,7 +64,7 @@ termini = "1"
- 
- # Logging
- fern = "0.7"
--chrono = { version = "0.4", default-features = false, features = ["clock"] }
-+chrono = { version = "=0.4.41", default-features = false, features = ["clock"] }
- log = "0.4"
- 
- # File picker
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -38,7 +38,7 @@ package.helix-term.opt-level = 2
- 
- [workspace.dependencies]
- tree-sitter = { version = "0.22" }
--nucleo = "0.5.0"
-+nucleo = "=0.5.0"
- slotmap = "1.0.7"
- thiserror = "2.0"
- tempfile = "3.15.0"
-@@ -53,3 +53,10 @@ repository = "https://github.com/helix-e
+@@ -60,3 +60,13 @@ repository = "https://github.com/helix-e
  homepage = "https://helix-editor.com"
  license = "MPL-2.0"
- rust-version = "1.76"
+ rust-version = "1.82"
 +
 +[patch.crates-io]
 +# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
@@ -31,3 +11,6 @@
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.41" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../getrandom-0.3.1", package = "getrandom", version = "0.3.1" }

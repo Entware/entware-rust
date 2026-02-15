@@ -1,6 +1,6 @@
 --- a/helix-dap/src/client.rs
 +++ b/helix-dap/src/client.rs
-@@ -15,7 +15,7 @@ use std::{
+@@ -16,7 +16,7 @@ use std::{
      net::{IpAddr, Ipv4Addr, SocketAddr},
      path::PathBuf,
      process::Stdio,
@@ -9,15 +9,15 @@
  };
  use tokio::{
      io::{AsyncBufRead, AsyncWrite, BufReader, BufWriter},
-@@ -30,7 +30,7 @@ pub struct Client {
-     id: usize,
+@@ -31,7 +31,7 @@ pub struct Client {
+     id: DebugAdapterId,
      _process: Option<Child>,
      server_tx: UnboundedSender<Payload>,
 -    request_counter: AtomicU64,
 +    request_counter: AtomicUsize,
      connection_type: Option<ConnectionType>,
      starting_request_args: Option<Value>,
-     pub caps: Option<DebuggerCapabilities>,
+     /// The socket address of the debugger, if using TCP transport.
 @@ -82,7 +82,7 @@ impl Client {
              id,
              _process: process,
@@ -27,7 +27,7 @@
              caps: None,
              connection_type: None,
              starting_request_args: None,
-@@ -223,7 +223,7 @@ impl Client {
+@@ -231,7 +231,7 @@ impl Client {
      }
  
      fn next_request_id(&self) -> u64 {
@@ -38,16 +38,16 @@
      // Internal, called by specific DAP commands when resuming
 --- a/helix-lsp/src/client.rs
 +++ b/helix-lsp/src/client.rs
-@@ -17,7 +17,7 @@ use parking_lot::Mutex;
- use serde::Deserialize;
- use serde_json::Value;
- use std::sync::{
--    atomic::{AtomicU64, Ordering},
-+    atomic::{AtomicUsize, Ordering},
-     Arc,
+@@ -20,7 +20,7 @@ use std::{collections::HashMap, path::Pa
+ use std::{
+     ffi::OsStr,
+     sync::{
+-        atomic::{AtomicU64, Ordering},
++        atomic::{AtomicUsize, Ordering},
+         Arc,
+     },
  };
- use std::{collections::HashMap, path::PathBuf};
-@@ -49,7 +49,7 @@ pub struct Client {
+@@ -52,7 +52,7 @@ pub struct Client {
      name: String,
      _process: Child,
      server_tx: UnboundedSender<Payload>,
@@ -56,7 +56,7 @@
      pub(crate) capabilities: OnceCell<lsp::ServerCapabilities>,
      pub(crate) file_operation_interest: OnceLock<FileOperationsInterest>,
      config: Option<Value>,
-@@ -222,7 +222,7 @@ impl Client {
+@@ -249,7 +249,7 @@ impl Client {
              name,
              _process: process,
              server_tx,
@@ -65,7 +65,7 @@
              capabilities: OnceCell::new(),
              file_operation_interest: OnceLock::new(),
              config,
-@@ -246,7 +246,7 @@ impl Client {
+@@ -273,7 +273,7 @@ impl Client {
  
      fn next_request_id(&self) -> jsonrpc::Id {
          let id = self.request_counter.fetch_add(1, Ordering::Relaxed);
@@ -98,7 +98,7 @@
  
      fn num_running(&self) -> u32 {
 -        (self.state.load(Relaxed) >> 32) as u32
-+        self.state.load(Relaxed) as u32
++        (self.state.load(Relaxed) >> 31) as u32
      }
  
      /// Increments the generation count and sets `num_running`
@@ -107,7 +107,7 @@
          let state = self.state.load(Relaxed);
          let generation = state as u32;
 -        let prev_running = (state >> 32) as u32;
-+        let prev_running = state as u32;
++        let prev_running = (state >> 31) as u32;
          // no need to create a new generation if the refcount is zero (fastpath)
          if prev_running == 0 && num_running == 0 {
              return (generation, 0);
@@ -115,7 +115,7 @@
          let new_generation = generation.saturating_add(1);
          self.state.store(
 -            new_generation as u64 | ((num_running as u64) << 32),
-+            (new_generation as u64 | ((num_running as u64) << 32)).try_into().unwrap(),
++            new_generation as usize | ((num_running as usize) <<31),
              Relaxed,
          );
          self.notify.notify_waiters();
@@ -124,7 +124,7 @@
                  break;
              }
 -            let off = 1 << 32;
-+            let off = (1 < 32) as usize;
++            let off = 1 << 31;
              let res = self.state.compare_exchange_weak(
                  state,
                  state.saturating_add(off),
@@ -133,11 +133,11 @@
                  break;
              }
 -            let num_running = (state >> 32) as u32;
-+            let num_running = state as u32;
++            let num_running = (state >> 31) as u32;
              // running can't be zero here, that would mean we miscounted somewhere
              assert_ne!(num_running, 0);
 -            let off = 1 << 32;
-+            let off = (1 < 32) as usize;
++            let off = 1 << 31;
              let res = self
                  .state
                  .compare_exchange_weak(state, state - off, Relaxed, Relaxed);
