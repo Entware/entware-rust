@@ -1,0 +1,12 @@
+--- a/rust/vendor/getrandom/src/lib.rs
++++ b/rust/vendor/getrandom/src/lib.rs
+@@ -221,6 +221,9 @@ cfg_if! {
+     if #[cfg(any(target_os = "haiku", target_os = "redox", target_os = "nto", target_os = "aix"))] {
+         mod util_libc;
+         #[path = "use_file.rs"] mod imp;
++    } else if #[cfg(all(target_os = "linux", target_vendor = "openwrt"))] {
++        mod util_libc;
++        #[path = "use_file.rs"] mod imp;
+     } else if #[cfg(any(target_os = "android", target_os = "linux"))] {
+         mod util_libc;
+         mod use_file;

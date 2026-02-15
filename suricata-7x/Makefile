@@ -1,22 +1,23 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata
-PKG_VERSION:=7.0.10
+PKG_VERSION:=7.0.14
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://www.openinfosecfoundation.org/download
-PKG_HASH:=197f925ea701bdcb4a15aca024b06546b002674cd958b58958f29a5bb214d759
+PKG_HASH:=a90a141407c7cbfb8589323146a4f07e2defb9ac72f42846045cbe3dfc1ace13
 
 PKG_LICENSE:=GPL-2.0-only
 PKG_LICENSE_FILES:=COPYING LICENSE
 PKG_MAINTAINER:=Entware team, https://entware.net
 
 PKG_BUILD_PARALLEL:=1
+PKG_FIXUP:=autoreconf
 PKG_INSTALL:=1
 PYTHON3_PKG_BUILD:=0
 
@@ -33,7 +34,7 @@ define Package/suricata7/Default
   SECTION:=net
   CATEGORY:=Network
   TITLE:=OISF Suricata IDS
-  URL:=https://www.openinfosecfoundation.org/
+  URL:=https://suricata.io/
   DEPENDS:=+jansson +libatomic +libelf +libmagic +libpcap +libcap-ng +liblz4
   DEPENDS+=+libpcre2 +libyaml +zlib $(ICONV_DEPENDS)
   DEPENDS+= \
@@ -135,6 +136,13 @@ CONFIGURE_ARGS += \
 	--with-libnet-libraries=$(STAGING_DIR)/opt/lib
 
 endif
+
+define Build/Prepare
+	$(call Build/Prepare/Default)
+	$(FIND) $(PKG_BUILD_DIR)/rust/vendor \
+		-type f -name ".cargo-checksum.json" \
+		-exec $(SED) 's/\("files":{\)[^}]*/\1/' {} +
+endef
 
 define Package/suricata7/install
 	$(INSTALL_DIR) $(1)/opt/bin
