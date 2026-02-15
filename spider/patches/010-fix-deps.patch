@@ -1,16 +1,7 @@
 --- a/spider/Cargo.toml
 +++ b/spider/Cargo.toml
-@@ -33,7 +33,7 @@ flexbuffers = { version = "2", optional
- itertools = { version = "0.14", optional = true }
- case_insensitive_string = { version = "0.2", features = ["compact", "serde"] }
- sitemap = { version = "0.4", optional = true }
--chrono = { version = "0.4", optional = true }
-+chrono = { version = "=0.4.41", optional = true }
- cron = { version = "0.15", optional = true }
- async-trait = { version = "0.1", optional = true }
- strum = { version = "0.26", features = ["derive"] }
-@@ -75,7 +75,8 @@ tracing = { version = "0.1", default-fea
- sysinfo = { version = "0.33", default-features = false, features = [
+@@ -77,7 +77,8 @@ tracing = { version = "0.1", default-fea
+ sysinfo = { version = "0.35", default-features = false, features = [
      "system",
  ], optional = true }
 -sqlx = { version = "0.8", features = [
@@ -19,26 +10,17 @@
      "runtime-tokio",
      "sqlite",
  ], optional = true }
-@@ -95,6 +96,9 @@ rquest = { version = "5", optional = tru
- ] }
- rquest-util = { version = "2", optional = true, features = ["emulation-serde"] }
- 
-+[build-dependencies]
-+openssl = { version = "0.10.72", features = [ "vendored" ] }
-+
- [dependencies.spider_chrome]
- version = "2"
- path = "../spider_chrome"
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -11,3 +11,10 @@ members = [
+@@ -8,3 +8,11 @@ members = [
      "examples",
      "benches"]
  resolver = "2"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.41" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.16" }
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
