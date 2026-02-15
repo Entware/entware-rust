@@ -4,21 +4,23 @@
  [lib]
  
  [dependencies]
--nu-plugin = "0.98"
--nu-protocol = { version = "0.98", features = ["plugin"] }
-+nu-plugin = "0.101.0"
-+nu-protocol = { version = "0.101.0", features = ["plugin"] }
+-nu-plugin = "0.104.0"
+-nu-protocol = { version = "0.104.0", features = ["plugin"] }
++nu-plugin = "0.106.1"
++nu-protocol = { version = "0.106.1", features = ["plugin"] }
  pnet = "0.35.0"
  
  # The profile that 'cargo dist' will build with
-@@ -45,3 +45,10 @@ install-path = "CARGO_HOME"
+@@ -41,3 +41,12 @@ install-path = "CARGO_HOME"
  pr-run-mode = "plan"
  # Whether to install an updater program
  install-updater = false
 +
 +[patch.crates-io]
-+nu-plugin = { path = "../nushell-0.101.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.101.0/crates/nu-protocol" }
++nu-plugin = { path = "../nushell-0.106.1/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.106.1/crates/nu-protocol" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
++chrono = { path = "../chrono-0.4.40" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
