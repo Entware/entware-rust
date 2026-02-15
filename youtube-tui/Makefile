@@ -1,16 +1,18 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
+
+# XXX rquickjs-sys@0.9.0: rquickjs probably doesn't ship bindings
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=youtube-tui
-PKG_VERSION:=0.8.3
+PKG_VERSION:=0.9.3
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/siriusmart/youtube-tui/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=5c8834874800b98a78b12fb90fedbab507cc3a4f9949ea08d3f050efabb62ff0
+PKG_HASH:=d5f1829d4798c167928d811309d1fed6e9d33cd5d3fd8496bca9b84ccc105575
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
@@ -18,14 +20,15 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/rustlang/rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440 getrandom-0216 iana-time-zone-0163
+PKG_BUILD_DEPENDS += chrono-0442 getrandom-0216 getrandom-033 iana-time-zone-0164
 
 define Package/youtube-tui
   SECTION:=multimedia
   CATEGORY:=Multimedia
   TITLE:=An aesthetically pleasing YouTube TUI
-  URL:=https://siriusmart.github.io/youtube-tui
-  DEPENDS:=+libopenssl
+  URL:=https://tui.siri.ws/youtube
+  DEPENDS:=+libopenssl @BROKEN
+  EXTRA_DEPENDS:=yt-dlp
 endef
 
 define Package/youtube-tui/description
@@ -34,7 +37,7 @@ define Package/youtube-tui/description
 endef
 
 # cannot find -lmpv|-lsixel|-lxcb
-CARGO_ARGS += --no-default-features --features="halfblock"
+CARGO_ARGS += --no-default-features --features="halfblock,invidious"
 
 define Package/youtube-tui/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
