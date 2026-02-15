@@ -1,22 +1,24 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=grex
-PKG_VERSION:=1.4.5
+PKG_VERSION:=1.4.6
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pemistahl/grex/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=4e849b29b387afc583856f24923b76052ad90e320c2caacfc6452e6d9deb6b14
+PKG_HASH:=2ab9cb4c3d921711f23ea33a9e60dc11e9eaab450b16d1f2247bea2276822433
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += getrandom-034
 
 define Package/grex
   SECTION:=utils
