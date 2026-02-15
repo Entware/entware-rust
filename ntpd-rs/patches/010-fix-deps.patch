@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -61,3 +61,8 @@ zeroize = "1.7"
+ # our own crates used as dependencies, same version as the workspace version
+ # NOTE: keep this part at the bottom of the file, do not change this line
+ ntp-proto = { version = "1.6.2", path = "./ntp-proto", default-features = false, features = ["__internal-api"] }
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }

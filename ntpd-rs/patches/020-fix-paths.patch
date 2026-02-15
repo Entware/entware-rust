@@ -31,7 +31,7 @@
  
              Builder::new_current_thread()
                  .enable_all()
-@@ -402,7 +402,7 @@ mod tests {
+@@ -406,7 +406,7 @@ mod tests {
          Ok(())
      }
  
@@ -51,7 +51,7 @@
          if global_path.exists() {
              info!("using config file at default location `{:?}`", global_path);
              match Config::from_file(global_path) {
-@@ -685,14 +685,14 @@ mod tests {
+@@ -722,14 +722,14 @@ mod tests {
  
      #[test]
      fn cli_external_config() {
@@ -68,7 +68,7 @@
          let parsed_empty = NtpDaemonOptions::try_parse_from(arguments).unwrap();
  
          assert_eq!(parsed_empty.config, Some("other.toml".into()));
-@@ -702,13 +702,13 @@ mod tests {
+@@ -739,13 +739,13 @@ mod tests {
  
      #[test]
      fn cli_log_level() {
