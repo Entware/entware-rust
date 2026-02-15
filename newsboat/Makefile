@@ -1,18 +1,18 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=newsboat
-PKG_VERSION:=2.39
+PKG_VERSION:=2.42
 PKG_RELEASE:=1
 
 PKG_GIT_TAG:=r$(subst $(space),.,$(wordlist 1,2,$(subst .,$(space),$(PKG_VERSION))))
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/newsboat/newsboat/tar.gz/refs/tags/$(PKG_GIT_TAG)?
-PKG_HASH:=7444d16c3bc1dbdf7121dd4678ed58353b809d5b2db29ef0c4c839e2c6307516
+PKG_HASH:=f06e39279a7c884e60f9dbcb58fd1f23ff888dd6fca6dbab5879fb039c83f03a
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
 include ../rustc-dev/rust.mk
 
-PKG_BUILD_DEPENDS += chrono-0440
+PKG_BUILD_DEPENDS += chrono-0442 getrandom-033 iana-time-zone-0164
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/newsboat
@@ -43,7 +43,7 @@ define Package/newsboat/conffiles
 /opt/etc/newsboat/config
 endef
 
-MAKE_VARS += $(RUSTC_VARS)
+MAKE_VARS += $(RUSTC_VARS) CARGO_BUILD_FLAGS="--locked"
 
 TARGET_LDFLAGS += $(if $(INTL_FULL),-lintl)
 
