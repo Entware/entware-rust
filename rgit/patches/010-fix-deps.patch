@@ -1,15 +1,30 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -93,6 +93,12 @@ zlib-ng = ["flate2/zlib-ng", "gix/zlib-n
- [build-dependencies]
- anyhow = "1.0"
- rsass = "0.28.0"
-+# all: no SYS_getrandom
-+getrandom = "=0.2.15"
+@@ -26,14 +26,16 @@ itertools = "0.12"
+ rust-ini = "0.20"
+ nom = "7.1"
+ md5 = "0.7"
+-moka = { version = "0.12.0", features = ["future"] }
++# error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
++moka = { version = "0.12.10", features = ["future"] }
+ once_cell = "1.18"
+ path-clean = "1.0.1"
+ parking_lot = "0.12"
+ serde = { version = "1.0", features = ["derive", "rc"] }
+ sha2 = "0.10"
+ syntect = "5"
+-rocksdb = "0.21"
++# musl
++rocksdb = "0.23.0"
+ tar = "0.4"
+ flate2 = "1.0"
+ time = { version = "0.3", features = ["serde"] }
+@@ -59,3 +61,8 @@ rsass = "0.28.0"
  
  [package.metadata.deb]
  section = "web"
 +
 +[patch.crates-io]
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.15" }
++getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
