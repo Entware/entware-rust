@@ -1,14 +1,13 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -34,3 +34,11 @@ log = "0.4"
+@@ -34,3 +34,10 @@ log = "0.4"
  env_logger = "0.10.0"
  dirs = "5.0.1"
  rustls-native-certs = "0.8.1"
 +
-+[dev-dependencies]
-+# all: no SYS_getrandom
-+getrandom = "=0.2.15"
-+
 +[patch.crates-io]
++# error[E0432]: unresolved import `crate::AtomicU64`
++fastbloom = { path = "../fastbloom-0.14.0" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.15" }
++getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
