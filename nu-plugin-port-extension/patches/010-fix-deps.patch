@@ -1,0 +1,15 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -25,3 +25,12 @@ version = "0.106.1"
+ [dependencies.nu-protocol]
+ features = ["plugin"]
+ version = "0.106.1"
++
++[patch.crates-io]
++nu-plugin = { path = "../nushell-0.106.1/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.106.1/crates/nu-protocol" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.40" }
++iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
