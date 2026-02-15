@@ -1,68 +1,20 @@
---- a/crates/tor-hsrproxy/Cargo.toml
-+++ b/crates/tor-hsrproxy/Cargo.toml
-@@ -68,5 +68,6 @@ tracing = "0.1.36"
- void = "1"
- 
- [dev-dependencies]
-+chrono = "=0.4.41"
- serde_json = "1.0.50"
- toml = "0.8.8"
---- a/crates/tor-hsservice/Cargo.toml
-+++ b/crates/tor-hsservice/Cargo.toml
-@@ -121,6 +121,7 @@ tracing = "0.1.36"
- void = "1"
- 
- [dev-dependencies]
-+chrono = "=0.4.41"
- libc = { version = "0.2", default-features = false }
- rmp-serde = "1"
- serde_json = "1.0.104"
---- a/crates/tor-linkspec/Cargo.toml
-+++ b/crates/tor-linkspec/Cargo.toml
-@@ -52,6 +52,7 @@ tor-memquota = { version = "0.30.0", pat
- tor-protover = { path = "../tor-protover", version = "0.30.0" }
- 
- [dev-dependencies]
-+chrono = "=0.4.41"
- hex-literal = "0.4"
- itertools = "0.14.0"
- serde_test = "1.0.124"
---- a/crates/tor-netdoc/Cargo.toml
-+++ b/crates/tor-netdoc/Cargo.toml
-@@ -128,6 +128,7 @@ zeroize = "1"
- 
- [dev-dependencies]
- anyhow = "1.0.23"
-+chrono = "=0.4.41"
- hex-literal = "0.4"
- itertools = "0.14.0"
- serde_json = "1.0.50"
---- a/crates/tor-proto/Cargo.toml
-+++ b/crates/tor-proto/Cargo.toml
-@@ -116,6 +116,7 @@ void = "1"
- zeroize = "1"
- 
- [dev-dependencies]
-+chrono = "=0.4.41"
- cpu-time = "1.0.0"
- criterion = "0.5.1"
- hex = "0.4"
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -141,3 +141,16 @@ incremental = true
+@@ -151,3 +151,17 @@ opt-level = 1
  # Inherits release build settings, but adds full debug symbols.
  debug = 2
  strip = "none"
 +
 +[patch.crates-io]
 +# mips/mipsel Atomic*64
-+coarsetime = { path = "../coarsetime-0.1.36" }
++coarsetime = { path = "../coarsetime-0.1.37" }
 +# mips (big endian)
 +merlin = { path = "../merlin-3.0.0" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.41" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# openssl
 +openssl-probe = { path = "../openssl-probe-0.1.6" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.16" }
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }

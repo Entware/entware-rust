@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=arti
-PKG_VERSION:=1.4.3
+PKG_VERSION:=2.0.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://gitlab.torproject.org/tpo/core/arti/-/archive/$(PKG_NAME)-v$(PKG_VERSION)
-PKG_HASH:=5d54ce2e29b6b23107277dd8d1dea8a5bff56ddf04fb46ce851013fddb14639e
+PKG_HASH:=19106e4706222de65f8e735193ec50ba4c312abc2a28b48cca7e13d01fdeacab
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=GPL-3 LGPL-3 LICENSE-APACHE LICENSE-MIT
@@ -22,9 +22,9 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0441 coarsetime-0136 getrandom-0216 \
-		iana-time-zone-0163 merlin-300 openssl-probe-016 \
-		rust-bindgen/host
+PKG_BUILD_DEPENDS += \
+	chrono-0442 coarsetime-0137 getrandom-0217 getrandom-034 \
+	iana-time-zone-0164 merlin-300 openssl-probe-016 rust-bindgen/host
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/arti/Default
@@ -135,6 +135,8 @@ endef
 #endef
 
 #CARGO_ARGS += $(if $(CONFIG_ARTI_EXPERIMENTAL),--features 'experimental')
+
+CARGO_ARGS += --features 'full'
 
 # cannot be used when making a shared object; recompile with -fPIC
 RUSTFLAGS += -C relocation-model=pic

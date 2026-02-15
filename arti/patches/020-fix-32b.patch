@@ -1,39 +1,22 @@
---- a/crates/tor-circmgr/src/isolation.rs
-+++ b/crates/tor-circmgr/src/isolation.rs
-@@ -1,7 +1,7 @@
- //! Types related to stream isolation
- use downcast_rs::{impl_downcast, Downcast};
- use dyn_clone::{clone_trait_object, DynClone};
--use std::sync::atomic::{AtomicU64, Ordering};
-+use std::sync::atomic::{AtomicUsize, Ordering};
- 
- /// A type that can make isolation decisions about streams it is attached to.
- ///
-@@ -179,10 +179,10 @@ impl IsolationToken {
-     /// no longer possible to ensure isolation.
-     pub fn new() -> Self {
-         /// Internal counter used to generate different tokens each time
--        static COUNTER: AtomicU64 = AtomicU64::new(1);
-+        static COUNTER: AtomicUsize = AtomicUsize::new(1);
-         // Ordering::Relaxed is fine because we don't care about causality, we just want a
-         // different number each time
--        let token = COUNTER.fetch_add(1, Ordering::Relaxed);
-+        let token = COUNTER.fetch_add(1, Ordering::Relaxed) as u64;
-         assert!(token < u64::MAX);
-         IsolationToken(token)
-     }
 --- a/crates/tor-chanmgr/src/mgr/state.rs
 +++ b/crates/tor-chanmgr/src/mgr/state.rs
-@@ -8,7 +8,7 @@ use crate::{ChannelConfig, Dormancy, Err
- 
+@@ -9,7 +9,7 @@ use crate::{ChannelConfig, Dormancy, Err
  use futures::FutureExt;
  use std::result::Result as StdResult;
+ use std::sync::Arc;
 -use std::sync::atomic::{AtomicU64, Ordering};
 +use std::sync::atomic::{AtomicUsize, Ordering};
- use std::sync::Arc;
  use tor_async_utils::oneshot;
  use tor_basic_utils::RngExt as _;
-@@ -122,12 +122,12 @@ impl UniqPendingChanId {
+ use tor_cell::chancell::msg::PaddingNegotiate;
+@@ -116,17 +116,17 @@ pub(crate) struct OpenEntry<C> {
+ 
+ /// A unique ID for a pending ([`PendingEntry`]) channel.
+ #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
+-pub(crate) struct UniqPendingChanId(u64);
++pub(crate) struct UniqPendingChanId(usize);
+ 
+ impl UniqPendingChanId {
      /// Construct a new `UniqPendingChanId`.
      pub(crate) fn new() -> Self {
          /// The next unique ID.
@@ -43,11 +26,43 @@
          // is instantiated with respect to other channels.
          let id = NEXT_ID.fetch_add(1, Ordering::Relaxed);
 -        assert!(id != u64::MAX, "Exhausted the pending channel ID namespace");
--        Self(id)
 +        assert!(id != usize::MAX, "Exhausted the pending channel ID namespace");
-+        Self(id.try_into().unwrap())
+         Self(id)
      }
  }
+--- a/crates/tor-circmgr/src/isolation.rs
++++ b/crates/tor-circmgr/src/isolation.rs
+@@ -1,7 +1,7 @@
+ //! Types related to stream isolation
+ use downcast_rs::{Downcast, impl_downcast};
+ use dyn_clone::{DynClone, clone_trait_object};
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ 
+ /// A type that can make isolation decisions about streams it is attached to.
+ ///
+@@ -191,7 +191,7 @@ pub trait IsolationHelper: Sized {
+ // This type is re-exported by `arti-client`: any changes to it must be
+ // reflected in `arti-client`'s version.
+ #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
+-pub struct IsolationToken(u64);
++pub struct IsolationToken(usize);
+ 
+ #[allow(clippy::new_without_default)]
+ impl IsolationToken {
+@@ -205,11 +205,11 @@ impl IsolationToken {
+     /// no longer possible to ensure isolation.
+     pub fn new() -> Self {
+         /// Internal counter used to generate different tokens each time
+-        static COUNTER: AtomicU64 = AtomicU64::new(1);
++        static COUNTER: AtomicUsize = AtomicUsize::new(1);
+         // Ordering::Relaxed is fine because we don't care about causality, we just want a
+         // different number each time
+         let token = COUNTER.fetch_add(1, Ordering::Relaxed);
+-        assert!(token < u64::MAX);
++        assert!(token < usize::MAX);
+         IsolationToken(token)
+     }
  
 --- a/crates/tor-guardmgr/src/pending.rs
 +++ b/crates/tor-guardmgr/src/pending.rs
@@ -60,17 +75,125 @@
  use std::task::{Context, Poll};
  use std::time::Instant;
  use tor_proto::ClockSkew;
-@@ -258,8 +258,8 @@ impl RequestId {
+@@ -258,10 +258,10 @@ impl RequestId {
      /// Panics if we have somehow exhausted a 64-bit space of request IDs.
      pub(crate) fn next() -> RequestId {
          /// The next identifier in sequence we'll give out.
 -        static NEXT_VAL: AtomicU64 = AtomicU64::new(1);
 -        let id = NEXT_VAL.fetch_add(1, Ordering::Relaxed);
 +        static NEXT_VAL: AtomicUsize = AtomicUsize::new(1);
-+        let id = NEXT_VAL.fetch_add(1, Ordering::Relaxed) as u64;
++        let id: usize = NEXT_VAL.fetch_add(1, Ordering::Relaxed).try_into().unwrap();
          assert!(id != 0, "Exhausted guard request Id space.");
-         RequestId { id }
+-        RequestId { id }
++        RequestId { id: id.try_into().unwrap() }
      }
+ }
+ 
+--- a/crates/tor-proto/src/client/reactor/conflux/msghandler.rs
++++ b/crates/tor-proto/src/client/reactor/conflux/msghandler.rs
+@@ -1,7 +1,7 @@
+ //! Client-side conflux message handling.
+ 
+ use std::sync::Arc;
+-use std::sync::atomic::{self, AtomicU64};
++use std::sync::atomic::{self, AtomicUsize};
+ use std::time::{Duration, SystemTime};
+ 
+ use tor_cell::relaycell::conflux::V1Nonce;
+@@ -55,7 +55,7 @@ pub(crate) struct ClientConfluxMsgHandle
+     ///
+     /// Incremented by the [`ConfluxMsgHandler`](super::ConfluxMsgHandler::inc_last_seq_delivered)
+     /// upon delivering the cell to its corresponding stream.
+-    last_seq_delivered: Arc<AtomicU64>,
++    last_seq_delivered: Arc<AtomicUsize>,
+     /// Whether we have processed any SWITCH cells on the leg this handler is installed on.
+     have_seen_switch: bool,
+     /// The number of cells that count towards the conflux seqnos
+@@ -183,7 +183,7 @@ impl ClientConfluxMsgHandler {
+     pub(crate) fn new(
+         join_point: HopNum,
+         nonce: V1Nonce,
+-        last_seq_delivered: Arc<AtomicU64>,
++        last_seq_delivered: Arc<AtomicUsize>,
+         cwnd_params: CongestionWindowParams,
+         runtime: DynTimeProvider,
+     ) -> Self {
+--- a/crates/tor-proto/src/client/reactor/conflux.rs
++++ b/crates/tor-proto/src/client/reactor/conflux.rs
+@@ -9,7 +9,7 @@
+ pub(crate) mod msghandler;
+ 
+ use std::pin::Pin;
+-use std::sync::atomic::{self, AtomicU64};
++use std::sync::atomic::{self, AtomicUsize};
+ use std::sync::{Arc, Mutex};
+ 
+ use futures::{FutureExt as _, StreamExt, select_biased};
+@@ -139,7 +139,7 @@ pub(super) struct ConfluxSet {
+     ///
+     /// If the message is out-of-order, the `ConfluxMsgHandler` instructs the circuit
+     /// to instruct the reactor to buffer the message.
+-    last_seq_delivered: Arc<AtomicU64>,
++    last_seq_delivered: Arc<AtomicUsize>,
+     /// Whether we have selected our initial primary leg,
+     /// if this is a multipath conflux set.
+     selected_init_primary: bool,
+@@ -188,7 +188,7 @@ impl ConfluxSet {
+             nonce: V1Nonce::new(&mut rand::rng()),
+             #[cfg(feature = "conflux")]
+             desired_ux,
+-            last_seq_delivered: Arc::new(AtomicU64::new(0)),
++            last_seq_delivered: Arc::new(AtomicUsize::new(0)),
+             selected_init_primary: false,
+         };
+ 
+@@ -1210,7 +1210,7 @@ impl ConfluxSet {
+ 
+     /// Check if the specified sequence number is the sequence number of the
+     /// next message we're expecting to handle.
+-    pub(super) fn is_seqno_in_order(&self, seq_recv: u64) -> bool {
++    pub(super) fn is_seqno_in_order(&self, seq_recv: usize) -> bool {
+         let last_seq_delivered = self.last_seq_delivered.load(atomic::Ordering::Acquire);
+         seq_recv == last_seq_delivered + 1
+     }
+--- a/crates/tor-proto/src/conflux/msghandler.rs
++++ b/crates/tor-proto/src/conflux/msghandler.rs
+@@ -2,7 +2,7 @@
+ 
+ use std::cmp::Ordering;
+ use std::sync::Arc;
+-use std::sync::atomic::{self, AtomicU64};
++use std::sync::atomic::{self, AtomicUsize};
+ use std::time::{Duration, SystemTime};
+ 
+ use tor_cell::relaycell::{AnyRelayMsgOuter, RelayCmd, StreamId, UnparsedRelayMsg};
+@@ -28,7 +28,7 @@ pub(crate) struct ConfluxMsgHandler {
+     /// The absolute sequence number of the last message delivered to a stream.
+     ///
+     /// This is shared by all the circuits in a conflux set.
+-    last_seq_delivered: Arc<AtomicU64>,
++    last_seq_delivered: Arc<AtomicUsize>,
+ }
+ 
+ impl ConfluxMsgHandler {
+@@ -39,7 +39,7 @@ impl ConfluxMsgHandler {
+     // TODO(relay): exits will need to implement their own AbstractConfluxMsgHandler
+     pub(crate) fn new(
+         handler: Box<dyn AbstractConfluxMsgHandler + Send + Sync>,
+-        last_seq_delivered: Arc<AtomicU64>,
++        last_seq_delivered: Arc<AtomicUsize>,
+     ) -> Self {
+         Self {
+             handler,
+@@ -111,7 +111,7 @@ impl ConfluxMsgHandler {
+     /// Returns an internal error if the relative seqno is lower than the absolute seqno.
+     fn is_msg_in_order(&self) -> Result<bool, Bug> {
+         let last_seq_delivered = self.last_seq_delivered.load(atomic::Ordering::Acquire);
+-        match self.handler.last_seq_recv().cmp(&(last_seq_delivered + 1)) {
++        match self.handler.last_seq_recv().cmp(&(last_seq_delivered + 1).try_into().unwrap()) {
+             Ordering::Less => {
+                 // Our internal accounting is busted!
+                 Err(internal!(
 --- a/crates/tor-proto/src/util/ts.rs
 +++ b/crates/tor-proto/src/util/ts.rs
 @@ -1,7 +1,7 @@
@@ -98,24 +221,29 @@
          }
      }
  
-@@ -42,7 +42,7 @@ impl AtomicOptTimestamp {
+@@ -38,7 +38,7 @@ impl AtomicOptTimestamp {
+     /// If the timestamp is currently unset, then set it to the current time.
+     /// Otherwise leave it alone.
+     pub(crate) fn update_if_none(&self) {
+-        let now = coarsetime::Instant::now().as_ticks();
++        let now: usize = coarsetime::Instant::now().as_ticks().try_into().unwrap();
  
          let _ignore = self
              .latest
--            .compare_exchange(0, now, Ordering::Relaxed, Ordering::Relaxed);
-+            .compare_exchange(0, now.try_into().unwrap(), Ordering::Relaxed, Ordering::Relaxed);
-     }
- 
-     /// Clear the timestamp and make it not updated again.
-@@ -67,7 +67,7 @@ impl AtomicOptTimestamp {
+@@ -67,10 +67,10 @@ impl AtomicOptTimestamp {
          &self,
          now: coarsetime::Instant,
      ) -> Option<coarsetime::Duration> {
 -        let earlier = self.latest.load(Ordering::Relaxed);
-+        let earlier = self.latest.load(Ordering::Relaxed) as u64;
-         let now = now.as_ticks();
+-        let now = now.as_ticks();
++        let earlier: usize = self.latest.load(Ordering::Relaxed).try_into().unwrap();
++        let now: usize = now.as_ticks().try_into().unwrap();
          if now >= earlier && earlier != 0 {
-             Some(coarsetime::Duration::from_ticks(now - earlier))
+-            Some(coarsetime::Duration::from_ticks(now - earlier))
++            Some(coarsetime::Duration::from_ticks((now - earlier).try_into().unwrap()))
+         } else {
+             None
+         }
 @@ -79,7 +79,7 @@ impl AtomicOptTimestamp {
      /// Update this timestamp to (at least) the time `now`.
      #[inline]
@@ -125,3 +253,31 @@
      }
  }
  
+--- a/crates/tor-proto/src/tunnel.rs
++++ b/crates/tor-proto/src/tunnel.rs
+@@ -1,6 +1,6 @@
+ //! Module exposing tunnel-related types shared by clients and relays.
+ 
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ 
+ use crate::circuit::UniqId;
+ use derive_more::Display;
+@@ -10,7 +10,7 @@ use derive_more::Display;
+ #[display("{}", _0)]
+ #[cfg_attr(feature = "relay", visibility::make(pub))]
+ #[allow(unreachable_pub)] // TODO(#1447): use in ChanMgr's ChannelProvider impl
+-pub(crate) struct TunnelId(u64);
++pub(crate) struct TunnelId(usize);
+ 
+ impl TunnelId {
+     /// Create a new TunnelId.
+@@ -20,7 +20,7 @@ impl TunnelId {
+     /// Panics if we have exhausted the possible space of u64 IDs.
+     pub(crate) fn next() -> TunnelId {
+         /// The next unique tunnel ID.
+-        static NEXT_TUNNEL_ID: AtomicU64 = AtomicU64::new(1);
++        static NEXT_TUNNEL_ID: AtomicUsize = AtomicUsize::new(1);
+         let id = NEXT_TUNNEL_ID.fetch_add(1, Ordering::Relaxed);
+         assert!(id != 0, "Exhausted Tunnel ID space?!");
+         TunnelId(id)

@@ -1,0 +1,81 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -1168,8 +1168,6 @@ checksum = "613afe47fcd5fac7ccf1db93babc
+ [[package]]
+ name = "chrono"
+ version = "0.4.42"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "145052bdd345b87320e369255277e3fb5152762ad123a901ef5c262dd38fe8d2"
+ dependencies = [
+  "iana-time-zone",
+  "num-traits",
+@@ -1259,8 +1257,6 @@ checksum = "c3e64b0cc0439b12df2fa678eae8
+ [[package]]
+ name = "coarsetime"
+ version = "0.1.37"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "e58eb270476aa4fc7843849f8a35063e8743b4dbcdf6dd0f8ea0886980c204c2"
+ dependencies = [
+  "libc",
+  "wasix",
+@@ -2631,8 +2627,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.2.17"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ff2abc00be7fca6ebc474524697ae276ad847ad0a6b3faa4bcb027e9a4614ad0"
+ dependencies = [
+  "cfg-if",
+  "js-sys",
+@@ -2644,8 +2638,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.3.4"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
+ dependencies = [
+  "cfg-if",
+  "js-sys",
+@@ -3017,8 +3009,6 @@ dependencies = [
+ [[package]]
+ name = "iana-time-zone"
+ version = "0.1.64"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "33e57f83510bb73707521ebaffa789ec8caf86f9657cad665b092b581d40e9fb"
+ dependencies = [
+  "android_system_properties",
+  "core-foundation-sys",
+@@ -3026,14 +3016,12 @@ dependencies = [
+  "js-sys",
+  "log",
+  "wasm-bindgen",
+- "windows-core 0.62.2",
++ "windows-core 0.61.2",
+ ]
+ 
+ [[package]]
+ name = "iana-time-zone-haiku"
+ version = "0.1.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+ dependencies = [
+  "cc",
+ ]
+@@ -3551,8 +3539,6 @@ dependencies = [
+ [[package]]
+ name = "merlin"
+ version = "3.0.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "58c38e2799fc0978b65dfff8023ec7843e2330bb462f19198840b34b6582397d"
+ dependencies = [
+  "byteorder",
+  "keccak",
+@@ -3971,8 +3957,6 @@ dependencies = [
+ [[package]]
+ name = "openssl-probe"
+ version = "0.1.6"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "d05e27ee213611ffe7d6348b942e8f942b37114c00cc03cec254295a4a17852e"
+ 
+ [[package]]
+ name = "openssl-probe"
