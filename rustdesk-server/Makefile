@@ -1,17 +1,17 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustdesk-server
-PKG_VERSION:=1.1.14
+PKG_VERSION:=1.1.15
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/rustdesk/rustdesk-server
-PKG_MIRROR_HASH:=cde20ea488f654854e1a8542f248cb450c86b6be9efc3496fb81ca6053c1bb4c
+PKG_MIRROR_HASH:=d1419cca878bb6d0e3079bd62c7508430d1a3f92f00bcada51d38c9ca8bb148c
 
 PKG_LICENSE:=AGPL-3.0
 PKG_LICENSE_FILES:=LICENSE
@@ -20,8 +20,9 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += async-speed-limit-031-1 chrono-0439 getrandom-0215
-PKG_BUILD_DEPENDS += jsonwebtoken-910 sqlx-072
+PKG_BUILD_DEPENDS += \
+	async-speed-limit-031-1 chrono-0440 getrandom-0215 getrandom-033 \
+	iana-time-zone-0161 jsonwebtoken-910 sqlx-072
 
 define Package/rustdesk-server
   SECTION:=utils

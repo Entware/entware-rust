@@ -18,22 +18,7 @@
  headers = "0.3"
  once_cell = "1.8"
  sodiumoxide = "0.2"
-@@ -62,6 +62,14 @@ reqwest = { git = "https://github.com/ru
- [build-dependencies]
- hbb_common = { path = "libs/hbb_common" }
- 
-+[dev-dependencies]
-+# error[E0635]: unknown feature `stdsimd`
-+ahash = "0.7.8"
-+# all: no SYS_getrandom
-+getrandom = "=0.2.15"
-+# mips/mipsel: error: failed to run custom build command for `ring v0.16.20`
-+sct = "0.7.1"
-+
- [workspace]
- members = ["libs/hbb_common"]
- exclude = ["ui"]
-@@ -75,3 +83,15 @@ panic = 'abort'
+@@ -76,3 +76,16 @@ panic = 'abort'
  strip = true
  #opt-level = 'z' # only have smaller size after strip # Default is 3, better performance
  #rpath = true # Not needed
@@ -45,7 +30,8 @@
 +# mips/mipsel: error: failed to run custom build command for `ring v0.16.20`
 +jsonwebtoken = { path = "../jsonwebtoken-9.1.0" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.39" }
++chrono = { path = "../chrono-0.4.40" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.61" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.15" }
++getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
