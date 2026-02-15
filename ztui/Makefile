@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
+
+# Abandoned in 2023
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ztui
 PKG_VERSION:=0.1.7
-PKG_RELEASE:=4
+PKG_RELEASE:=6
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/erikh/ztui/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -18,7 +20,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 sys-metrics-026
+PKG_BUILD_DEPENDS += chrono-0441 getrandom-0215 iana-time-zone-0163 sys-metrics-026
 
 define Package/ztui
   SECTION:=net
@@ -34,6 +36,13 @@ define Package/ztui/description
   ztui aims to be a frontend for all interactions with ZeroTier
   in an attempt to transform how people work with it.
 endef
+
+# error: failed to run custom build command for `openssl-sys v0.9.111`
+RUSTC_VARS += OPENSSL_NO_VENDOR=1
+
+ifeq ($(CONFIG_x86_64),y)
+RUSTC_VARS += LD_LIBRARY_PATH=$(STAGING_DIR)/opt/lib
+endif
 
 define Package/ztui/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
