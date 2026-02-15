@@ -1,6 +1,6 @@
 --- a/src/config.rs
 +++ b/src/config.rs
-@@ -68,7 +68,7 @@ pub fn get_default_config_path(config_fi
+@@ -67,7 +67,7 @@ pub fn get_default_config_path(config_fi
      // UNIX global configuration file
      #[cfg(unix)]
      {
