@@ -1,12 +1,10 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -25,6 +25,9 @@ env_logger = "0.10"
- anyhow = "1"
- clap = { version = "4", features = ["derive", "wrap_help"] }
- term = "0.7"
+@@ -34,3 +34,7 @@ name = "bingrep"
+ [badges.travis-ci]
+ branch = "master"
+ repository = "m4b/bingrep"
 +
-+# error[E0635]: unknown feature `proc_macro_span_shrink`
-+proc-macro2 = "1.0.57"
- 
- [dependencies.metagoblin]
- version = "0.8"
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
