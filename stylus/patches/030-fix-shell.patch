@@ -1,0 +1,16 @@
+--- a/crates/stylus/src/template/monitor.d/my-flaky-monitor/test.sh
++++ b/crates/stylus/src/template/monitor.d/my-flaky-monitor/test.sh
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/opt/bin/bash
+ # Fail 50% of the time, timeout 25% of the time by sleeping for 10s, and succeed 25% of the time
+ if [ $((RANDOM % 2)) -eq 0 ]; then
+     echo "Success"
+--- a/crates/stylus/src/template/monitor.d/my-group-monitor/test.sh
++++ b/crates/stylus/src/template/monitor.d/my-group-monitor/test.sh
+@@ -1,4 +1,4 @@
+-#!/bin/bash
++#!/opt/bin/bash
+ set -xeuf -o pipefail
+ echo '@@STYLUS@@ group.port-0.status.status="yellow"'
+ echo '@@STYLUS@@ group.port-1.status.status="green"'

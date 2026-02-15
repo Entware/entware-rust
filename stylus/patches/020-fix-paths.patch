@@ -1,0 +1,11 @@
+--- a/crates/stylus/src/monitors/snmp.rs
++++ b/crates/stylus/src/monitors/snmp.rs
+@@ -530,7 +530,7 @@ impl SnmpNetworkMonitorConfig {
+         MonitorDirTestConfig {
+             interval: self.interval,
+             timeout: self.timeout,
+-            command: PathBuf::from("/usr/bin/env"),
++            command: PathBuf::from("/opt/bin/env"),
+             args: parts,
+             processor: Some(Arc::new(SnmpMonitorMessageProcessor {
+                 id: self.id.clone(),
