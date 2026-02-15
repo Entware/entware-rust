@@ -1,0 +1,30 @@
+--- a/crates/get-size2/src/lib.rs
++++ b/crates/get-size2/src/lib.rs
+@@ -12,9 +12,11 @@ use std::num::{
+ use std::ops::{Range, RangeFrom, RangeFull, RangeInclusive, RangeTo, RangeToInclusive};
+ use std::rc::{Rc, Weak as RcWeak};
+ use std::sync::atomic::{
+-    AtomicBool, AtomicI8, AtomicI16, AtomicI32, AtomicI64, AtomicIsize, AtomicU8, AtomicU16,
+-    AtomicU32, AtomicU64, AtomicUsize, Ordering,
++    AtomicBool, AtomicI8, AtomicI16, AtomicI32, AtomicIsize, AtomicU8, AtomicU16,
++    AtomicU32, AtomicUsize, Ordering,
+ };
++#[cfg(target_pointer_width = "64")]
++use std::sync::atomic::{AtomicI64, AtomicU64};
+ use std::sync::{Arc, Mutex, OnceLock, RwLock, Weak as ArcWeak};
+ use std::time::{Duration, Instant, SystemTime};
+ 
+@@ -115,11 +117,13 @@ impl GetSize for AtomicBool {}
+ impl GetSize for AtomicI8 {}
+ impl GetSize for AtomicI16 {}
+ impl GetSize for AtomicI32 {}
++#[cfg(target_pointer_width = "64")]
+ impl GetSize for AtomicI64 {}
+ impl GetSize for AtomicIsize {}
+ impl GetSize for AtomicU8 {}
+ impl GetSize for AtomicU16 {}
+ impl GetSize for AtomicU32 {}
++#[cfg(target_pointer_width = "64")]
+ impl GetSize for AtomicU64 {}
+ impl GetSize for AtomicUsize {}
+ impl GetSize for Ordering {}
