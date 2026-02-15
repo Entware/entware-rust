@@ -1,28 +1,25 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2025 Entware
-
-# https://github.com/Entware/Entware/issues/1160
+# Copyright (C) 2025-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=monolith
 PKG_VERSION:=2.10.1
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Y2Z/monolith/tar.gz/refs/tags/v$(PKG_VERSION)?
 PKG_HASH:=1afafc94ba693597f591206938e998fcf2c78fd6695e7dfd8c19e91061f7b44a
 
-PKG_MAINTAINER:=Entware team, https://entware.net
 PKG_LICENSE:=CC0-1.0
 PKG_LICENSE_FILES:=LICENSE
+PKG_MAINTAINER:=Entware team, https://entware.net
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += \
-	chrono-0440 getrandom-032 iana-time-zone-0162 openssl-probe-016
+PKG_BUILD_DEPENDS += chrono-0440 getrandom-032 iana-time-zone-0162 openssl-probe-016
 
 define Package/monolith
   SECTION:=net
