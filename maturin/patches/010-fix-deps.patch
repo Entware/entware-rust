@@ -1,0 +1,41 @@
+error: the lock file .../Cargo.lock needs to be updated but --locked was passed to prevent this
+If you want to try to generate the lock file without accessing the network, remove the --locked flag and use --offline instead.
+error: `cargo metadata --manifest-path Cargo.toml --format-version 1 --locked` failed with code 101
+-- Output captured from stdout:
+
+
+ERROR Backend subprocess exited when trying to invoke build_wheel
+
+---
+
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -959,8 +959,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.2.16"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "335ff9f135e4384c8150d6f27c6daed433577f86b4750418338c01a1a2528592"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -970,8 +968,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.3.4"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
+ dependencies = [
+  "cfg-if",
+  "libc",
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -220,3 +220,8 @@ opt-level = 3
+ opt-level = 3
+ [profile.dev.package.msi]
+ opt-level = 3
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom2 = { path = "../../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
