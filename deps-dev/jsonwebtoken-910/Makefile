@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX mips(el) (rustdesk-server)
 
@@ -20,6 +20,8 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../../rustc-dev/cargo.mk
 
+PKG_BUILD_DEPENDS += getrandom-0216
+
 define Package/jsonwebtoken-$(PKG_VERSION)
   SECTION:=devel
   CATEGORY:=Development
@@ -34,7 +36,6 @@ define Package/jsonwebtoken-$(PKG_VERSION)/description
 endef
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,jsonwebtoken-$(PKG_VERSION)))

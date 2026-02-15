@@ -9,3 +9,11 @@
  base64 = "0.21.0"
  # For PEM decoding
  pem = {version = "3", optional = true}
+@@ -36,3 +36,7 @@ harness = false
+ 
+ [badges]
+ maintenance = { status = "passively-maintained" }
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
