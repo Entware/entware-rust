@@ -1,112 +1,48 @@
---- a/vendor/crossbeam-epoch-0.9.5/no_atomic.rs
-+++ b/vendor/crossbeam-epoch-0.9.5/no_atomic.rs
-@@ -11,6 +11,11 @@ const NO_ATOMIC_CAS: &[&str] = &[
- ];
- #[allow(dead_code)]
- const NO_ATOMIC_64: &[&str] = &[
-+    "armv5te-openwrt-linux-gnueabi",	// Entware/OpenWrt
-+    "mips-openwrt-linux-gnu",		// Entware/OpenWrt
-+    "mips-openwrt-linux-musl",		// Entware/OpenWrt
-+    "mipsel-openwrt-linux-gnu",	// Entware/OpenWrt
-+    "mipsel-openwrt-linux-musl",	// Entware/OpenWrt
-     "arm-linux-androideabi",
-     "armebv7r-none-eabi",
-     "armebv7r-none-eabihf",
---- a/vendor/crossbeam-epoch-0.9.8/no_atomic.rs
-+++ b/vendor/crossbeam-epoch-0.9.8/no_atomic.rs
-@@ -15,6 +15,11 @@ const NO_ATOMIC_CAS: &[&str] = &[
- 
- #[allow(dead_code)] // Only crossbeam-utils uses this.
- const NO_ATOMIC_64: &[&str] = &[
-+    "armv5te-openwrt-linux-gnueabi",	// Entware/OpenWrt
-+    "mips-openwrt-linux-gnu",		// Entware/OpenWrt
-+    "mips-openwrt-linux-musl",		// Entware/OpenWrt
-+    "mipsel-openwrt-linux-gnu",	// Entware/OpenWrt
-+    "mipsel-openwrt-linux-musl",	// Entware/OpenWrt
-     "arm-linux-androideabi",
-     "armebv7r-none-eabi",
-     "armebv7r-none-eabihf",
---- a/vendor/crossbeam-utils-0.8.5/no_atomic.rs
-+++ b/vendor/crossbeam-utils-0.8.5/no_atomic.rs
-@@ -11,6 +11,11 @@ const NO_ATOMIC_CAS: &[&str] = &[
- ];
- #[allow(dead_code)]
- const NO_ATOMIC_64: &[&str] = &[
-+    "armv5te-openwrt-linux-gnueabi",	// Entware/OpenWrt
-+    "mips-openwrt-linux-gnu",		// Entware/OpenWrt
-+    "mips-openwrt-linux-musl",		// Entware/OpenWrt
-+    "mipsel-openwrt-linux-gnu",	// Entware/OpenWrt
-+    "mipsel-openwrt-linux-musl",	// Entware/OpenWrt
-     "arm-linux-androideabi",
-     "armebv7r-none-eabi",
-     "armebv7r-none-eabihf",
---- a/vendor/crossbeam-utils-0.8.7/no_atomic.rs
-+++ b/vendor/crossbeam-utils-0.8.7/no_atomic.rs
-@@ -14,6 +14,11 @@ const NO_ATOMIC_CAS: &[&str] = &[
- 
- #[allow(dead_code)] // Only crossbeam-utils uses this.
- const NO_ATOMIC_64: &[&str] = &[
-+    "armv5te-openwrt-linux-gnueabi",	// Entware/OpenWrt
-+    "mips-openwrt-linux-gnu",		// Entware/OpenWrt
-+    "mips-openwrt-linux-musl",		// Entware/OpenWrt
-+    "mipsel-openwrt-linux-gnu",	// Entware/OpenWrt
-+    "mipsel-openwrt-linux-musl",	// Entware/OpenWrt
-     "arm-linux-androideabi",
-     "armebv7r-none-eabi",
-     "armebv7r-none-eabihf",
---- a/vendor/crossbeam-utils-0.8.8/no_atomic.rs
-+++ b/vendor/crossbeam-utils-0.8.8/no_atomic.rs
-@@ -15,6 +15,11 @@ const NO_ATOMIC_CAS: &[&str] = &[
- 
- #[allow(dead_code)] // Only crossbeam-utils uses this.
- const NO_ATOMIC_64: &[&str] = &[
-+    "armv5te-openwrt-linux-gnueabi",	// Entware/OpenWrt
-+    "mips-openwrt-linux-gnu",		// Entware/OpenWrt
-+    "mips-openwrt-linux-musl",		// Entware/OpenWrt
-+    "mipsel-openwrt-linux-gnu",	// Entware/OpenWrt
-+    "mipsel-openwrt-linux-musl",	// Entware/OpenWrt
-     "arm-linux-androideabi",
-     "armebv7r-none-eabi",
-     "armebv7r-none-eabihf",
 --- a/vendor/portable-atomic-1.10.0/no_atomic.rs
 +++ b/vendor/portable-atomic-1.10.0/no_atomic.rs
-@@ -20,6 +20,11 @@ static NO_ATOMIC_CAS: &[&str] = &[
+@@ -20,6 +20,13 @@ static NO_ATOMIC_CAS: &[&str] = &[
  // nightly-2022-02-11+ because feature(cfg_target_has_atomic) stabilized.
  #[rustfmt::skip]
  static NO_ATOMIC_64: &[&str] = &[
-+    "armv5te-openwrt-linux-gnueabi",	// Entware/OpenWrt
-+    "mips-openwrt-linux-gnu",		// Entware/OpenWrt
-+    "mips-openwrt-linux-musl",		// Entware/OpenWrt
-+    "mipsel-openwrt-linux-gnu",	// Entware/OpenWrt
-+    "mipsel-openwrt-linux-musl",	// Entware/OpenWrt
++    // Entware/OpenWrt
++    "armv5te-openwrt-linux-gnueabi",
++    "mips-openwrt-linux-gnu",
++    "mips-openwrt-linux-musl",
++    "mipsel-openwrt-linux-gnu",
++    "mipsel-openwrt-linux-musl",
++    //
      "arm-linux-androideabi",
      "armebv7r-none-eabi",
      "armebv7r-none-eabihf",
 --- a/vendor/valuable-0.1.0/no_atomic.rs
 +++ b/vendor/valuable-0.1.0/no_atomic.rs
-@@ -12,6 +12,11 @@ const NO_ATOMIC_CAS: &[&str] = &[
+@@ -12,6 +12,13 @@ const NO_ATOMIC_CAS: &[&str] = &[
      "thumbv6m-none-eabi",
  ];
  const NO_ATOMIC_64: &[&str] = &[
-+    "armv5te-openwrt-linux-gnueabi",	// Entware/OpenWrt
-+    "mips-openwrt-linux-gnu",		// Entware/OpenWrt
-+    "mips-openwrt-linux-musl",		// Entware/OpenWrt
-+    "mipsel-openwrt-linux-gnu",	// Entware/OpenWrt
-+    "mipsel-openwrt-linux-musl",	// Entware/OpenWrt
++    // Entware/OpenWrt
++    "armv5te-openwrt-linux-gnueabi",
++    "mips-openwrt-linux-gnu",
++    "mips-openwrt-linux-musl",
++    "mipsel-openwrt-linux-gnu",
++    "mipsel-openwrt-linux-musl",
++    //
      "arm-linux-androideabi",
      "armebv7r-none-eabi",
      "armebv7r-none-eabihf",
 --- a/vendor/valuable-0.1.1/no_atomic.rs
 +++ b/vendor/valuable-0.1.1/no_atomic.rs
-@@ -22,6 +22,11 @@ const NO_ATOMIC_CAS: &[&str] = &[
+@@ -22,6 +22,13 @@ const NO_ATOMIC_CAS: &[&str] = &[
  ];
  
  const NO_ATOMIC_64: &[&str] = &[
-+    "armv5te-openwrt-linux-gnueabi",	// Entware/OpenWrt
-+    "mips-openwrt-linux-gnu",		// Entware/OpenWrt
-+    "mips-openwrt-linux-musl",		// Entware/OpenWrt
-+    "mipsel-openwrt-linux-gnu",	// Entware/OpenWrt
-+    "mipsel-openwrt-linux-musl",	// Entware/OpenWrt
++    // Entware/OpenWrt
++    "armv5te-openwrt-linux-gnueabi",
++    "mips-openwrt-linux-gnu",
++    "mips-openwrt-linux-musl",
++    "mipsel-openwrt-linux-gnu",
++    "mipsel-openwrt-linux-musl",
++    //
      "arm-linux-androideabi",
      "armv4t-none-eabi",
      "armv4t-unknown-linux-gnueabi",

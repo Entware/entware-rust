@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.87.0
+PKG_VERSION:=1.92.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.gz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=149bb9fd29be592da4e87900fc68f0629a37bf6850b46339dd44434c04fd8e76
+PKG_HASH:=9e0d2ca75c7e275fdc758255bf4b03afb3d65d1543602746907c933b6901c3b8
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -54,7 +54,7 @@ NATIVE_TARGET_ARCH:=$(subst aarch64,AArch64,$(subst x86_64,X86,$(HOST_ARCH)))
 
 define Build/Configure
 	( \
-		echo 'change-id = 140859'; \
+		echo 'change-id = 149758'; \
 		echo '[llvm]'; \
 		echo 'download-ci-llvm = false'; \
 		echo 'allow-old-toolchain = true'; \
@@ -86,6 +86,7 @@ define Build/Configure
 		echo 'rustc = "$(STAGING_DIR)/host/bin/rustc"'; \
 		echo 'rustfmt = "$(STAGING_DIR)/host/bin/rustfmt"'; \
 		echo 'compiler-docs = false'; \
+		echo 'compiletest-use-stage0-libtest = false'; \
 		echo 'docs = false'; \
 		echo 'extended = true'; \
 		echo 'full-bootstrap = false'; \
@@ -107,12 +108,14 @@ define Build/Configure
 		echo 'download-rustc = false'; \
 		echo 'incremental = false'; \
 		echo 'rpath = true'; \
+		echo 'parallel-frontend-threads = $(if $(findstring s,$(OPENWRT_VERBOSE)),1,0)'; \
 		echo '[target.$(RUSTC_TARGET_ARCH)]'; \
 		echo 'ar = "$(TARGET_CROSS)ar"'; \
 		echo 'cc = "$(TARGET_CROSS)gcc"'; \
 		echo 'cxx = "$(TARGET_CROSS)g++"'; \
 		echo 'linker = "$(TARGET_CROSS)gcc"'; \
 		echo 'ranlib = "$(TARGET_CROSS)ranlib"'; \
+		echo 'default-linker-linux-override = "off"'; \
 		echo '[dist]'; \
 		echo 'src-tarball = false'; \
 		echo 'compression-formats = ["gz"]'; \

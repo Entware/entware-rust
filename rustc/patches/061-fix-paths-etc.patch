@@ -1,0 +1,34 @@
+--- a/vendor/sysinfo-0.37.0/src/unix/linux/system.rs
++++ b/vendor/sysinfo-0.37.0/src/unix/linux/system.rs
+@@ -384,6 +384,7 @@ impl SystemInner {
+     pub(crate) fn name() -> Option<String> {
+         get_system_info_linux(
+             InfoType::Name,
++            Path::new("/opt/etc/os-release"), // Entware
+             Path::new("/etc/os-release"),
+             Path::new("/etc/lsb-release"),
+         )
+@@ -479,6 +480,7 @@ impl SystemInner {
+     pub(crate) fn os_version() -> Option<String> {
+         get_system_info_linux(
+             InfoType::OsVersion,
++            Path::new("/opt/etc/os-release"), // Entware
+             Path::new("/etc/os-release"),
+             Path::new("/etc/lsb-release"),
+         )
+@@ -493,6 +495,7 @@ impl SystemInner {
+     pub(crate) fn distribution_id() -> String {
+         get_system_info_linux(
+             InfoType::DistributionID,
++            Path::new("/opt/etc/os-release"), // Entware
+             Path::new("/etc/os-release"),
+             Path::new(""),
+         )
+@@ -512,6 +515,7 @@ impl SystemInner {
+     pub(crate) fn distribution_id_like() -> Vec<String> {
+         system_info_as_list(get_system_info_linux(
+             InfoType::DistributionIDLike,
++            Path::new("/opt/etc/os-release"), // Entware
+             Path::new("/etc/os-release"),
+             Path::new(""),
+         ))
