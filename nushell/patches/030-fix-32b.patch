@@ -47,8 +47,8 @@ error: could not compile `nu_plugin_custom_values` (bin "nu_plugin_custom_values
 @@ -1,6 +1,6 @@
  use std::{
      collections::BTreeMap,
--    sync::{atomic::AtomicU64, Mutex},
-+    sync::{atomic::AtomicUsize, Mutex},
+-    sync::{Mutex, atomic::AtomicU64},
++    sync::{Mutex, atomic::AtomicUsize},
  };
  
  use handle_custom_value::HandleCustomValue;

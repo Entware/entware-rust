@@ -1,0 +1,249 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -30,7 +30,7 @@ source = "registry+https://github.com/ru
+ checksum = "e89da841a80418a9b391ebaea17f5c112ffaaa96f621d2c285b5174da76b9011"
+ dependencies = [
+  "cfg-if",
+- "getrandom 0.2.15",
++ "getrandom 0.2.16",
+  "once_cell",
+  "version_check",
+  "zerocopy 0.7.35",
+@@ -972,9 +972,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "chrono"
+-version = "0.4.39"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7e36cc9d416881d2e24f9a963be5fb1cd90966419ac844274161d10488b3e825"
++version = "0.4.40"
+ dependencies = [
+  "android-tzdata",
+  "iana-time-zone",
+@@ -983,7 +981,7 @@ dependencies = [
+  "pure-rust-locales",
+  "serde",
+  "wasm-bindgen",
+- "windows-targets 0.52.6",
++ "windows-link",
+ ]
+ 
+ [[package]]
+@@ -1175,7 +1173,7 @@ version = "0.1.16"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "f9d839f2a20b0aee515dc581a6172f2321f96cab76c1a38a4c584a194955390e"
+ dependencies = [
+- "getrandom 0.2.15",
++ "getrandom 0.2.16",
+  "once_cell",
+  "tiny-keccak",
+ ]
+@@ -2176,9 +2174,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "getrandom"
+-version = "0.2.15"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
++version = "0.2.16"
+ dependencies = [
+  "cfg-if",
+  "js-sys",
+@@ -2189,14 +2185,12 @@ dependencies = [
+ 
+ [[package]]
+ name = "getrandom"
+-version = "0.3.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "43a49c392881ce6d5c3b8cb70f98717b7c07aabbdff06687b9030dbfbe2725f8"
++version = "0.3.3"
+ dependencies = [
+  "cfg-if",
+  "libc",
+- "wasi 0.13.3+wasi-0.2.2",
+- "windows-targets 0.52.6",
++ "r-efi",
++ "wasi 0.14.7+wasi-0.2.4",
+ ]
+ 
+ [[package]]
+@@ -2613,8 +2607,6 @@ dependencies = [
+ [[package]]
+ name = "iana-time-zone"
+ version = "0.1.61"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "235e081f3925a06703c2d0117ea8b91f042756fd6e7a6e5d901e8ca1a996b220"
+ dependencies = [
+  "android_system_properties",
+  "core-foundation-sys",
+@@ -2627,8 +2619,6 @@ dependencies = [
+ [[package]]
+ name = "iana-time-zone-haiku"
+ version = "0.1.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+ dependencies = [
+  "cc",
+ ]
+@@ -3778,7 +3768,7 @@ dependencies = [
+  "fancy-regex",
+  "filesize",
+  "filetime",
+- "getrandom 0.2.15",
++ "getrandom 0.2.16",
+  "human-date-parser",
+  "indexmap",
+  "indicatif",
+@@ -4678,8 +4668,6 @@ dependencies = [
+ [[package]]
+ name = "openssl-probe"
+ version = "0.1.5"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"
+ 
+ [[package]]
+ name = "openssl-src"
+@@ -5056,7 +5044,7 @@ version = "0.49.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "443824f43bca39b178353d6c09e4b44e115b21f107a5654d5f980d20b432a303"
+ dependencies = [
+- "getrandom 0.2.15",
++ "getrandom 0.2.16",
+  "polars-arrow",
+  "polars-core",
+  "polars-error",
+@@ -5085,7 +5073,7 @@ dependencies = [
+  "dyn-clone",
+  "either",
+  "ethnum",
+- "getrandom 0.2.15",
++ "getrandom 0.2.16",
+  "hashbrown 0.15.2",
+  "itoa",
+  "lz4",
+@@ -5833,7 +5821,7 @@ source = "registry+https://github.com/ru
+ checksum = "a2fe5ef3495d7d2e377ff17b1a8ce2ee2ec2a18cde8b6ad6619d65d0701c135d"
+ dependencies = [
+  "bytes",
+- "getrandom 0.2.15",
++ "getrandom 0.2.16",
+  "rand 0.8.5",
+  "ring",
+  "rustc-hash 2.1.0",
+@@ -5876,6 +5864,12 @@ source = "registry+https://github.com/ru
+ checksum = "640c9bd8497b02465aeef5375144c26062e0dcd5939dfcbb0f5db76cb8c17c73"
+ 
+ [[package]]
++name = "r-efi"
++version = "5.3.0"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "69cdb34c158ceb288df11e18b4bd39de994f6657d83847bdffdbd7f346754b0f"
++
++[[package]]
+ name = "rand"
+ version = "0.8.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+@@ -5923,7 +5917,7 @@ version = "0.6.4"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
+ dependencies = [
+- "getrandom 0.2.15",
++ "getrandom 0.2.16",
+ ]
+ 
+ [[package]]
+@@ -5932,7 +5926,7 @@ version = "0.9.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "99d9a13982dcf210057a8a78572b2217b667c3beacbf3a0d8b454f6f82837d38"
+ dependencies = [
+- "getrandom 0.3.1",
++ "getrandom 0.3.3",
+ ]
+ 
+ [[package]]
+@@ -6036,7 +6030,7 @@ version = "0.4.6"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "ba009ff324d1fc1b900bd1fdb31564febe58a8ccc8a6fdbb93b543d33b13ca43"
+ dependencies = [
+- "getrandom 0.2.15",
++ "getrandom 0.2.16",
+  "libredox",
+  "thiserror 1.0.69",
+ ]
+@@ -6197,7 +6191,7 @@ checksum = "70ac5d832aa16abd7d1def883a85
+ dependencies = [
+  "cc",
+  "cfg-if",
+- "getrandom 0.2.15",
++ "getrandom 0.2.16",
+  "libc",
+  "untrusted",
+  "windows-sys 0.52.0",
+@@ -6855,7 +6849,7 @@ source = "registry+https://github.com/ru
+ checksum = "aa2bcf6c6e164e81bc7a5d49fc6988b3d515d9e8c07457d7b74ffb9324b9cd40"
+ dependencies = [
+  "ahash",
+- "getrandom 0.2.15",
++ "getrandom 0.2.16",
+  "halfbrown",
+  "once_cell",
+  "ref-cast",
+@@ -7225,7 +7219,7 @@ source = "registry+https://github.com/ru
+ checksum = "e8a64e3985349f2441a1a9ef0b853f869006c3855f2cda6862a94d26ebb9d6a1"
+ dependencies = [
+  "fastrand",
+- "getrandom 0.3.1",
++ "getrandom 0.3.3",
+  "once_cell",
+  "rustix 1.0.7",
+  "windows-sys 0.59.0",
+@@ -8019,7 +8013,7 @@ source = "registry+https://github.com/ru
+ checksum = "458f7a779bf54acc9f347480ac654f68407d3aab21269a6e3c9f922acd9e2da9"
+ dependencies = [
+  "atomic",
+- "getrandom 0.3.1",
++ "getrandom 0.3.3",
+  "js-sys",
+  "md-5",
+  "serde",
+@@ -8109,11 +8103,20 @@ checksum = "9c8d87e72b64a3b4db28d11ce292
+ 
+ [[package]]
+ name = "wasi"
+-version = "0.13.3+wasi-0.2.2"
++version = "0.14.7+wasi-0.2.4"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "883478de20367e224c0090af9cf5f9fa85bed63a95c1abf3afc5c083ebc06e8c"
++dependencies = [
++ "wasip2",
++]
++
++[[package]]
++name = "wasip2"
++version = "1.0.1+wasi-0.2.4"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "26816d2e1a4a36a2940b96c5296ce403917633dff8f3440e9b236ed6f6bacad2"
++checksum = "0562428422c63773dad2c345a1882263bbf4d65cf3f42e90921f787ef5ad58e7"
+ dependencies = [
+- "wit-bindgen-rt",
++ "wit-bindgen",
+ ]
+ 
+ [[package]]
+@@ -8798,13 +8801,10 @@ source = "registry+https://github.com/ru
+ checksum = "d135d17ab770252ad95e9a872d365cf3090e3be864a34ab46f48555993efc904"
+ 
+ [[package]]
+-name = "wit-bindgen-rt"
+-version = "0.33.0"
++name = "wit-bindgen"
++version = "0.46.0"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "3268f3d866458b787f390cf61f4bbb563b922d091359f9608842999eaee3943c"
+-dependencies = [
+- "bitflags 2.6.0",
+-]
++checksum = "f17a85883d4e6d00e8a97c586de764dabcc06133f7f1d55dce5cdc070ad7fe59"
+ 
+ [[package]]
+ name = "wl-clipboard-rs"

@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
-PKG_VERSION:=0.101.0
-PKG_RELEASE:=1
+PKG_VERSION:=0.106.1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=43e4a123e86f0fb4754e40d0e2962b69a04f8c2d58470f47cb9be81daabab347
+PKG_HASH:=3e24044c354d050a850b69dc77c99cc503542c3d9d75fed0aef1c12fefdf380b
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -21,7 +21,8 @@ PKG_BUILD_FLAGS:=no-mips16
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 getrandom-0215 iana-time-zone-0161 openssl-probe-015
+PKG_BUILD_DEPENDS += \
+	chrono-0440 getrandom-0216 getrandom-033 iana-time-zone-0161 openssl-probe-015
 
 define Package/nushell/Default
   SECTION:=utils
@@ -33,7 +34,7 @@ endef
 
 define Package/nushell
   $(call Package/nushell/Default)
-  DEPENDS:=+libopenssl +zlib
+  DEPENDS:=+libopenssl
   EXTRA_DEPENDS:=git-http
 endef
 
@@ -44,7 +45,7 @@ endef
 define Package/nu-plugin-custom-values
   $(call Package/nushell/Default)
   TITLE:=CustomValue plugin for Nushell
-  DEPENDS:=+nushell
+  EXTRA_DEPENDS:=nushell (=$(PKG_VERSION)-$(PKG_RELEASE))
 endef
 
 define Package/nu-plugin-custom-values/description
@@ -54,7 +55,7 @@ endef
 define Package/nu-plugin-formats
   $(call Package/nushell/Default)
   TITLE:=A nushell plugin to convert data to nushell tables
-  DEPENDS:=+nushell
+  EXTRA_DEPENDS:=nushell (=$(PKG_VERSION)-$(PKG_RELEASE))
 endef
 
 define Package/nu-plugin-formats/description
@@ -64,7 +65,8 @@ endef
 define Package/nu-plugin-gstat
   $(call Package/nushell/Default)
   TITLE:=Git stat plugin for Nushell
-  DEPENDS:=+nushell
+  DEPENDS:=+libopenssl
+  EXTRA_DEPENDS:=nushell (=$(PKG_VERSION)-$(PKG_RELEASE))
 endef
 
 define Package/nu-plugin-gstat/description
@@ -74,7 +76,7 @@ endef
 define Package/nu-plugin-inc
   $(call Package/nushell/Default)
   TITLE:=Incrementor plugin for Nushell
-  DEPENDS:=+nushell
+  EXTRA_DEPENDS:=nushell (=$(PKG_VERSION)-$(PKG_RELEASE))
 endef
 
 define Package/nu-plugin-inc/description
@@ -84,7 +86,8 @@ endef
 define Package/nu-plugin-query
   $(call Package/nushell/Default)
   TITLE:=Query plugin for Nushell
-  DEPENDS:=+libcurl +nushell
+  DEPENDS:=+libcurl
+  EXTRA_DEPENDS:=nushell (=$(PKG_VERSION)-$(PKG_RELEASE))
 endef
 
 define Package/nu-plugin-query/description
@@ -94,7 +97,7 @@ endef
 define Package/nu-plugin-stress-internals
   $(call Package/nushell/Default)
   TITLE:=Used to test behavior of plugin protocol
-  DEPENDS:=+nushell
+  EXTRA_DEPENDS:=nushell (=$(PKG_VERSION)-$(PKG_RELEASE))
 endef
 
 define Package/nu-plugin-stress-internals/description

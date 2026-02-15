@@ -11,7 +11,7 @@
  const FALLBACK_USER_HOME_BASE_DIR: &str = "/data";
 --- a/crates/nu-protocol/src/eval_const.rs
 +++ b/crates/nu-protocol/src/eval_const.rs
-@@ -292,7 +292,7 @@ pub fn get_vendor_autoload_dirs(_engine_
+@@ -320,7 +320,7 @@ pub fn get_vendor_autoload_dirs(_engine_
                      }
                  })
              })
