@@ -1,6 +1,6 @@
 --- a/src/config/container.rs
 +++ b/src/config/container.rs
-@@ -613,7 +613,7 @@ impl Configuration {
+@@ -641,7 +641,7 @@ impl Configuration {
          //   - current directory
  
          // merge a config found at /etc/feroxbuster/ferox-config.toml
@@ -11,7 +11,7 @@
          // merge a config found at ~/.config/feroxbuster/ferox-config.toml
 --- a/src/lib.rs
 +++ b/src/lib.rs
-@@ -72,12 +72,12 @@ pub(crate) const DEFAULT_BACKUP_EXTENSIO
+@@ -243,12 +243,12 @@ pub(crate) const COMMON_FILE_EXTENSIONS:
  /// - `.\seclists\Discovery\Web-Content\raft-medium-directories.txt`
  #[cfg(not(target_os = "windows"))]
  pub const DEFAULT_WORDLIST: &str =
@@ -26,7 +26,7 @@
  
  /// Number of milliseconds to wait between polls of `PAUSE_SCAN` when user pauses a scan
  pub(crate) const SLEEP_DURATION: u64 = 500;
-@@ -192,7 +192,7 @@ mod tests {
+@@ -372,7 +372,7 @@ mod tests {
      fn default_wordlist() {
          assert_eq!(
              DEFAULT_WORDLIST,
@@ -37,7 +37,7 @@
  
 --- a/src/scan_manager/tests.rs
 +++ b/src/scan_manager/tests.rs
-@@ -478,7 +478,7 @@ fn feroxstates_feroxserialize_implementa
+@@ -482,7 +482,7 @@ fn feroxstates_feroxserialize_implementa
          r#""num_requests":0"#,
          r#""config""#,
          r#""type":"configuration""#,
@@ -48,7 +48,7 @@
          r#""replay_proxy":"""#,
 --- a/src/utils.rs
 +++ b/src/utils.rs
-@@ -1017,7 +1017,7 @@ mod tests {
+@@ -1076,7 +1076,7 @@ mod tests {
      /// provide a denier from which we can't check a host, which results in no comparison, expect false
      fn should_deny_url_doesnt_compare_non_domains() {
          let scan_url = "https://testdomain.com/";
@@ -57,7 +57,7 @@
          let tested_url = Url::parse("https://testdomain.com/denied/").unwrap();
  
          let scans = Arc::new(FeroxScans::default());
-@@ -1074,7 +1074,7 @@ mod tests {
+@@ -1133,7 +1133,7 @@ mod tests {
      /// new expected behavior
      fn should_deny_url_doesnt_compare_non_domains_in_scanned() {
          let deny_url = "https://testdomain.com/";

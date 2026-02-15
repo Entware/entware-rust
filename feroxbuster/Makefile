@@ -1,22 +1,24 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=feroxbuster
-PKG_VERSION:=2.11.0
+PKG_VERSION:=2.13.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/epi052/feroxbuster/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=61aa0a5654584c015ff58df69091ec40919b38235b20862975a8ab0649467a83
+PKG_HASH:=6f1f3466319ea5485b9d6f05000718c6ccbe1210c1cea7b2af83a5343d068a23
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
+
+PKG_BUILD_DEPENDS += getrandom-0216 getrandom-033
 
 define Package/feroxbuster
   SECTION:=utils
