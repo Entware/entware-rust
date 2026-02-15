@@ -1,0 +1,51 @@
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -108,8 +108,6 @@ mod attr {
+     pub mod unix {
+         use crate::util::*;
+ 
+-        use libc::c_int;
+-
+         /// Export of libc::termios
+         pub type Termios = libc::termios;
+ 
+@@ -117,28 +115,19 @@ mod attr {
+         use std::{io, mem};
+ 
+         pub fn get_terminal_attr(fd: RawFd) -> io::Result<Termios> {
+-            extern "C" {
+-                pub fn tcgetattr(fd: c_int, termptr: *mut Termios) -> c_int;
+-            }
+             unsafe {
+                 let mut termios = mem::zeroed();
+-                convert_to_result(tcgetattr(fd, &mut termios))?;
++                convert_to_result(libc::tcgetattr(fd, &mut termios))?;
+                 Ok(termios)
+             }
+         }
+ 
+         pub fn set_terminal_attr(fd: RawFd, termios: &Termios) -> io::Result<()> {
+-            extern "C" {
+-                pub fn tcsetattr(fd: c_int, opt: c_int, termptr: *const Termios) -> c_int;
+-            }
+-            convert_to_result(unsafe { tcsetattr(fd, 0, termios) }).and(Ok(()))
++            convert_to_result(unsafe { libc::tcsetattr(fd, libc::TCSANOW, termios) }).and(Ok(()))
+         }
+ 
+         pub fn raw_terminal_attr(termios: &mut Termios) {
+-            extern "C" {
+-                pub fn cfmakeraw(termptr: *mut Termios);
+-            }
+-            unsafe { cfmakeraw(termios) }
++            unsafe { libc::cfmakeraw(termios) }
+         }
+     }
+ 
+@@ -312,7 +301,6 @@ impl<T: Read + AsRawFd> IntoRawMode for
+ mod test {
+     use super::*;
+     use std::io::{self, stdin, stdout, Write};
+-    use std::os::unix::io::AsRawFd;
+ 
+     #[test]
+     fn test_into_raw_mode() -> io::Result<()> {
