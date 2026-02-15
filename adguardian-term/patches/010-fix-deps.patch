@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -35,3 +35,8 @@ semver = "1.0"
+@@ -35,3 +35,10 @@ semver = "1.0"
  tokio = { version = "1", features = ["full"] }
  # Terminal UI library
  tui = { package = "ratatui", version = "0.20.1" }
@@ -9,3 +9,5 @@
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.31" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
