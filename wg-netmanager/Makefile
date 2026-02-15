@@ -1,12 +1,14 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
+
+# Abandoned in 2022
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=wg_netmanager
 PKG_VERSION:=0.5.1
-PKG_RELEASE:=3
+PKG_RELEASE:=5
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/gin66/wg_netmanager/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
@@ -18,7 +20,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431
+PKG_BUILD_DEPENDS += chrono-0441 getrandom-0215 iana-time-zone-0163
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/wg-netmanager
