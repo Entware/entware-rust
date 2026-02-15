@@ -23,9 +23,26 @@ cpython-3.11.10-linux-mips-gnu    /opt/bin/python -> python3.11
 
 ---
 
+--- a/crates/uv-platform/src/arch.rs
++++ b/crates/uv-platform/src/arch.rs
+@@ -204,6 +204,14 @@ impl From<&uv_platform_tags::Arch> for A
+                 target_lexicon::Architecture::Arm(target_lexicon::ArmArchitecture::Armv7),
+                 None,
+             ),
++            uv_platform_tags::Arch::Mips => Self::new(
++                target_lexicon::Architecture::Mips32(target_lexicon::Mips32Architecture::Mips),
++                None,
++            ),
++            uv_platform_tags::Arch::Mipsel => Self::new(
++                target_lexicon::Architecture::Mips32(target_lexicon::Mips32Architecture::Mipsel),
++                None,
++            ),
+             uv_platform_tags::Arch::S390X => Self::new(target_lexicon::Architecture::S390x, None),
+             uv_platform_tags::Arch::Powerpc => {
+                 Self::new(target_lexicon::Architecture::Powerpc, None)
 --- a/crates/uv-platform-tags/src/platform.rs
 +++ b/crates/uv-platform-tags/src/platform.rs
-@@ -96,6 +96,8 @@ pub enum Arch {
+@@ -133,6 +133,8 @@ pub enum Arch {
      Armv6L,
      #[serde(alias = "armv8l")]
      Armv7L,
@@ -34,34 +51,25 @@ cpython-3.11.10-linux-mips-gnu    /opt/bin/python -> python3.11
      #[serde(alias = "ppc64le")]
      Powerpc64Le,
      #[serde(alias = "ppc64")]
-@@ -118,6 +120,8 @@ impl fmt::Display for Arch {
-             Self::Armv5TEL => write!(f, "armv5tel"),
-             Self::Armv6L => write!(f, "armv6l"),
-             Self::Armv7L => write!(f, "armv7l"),
-+            Self::Mips => write!(f, "mips"),
-+            Self::Mipsel => write!(f, "mipsel"),
-             Self::Powerpc64Le => write!(f, "ppc64le"),
-             Self::Powerpc64 => write!(f, "ppc64"),
-             Self::Powerpc => write!(f, "ppc"),
-@@ -139,6 +143,8 @@ impl FromStr for Arch {
-             "armv5tel" => Ok(Self::Armv5TEL),
+@@ -165,6 +167,8 @@ impl FromStr for Arch {
              "armv6l" => Ok(Self::Armv6L),
-             "armv7l" => Ok(Self::Armv7L),
+             // armv8l is 32-bit ARM running on ARMv8 hardware, compatible with armv7l
+             "armv7l" | "armv8l" => Ok(Self::Armv7L),
 +            "mips" => Ok(Self::Mips),
 +            "mipsel" => Ok(Self::Mipsel),
              "ppc64le" => Ok(Self::Powerpc64Le),
              "ppc64" => Ok(Self::Powerpc64),
              "ppc" => Ok(Self::Powerpc),
-@@ -168,7 +174,7 @@ impl Arch {
+@@ -194,7 +198,7 @@ impl Arch {
              // manylinux_2_36
              Self::LoongArch64 => Some(36),
              // unsupported
--            Self::Powerpc | Self::Armv5TEL | Self::Armv6L => None,
-+            Self::Powerpc | Self::Armv5TEL | Self::Armv6L | Self::Mips | Self::Mipsel => None,
+-            Self::Powerpc | Self::Armv5TEL | Self::Armv6L | Self::Wasm32 => None,
++            Self::Powerpc | Self::Armv5TEL | Self::Armv6L | Self::Mips | Self::Mipsel | Self::Wasm32 => None,
          }
      }
  
-@@ -179,6 +185,8 @@ impl Arch {
+@@ -205,6 +209,8 @@ impl Arch {
              Self::Armv5TEL => "armv5tel",
              Self::Armv6L => "armv6l",
              Self::Armv7L => "armv7l",
@@ -70,29 +78,11 @@ cpython-3.11.10-linux-mips-gnu    /opt/bin/python -> python3.11
              Self::Powerpc64Le => "ppc64le",
              Self::Powerpc64 => "ppc64",
              Self::Powerpc => "ppc",
-@@ -197,6 +205,8 @@ impl Arch {
-             Self::Armv5TEL,
-             Self::Armv6L,
-             Self::Armv7L,
-+            Self::Mips,
-+            Self::Mipsel,
-             Self::Powerpc64Le,
-             Self::Powerpc64,
-             Self::Powerpc,
---- a/crates/uv-python/src/platform.rs
-+++ b/crates/uv-python/src/platform.rs
-@@ -280,6 +280,14 @@ impl From<&uv_platform_tags::Arch> for A
-                 family: target_lexicon::Architecture::Arm(target_lexicon::ArmArchitecture::Armv7),
-                 variant: None,
-             },
-+            uv_platform_tags::Arch::Mips => Self {
-+                family: target_lexicon::Architecture::Mips32(target_lexicon::Mips32Architecture::Mips),
-+                variant: None,
-+            },
-+            uv_platform_tags::Arch::Mipsel => Self {
-+                family: target_lexicon::Architecture::Mips32(target_lexicon::Mips32Architecture::Mipsel),
-+                variant: None,
-+            },
-             uv_platform_tags::Arch::S390X => Self {
-                 family: target_lexicon::Architecture::S390x,
-                 variant: None,
+@@ -226,6 +232,7 @@ impl Arch {
+         match self {
+             Self::Aarch64 => "arm64",
+             Self::Armv5TEL | Self::Armv6L | Self::Armv7L => "arm",
++            Self::Mips | Self::Mipsel => "mips",
+             Self::Powerpc | Self::Powerpc64Le | Self::Powerpc64 => "powerpc",
+             Self::X86 => "i386",
+             Self::X86_64 => "amd64",

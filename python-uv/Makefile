@@ -1,20 +1,20 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=uv
-PKG_VERSION:=0.7.1
+PKG_VERSION:=0.9.26
 PKG_RELEASE:=1
 
 PYPI_NAME:=uv
-PKG_HASH:=40a15f1fc73df852d7655530e5768e29dc7227ab25d9baeb711a8dde9e7f8234
+PKG_HASH:=8b7017a01cc48847a7ae26733383a2456dd060fc50d21d58de5ee14f6b6984d7
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
-PKG_BUILD_DEPENDS:=boxcar-027 getrandom-0215 maturin/host
+PKG_BUILD_DEPENDS:=boxcar-027 getrandom-0216 getrandom-033 maturin/host
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
@@ -32,7 +32,7 @@ define Package/python3-uv
 	+python3-logging \
 	+python3-setuptools \
 	+python3-urllib
-  EXTRA_DEPENDS:=maturin
+  EXTRA_DEPENDS:=coreutils-env, maturin
 endef
 
 RUSTFLAGS += -C relocation-model=pic
@@ -44,8 +44,8 @@ endef
 define Package/python3-uv/postrm
 #!/bin/sh
 
-rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_NAME)
-rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_NAME)-$(PKG_VERSION).dist-info
+rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_NAME) || true
+rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_NAME)-$(PKG_VERSION).dist-info || true
 endef
 
 $(eval $(call Py3Package,python3-uv))
