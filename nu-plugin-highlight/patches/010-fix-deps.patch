@@ -1,16 +1,29 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
+@@ -16,9 +16,9 @@ bat = { version = "0.24", default-featur
+ 
+ [dependencies]
+ # nu
+-nu-plugin = "0.106.0"
+-nu-protocol = "0.106.0"
+-nu-path = "0.106.0"
++nu-plugin = "0.106.1"
++nu-protocol = "0.106.1"
++nu-path = "0.106.1"
+ 
+ # highlighting
+ syntect = { workspace = true }
 @@ -33,3 +33,13 @@ mime_guess = "2"
  patch-apply = "0.8.3"
- syntect = {workspace = true}
- bat = {workspace = true}
-+# error: failed to select a version for `chrono`.
-+chrono = "=0.4.38"
+ syntect = { workspace = true }
+ bat = { workspace = true }
 +
 +[patch.crates-io]
-+nu-path = { path = "../nushell-0.101.0/crates/nu-path" }
-+nu-plugin = { path = "../nushell-0.101.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.101.0/crates/nu-protocol" }
++nu-path = { path = "../nushell-0.106.1/crates/nu-path" }
++nu-plugin = { path = "../nushell-0.106.1/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.106.1/crates/nu-protocol" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.38" }
++chrono = { path = "../chrono-0.4.40" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }

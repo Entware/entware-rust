@@ -1,25 +1,31 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-highlight
-PKG_VERSION:=1.4.2
-PKG_RELEASE:=1
+PKG_VERSION:=1.4.8
+PKG_RELEASE:=2
+
+NUSHELL_VERSION:=0.106.0
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=v$(PKG_VERSION)+0.101.0
+PKG_SOURCE_VERSION:=v$(PKG_VERSION)+$(NUSHELL_VERSION)
 PKG_SOURCE_URL:=https://github.com/cptpiepmatz/nu-plugin-highlight
-PKG_MIRROR_HASH:=ce9ec302387170015ee5fbc51a3d4f766af120606fe5a3c01380d503bc0a9f24
+PKG_MIRROR_HASH:=cf7f5426f08a1d46c1984f58ef5a700b36de3d288462eaf37ba103c7709e2d1f
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
 
+NU_VERSION:=$(shell grep '^PKG_VERSION' ../nushell/Makefile | cut -d'=' -f2-)
+NU_RELEASE:=$(shell grep '^PKG_RELEASE' ../nushell/Makefile | cut -d'=' -f2-)
+
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438 iana-time-zone-0161
+PKG_BUILD_DEPENDS += \
+	chrono-0440 getrandom-0216 iana-time-zone-0161 nushell
 
 define Package/nu-plugin-highlight
   SECTION:=utils
@@ -27,7 +33,7 @@ define Package/nu-plugin-highlight
   SUBMENU:=Shells
   TITLE:=nu plugin for syntax highlighting
   URL:=https://github.com/cptpiepmatz/nu-plugin-highlight
-  DEPENDS:=+nushell
+  EXTRA_DEPENDS:=nushell (=$(NU_VERSION)-$(NU_RELEASE))
 endef
 
 define Package/nu-plugin-highlight/description
