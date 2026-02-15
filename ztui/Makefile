@@ -41,7 +41,7 @@ endef
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
 ifeq ($(CONFIG_x86_64),y)
-RUSTC_VARS += LD_LIBRARY_PATH=$(STAGING_DIR)/opt/lib
+RUSTC_VARS += LD_LIBRARY_PATH=$(STAGING_DIR_HOST)/lib
 endif
 
 define Package/ztui/install
