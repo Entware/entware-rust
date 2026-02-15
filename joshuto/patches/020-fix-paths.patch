@@ -11,10 +11,10 @@
  ]
 --- a/config/joshuto.toml
 +++ b/config/joshuto.toml
-@@ -39,7 +39,7 @@ reverse = false
+@@ -40,7 +40,7 @@ reverse = false
  
  [preview]
- max_preview_size = 2097152                           # 2MB
+ max_preview_size = "2MB"                           # 2MB
 -preview_script = "~/.config/joshuto/preview_file.sh" # make sure it's marked as executable
 +preview_script = "/opt/etc/joshuto/preview_file.sh"  # make sure it's marked as executable
  
@@ -25,7 +25,7 @@
 @@ -20,7 +20,7 @@ const FILE_PREFIX: &str = "joshuto-";
  const RAND_STR_LEN: usize = 10;
  
- pub fn _bulk_rename(context: &mut AppContext) -> AppResult {
+ pub fn _bulk_rename(app_state: &mut AppState) -> AppResult {
 -    let tmp_directory = env::var(ENV_TMP_DIR).unwrap_or_else(|_| "/tmp".to_string());
 +    let tmp_directory = env::var(ENV_TMP_DIR).unwrap_or_else(|_| "/opt/tmp".to_string());
  
@@ -33,8 +33,8 @@
  
 --- a/src/main.rs
 +++ b/src/main.rs
-@@ -40,7 +40,7 @@ use crate::context::AppContext;
- use crate::error::AppError;
+@@ -39,7 +39,7 @@ use crate::error::AppError;
+ use crate::types::state::AppState;
  
  const PROGRAM_NAME: &str = "joshuto";
 -const CONFIG_HOME: &str = "JOSHUTO_CONFIG_HOME";
@@ -42,7 +42,7 @@
  
  lazy_static! {
      // dynamically builds the config hierarchy
-@@ -54,10 +54,10 @@ lazy_static! {
+@@ -53,10 +53,10 @@ lazy_static! {
              }
          }
  

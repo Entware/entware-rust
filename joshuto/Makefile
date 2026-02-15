@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=joshuto
-PKG_VERSION:=0.9.8
-PKG_RELEASE:=1
+PKG_VERSION:=0.9.9
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kamiyaa/joshuto/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=877d841b2e26d26d0f0f2e6f1dab3ea2fdda38c345abcd25085a3f659c24e013
+PKG_HASH:=85a230183f7478dee7c29229d78313ee07b759e596e19292acf024d2e5735efa
 
 PKG_LICENSE:=LGPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0438
+PKG_BUILD_DEPENDS += chrono-0442 getrandom-0216 getrandom-033 iana-time-zone-0164
 
 define Package/joshuto
   SECTION:=utils

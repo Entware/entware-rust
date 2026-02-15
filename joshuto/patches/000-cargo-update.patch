@@ -1,0 +1,110 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -64,12 +64,6 @@ source = "registry+https://github.com/ru
+ checksum = "d67c60c5f10f11c6ee04de72b2dd98bb9d2548cbc314d22a609bfa8bd9e87e8f"
+ 
+ [[package]]
+-name = "android-tzdata"
+-version = "0.1.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "e999941b234f3131b00bc13c22d06e8c5ff726d1b6318ac7eb276997bbb4fef0"
+-
+-[[package]]
+ name = "android_system_properties"
+ version = "0.1.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+@@ -333,16 +327,13 @@ checksum = "613afe47fcd5fac7ccf1db93babc
+ 
+ [[package]]
+ name = "chrono"
+-version = "0.4.41"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "c469d952047f47f91b68d1cba3f10d63c11d73e4636f24f08daf0278abf01c4d"
++version = "0.4.42"
+ dependencies = [
+- "android-tzdata",
+  "iana-time-zone",
+  "js-sys",
+  "num-traits",
+  "wasm-bindgen",
+- "windows-link",
++ "windows-link 0.2.1",
+ ]
+ 
+ [[package]]
+@@ -788,8 +779,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.2.16"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "335ff9f135e4384c8150d6f27c6daed433577f86b4750418338c01a1a2528592"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -799,8 +788,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.3.3"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "26145e563e54f2cadc477553f1ec5ee650b00862f0a58bcd12cbdc5f0ea2d2f4"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -900,9 +887,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "iana-time-zone"
+-version = "0.1.63"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b0c919e5debc312ad217002b8048a17b7d83f80703865bbfcfebb0458b0b27d8"
++version = "0.1.64"
+ dependencies = [
+  "android_system_properties",
+  "core-foundation-sys",
+@@ -916,8 +901,6 @@ dependencies = [
+ [[package]]
+ name = "iana-time-zone-haiku"
+ version = "0.1.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+ dependencies = [
+  "cc",
+ ]
+@@ -2906,7 +2889,7 @@ checksum = "c0fdd3ddb90610c7638aa2b3a3ab
+ dependencies = [
+  "windows-implement",
+  "windows-interface",
+- "windows-link",
++ "windows-link 0.1.1",
+  "windows-result",
+  "windows-strings",
+ ]
+@@ -2940,12 +2923,18 @@ source = "registry+https://github.com/ru
+ checksum = "76840935b766e1b0a05c0066835fb9ec80071d4c09a16f6bd5f7e655e3c14c38"
+ 
+ [[package]]
++name = "windows-link"
++version = "0.2.1"
++source = "registry+https://github.com/rust-lang/crates.io-index"
++checksum = "f0805222e57f7521d6a62e36fa9163bc891acd422f971defe97d64e70d0a4fe5"
++
++[[package]]
+ name = "windows-result"
+ version = "0.3.4"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "56f42bd332cc6c8eac5af113fc0c1fd6a8fd2aa08a0119358686e5160d0586c6"
+ dependencies = [
+- "windows-link",
++ "windows-link 0.1.1",
+ ]
+ 
+ [[package]]
+@@ -2954,7 +2943,7 @@ version = "0.4.2"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "56e6c93f3a0c3b36176cb1327a4958a0353d5d166c2a35cb268ace15e91d3b57"
+ dependencies = [
+- "windows-link",
++ "windows-link 0.1.1",
+ ]
+ 
+ [[package]]
