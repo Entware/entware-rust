@@ -1,0 +1,38 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -162,8 +162,6 @@ checksum = "613afe47fcd5fac7ccf1db93babc
+ [[package]]
+ name = "chrono"
+ version = "0.4.40"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "1a7964611d71df112cb1730f2ee67324fcf4d0fc6606acbbe9bfe06df124637c"
+ dependencies = [
+  "android-tzdata",
+  "iana-time-zone",
+@@ -407,8 +405,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.3.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "43a49c392881ce6d5c3b8cb70f98717b7c07aabbdff06687b9030dbfbe2725f8"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -425,8 +421,6 @@ checksum = "d2fabcfbdc87f4758337ca535fb4
+ [[package]]
+ name = "iana-time-zone"
+ version = "0.1.62"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "b2fd658b06e56721792c5df4475705b6cda790e9298d19d2f8af083457bcd127"
+ dependencies = [
+  "android_system_properties",
+  "core-foundation-sys",
+@@ -440,8 +434,6 @@ dependencies = [
+ [[package]]
+ name = "iana-time-zone-haiku"
+ version = "0.1.2"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+ dependencies = [
+  "cc",
+ ]
