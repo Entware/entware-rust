@@ -9,10 +9,12 @@
  
  [target.'cfg(target_os = "android")'.dependencies]
  android-tzdata = { version = "0.1.1", optional = true }
-@@ -75,3 +75,6 @@ rustdoc-args = ["--cfg", "docsrs"]
+@@ -75,3 +75,8 @@ rustdoc-args = ["--cfg", "docsrs"]
  
  [package.metadata.playground]
  features = ["serde"]
 +
 +[patch.crates-io]
 +iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.16" }
