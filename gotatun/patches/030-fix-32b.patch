@@ -1,0 +1,49 @@
+--- a/gotatun/src/noise/rate_limiter.rs
++++ b/gotatun/src/noise/rate_limiter.rs
+@@ -14,7 +14,7 @@ use constant_time_eq::constant_time_eq;
+ #[cfg(feature = "mock_instant")]
+ use mock_instant::Instant;
+ use std::net::IpAddr;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::time::Duration;
+ 
+ #[cfg(not(feature = "mock_instant"))]
+@@ -51,12 +51,12 @@ pub struct RateLimiter {
+     secret_key: [u8; 16],
+     start_time: Instant,
+     /// A single 64 bit counter (should suffice for many years)
+-    nonce_ctr: AtomicU64,
++    nonce_ctr: AtomicUsize,
+     mac1_key: [u8; 32],
+     cookie_key: Key,
+     limit: u64,
+     /// The counter since last reset
+-    count: AtomicU64,
++    count: AtomicUsize,
+     /// The time last reset was performed on this rate limiter
+     last_reset: Mutex<Instant>,
+ }
+@@ -69,11 +69,11 @@ impl RateLimiter {
+             nonce_key: Self::rand_bytes(),
+             secret_key,
+             start_time: Instant::now(),
+-            nonce_ctr: AtomicU64::new(0),
++            nonce_ctr: AtomicUsize::new(0),
+             mac1_key: b2s_hash(LABEL_MAC1, public_key.as_bytes()),
+             cookie_key: b2s_hash(LABEL_COOKIE, public_key.as_bytes()).into(),
+             limit,
+-            count: AtomicU64::new(0),
++            count: AtomicUsize::new(0),
+             last_reset: Mutex::new(Instant::now()),
+         }
+     }
+@@ -119,7 +119,7 @@ impl RateLimiter {
+     }
+ 
+     fn is_under_load(&self) -> bool {
+-        self.count.fetch_add(1, Ordering::SeqCst) >= self.limit
++        self.count.fetch_add(1, Ordering::SeqCst) >= self.limit.try_into().unwrap()
+     }
+ 
+     pub(crate) fn format_cookie_reply(

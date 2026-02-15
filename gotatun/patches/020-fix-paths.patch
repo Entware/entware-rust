@@ -1,0 +1,31 @@
+--- a/gotatun/src/device/api/mod.rs
++++ b/gotatun/src/device/api/mod.rs
+@@ -21,7 +21,7 @@ use std::sync::{Weak, atomic};
+ use tokio::sync::{RwLock, mpsc, oneshot};
+ 
+ #[cfg(unix)]
+-const SOCK_DIR: &str = "/var/run/wireguard/";
++const SOCK_DIR: &str = "/opt/var/run/wireguard/";
+ 
+ /// A server that receives [`Request`]s. Should be passed a [`Device`] when created.
+ pub struct ApiServer {
+--- a/gotatun-cli/src/main.rs
++++ b/gotatun-cli/src/main.rs
+@@ -75,7 +75,7 @@ mod unix {
+                     .short('l')
+                     .env("WG_LOG_FILE")
+                     .help("Log file")
+-                    .default_value("/tmp/gotatun.out"),
++                    .default_value("/opt/var/log/gotatun.out"),
+                 Arg::new("disable-drop-privileges")
+                     .long("disable-drop-privileges")
+                     .env("WG_SUDO")
+@@ -113,7 +113,7 @@ mod unix {
+                 .init();
+ 
+             let daemonize = Daemonize::new()
+-                .working_directory("/tmp")
++                .working_directory("/opt/var/log")
+                 .exit_action(move || {
+                     let mut b = [0u8; 1];
+                     if sock2.recv(&mut b).is_ok() && b[0] == 1 {
