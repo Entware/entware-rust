@@ -1,18 +1,5 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -24,10 +24,10 @@ bitflags = { version = "2.9", features =
- async-trait = { version = "0.1", optional = true }
- 
- thiserror = "2.0"
--chrono = "0.4"
-+chrono = "=0.4.40"
- bytes = "1.10"
- log = "0.4"
--flurry = "0.5"
-+flurry = "=0.5.2"
- 
- [dev-dependencies]
- russh = "0.51"
 @@ -42,3 +42,13 @@ async-trait = ["dep:async-trait"]
  [[bench]]
  name = "upload_benchmark"
