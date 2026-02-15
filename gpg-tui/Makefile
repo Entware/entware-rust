@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gpg-tui
-PKG_VERSION:=0.11.0
-PKG_RELEASE:=1
+PKG_VERSION:=0.11.1
+PKG_RELEASE:=2
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/orhun/gpg-tui/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=741def01fe84ee20c3eac1cbbe2533e1a9c387832cab31b5d233062338254ce1
+PKG_HASH:=ecc232b42ff07888eb12a43daf5a956791a21efc85f6e71fbed9b9769ec50b50
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0435
+PKG_BUILD_DEPENDS += chrono-0441 getrandom-0216 iana-time-zone-0163
 
 define Package/gpg-tui
   SECTION:=utils
