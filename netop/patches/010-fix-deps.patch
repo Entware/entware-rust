@@ -1,11 +1,7 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -14,6 +14,15 @@ exclude = ["snapshot", "deploy", ".githu
- [dependencies]
- netraffic = "0.1.0"
- crossterm = "0.27.0"
--chrono = "0.4"
-+chrono = "0.4.34"
+@@ -17,3 +17,14 @@ crossterm = "0.27.0"
+ chrono = "0.4"
  clap = { version = "4.3.1", features = ["derive"] }
  ratatui = "0.24.0"
 +
@@ -15,5 +11,7 @@
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.34" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.60" }
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.3.4" }
