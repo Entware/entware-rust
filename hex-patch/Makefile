@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hex-patch
-PKG_VERSION:=1.11.2
+PKG_VERSION:=1.12.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Etto48/HexPatch/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=26b65016c97ece0451a268894b761a595054e535361e60faa7ecd6eb61644764
+PKG_HASH:=a7b33bcae3b456321d7a56e9a6628f6b5373b247c4f176edfc9591e98ca3cfdf
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,8 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440 getrandom-0215 flurry-052 iana-time-zone-0161 \
+PKG_BUILD_DEPENDS += \
+	chrono-0440 getrandom-0215 getrandom-031 flurry-052 iana-time-zone-0161 \
 	russh-sftp-211 seize-033
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
