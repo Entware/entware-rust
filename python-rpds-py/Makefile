@@ -1,15 +1,15 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rpds-py
-PKG_VERSION:=0.24.0
+PKG_VERSION:=0.26.0
 PKG_RELEASE:=1
 
 PYPI_NAME:=rpds_py
-PKG_HASH:=772cc1b2cd963e7e17e6cc55fe0371fb9c704d63e44cacec7b9b7f523b78919e
+PKG_HASH:=20dae58a859b0906f0685642e591056f1e787f3a8b39c8e8749a45dc7d26bdb0
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -38,8 +38,8 @@ RUSTFLAGS += -C relocation-model=pic
 define Package/python3-rpds-py/postrm
 #!/bin/sh
 
-rm -rf $(PYTHON3_PKG_DIR)/rpds
-rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_SOURCE_NAME)-$(PKG_VERSION).dist-info
+rm -rf $(PYTHON3_PKG_DIR)/rpds || true
+rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_SOURCE_NAME)-$(PKG_VERSION).dist-info || true
 endef
 
 $(eval $(call Py3Package,python3-rpds-py))
