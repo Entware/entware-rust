@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=leaf
-PKG_VERSION:=0.11.0
-PKG_RELEASE:=2
+PKG_VERSION:=0.12.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/eycorsican/leaf/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=f80d110ac56a0ffcdbcdcd1cc3631b6bf079ea18191d9a1c9f819cfff5b0c2fa
+PKG_HASH:=1754b3c1e38b1cf763919bda20894d3153d7835649b31f667715b5b8b4de512f
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,9 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += protobuf/host protobuf chrono-0431 quinn-0104
+PKG_BUILD_DEPENDS += \
+	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 quinn-0104 \
+	protobuf protobuf/host
 
 define Package/leaf
   SECTION:=net
