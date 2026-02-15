@@ -1,0 +1,13 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -51,3 +51,10 @@ conf-files = [
+ section = "net"
+ maintainer-scripts = "dist/debian/maintainer-scripts"
+ systemd-units = { unit-scripts = "dist/shared/lib/systemd/system" }
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.40" }
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
++getrandom3 = { path = "../getrandom-0.3.2", package = "getrandom", version = "0.3.2" }
