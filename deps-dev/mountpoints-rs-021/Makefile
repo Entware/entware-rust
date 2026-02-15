@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX arm/mips(el) (spacedisplay-rs)
 
@@ -41,7 +41,6 @@ ifneq ($(CONFIG_ARCH_64BIT),y)
 endif
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,mountpoints-rs-$(PKG_VERSION)))
