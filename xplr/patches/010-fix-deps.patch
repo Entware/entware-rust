@@ -1,0 +1,17 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -95,5 +95,13 @@ panic = 'abort'
+ strip = true
+ 
+ [features]
+-default = ["vendored-lua"]
++default = []
+ vendored-lua = ["mlua/vendored"]
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
