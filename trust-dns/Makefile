@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 # XXX The latest version.
 # For details, see: https://www.memorysafety.org/blog/announcing-hickory-dns/
@@ -12,7 +12,7 @@ include $(TOPDIR)/rules.mk
 PKG_NAME:=trust-dns
 PKG_REAL_NAME:=$(subst trust,hickory,$(PKG_NAME))
 PKG_VERSION:=0.23.0
-PKG_RELEASE:=4
+PKG_RELEASE:=5
 
 PKG_SOURCE:=$(PKG_REAL_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/hickory-dns/hickory-dns/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -61,7 +61,5 @@ define Package/trust-dns/install
 	$(INSTALL_DIR) $(1)/opt/var/lib/named
 	$(CP) $(PKG_BUILD_DIR)/tests/test-data/test_configs/* $(1)/opt/var/lib/named
 endef
-
-Build/InstallDev:=:
 
 $(eval $(call BuildPackage,trust-dns))
