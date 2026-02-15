@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2025 Entware
+# Copyright (C) 2025-2026 Entware
 
 # all (localtime/TZ)
 
@@ -20,6 +20,8 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../../rustc-dev/cargo.mk
 
+PKG_BUILD_DEPENDS += chrono-0442 getrandom-0216
+
 define Package/iana-time-zone-$(PKG_VERSION)
   SECTION:=devel
   CATEGORY:=Development
@@ -34,7 +36,6 @@ define Package/iana-time-zone-$(PKG_VERSION)/description
 endef
 
 Build/Compile:=:
-MoveLibs:=:
 Build/InstallDev:=:
 
 $(eval $(call BuildPackage,iana-time-zone-$(PKG_VERSION)))
