@@ -1,17 +1,12 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
-
-# arm/mips(el):
-#	error[E0308]: mismatched types: expected `u32`, found `u64`
-#					expected `Option<u64>`, found `Option<u32>`
-#	error: could not compile `mountpoints` due to 6 previous errors
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=spacedisplay-rs
 PKG_VERSION:=0.3.0
-PKG_RELEASE:=4
+PKG_RELEASE:=6
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/funbiscuit/spacedisplay-rs/tar.gz/refs/tags/v$(PKG_VERSION)?
@@ -23,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 mountpoints-rs-021
+PKG_BUILD_DEPENDS += chrono-0442 iana-time-zone-0164 mountpoints-rs-021
 
 define Package/spacedisplay-rs
   SECTION:=utils

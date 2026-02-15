@@ -1,0 +1,28 @@
+--- a/lib/Cargo.toml
++++ b/lib/Cargo.toml
+@@ -23,7 +23,7 @@ ptree = { version = "0.4.0", default-fea
+ [target.'cfg(target_os = "linux")'.dependencies]
+ inotify = "0.10.0"
+ page_size = "0.5.0"
+-procfs = "0.15.1"
++procfs = "0.16.0"
+ 
+ [target.'cfg(target_os = "macos")'.dependencies]
+ fsevent = "2.1.2"
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -4,6 +4,14 @@ members = [
+     "app",
+ ]
+ 
++resolver = "2"
++
+ [profile.release]
+ lto = true        # Enable full link-time optimization
+ codegen-units = 1 # Use only 1 codegen-unit to enable full optimizations
++
++[patch.crates-io]
++mountpoints = { path = "../mountpoints-rs-0.2.1" }
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.42" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
