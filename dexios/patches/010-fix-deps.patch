@@ -1,0 +1,12 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -6,3 +6,9 @@ members = [
+     "dexios-core",
+     "dexios-domain",
+ ]
++
++resolver = "2"
++
++[patch.crates-io]
++# all: no SYS_getrandom
++getrandom = { path = "../getrandom-0.2.15" }

@@ -1,6 +1,3 @@
-warning: virtual workspace defaulting to `resolver = "1"` despite one or
-more workspace members being on edition 2021 which implies `resolver = "2"`
-
 warning: unnecessary trailing semicolon --> dexios-domain/src/hash.rs:39:63
 ---
 
@@ -15,11 +12,3 @@ warning: unnecessary trailing semicolon --> dexios-domain/src/hash.rs:39:63
  
      loop {
          let read_count = req
---- a/Cargo.toml
-+++ b/Cargo.toml
-@@ -6,3 +6,5 @@ members = [
-     "dexios-core",
-     "dexios-domain",
- ]
-+
-+resolver = "2"

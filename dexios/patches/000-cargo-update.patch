@@ -1,0 +1,43 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -310,7 +310,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "dexios"
+-version = "8.8.0"
++version = "8.8.1"
+ dependencies = [
+  "anyhow",
+  "blake3",
+@@ -341,7 +341,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "dexios-domain"
+-version = "1.0.0"
++version = "1.0.1"
+ dependencies = [
+  "blake3",
+  "dexios-core",
+@@ -383,9 +383,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "getrandom"
+-version = "0.2.7"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "4eb1a864a501629691edf6c15a593b7a51eebaa1e8468e9ddc623de7c9b58ec6"
++version = "0.2.15"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -465,9 +463,9 @@ checksum = "e2abad23fbc42b3700f2f279844d
+ 
+ [[package]]
+ name = "libc"
+-version = "0.2.126"
++version = "0.2.178"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "349d5a591cd28b49e1d1037471617a32ddcda5731b99419008085f72d5a53836"
++checksum = "37c93d8daa9d8a012fd8ab92f088405fb202ea0b6ab73ee2482ae66af4f42091"
+ 
+ [[package]]
+ name = "number_prefix"
