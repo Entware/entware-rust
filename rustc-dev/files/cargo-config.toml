@@ -8,8 +8,8 @@ linker = "@HOST_CC@"
 linker = "aarch64-openwrt-linux-gnu-gcc"
 
 ### arm (armv7)
-[target.arm-openwrt-linux-gnu]
-linker = "arm-openwrt-linux-gnu-gcc"
+[target.armv7-openwrt-linux-gnueabi]
+linker = "arm-openwrt-linux-gnueabi-gcc"
 
 ### mips
 [target.mips-openwrt-linux-gnu]
