@@ -205,8 +205,8 @@
      "aarch64-apple-darwin",
      "aarch64-apple-ios",
      "aarch64-linux-android",
---- a/vendor/libc-0.2.176/Cargo.toml
-+++ b/vendor/libc-0.2.176/Cargo.toml
+--- a/vendor/libc-0.2.177/Cargo.toml
++++ b/vendor/libc-0.2.177/Cargo.toml
 @@ -48,6 +48,20 @@ repository = "https://github.com/rust-la
  features = ["extra_traits"]
  default-target = "x86_64-unknown-linux-gnu"
@@ -228,9 +228,9 @@
      "aarch64-apple-darwin",
      "aarch64-apple-ios",
      "aarch64-linux-android",
---- a/vendor/libc-0.2.177/Cargo.toml
-+++ b/vendor/libc-0.2.177/Cargo.toml
-@@ -48,6 +48,20 @@ repository = "https://github.com/rust-la
+--- a/vendor/libc-0.2.178/Cargo.toml
++++ b/vendor/libc-0.2.178/Cargo.toml
+@@ -49,6 +49,20 @@ repository = "https://github.com/rust-la
  features = ["extra_traits"]
  default-target = "x86_64-unknown-linux-gnu"
  targets = [

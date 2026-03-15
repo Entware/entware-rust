@@ -5,18 +5,18 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.92.0
+PKG_VERSION:=1.94.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.gz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=9e0d2ca75c7e275fdc758255bf4b03afb3d65d1543602746907c933b6901c3b8
+PKG_HASH:=b83f921cd3f321ff614f9c06a8b870d89299fc02888b48a5549683a36823474c
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-dev-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-dev-$(PKG_VERSION)
 
 PKG_LICENSE:=Apache-2.0 MIT
-PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
+PKG_LICENSE_FILES:=COPYRIGHT LICENSE-APACHE LICENSE-MIT
 
 PKG_BUILD_DEPENDS:=rustc-dev/host
 
@@ -52,7 +52,7 @@ endif
 
 PRE_BUILD_VERSION:=$(PKG_VERSION)
 PRE_BUILD_FILE:=rust-dev-$(PRE_BUILD_VERSION)-$(RUSTC_HOST_ARCH).tar.xz
-PRE_COMMIT_HASH:=ded5c06cf21d2b93bffd5d884aa6e96934ee4234
+PRE_COMMIT_HASH:=4a4ef493e3a1488c6e321570238084b38948f6db
 DL_LLVM_DIR:=llvm-$(PRE_COMMIT_HASH)-false
 
 define Download/rust-dev
@@ -60,7 +60,7 @@ define Download/rust-dev
   URL:= \
 	https://ci-artifacts.rust-lang.org/rustc-builds/$(PRE_COMMIT_HASH) \
 	https://src.entware.net
-  HASH:=ee96e87db5432c6985722a1912aa222d295522cf7f48c7965d32cf84da079c17
+  HASH:=7eeb14f306be9edd4b15a195d96dc7fe187746cd6a92a0cc63bd09360c6d89bc
 endef
 
 define Host/Prepare
@@ -71,7 +71,7 @@ endef
 
 define Host/Configure
 	( \
-		echo 'change-id = 149758'; \
+		echo 'change-id = 153313'; \
 		echo '[llvm]'; \
 		echo 'download-ci-llvm = true'; \
 		echo '[build]'; \
@@ -159,7 +159,7 @@ endef
 
 define Build/Configure
 	( \
-		echo 'change-id = 149758'; \
+		echo 'change-id = 153313'; \
 		echo 'profile = "library"'; \
 		echo '[llvm]'; \
 		echo 'download-ci-llvm = true'; \

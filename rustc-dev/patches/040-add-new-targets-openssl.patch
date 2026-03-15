@@ -80,8 +80,8 @@
              "aarch64-apple-darwin" => "darwin64-arm64-cc",
              // Note that this, and all other android targets, aren't using the
              // `android64-aarch64` (or equivalent) builtin target. That
---- a/vendor/openssl-src-300.5.3+3.5.4/src/lib.rs
-+++ b/vendor/openssl-src-300.5.3+3.5.4/src/lib.rs
+--- a/vendor/openssl-src-300.5.4+3.5.4/src/lib.rs
++++ b/vendor/openssl-src-300.5.4+3.5.4/src/lib.rs
 @@ -299,6 +299,20 @@ impl Build {
          }
  

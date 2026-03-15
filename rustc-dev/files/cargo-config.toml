@@ -1,8 +1,8 @@
 ### host
-[target.@RUSTC_HOST_ARCH@]
-linker = "@HOST_CC@"
+#[target.@RUSTC_HOST_ARCH@]
+#linker = "@HOST_CC@"
 
-### targets
+### targets (glibc)
 ### aarch64
 [target.aarch64-openwrt-linux-gnu]
 linker = "aarch64-openwrt-linux-gnu-gcc"
