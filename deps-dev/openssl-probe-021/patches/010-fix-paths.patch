@@ -1,0 +1,59 @@
+--- a/src/lib.rs
++++ b/src/lib.rs
+@@ -134,13 +134,17 @@ impl ProbeResult {
+ // https://github.com/golang/go/tree/master/src/crypto/x509
+ // Look at `root_*.go` files for platform-specific files and directories.
+ 
+-#[cfg(target_os = "linux")]
++#[cfg(all(target_os = "linux", not(target_vendor = "openwrt")))]
+ const CERTIFICATE_DIRS: &[&str] = &[
+     "/etc/ssl/certs",             // SLES 10, SLES 11
+     "/etc/pki/tls/certs",         // Fedora, RHEL
+     "/etc/security/certificates", // OpenHarmony, https://developer.huawei.com/consumer/en/doc/best-practices/bpta-network-ca-security#section121091116142117
+ ];
+ 
++// Entware dir
++#[cfg(all(target_os = "linux", target_vendor = "openwrt"))]
++const CERTIFICATE_DIRS: &[&str] = &["/opt/etc/ssl"];
++
+ #[cfg(target_os = "freebsd")]
+ const CERTIFICATE_DIRS: &[&str] = &[
+     "/etc/ssl/certs",         // FreeBSD 12.2+,
+@@ -162,11 +166,12 @@ const CERTIFICATE_DIRS: &[&str] = &["/va
+     target_os = "illumos",
+     target_os = "solaris",
+     target_os = "netbsd",
+-    target_os = "aix"
++    target_os = "aix",
++    target_vendor = "openwrt"
+ )))]
+ const CERTIFICATE_DIRS: &[&str] = &["/etc/ssl/certs"];
+ 
+-#[cfg(target_os = "linux")]
++#[cfg(all(target_os = "linux", not(target_vendor = "openwrt")))]
+ const CERTIFICATE_FILE_NAMES: &[&str] = &[
+     "/etc/ssl/certs/ca-certificates.crt", // Debian, Ubuntu, Gentoo, Joyent SmartOS, etc.
+     "/etc/pki/ca-trust/extracted/pem/tls-ca-bundle.pem", // CentOS, RHEL 7 (should come before RHEL 6)
+@@ -174,10 +179,13 @@ const CERTIFICATE_FILE_NAMES: &[&str] =
+     "/etc/ssl/ca-bundle.pem",                            // OpenSUSE
+     "/etc/pki/tls/cacert.pem",                           // OpenELEC (a media center Linux distro)
+     "/etc/ssl/cert.pem",                                 // Alpine Linux
+-    "/opt/etc/ssl/certs/ca-certificates.crt", // Entware, https://github.com/rustls/openssl-probe/pull/21
+     "/etc/ssl/certs/cacert.pem", // OpenHarmony, https://developer.huawei.com/consumer/en/doc/harmonyos-faqs/faqs-network-41
+ ];
+ 
++// Entware file
++#[cfg(all(target_os = "linux", target_vendor = "openwrt"))]
++const CERTIFICATE_FILE_NAMES: &[&str] = &["/opt/etc/ssl/certs/ca-certificates.crt"];
++
+ #[cfg(target_os = "freebsd")]
+ const CERTIFICATE_FILE_NAMES: &[&str] = &["/usr/local/etc/ssl/cert.pem"];
+ 
+@@ -215,6 +223,7 @@ const CERTIFICATE_FILE_NAMES: &[&str] =
+     target_os = "illumos",
+     target_os = "android",
+     target_os = "haiku",
++    target_vendor = "openwrt",
+ )))]
+ const CERTIFICATE_FILE_NAMES: &[&str] = &["/etc/ssl/certs/ca-certificates.crt"];
+ 
