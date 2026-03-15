@@ -1,15 +1,15 @@
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -1168,8 +1168,6 @@ checksum = "613afe47fcd5fac7ccf1db93babc
+@@ -1173,8 +1173,6 @@ checksum = "613afe47fcd5fac7ccf1db93babc
  [[package]]
  name = "chrono"
- version = "0.4.42"
+ version = "0.4.43"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "145052bdd345b87320e369255277e3fb5152762ad123a901ef5c262dd38fe8d2"
+-checksum = "fac4744fb15ae8337dc853fee7fb3f4e48c0fbaa23d0afe49c447b4fab126118"
  dependencies = [
   "iana-time-zone",
   "num-traits",
-@@ -1259,8 +1257,6 @@ checksum = "c3e64b0cc0439b12df2fa678eae8
+@@ -1264,8 +1262,6 @@ checksum = "c3e64b0cc0439b12df2fa678eae8
  [[package]]
  name = "coarsetime"
  version = "0.1.37"
@@ -18,7 +18,16 @@
  dependencies = [
   "libc",
   "wasix",
-@@ -2631,8 +2627,6 @@ dependencies = [
+@@ -1785,7 +1781,7 @@ source = "registry+https://github.com/ru
+ checksum = "caef6056a5788d05d173cdc3c562ac28ae093828f851f69378b74e4e3d578e41"
+ dependencies = [
+  "heck",
+- "indexmap 2.13.0",
++ "indexmap 1.9.3",
+  "itertools 0.14.0",
+  "proc-macro-crate",
+  "proc-macro2",
+@@ -2642,8 +2638,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.2.17"
@@ -27,7 +36,7 @@
  dependencies = [
   "cfg-if",
   "js-sys",
-@@ -2644,8 +2638,6 @@ dependencies = [
+@@ -2655,8 +2649,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.3.4"
@@ -36,16 +45,29 @@
  dependencies = [
   "cfg-if",
   "js-sys",
-@@ -3017,8 +3009,6 @@ dependencies = [
+@@ -2668,9 +2660,7 @@ dependencies = [
+ 
+ [[package]]
+ name = "getrandom"
+-version = "0.4.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "cd66c162c2a0609c0507f49814877c621d00cb85978e6fbbf04e88b8048c07c8"
++version = "0.4.1"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -3048,9 +3038,7 @@ dependencies = [
+ 
  [[package]]
  name = "iana-time-zone"
- version = "0.1.64"
+-version = "0.1.65"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "33e57f83510bb73707521ebaffa789ec8caf86f9657cad665b092b581d40e9fb"
+-checksum = "e31bc9ad994ba00e440a8aa5c9ef0ec67d5cb5e5cb0cc7f8b744a35b389cc470"
++version = "0.1.64"
  dependencies = [
   "android_system_properties",
   "core-foundation-sys",
-@@ -3026,14 +3016,12 @@ dependencies = [
+@@ -3058,14 +3046,12 @@ dependencies = [
   "js-sys",
   "log",
   "wasm-bindgen",
@@ -61,7 +83,7 @@
  dependencies = [
   "cc",
  ]
-@@ -3551,8 +3539,6 @@ dependencies = [
+@@ -3595,8 +3581,6 @@ dependencies = [
  [[package]]
  name = "merlin"
  version = "3.0.0"
@@ -70,12 +92,30 @@
  dependencies = [
   "byteorder",
   "keccak",
-@@ -3971,8 +3957,6 @@ dependencies = [
+@@ -4018,8 +4002,6 @@ dependencies = [
  [[package]]
  name = "openssl-probe"
- version = "0.1.6"
+ version = "0.2.1"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "d05e27ee213611ffe7d6348b942e8f942b37114c00cc03cec254295a4a17852e"
+-checksum = "7c87def4c32ab89d880effc9e097653c8da5d6ef28e6b539d313baaacfbafcbe"
  
  [[package]]
- name = "openssl-probe"
+ name = "openssl-src"
+@@ -6520,7 +6502,7 @@ dependencies = [
+  "derive-deftly",
+  "digest",
+  "educe",
+- "getrandom 0.4.0",
++ "getrandom 0.4.1",
+  "hex-literal",
+  "safelog",
+  "thiserror 2.0.18",
+@@ -7309,7 +7291,7 @@ dependencies = [
+  "digest",
+  "ed25519-dalek",
+  "educe",
+- "getrandom 0.4.0",
++ "getrandom 0.4.1",
+  "hex",
+  "hex-literal",
+  "openssl",

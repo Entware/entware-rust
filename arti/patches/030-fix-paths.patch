@@ -1,6 +1,6 @@
 --- a/crates/arti/src/rpc/listener.rs
 +++ b/crates/arti/src/rpc/listener.rs
-@@ -45,7 +45,7 @@ fn listener_map_defaults() -> BTreeMap<S
+@@ -36,7 +36,7 @@ pub(super) fn listener_map_defaults() ->
  
          ["system-default"]
          enable = false
@@ -11,7 +11,7 @@
      .expect("Could not parse defaults!")
 --- a/crates/arti-client/src/config.rs
 +++ b/crates/arti-client/src/config.rs
-@@ -892,7 +892,7 @@ pub fn default_config_files() -> Result<
+@@ -871,7 +871,7 @@ pub fn default_config_files() -> Result<
      // the base path resolver includes the 'ARTI_CONFIG' variable
      let path_resolver = tor_config_path::arti_client_base_resolver();
  
@@ -22,7 +22,7 @@
              let path = CfgPath::new(f.into()).path(&path_resolver)?;
 --- a/crates/arti-rpc-client-core/src/conn/builder.rs
 +++ b/crates/arti-rpc-client-core/src/conn/builder.rs
-@@ -260,7 +260,7 @@ impl RpcConnBuilder {
+@@ -257,7 +257,7 @@ impl RpcConnBuilder {
              }),
              #[cfg(unix)]
              dflt(Path {
@@ -33,7 +33,7 @@
              dflt(Literal(
 --- a/crates/tor-rpc-connect/src/lib.rs
 +++ b/crates/tor-rpc-connect/src/lib.rs
-@@ -284,7 +284,7 @@ pub const SYSTEM_DEFAULT_CONNECT_POINT:
+@@ -285,7 +285,7 @@ pub const SYSTEM_DEFAULT_CONNECT_POINT:
              Some(
  r#"
  [connect]
