@@ -4,17 +4,17 @@
  rust-version = "1.75.0"
  
  [dependencies]
--nu-plugin = ">= 0.98, < 0.105"
--nu-protocol = ">= 0.98, < 0.105"
-+nu-plugin = "0.106.1"
-+nu-protocol = "0.106.1"
- bt_bencode = { version = "0.8", default-features = false, features = ["alloc"] }
+-nu-plugin = "0.111"
+-nu-protocol = "0.111"
++nu-plugin = "0.111.0"
++nu-protocol = "0.111.0"
+ bt_bencode = { version = "0.8.2", default-features = false, features = ["alloc"] }
 +
 +[patch.crates-io]
-+nu-plugin = { path = "../nushell-0.106.1/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.106.1/crates/nu-protocol" }
++nu-plugin = { path = "../nushell-0.111.0/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.111.0/crates/nu-protocol" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.40" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++chrono = { path = "../chrono-0.4.44" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.16" }
++getrandom = { path = "../getrandom-0.2.17" }

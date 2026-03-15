@@ -6,13 +6,13 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-from-bencode
 PKG_REAL_VERSION:=0.11.0
-PKG_RELEASE:=3
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2025-05-19
-PKG_SOURCE_VERSION:=ea5246d934a9be7fa670116a5f8edee77a80bb00
+PKG_SOURCE_DATE:=2026-03-02
+PKG_SOURCE_VERSION:=7d8a536f2d091f7bcc55210852cc6ae311312818
 PKG_SOURCE_URL:=https://github.com/bluk/nu_plugin_from_bencode
-PKG_MIRROR_HASH:=cb8139196f6d71f521666c201490d1d46d0cc5f56a2c7055d6dd28c2009b5d17
+PKG_MIRROR_HASH:=79ddf06a7aeef2f0c630fc59507ab6df8e247d30328c49ee1d1e3bbd9273fc43
 
 PKG_VERSION:=$(PKG_REAL_VERSION)_git$(subst -,,$(PKG_SOURCE_DATE))~$(call version_abbrev,$(PKG_SOURCE_VERSION))
 
@@ -26,7 +26,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0440 getrandom-0216 iana-time-zone-0161 nushell
+	chrono-0444 getrandom-0217 iana-time-zone-0164 nushell
 
 define Package/nu-plugin-from-bencode
   SECTION:=utils
