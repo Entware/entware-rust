@@ -1,6 +1,6 @@
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -320,8 +320,6 @@ checksum = "2fd1289c04a9ea8cb22300a459a7
+@@ -296,8 +296,6 @@ checksum = "9330f8b2ff13f34540b44e946ef3
  [[package]]
  name = "chrono"
  version = "0.4.42"
@@ -9,7 +9,7 @@
  dependencies = [
   "iana-time-zone",
   "num-traits",
-@@ -901,8 +899,6 @@ dependencies = [
+@@ -912,8 +910,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.2.16"
@@ -18,16 +18,16 @@
  dependencies = [
   "cfg-if",
   "libc",
-@@ -912,8 +908,6 @@ dependencies = [
+@@ -923,8 +919,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
- version = "0.3.3"
+ version = "0.3.4"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "26145e563e54f2cadc477553f1ec5ee650b00862f0a58bcd12cbdc5f0ea2d2f4"
+-checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
  dependencies = [
   "cfg-if",
   "libc",
-@@ -1111,8 +1105,6 @@ dependencies = [
+@@ -1117,8 +1111,6 @@ dependencies = [
  [[package]]
  name = "iana-time-zone"
  version = "0.1.64"
@@ -36,12 +36,39 @@
  dependencies = [
   "android_system_properties",
   "core-foundation-sys",
-@@ -1126,8 +1118,6 @@ dependencies = [
+@@ -1132,8 +1124,6 @@ dependencies = [
  [[package]]
  name = "iana-time-zone-haiku"
  version = "0.1.2"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
 -checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+ dependencies = [
+  "cc",
+ ]
+@@ -2167,8 +2157,6 @@ dependencies = [
+ [[package]]
+ name = "rquickjs"
+ version = "0.9.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "5c5227859c4dfc83f428e58f9569bf439e628c8d139020e7faff437e6f5abaa0"
+ dependencies = [
+  "rquickjs-core",
+ ]
+@@ -2176,8 +2164,6 @@ dependencies = [
+ [[package]]
+ name = "rquickjs-core"
+ version = "0.9.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "e82e0ca83028ad5b533b53b96c395bbaab905a5774de4aaf1004eeacafa3d85d"
+ dependencies = [
+  "rquickjs-sys",
+ ]
+@@ -2185,8 +2171,6 @@ dependencies = [
+ [[package]]
+ name = "rquickjs-sys"
+ version = "0.9.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "7fed0097b0b4fbb2a87f6dd3b995a7c64ca56de30007eb7e867dfdfc78324ba5"
  dependencies = [
   "cc",
  ]

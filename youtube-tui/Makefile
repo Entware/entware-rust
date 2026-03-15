@@ -2,17 +2,19 @@
 #
 # Copyright (C) 2024-2026 Entware
 
-# XXX rquickjs-sys@0.9.0: rquickjs probably doesn't ship bindings
-
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=youtube-tui
-PKG_VERSION:=0.9.3
+PKG_REAL_VERSION:=0.9.3
 PKG_RELEASE:=1
 
-PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/siriusmart/youtube-tui/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=d5f1829d4798c167928d811309d1fed6e9d33cd5d3fd8496bca9b84ccc105575
+PKG_SOURCE_PROTO:=git
+PKG_SOURCE_DATE:=2026-03-11
+PKG_SOURCE_VERSION:=2fc2d5a43fb49dd32be1af7ad895fd3d697fbb1a
+PKG_SOURCE_URL:=https://github.com/Siriusmart/youtube-tui
+PKG_MIRROR_HASH:=ab24063579219132c9e6ab708815348c9d820d07ac08a9a9183078f0f618bcef
+
+PKG_VERSION:=$(PKG_REAL_VERSION)_git$(subst -,,$(PKG_SOURCE_DATE))~$(call version_abbrev,$(PKG_SOURCE_VERSION))
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
@@ -20,14 +22,15 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/rustlang/rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0442 getrandom-0216 getrandom-033 iana-time-zone-0164
+PKG_BUILD_DEPENDS += \
+	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 rquickjs-090
 
 define Package/youtube-tui
   SECTION:=multimedia
   CATEGORY:=Multimedia
   TITLE:=An aesthetically pleasing YouTube TUI
   URL:=https://tui.siri.ws/youtube
-  DEPENDS:=+libopenssl @BROKEN
+  DEPENDS:=+libopenssl
   EXTRA_DEPENDS:=yt-dlp
 endef
 
