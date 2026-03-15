@@ -1,14 +1,15 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -85,3 +85,11 @@ url = "2"
+@@ -85,3 +85,12 @@ url = "2"
  [target.'cfg(not(windows))'.dev-dependencies]
  # fake_tty does not support Windows for now
  fake-tty = "0.3.1"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.42" }
++chrono = { path = "../chrono-0.4.43" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
-+getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
++getrandom4 = { path = "../getrandom-0.4.1", package = "getrandom", version = "0.4.1" }
