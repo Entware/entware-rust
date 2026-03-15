@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-file
-PKG_VERSION:=0.17.0
-PKG_RELEASE:=2
+PKG_VERSION:=0.22.0
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_file
-PKG_MIRROR_HASH:=27d48cf81dc3729b620940d03fb9025ce42eee99f257c5bd50d054e747ea3eb0
+PKG_MIRROR_HASH:=1352e2fbe53f1da5066705747c81a3d0ddde7216576a7b3a8aac6a99229b2c6f
 
 PKG_LICENSE:=AGPL-3.0-only
 PKG_LICENSE_FILES:=LICENSE
@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0440 getrandom-0216 iana-time-zone-0161 nushell specta-105
+	chrono-0444 getrandom-0217 iana-time-zone-0164 nushell specta-105
 
 define Package/nu-plugin-file
   SECTION:=utils
