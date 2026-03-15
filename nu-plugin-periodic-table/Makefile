@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-periodic-table
-PKG_VERSION:=0.2.11
-PKG_RELEASE:=3
+PKG_VERSION:=0.2.12
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/JosephTLyons/nu_plugin_periodic_table
-PKG_MIRROR_HASH:=773da9c5f45c31ba07293a3eef6a5cf82f5d0c176cd5c55ab93468feb39ef30f
+PKG_MIRROR_HASH:=f4e4b1b94028cfb7aec50f8e19fce24cdcd4420530403913870d7f6ba248ca73
 
 PKG_LICENSE:=GPL-3.0-only
 PKG_LICENSE_FILES:=License.txt
@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0440 getrandom-0216 iana-time-zone-0161 nushell
+	chrono-0444 getrandom-0217 iana-time-zone-0164 nushell
 
 define Package/nu-plugin-periodic-table
   SECTION:=utils
