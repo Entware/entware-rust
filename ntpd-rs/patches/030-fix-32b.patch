@@ -1,13 +1,14 @@
 --- a/ntpd/src/daemon/server.rs
 +++ b/ntpd/src/daemon/server.rs
-@@ -1,6 +1,6 @@
+@@ -1,7 +1,7 @@
  use std::{
      sync::{
+         Arc,
 -        atomic::{AtomicU64, Ordering},
 +        atomic::{AtomicUsize, Ordering},
-         Arc,
      },
      time::Duration,
+ };
 @@ -68,7 +68,7 @@ impl ServerStatHandler for ServerStats {
  
  #[derive(Debug, Clone, Default)]
@@ -29,12 +30,12 @@
 --- a/ntpd/src/daemon/spawn/mod.rs
 +++ b/ntpd/src/daemon/spawn/mod.rs
 @@ -1,4 +1,4 @@
--use std::{net::SocketAddr, path::PathBuf, sync::atomic::AtomicU64};
-+use std::{net::SocketAddr, path::PathBuf, sync::atomic::AtomicUsize};
+-use std::{future::Future, net::SocketAddr, path::PathBuf, sync::atomic::AtomicU64};
++use std::{future::Future, net::SocketAddr, path::PathBuf, sync::atomic::AtomicUsize};
  
  use ntp_proto::{ProtocolVersion, SourceConfig, SourceNtsData};
  use serde::{Deserialize, Serialize};
-@@ -25,8 +25,8 @@ pub struct SpawnerId(u64);
+@@ -26,8 +26,8 @@ pub struct SpawnerId(u64);
  
  impl SpawnerId {
      pub fn new() -> SpawnerId {
@@ -45,7 +46,7 @@
      }
  }
  
-@@ -44,8 +44,8 @@ pub struct SourceId(u64);
+@@ -45,8 +45,8 @@ pub struct SourceId(u64);
  
  impl SourceId {
      pub fn new() -> SourceId {
