@@ -1,6 +1,6 @@
 --- a/crates/ty_vendored/vendor/typeshed/stdlib/os/__init__.pyi
 +++ b/crates/ty_vendored/vendor/typeshed/stdlib/os/__init__.pyi
-@@ -226,7 +226,6 @@ if sys.platform == "linux":
+@@ -239,7 +239,6 @@ if sys.platform == "linux":
          "XATTR_REPLACE",
          "XATTR_SIZE_MAX",
          "copy_file_range",
@@ -8,7 +8,7 @@
          "getxattr",
          "listxattr",
          "memfd_create",
-@@ -2933,7 +2932,6 @@ if sys.platform != "win32":
+@@ -3155,7 +3154,6 @@ if sys.platform != "win32":
          """Return an integer-valued system configuration variable."""
  
  if sys.platform == "linux":

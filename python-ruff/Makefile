@@ -5,11 +5,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ruff
-PKG_VERSION:=0.13.0
+PKG_VERSION:=0.15.1
 PKG_RELEASE:=1
 
 PYPI_NAME:=ruff
-PKG_HASH:=5b4b1ee7eb35afae128ab94459b13b2baaed282b1fb0f472a73c82c996c8ae60
+PKG_HASH:=c590fe13fb57c97141ae975c03a1aedb3d3156030cabd740d6ff0b0d601e203f
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,8 +18,8 @@ HOST_BUILD_DEPENDS:=maturin/host
 HOST_PATCH_DIR:=
 
 PKG_BUILD_DEPENDS:= \
-	chrono-0441 get-size2-062 getrandom-0216 getrandom-033 \
-	iana-time-zone-0163 maturin/host
+	chrono-0442 get-size2-074 getrandom-0216 getrandom-034 \
+	iana-time-zone-0164 maturin/host
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/host-build.mk
