@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-port-extension
-PKG_VERSION:=0.106.1
-PKG_RELEASE:=2
+PKG_VERSION:=0.111.0
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/FMotalleb/nu_plugin_port_extension
-PKG_MIRROR_HASH:=52dbc65cd9c323ed3e11e14501789744419d5d04ec18e45f479d2923f1871d01
+PKG_MIRROR_HASH:=5001ff38596f94bc59d17e821267eebf75fa84570e028fd6ad627fedab827773
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0440 getrandom-0216 iana-time-zone-0161 nushell
+	chrono-0444 getrandom-0217 iana-time-zone-0164 nushell
 
 define Package/nu-plugin-port-extension
   SECTION:=utils
