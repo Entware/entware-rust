@@ -1,10 +1,11 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -112,3 +112,7 @@ directories you use most frequently, so
+@@ -112,3 +112,8 @@ directories you use most frequently, so
  keystrokes."""
  priority = "optional"
  section = "utils"
 +
 +[patch.crates-io]
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.16" }
++getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
