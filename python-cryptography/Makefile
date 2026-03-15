@@ -5,11 +5,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cryptography
-PKG_VERSION:=46.0.2
+PKG_VERSION:=46.0.5
 PKG_RELEASE:=1
 
 PYPI_NAME:=cryptography
-PKG_HASH:=21b6fc8c71a3f9a604f028a329e5560009cc4a3a828bfea5fcba8eb7647d88fe
+PKG_HASH:=abace499247268e3757271b2f1e244b36b06f8515cf27c4d49468fc9eb16e93d
 
 PKG_LICENSE:=Apache-2.0 BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE LICENSE.APACHE LICENSE.BSD LICENSE.PSF
@@ -19,7 +19,7 @@ PKG_BUILD_DEPENDS:= \
 	libffi/host \
 	maturin/host \
 	python-cffi/host \
-	python-setuptools-rust/host \
+	python-setuptools/host \
 	python-wheel/host
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
