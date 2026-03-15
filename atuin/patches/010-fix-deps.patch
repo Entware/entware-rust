@@ -1,14 +1,16 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -63,3 +63,11 @@ features = ["runtime-tokio-rustls", "tim
+@@ -64,3 +64,13 @@ features = ["runtime-tokio-rustls", "tim
  [profile.dist]
  inherits = "release"
  lto = "thin"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.42" }
++chrono = { path = "../chrono-0.4.43" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
-+getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
++# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
++metrics-exporter-prometheus = { path = "../metrics-exporter-prometheus-0.18.1/metrics-exporter-prometheus" }

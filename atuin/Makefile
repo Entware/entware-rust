@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=atuin
-PKG_VERSION:=18.11.0
+PKG_VERSION:=18.12.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/atuinsh/atuin/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=9d47c1b176be1c0d4a4c16e94dcb55df9c893ee9d2ad6dbc09b4719d5b557645
+PKG_SOURCE_URL:=https://codeload.github.com/atuinsh/atuin/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=8643a7df1e366e9ad3134514b9bcaf4d6440accb13c64340ec9ec1923d58eb6e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,9 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0442 getrandom-0216 getrandom-033 iana-time-zone-0164
+PKG_BUILD_DEPENDS += \
+	chrono-0443 getrandom-0217 getrandom-034 iana-time-zone-0164 \
+	metrics-exporter-prometheus-0181
 
 define Package/atuin
   SECTION:=utils
