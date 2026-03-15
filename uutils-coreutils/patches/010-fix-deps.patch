@@ -1,9 +1,9 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -700,3 +700,11 @@ large_types_passed_by_value = "allow"
+@@ -740,3 +740,11 @@ large_types_passed_by_value = "allow"
  
  [workspace.metadata.cargo-shear]
- ignored = ["fluent", "libstdbuf"]
+ ignored = ["clap", "fluent", "libstdbuf"]
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
