@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-compress
-PKG_VERSION:=0.2.8
-PKG_RELEASE:=2
+PKG_VERSION:=0.2.10
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_VERSION:=5fca7157dd5d1061df752e786fc7068e4e914b9d
+PKG_SOURCE_VERSION:=8faa05e7705f19fa71f70cb46319952084545d1b
 PKG_SOURCE_URL:=https://github.com/yybit/nu_plugin_compress
-PKG_MIRROR_HASH:=4628762e83d22b1781def7a960ff797b091500c1ffd5d250e435f7f940e5eeb7
+PKG_MIRROR_HASH:=bcfd99f75218094579af22ec4bdb96518fdd829b614ec8a4a3c812f10ab6b01a
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0440 getrandom-0216 getrandom-033 iana-time-zone-0161 nushell
+	chrono-0444 getrandom-0217 getrandom-034 iana-time-zone-0164 nushell
 
 define Package/nu-plugin-compress
   SECTION:=utils
