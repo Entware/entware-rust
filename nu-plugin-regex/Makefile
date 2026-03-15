@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-regex
-PKG_VERSION:=0.15.0
-PKG_RELEASE:=2
+PKG_VERSION:=0.20.0
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/fdncred/nu_plugin_regex
-PKG_MIRROR_HASH:=e9f6449cfbab42d3712d11b093cd5891538865abacb6dd7c8a0d3add22fa4857
+PKG_MIRROR_HASH:=69423a0755d96542385d034aa2ca0e2c608d76e09d44d2c983b126098c78fcef
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0440 getrandom-0216 iana-time-zone-0161 nushell
+	chrono-0444 getrandom-0217 iana-time-zone-0164 nushell
 
 define Package/nu-plugin-regex
   SECTION:=utils
