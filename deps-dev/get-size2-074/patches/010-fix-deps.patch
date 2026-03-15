@@ -1,0 +1,10 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -56,3 +56,7 @@ todo = "warn"
+ unwrap_used = "warn"
+ unimplemented = "warn"
+ wildcard_enum_match_arm = "warn"
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.42" }
