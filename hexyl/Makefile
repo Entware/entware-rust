@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024-2025 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hexyl
-PKG_VERSION:=0.16.0
+PKG_VERSION:=0.17.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/hexyl/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=52853b4edede889b40fd6ff132e1354d957d1f26ee0c26ebdea380f8ce82cb0b
+PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/hexyl/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=72fa17397ad187eec6b295d02c7caabbb209a6e0d5706187b8a599bd5df8615e
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
