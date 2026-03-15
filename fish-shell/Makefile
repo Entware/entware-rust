@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fish-shell
-PKG_VERSION:=4.3.3
+PKG_VERSION:=4.5.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/fish-shell/fish-shell/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=2057419879f970040a2788a2dec74c16b86348834b2bbeccbd0b473f574ba18c
+PKG_SOURCE_URL:=https://codeload.github.com/fish-shell/fish-shell/tar.gz/$(PKG_VERSION)?
+PKG_HASH:=3b33e087e2d5261bdf4127a0cc16d722077e1822028a7385bc3894c45f37c825
 
 PKG_LICENSE:=BSD-2-Clause GPL-2.0-only GPL-2.0-or-later ISC MIT PSF-2.0
 PKG_LICENSE_FILES:=COPYING
@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/nls.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += getrandom-0216 getrandom-034
+PKG_BUILD_DEPENDS += getrandom-0217 getrandom-034
 
 define Package/fish-shell
   SECTION:=utils

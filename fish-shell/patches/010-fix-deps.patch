@@ -1,11 +1,11 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -203,3 +203,8 @@ print_stderr = "deny"
+@@ -227,3 +227,8 @@ print_stderr = "deny"
  
  [lints]
  workspace = true
 +
 +[patch.crates-io]
 +# all: no SYS_getrandom
-+getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
 +getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
