@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -21,3 +21,8 @@ strip = false
+@@ -24,3 +24,8 @@ strip = false
  [profile.bench]
  lto = true        # Enable full link-time optimization.
  codegen-units = 1 # Use only 1 codegen-unit to enable full optimizations.
