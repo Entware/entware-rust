@@ -1,18 +1,31 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -342,6 +342,16 @@ bench = false
+@@ -83,7 +83,7 @@ bytesize = "2.3.1"
+ byteyarn = "0.5"
+ calamine = "0.32"
+ chardetng = "0.1.17"
+-chrono = { default-features = false, version = "0.4.43" }
++chrono = { default-features = false, version = "0.4.44" }
+ chrono-humanize = "0.2.3"
+ chrono-tz = "0.10"
+ crossbeam-channel = "0.5.15"
+@@ -388,6 +388,20 @@ bench = false
  
  # Run all benchmarks with `cargo bench`
  # Run individual benchmarks like `cargo bench -- <regex>` e.g. `cargo bench -- parse`
 +
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.40" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.61" }
++chrono = { path = "../chrono-0.4.44" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# openssl
-+openssl-probe = { path = "../openssl-probe-0.1.5" }
++openssl-probe1 = { path = "../openssl-probe-0.1.6", package = "openssl-probe", version = "0.1.6" }
++openssl-probe2 = { path = "../openssl-probe-0.2.1", package = "openssl-probe", version = "0.2.1" }
 +# all: no SYS_getrandom
-+getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
-+getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
++getrandom4 = { path = "../getrandom-0.4.1", package = "getrandom", version = "0.4.1" }
++# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
++rmcp = { path = "../rmcp-0.16.0/crates/rmcp" }
 +
  [[bench]]
  name = "benchmarks"
