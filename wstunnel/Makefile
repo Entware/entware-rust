@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=wstunnel
-PKG_VERSION:=10.5.1
+PKG_VERSION:=10.5.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/erebe/wstunnel/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=cf600e97ec15d243be6f32f5418ff48ab59f0714258f18f7dc7b95759847a9d7
+PKG_SOURCE_URL:=https://codeload.github.com/erebe/wstunnel/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=0e717c8330af19157e8a867bed782df460d80ba285530a9a17fabaf14e941d37
 
 PKG_LICENSE:=BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 \
+	chrono-0443 getrandom-0217 getrandom-034 iana-time-zone-0164 \
 	rust-bindgen/host
 
 define Package/wstunnel
