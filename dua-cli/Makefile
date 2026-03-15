@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=dua-cli
-PKG_VERSION:=2.33.0
+PKG_VERSION:=2.34.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/Byron/dua-cli/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=32ecebfd555f09cbcfae415499d68de6023cc4f8eb4f249e54761e521d1ee553
+PKG_SOURCE_URL:=https://codeload.github.com/Byron/dua-cli/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=eaa924f50efb425302c124f170644e95a08f8dad1f627b86f50d033ca5feb0c1
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0442 iana-time-zone-0164
+PKG_BUILD_DEPENDS += chrono-0442 getrandom-0217 iana-time-zone-0164
 
 define Package/dua-cli
   SECTION:=utils
