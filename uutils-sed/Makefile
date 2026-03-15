@@ -6,10 +6,10 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sed
 PKG_VERSION:=0.1.1
-PKG_RELEASE:=1
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/uutils/sed/tar.gz/refs/tags/$(PKG_VERSION)?
+PKG_SOURCE_URL:=https://codeload.github.com/uutils/sed/tar.gz/$(PKG_VERSION)?
 PKG_HASH:=48356c208190ceb4e8bd98ffa98d4597111b000e471e4c8c284b0939f4bac3c1
 
 PKG_LICENSE:=MIT
