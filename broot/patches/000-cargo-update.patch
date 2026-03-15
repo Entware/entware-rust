@@ -1,6 +1,6 @@
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -425,8 +425,6 @@ checksum = "37a59b22dec21ca7d6c173bd543e
+@@ -415,8 +415,6 @@ checksum = "37a59b22dec21ca7d6c173bd543e
  [[package]]
  name = "chrono"
  version = "0.4.42"
@@ -9,7 +9,7 @@
  dependencies = [
   "iana-time-zone",
   "js-sys",
-@@ -1128,8 +1126,6 @@ dependencies = [
+@@ -1098,8 +1096,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.2.16"
@@ -18,7 +18,7 @@
  dependencies = [
   "cfg-if",
   "libc",
-@@ -1139,8 +1135,6 @@ dependencies = [
+@@ -1109,8 +1105,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.3.4"
@@ -27,7 +27,7 @@
  dependencies = [
   "cfg-if",
   "libc",
-@@ -1252,8 +1246,6 @@ checksum = "2304e00983f87ffb38b55b444b5e
+@@ -1222,8 +1216,6 @@ checksum = "2304e00983f87ffb38b55b444b5e
  [[package]]
  name = "iana-time-zone"
  version = "0.1.64"
@@ -36,7 +36,7 @@
  dependencies = [
   "android_system_properties",
   "core-foundation-sys",
-@@ -1261,14 +1253,12 @@ dependencies = [
+@@ -1231,14 +1223,12 @@ dependencies = [
   "js-sys",
   "log",
   "wasm-bindgen",

@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -138,6 +138,13 @@ harness = false
+@@ -137,6 +137,13 @@ harness = false
  # terminal-light = { path = "../terminal-light" }
  # xterm-query = { path = "../xterm-query" }
  
