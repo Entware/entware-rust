@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=leaf
-PKG_VERSION:=0.12.0
+PKG_VERSION:=0.14.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/eycorsican/leaf/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=1754b3c1e38b1cf763919bda20894d3153d7835649b31f667715b5b8b4de512f
+PKG_SOURCE_URL:=https://codeload.github.com/eycorsican/leaf/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=605bfb0a12b187824a3958066e7e9651a6bfb2f0a889041e73e1d58bb706ed43
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -20,8 +20,8 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 quinn-0104 \
-	protobuf protobuf/host
+	chrono-0444 getrandom-0217 getrandom-034 getrandom-042 \
+	iana-time-zone-0164 protobuf protobuf/host
 
 define Package/leaf
   SECTION:=net

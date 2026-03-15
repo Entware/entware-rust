@@ -17,16 +17,16 @@
      pub recv_completed: Arc<AtomicBool>,
      pub send_completed: Arc<AtomicBool>,
      pub last_peer_active: Arc<AtomicU32>,
-@@ -40,7 +40,7 @@ impl AsyncRead for Stream {
-             self.recv_completed.store(true, Ordering::Relaxed);
-         } else {
+@@ -41,7 +41,7 @@ impl AsyncRead for Stream {
+         let new_len = buf.filled().len();
+         if new_len > len {
              self.bytes_recvd
--                .fetch_add(buf.filled().len() as u64, Ordering::Relaxed);
-+                .fetch_add((buf.filled().len() as u64).try_into().unwrap(), Ordering::Relaxed);
+-                .fetch_add((new_len - len) as u64, Ordering::Relaxed);
++                .fetch_add(((new_len - len) as u64).try_into().unwrap(), Ordering::Relaxed);
              self.last_peer_active
                  .store(get_unix_timestamp(), Ordering::Relaxed);
-         }
-@@ -55,7 +55,7 @@ impl AsyncWrite for Stream {
+         } else if remaining > 0 {
+@@ -58,7 +58,7 @@ impl AsyncWrite for Stream {
          buf: &[u8],
      ) -> Poll<io::Result<usize>> {
          let n = ready!(Pin::new(&mut self.inner).poll_write(cx, buf))?;
@@ -35,7 +35,7 @@
          Poll::Ready(Ok(n))
      }
  
-@@ -72,8 +72,8 @@ impl AsyncWrite for Stream {
+@@ -75,8 +75,8 @@ impl AsyncWrite for Stream {
  
  pub struct Datagram {
      pub inner: AnyOutboundDatagram,
@@ -46,7 +46,7 @@
      pub recv_completed: Arc<AtomicBool>,
      pub send_completed: Arc<AtomicBool>,
      pub last_peer_active: Arc<AtomicU32>,
-@@ -101,7 +101,7 @@ impl OutboundDatagram for Datagram {
+@@ -104,7 +104,7 @@ impl OutboundDatagram for Datagram {
  
  pub struct DatagramRecvHalf(
      Box<dyn OutboundDatagramRecvHalf>,
@@ -55,7 +55,7 @@
      Arc<AtomicBool>,
      Arc<AtomicU32>,
  );
-@@ -116,7 +116,7 @@ impl Drop for DatagramRecvHalf {
+@@ -119,7 +119,7 @@ impl Drop for DatagramRecvHalf {
  impl OutboundDatagramRecvHalf for DatagramRecvHalf {
      async fn recv_from(&mut self, buf: &mut [u8]) -> io::Result<(usize, SocksAddr)> {
          self.0.recv_from(buf).await.map(|(n, a)| {
@@ -64,7 +64,7 @@
              self.3.store(get_unix_timestamp(), Ordering::Relaxed);
              (n, a)
          })
-@@ -125,7 +125,7 @@ impl OutboundDatagramRecvHalf for Datagr
+@@ -128,7 +128,7 @@ impl OutboundDatagramRecvHalf for Datagr
  
  pub struct DatagramSendHalf(
      Box<dyn OutboundDatagramSendHalf>,
@@ -73,7 +73,7 @@
      Arc<AtomicBool>,
  );
  
-@@ -139,7 +139,7 @@ impl Drop for DatagramSendHalf {
+@@ -142,7 +142,7 @@ impl Drop for DatagramSendHalf {
  impl OutboundDatagramSendHalf for DatagramSendHalf {
      async fn send_to(&mut self, buf: &[u8], target: &SocksAddr) -> io::Result<usize> {
          self.0.send_to(buf, target).await.inspect(|&n| {
@@ -82,10 +82,10 @@
          })
      }
  
-@@ -150,8 +150,8 @@ impl OutboundDatagramSendHalf for Datagr
- 
+@@ -154,8 +154,8 @@ impl OutboundDatagramSendHalf for Datagr
  pub struct Counter {
      pub sess: Session,
+     pub start_time: u32,
 -    pub bytes_recvd: Arc<AtomicU64>,
 -    pub bytes_sent: Arc<AtomicU64>,
 +    pub bytes_recvd: Arc<AtomicUsize>,
@@ -93,7 +93,7 @@
      pub recv_completed: Arc<AtomicBool>,
      pub send_completed: Arc<AtomicBool>,
      pub last_peer_active: Arc<AtomicU32>,
-@@ -159,11 +159,11 @@ pub struct Counter {
+@@ -163,11 +163,11 @@ pub struct Counter {
  
  impl Counter {
      pub fn bytes_recvd(&self) -> u64 {
@@ -107,7 +107,7 @@
      }
  
      pub fn recv_completed(&self) -> bool {
-@@ -231,8 +231,8 @@ impl StatManager {
+@@ -239,8 +239,8 @@ impl StatManager {
      }
  
      pub fn stat_stream(&mut self, stream: AnyStream, sess: Session) -> AnyStream {
@@ -117,8 +117,19 @@
 +        let bytes_sent = Arc::new(AtomicUsize::new(0));
          let recv_completed = Arc::new(AtomicBool::new(false));
          let send_completed = Arc::new(AtomicBool::new(false));
-         let last_peer_active = Arc::new(AtomicU32::new(get_unix_timestamp()));
-@@ -259,8 +259,8 @@ impl StatManager {
+         let ts = get_unix_timestamp();
+@@ -265,8 +265,8 @@ impl StatManager {
+     }
+ 
+     pub fn stat_inbound_stream(&mut self, stream: AnyStream, sess: Session) -> AnyStream {
+-        let bytes_recvd = Arc::new(AtomicU64::new(0));
+-        let bytes_sent = Arc::new(AtomicU64::new(0));
++        let bytes_recvd = Arc::new(AtomicUsize::new(0));
++        let bytes_sent = Arc::new(AtomicUsize::new(0));
+         let recv_completed = Arc::new(AtomicBool::new(false));
+         let send_completed = Arc::new(AtomicBool::new(false));
+         let ts = get_unix_timestamp();
+@@ -295,8 +295,8 @@ impl StatManager {
          dgram: AnyOutboundDatagram,
          sess: Session,
      ) -> AnyOutboundDatagram {
@@ -128,4 +139,15 @@
 +        let bytes_sent = Arc::new(AtomicUsize::new(0));
          let recv_completed = Arc::new(AtomicBool::new(false));
          let send_completed = Arc::new(AtomicBool::new(false));
-         let last_peer_active = Arc::new(AtomicU32::new(get_unix_timestamp()));
+         let ts = get_unix_timestamp();
+@@ -385,8 +385,8 @@ mod tests {
+         };
+         let stream = Box::new(mock);
+ 
+-        let bytes_recvd = Arc::new(AtomicU64::new(0));
+-        let bytes_sent = Arc::new(AtomicU64::new(0));
++        let bytes_recvd = Arc::new(AtomicUsize::new(0));
++        let bytes_sent = Arc::new(AtomicUsize::new(0));
+         let recv_completed = Arc::new(AtomicBool::new(false));
+         let send_completed = Arc::new(AtomicBool::new(false));
+         let last_peer_active = Arc::new(AtomicU32::new(0));
