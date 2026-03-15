@@ -1,7 +1,7 @@
 --- a/spider/Cargo.toml
 +++ b/spider/Cargo.toml
-@@ -77,7 +77,8 @@ tracing = { version = "0.1", default-fea
- sysinfo = { version = "0.35", default-features = false, features = [
+@@ -81,7 +81,8 @@ tracing = { version = "0.1", default-fea
+ sysinfo = { version = "0.38", default-features = false, features = [
      "system",
  ], optional = true }
 -sqlx = { version = "0.8", features = [
@@ -12,15 +12,17 @@
  ], optional = true }
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -8,3 +8,11 @@ members = [
-     "examples",
+@@ -12,3 +12,13 @@ members = [
      "benches"]
  resolver = "2"
-+
+ 
 +[patch.crates-io]
++# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
++chromey = { path = "../chromey-2.38.4" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.42" }
++chrono = { path = "../chrono-0.4.44" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
 +getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
++getrandom4 = { path = "../getrandom-0.4.1", package = "getrandom", version = "0.4.1" }

@@ -1,0 +1,40 @@
+--- a/spider/src/utils/connect.rs
++++ b/spider/src/utils/connect.rs
+@@ -26,7 +26,7 @@ pub(crate) fn background_connect_threadi
+ }
+ 
+ /// Init a background thread for request connect handling.
+-#[cfg(all(target_os = "linux", feature = "io_uring"))]
++#[cfg(not(target_vendor = "openwrt"))]
+ pub fn init_background_runtime() {
+     super::uring_fs::init_uring_fs();
+     let _ = CONNECT_THREAD_POOL.set({
+@@ -49,7 +49,7 @@ pub fn init_background_runtime() {
+ }
+ 
+ /// Init a background thread for request connect handling.
+-#[cfg(any(not(target_os = "linux"), not(feature = "io_uring")))]
++#[cfg(target_vendor = "openwrt")]
+ pub fn init_background_runtime() {
+     super::uring_fs::init_uring_fs();
+     let _ = CONNECT_THREAD_POOL.set({
+--- a/spider/src/utils/uring_fs.rs
++++ b/spider/src/utils/uring_fs.rs
+@@ -18,7 +18,7 @@ enum StreamOp {
+ 
+ // ── io_uring implementation ──────────────────────────────────────────────────
+ 
+-#[cfg(all(target_os = "linux", feature = "io_uring"))]
++#[cfg(not(target_vendor = "openwrt"))]
+ mod inner {
+     use std::io;
+     use std::sync::atomic::{AtomicBool, Ordering};
+@@ -294,7 +294,7 @@ mod inner {
+ 
+ // ── Fallback implementation (non-Linux or no io_uring feature) ───────────────
+ 
+-#[cfg(not(all(target_os = "linux", feature = "io_uring")))]
++#[cfg(target_vendor = "openwrt")]
+ mod inner {
+     use std::io;
+     use tokio::sync::mpsc;

@@ -1,0 +1,230 @@
+--- a/spider_agent/src/config.rs
++++ b/spider_agent/src/config.rs
+@@ -3,7 +3,7 @@
+ use dashmap::DashMap;
+ use serde::{Deserialize, Serialize};
+ use std::collections::HashMap;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::time::Duration;
+ 
+ /// Usage limits for controlling agent resource consumption.
+@@ -499,34 +499,34 @@ impl ResearchOptions {
+ #[derive(Debug)]
+ pub struct UsageStats {
+     /// Total LLM prompt tokens used.
+-    pub prompt_tokens: AtomicU64,
++    pub prompt_tokens: AtomicUsize,
+     /// Total LLM completion tokens used.
+-    pub completion_tokens: AtomicU64,
++    pub completion_tokens: AtomicUsize,
+     /// Total LLM calls made.
+-    pub llm_calls: AtomicU64,
++    pub llm_calls: AtomicUsize,
+     /// Total search calls made.
+-    pub search_calls: AtomicU64,
++    pub search_calls: AtomicUsize,
+     /// Total HTTP fetch calls made.
+-    pub fetch_calls: AtomicU64,
++    pub fetch_calls: AtomicUsize,
+     /// Total web browser calls made (Chrome/WebDriver combined).
+-    pub webbrowser_calls: AtomicU64,
++    pub webbrowser_calls: AtomicUsize,
+     /// Custom tool calls tracked by tool name (lock-free via DashMap).
+-    pub custom_tool_calls: DashMap<String, AtomicU64>,
++    pub custom_tool_calls: DashMap<String, AtomicUsize>,
+     /// Total tool calls made.
+-    pub tool_calls: AtomicU64,
++    pub tool_calls: AtomicUsize,
+ }
+ 
+ impl Default for UsageStats {
+     fn default() -> Self {
+         Self {
+-            prompt_tokens: AtomicU64::new(0),
+-            completion_tokens: AtomicU64::new(0),
+-            llm_calls: AtomicU64::new(0),
+-            search_calls: AtomicU64::new(0),
+-            fetch_calls: AtomicU64::new(0),
+-            webbrowser_calls: AtomicU64::new(0),
++            prompt_tokens: AtomicUsize::new(0),
++            completion_tokens: AtomicUsize::new(0),
++            llm_calls: AtomicUsize::new(0),
++            search_calls: AtomicUsize::new(0),
++            fetch_calls: AtomicUsize::new(0),
++            webbrowser_calls: AtomicUsize::new(0),
+             custom_tool_calls: DashMap::new(),
+-            tool_calls: AtomicU64::new(0),
++            tool_calls: AtomicUsize::new(0),
+         }
+     }
+ }
+@@ -539,9 +539,9 @@ impl UsageStats {
+ 
+     /// Add tokens from an LLM response.
+     pub fn add_tokens(&self, prompt: u64, completion: u64) {
+-        self.prompt_tokens.fetch_add(prompt, Ordering::Relaxed);
++        self.prompt_tokens.fetch_add(prompt.try_into().unwrap(), Ordering::Relaxed);
+         self.completion_tokens
+-            .fetch_add(completion, Ordering::Relaxed);
++            .fetch_add(completion.try_into().unwrap(), Ordering::Relaxed);
+     }
+ 
+     /// Increment LLM call count.
+@@ -568,7 +568,7 @@ impl UsageStats {
+     pub fn increment_custom_tool_calls(&self, tool_name: &str) {
+         self.custom_tool_calls
+             .entry(tool_name.to_string())
+-            .or_insert_with(|| AtomicU64::new(0))
++            .or_insert_with(|| AtomicUsize::new(0))
+             .fetch_add(1, Ordering::Relaxed);
+     }
+ 
+@@ -577,11 +577,11 @@ impl UsageStats {
+         self.custom_tool_calls
+             .get(tool_name)
+             .map(|v| v.load(Ordering::Relaxed))
+-            .unwrap_or(0)
++            .unwrap_or(0).try_into().unwrap()
+     }
+ 
+     /// Get total custom tool calls across all tools.
+-    pub fn total_custom_tool_calls(&self) -> u64 {
++    pub fn total_custom_tool_calls(&self) -> usize {
+         self.custom_tool_calls
+             .iter()
+             .map(|entry| entry.value().load(Ordering::Relaxed))
+@@ -595,7 +595,7 @@ impl UsageStats {
+ 
+     /// Get total tokens used.
+     pub fn total_tokens(&self) -> u64 {
+-        self.prompt_tokens.load(Ordering::Relaxed) + self.completion_tokens.load(Ordering::Relaxed)
++        (self.prompt_tokens.load(Ordering::Relaxed) + self.completion_tokens.load(Ordering::Relaxed)).try_into().unwrap()
+     }
+ 
+     /// Get a snapshot of all stats.
+@@ -603,18 +603,18 @@ impl UsageStats {
+         let custom_tool_calls: HashMap<String, u64> = self
+             .custom_tool_calls
+             .iter()
+-            .map(|entry| (entry.key().clone(), entry.value().load(Ordering::Relaxed)))
++            .map(|entry| (entry.key().clone(), entry.value().load(Ordering::Relaxed).try_into().unwrap()))
+             .collect();
+ 
+         UsageSnapshot {
+-            prompt_tokens: self.prompt_tokens.load(Ordering::Relaxed),
+-            completion_tokens: self.completion_tokens.load(Ordering::Relaxed),
+-            llm_calls: self.llm_calls.load(Ordering::Relaxed),
+-            search_calls: self.search_calls.load(Ordering::Relaxed),
+-            fetch_calls: self.fetch_calls.load(Ordering::Relaxed),
+-            webbrowser_calls: self.webbrowser_calls.load(Ordering::Relaxed),
+-            custom_tool_calls,
+-            tool_calls: self.tool_calls.load(Ordering::Relaxed),
++            prompt_tokens: (self.prompt_tokens.load(Ordering::Relaxed)).try_into().unwrap(),
++            completion_tokens: (self.completion_tokens.load(Ordering::Relaxed)).try_into().unwrap(),
++            llm_calls: (self.llm_calls.load(Ordering::Relaxed)).try_into().unwrap(),
++            search_calls: (self.search_calls.load(Ordering::Relaxed)).try_into().unwrap(),
++            fetch_calls: (self.fetch_calls.load(Ordering::Relaxed)).try_into().unwrap(),
++            webbrowser_calls: (self.webbrowser_calls.load(Ordering::Relaxed)).try_into().unwrap(),
++            custom_tool_calls: custom_tool_calls.try_into().unwrap(),
++            tool_calls: (self.tool_calls.load(Ordering::Relaxed)).try_into().unwrap(),
+         }
+     }
+ 
+@@ -636,8 +636,8 @@ impl UsageStats {
+     pub fn check_llm_limit(&self, limits: &UsageLimits) -> Option<LimitType> {
+         if let Some(limit) = limits.max_llm_calls {
+             let used = self.llm_calls.load(Ordering::Relaxed);
+-            if used >= limit {
+-                return Some(LimitType::LlmCalls { used, limit });
++            if used >= limit.try_into().unwrap() {
++                return Some(LimitType::LlmCalls { used: used.try_into().unwrap(), limit });
+             }
+         }
+         None
+@@ -647,8 +647,8 @@ impl UsageStats {
+     pub fn check_search_limit(&self, limits: &UsageLimits) -> Option<LimitType> {
+         if let Some(limit) = limits.max_search_calls {
+             let used = self.search_calls.load(Ordering::Relaxed);
+-            if used >= limit {
+-                return Some(LimitType::SearchCalls { used, limit });
++            if used >= limit.try_into().unwrap() {
++                return Some(LimitType::SearchCalls { used: used.try_into().unwrap(), limit });
+             }
+         }
+         None
+@@ -658,8 +658,8 @@ impl UsageStats {
+     pub fn check_fetch_limit(&self, limits: &UsageLimits) -> Option<LimitType> {
+         if let Some(limit) = limits.max_fetch_calls {
+             let used = self.fetch_calls.load(Ordering::Relaxed);
+-            if used >= limit {
+-                return Some(LimitType::FetchCalls { used, limit });
++            if used >= limit.try_into().unwrap() {
++                return Some(LimitType::FetchCalls { used: used.try_into().unwrap(), limit });
+             }
+         }
+         None
+@@ -669,8 +669,8 @@ impl UsageStats {
+     pub fn check_webbrowser_limit(&self, limits: &UsageLimits) -> Option<LimitType> {
+         if let Some(limit) = limits.max_webbrowser_calls {
+             let used = self.webbrowser_calls.load(Ordering::Relaxed);
+-            if used >= limit {
+-                return Some(LimitType::WebbrowserCalls { used, limit });
++            if used >= limit.try_into().unwrap() {
++                return Some(LimitType::WebbrowserCalls { used: used.try_into().unwrap(), limit });
+             }
+         }
+         None
+@@ -680,8 +680,8 @@ impl UsageStats {
+     pub fn check_custom_tool_limit(&self, limits: &UsageLimits) -> Option<LimitType> {
+         if let Some(limit) = limits.max_custom_tool_calls {
+             let used = self.total_custom_tool_calls();
+-            if used >= limit {
+-                return Some(LimitType::CustomToolCalls { used, limit });
++            if used >= limit.try_into().unwrap() {
++                return Some(LimitType::CustomToolCalls { used: used.try_into().unwrap(), limit });
+             }
+         }
+         None
+@@ -691,8 +691,8 @@ impl UsageStats {
+     pub fn check_tool_limit(&self, limits: &UsageLimits) -> Option<LimitType> {
+         if let Some(limit) = limits.max_tool_calls {
+             let used = self.tool_calls.load(Ordering::Relaxed);
+-            if used >= limit {
+-                return Some(LimitType::ToolCalls { used, limit });
++            if used >= limit.try_into().unwrap() {
++                return Some(LimitType::ToolCalls { used: used.try_into().unwrap(), limit });
+             }
+         }
+         None
+@@ -705,24 +705,24 @@ impl UsageStats {
+         let total = prompt + completion;
+ 
+         if let Some(limit) = limits.max_total_tokens {
+-            if total >= limit {
+-                return Some(LimitType::TotalTokens { used: total, limit });
++            if total >= limit.try_into().unwrap() {
++                return Some(LimitType::TotalTokens { used: total.try_into().unwrap(), limit });
+             }
+         }
+ 
+         if let Some(limit) = limits.max_prompt_tokens {
+-            if prompt >= limit {
++            if prompt >= limit.try_into().unwrap() {
+                 return Some(LimitType::PromptTokens {
+-                    used: prompt,
++                    used: prompt.try_into().unwrap(),
+                     limit,
+                 });
+             }
+         }
+ 
+         if let Some(limit) = limits.max_completion_tokens {
+-            if completion >= limit {
++            if completion >= limit.try_into().unwrap() {
+                 return Some(LimitType::CompletionTokens {
+-                    used: completion,
++                    used: completion.try_into().unwrap(),
+                     limit,
+                 });
+             }
