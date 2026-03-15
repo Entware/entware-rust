@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=deno
-PKG_VERSION:=2.6.5
+PKG_VERSION:=2.7.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/denoland/deno/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=071425551803cf3afeec33428c1a494424de4fdbe7001001023100ac6bbb7452
+PKG_SOURCE_URL:=https://codeload.github.com/denoland/deno/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=f748168782002997adb61b02754082b36903663f1832c590c9828d163c42fc49
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
