@@ -1,0 +1,11 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -126,3 +126,8 @@ trybuild = "1.0.82"
+ 
+ [package.metadata.docs.rs]
+ features = ["full-async", "parallel", "doc-cfg"]
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.44" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
