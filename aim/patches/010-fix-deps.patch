@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -60,3 +60,11 @@ serial_test = "2.0.0"
+@@ -60,3 +60,12 @@ serial_test = "2.0.0"
  
  [lints.rust]
  unexpected_cfgs = { level = "warn", check-cfg = ["cfg(tarpaulin_include)"] }
@@ -12,3 +12,4 @@
 +# all: no SYS_getrandom
 +getrandom2 = { path = "../getrandom-0.2.15", package = "getrandom", version = "0.2.15" }
 +getrandom3 = { path = "../getrandom-0.3.1", package = "getrandom", version = "0.3.1" }
++getrandom4 = { path = "../getrandom-0.4.1", package = "getrandom", version = "0.4.1" }

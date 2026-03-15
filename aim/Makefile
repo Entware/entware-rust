@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=aim
-PKG_VERSION:=1.8.7
+PKG_VERSION:=1.8.8
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/mihaigalos/aim/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=d4c6fb9b57f0840e1220532e22bdd520d13aacb874dfaa67c6629a39cf8ce87b
+PKG_SOURCE_URL:=https://codeload.github.com/mihaigalos/aim/tar.gz/$(PKG_VERSION)?
+PKG_HASH:=5500e38e48e381557847d09e42dbb093e1e402eb2c2965929cbcdae69ce9ec9e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
@@ -18,7 +18,8 @@ PKG_LICENSE_FILES:=LICENSE.md
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440 getrandom-0215 getrandom-031 iana-time-zone-0161
+PKG_BUILD_DEPENDS += \
+	chrono-0440 getrandom-0215 getrandom-031 getrandom-041 iana-time-zone-0161
 
 define Package/aim
   SECTION:=net

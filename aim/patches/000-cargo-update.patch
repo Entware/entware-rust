@@ -4,8 +4,8 @@
  
  [[package]]
  name = "aim"
--version = "1.8.6"
-+version = "1.8.7"
+-version = "1.8.7"
++version = "1.8.8"
  dependencies = [
   "async-ssh2-lite",
   "async-stream",
@@ -18,7 +18,7 @@
  dependencies = [
   "android-tzdata",
   "iana-time-zone",
-@@ -1144,8 +1142,6 @@ dependencies = [
+@@ -1159,8 +1157,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.2.15"
@@ -27,7 +27,7 @@
  dependencies = [
   "cfg-if",
   "js-sys",
-@@ -1157,8 +1153,6 @@ dependencies = [
+@@ -1172,8 +1168,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.3.1"
@@ -36,7 +36,16 @@
  dependencies = [
   "cfg-if",
   "libc",
-@@ -1468,8 +1462,6 @@ dependencies = [
+@@ -1184,8 +1178,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.4.1"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "139ef39800118c7683f2fd3c98c1b23c09ae076556b435f8e9064ae108aaeeec"
+ dependencies = [
+  "cfg-if",
+  "libc",
+@@ -1505,8 +1497,6 @@ dependencies = [
  [[package]]
  name = "iana-time-zone"
  version = "0.1.61"
@@ -45,7 +54,7 @@
  dependencies = [
   "android_system_properties",
   "core-foundation-sys",
-@@ -1482,8 +1474,6 @@ dependencies = [
+@@ -1519,8 +1509,6 @@ dependencies = [
  [[package]]
  name = "iana-time-zone-haiku"
  version = "0.1.2"
