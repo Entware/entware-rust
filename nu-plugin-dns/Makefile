@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-dns
-PKG_VERSION:=4.0.3
-PKG_RELEASE:=2
+PKG_VERSION:=4.0.8
+PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/dead10ck/nu_plugin_dns
-PKG_MIRROR_HASH:=60532eac6550265238798863f1713ea5f4aab1bff5f0bc12230aff0c80eb7dbb
+PKG_MIRROR_HASH:=a4fe9375ceaac9345c6530fec8118252204396a882583b34d36b42ff08f77650
 
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0440 getrandom-0216 getrandom-033 iana-time-zone-0161 nushell
+	chrono-0444 getrandom-0217 getrandom-034 iana-time-zone-0164 nushell
 
 define Package/nu-plugin-dns
   SECTION:=utils
