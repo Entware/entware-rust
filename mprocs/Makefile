@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=mprocs
-PKG_VERSION:=0.8.2
+PKG_VERSION:=0.8.3
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/pvolok/mprocs/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=4bee11e6baf912dda3e28b6a94a28d1f323a28ab35b672029e6ec6b175910787
+PKG_SOURCE_URL:=https://codeload.github.com/pvolok/mprocs/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=e0e91097399b751df42558c3717e6be130bfd523612c772dd1e3f9070eddbc5e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
