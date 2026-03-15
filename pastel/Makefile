@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=pastel
-PKG_VERSION:=0.11.0
+PKG_VERSION:=0.12.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/pastel/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=98639ae6539da5a4c20993daa559ca2d19dde63b601bcb29bb0cebbf56b1ac08
+PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/pastel/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=2903853f24d742fe955edd9bea17947eb8f3f44000a8ac528d16f2ea1e52b78b
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT

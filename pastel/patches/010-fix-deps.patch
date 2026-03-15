@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -57,3 +57,7 @@ codegen-units = 1
+@@ -56,3 +56,7 @@ codegen-units = 1
  
  [lints.rust]
  unexpected_cfgs = { level = "warn", check-cfg = ['cfg(pastel_normal_build)'] }
