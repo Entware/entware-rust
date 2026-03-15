@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=jql
-PKG_VERSION:=8.0.9
+PKG_VERSION:=8.0.10
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/yamafaktory/jql/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
-PKG_HASH:=ed754f2d13e396b57b9108b219a8d6ada1d49ec92a076e84cbe6565b2b0a9cdf
+PKG_SOURCE_URL:=https://codeload.github.com/yamafaktory/jql/tar.gz/$(PKG_NAME)-v$(PKG_VERSION)?
+PKG_HASH:=f8c26ed8178de263ad06bbe6096de0e81dbf22f90a281d6fbd87d25c9f7e2dc7
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENCE-APACHE LICENCE-MIT
