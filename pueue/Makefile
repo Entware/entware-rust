@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=pueue
-PKG_VERSION:=4.0.2
+PKG_VERSION:=4.0.4
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/Nukesor/pueue/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=059ee9688cb8b1ce46284f5ad58de21911b6af50098d29598085d2b9dbd432ab
+PKG_SOURCE_URL:=https://codeload.github.com/Nukesor/pueue/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=236a47a1cc74721998f4de3eff5062efe8e73c56c05aa19e64fef2e5ee55700f
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,8 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164
+PKG_BUILD_DEPENDS += \
+	chrono-0442 getrandom-0217 getrandom-034 getrandom-041 iana-time-zone-0164
 
 define Package/pueue
   SECTION:=utils
