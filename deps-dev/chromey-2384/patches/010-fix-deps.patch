@@ -1,0 +1,15 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -158,3 +158,12 @@ name = "bytes-control"
+ [[example]]
+ name = "fetcher-tokio"
+ required-features = ["_fetcher-native-tokio"]
++
++[patch.crates-io]
++# localtime/zoneinfo
++chrono = { path = "../chrono-0.4.44" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
++# all: no SYS_getrandom
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
++getrandom4 = { path = "../getrandom-0.4.1", package = "getrandom", version = "0.4.1" }

@@ -1,0 +1,100 @@
+--- a/src/listeners.rs
++++ b/src/listeners.rs
+@@ -2,7 +2,7 @@ use std::collections::{HashMap, VecDeque
+ use std::fmt;
+ use std::marker::PhantomData;
+ use std::pin::Pin;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::sync::Arc;
+ use std::task::{Context, Poll};
+ 
+@@ -16,7 +16,7 @@ use chromiumoxide_types::MethodId;
+ pub type ListenerId = u64;
+ 
+ /// Monotonic id generator for listeners.
+-static NEXT_LISTENER_ID: AtomicU64 = AtomicU64::new(1);
++static NEXT_LISTENER_ID: AtomicUsize = AtomicUsize::new(1);
+ 
+ /// Handle returned when you register a listener.
+ /// Use it to remove a listener immediately.
+@@ -46,13 +46,13 @@ impl EventListeners {
+ 
+         let subs = self.listeners.entry(method.clone()).or_default();
+         subs.push(EventListener {
+-            id,
++            id: id.try_into().unwrap(),
+             listener,
+             kind,
+             queued_events: Default::default(),
+         });
+ 
+-        EventListenerHandle { method, id }
++        EventListenerHandle { method, id: id.try_into().unwrap() }
+     }
+ 
+     /// Remove a specific listener immediately.
+--- a/src/mouse.rs
++++ b/src/mouse.rs
+@@ -7,7 +7,7 @@
+ 
+ use crate::layout::Point;
+ use rand::Rng;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use std::sync::atomic::{AtomicUsize, Ordering};
+ use std::time::Duration;
+ 
+ /// Configuration for smart mouse movement behavior.
+@@ -207,8 +207,8 @@ pub fn generate_path(from: Point, to: Po
+ /// `Input.dispatchMouseEvent` calls so that every movement starts from
+ /// the real cursor location instead of teleporting.
+ pub struct SmartMouse {
+-    pos_x: AtomicU64,
+-    pos_y: AtomicU64,
++    pos_x: AtomicUsize,
++    pos_y: AtomicUsize,
+     config: SmartMouseConfig,
+ }
+ 
+@@ -226,8 +226,8 @@ impl SmartMouse {
+     /// Create a new `SmartMouse` starting at (0, 0) with default configuration.
+     pub fn new() -> Self {
+         Self {
+-            pos_x: AtomicU64::new(0.0_f64.to_bits()),
+-            pos_y: AtomicU64::new(0.0_f64.to_bits()),
++            pos_x: AtomicUsize::new(0.0_f64.to_bits().try_into().unwrap()),
++            pos_y: AtomicUsize::new(0.0_f64.to_bits().try_into().unwrap()),
+             config: SmartMouseConfig::default(),
+         }
+     }
+@@ -235,8 +235,8 @@ impl SmartMouse {
+     /// Create a `SmartMouse` with custom configuration.
+     pub fn with_config(config: SmartMouseConfig) -> Self {
+         Self {
+-            pos_x: AtomicU64::new(0.0_f64.to_bits()),
+-            pos_y: AtomicU64::new(0.0_f64.to_bits()),
++            pos_x: AtomicUsize::new(0.0_f64.to_bits().try_into().unwrap()),
++            pos_y: AtomicUsize::new(0.0_f64.to_bits().try_into().unwrap()),
+             config,
+         }
+     }
+@@ -244,15 +244,15 @@ impl SmartMouse {
+     /// Get the current tracked mouse position.
+     pub fn position(&self) -> Point {
+         Point {
+-            x: f64::from_bits(self.pos_x.load(Ordering::Relaxed)),
+-            y: f64::from_bits(self.pos_y.load(Ordering::Relaxed)),
++            x: f64::from_bits(self.pos_x.load(Ordering::Relaxed).try_into().unwrap()),
++            y: f64::from_bits(self.pos_y.load(Ordering::Relaxed).try_into().unwrap()),
+         }
+     }
+ 
+     /// Set the mouse position directly (e.g., after a teleport or click).
+     pub fn set_position(&self, point: Point) {
+-        self.pos_x.store(point.x.to_bits(), Ordering::Relaxed);
+-        self.pos_y.store(point.y.to_bits(), Ordering::Relaxed);
++        self.pos_x.store(point.x.to_bits().try_into().unwrap(), Ordering::Relaxed);
++        self.pos_y.store(point.y.to_bits().try_into().unwrap(), Ordering::Relaxed);
+     }
+ 
+     /// Get the movement configuration.
