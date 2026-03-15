@@ -1,10 +1,10 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -93,3 +93,7 @@ use-jemalloc = ["tikv-jemallocator"]
- completions = ["clap_complete"]
- base = ["use-jemalloc"]
- default = ["use-jemalloc", "completions"]
+@@ -113,3 +113,7 @@ pkg-fmt = "zip"
+ 
+ [package.metadata.binstall.overrides.aarch64-pc-windows-msvc]
+ pkg-fmt = "zip"
 +
 +[patch.crates-io]
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.3.3" }
++getrandom = { path = "../getrandom-0.4.2" }

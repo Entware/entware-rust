@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=fd
-PKG_VERSION:=10.3.0
+PKG_VERSION:=10.4.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/fd/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=2edbc917a533053855d5b635dff368d65756ce6f82ddefd57b6c202622d791e9
+PKG_SOURCE_URL:=https://codeload.github.com/sharkdp/fd/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=3a7e027af8c8e91c196ac259c703d78cd55c364706ddafbc66d02c326e57a456
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += getrandom-033
+PKG_BUILD_DEPENDS += getrandom-042
 
 define Package/fd
   SECTION:=utils
