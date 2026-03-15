@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rmesg
-PKG_VERSION:=1.0.23
-PKG_RELEASE:=3
+PKG_VERSION:=1.0.24
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/archisgore/rmesg/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=4beeb1bfb540d9d4b843698fe0f2d90a3fedaf99f33d1c364304c9433e295ccf
+PKG_SOURCE_URL:=https://codeload.github.com/archisgore/rmesg/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=8ca062999aabe17bc58aedeb2a20e195862d7ec18e8558364ef60702ac5a7c20
 
 PKG_LICENSE:=Apache-2.0
 PKG_LICENSE_FILES:=LICENSE
