@@ -1,6 +1,6 @@
 --- a/src/cross_compile.rs
 +++ b/src/cross_compile.rs
-@@ -160,6 +160,7 @@ fn search_lib_dir(path: impl AsRef<Path>
+@@ -168,6 +168,7 @@ fn search_lib_dir(path: impl AsRef<Path>
      };
      for f in fs::read_dir(path.as_ref())? {
          let sysc = match &f {

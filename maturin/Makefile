@@ -5,11 +5,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=maturin
-PKG_VERSION:=1.11.5
+PKG_VERSION:=1.12.6
 PKG_RELEASE:=1
 
 PYPI_NAME:=maturin
-PKG_HASH:=7579cf47640fb9595a19fe83a742cbf63203f0343055c349c1cab39045a30c29
+PKG_HASH:=d37be3a811a7f2ee28a0fa0964187efa50e90f21da0c6135c27787fa0b6a89db
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=license-apache license-mit
@@ -18,12 +18,12 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 HOST_BUILD_DEPENDS:= \
 	python-setuptools-rust/host \
 	python-wheel/host \
-	rustc-dev
+	rustc-dev/host
 
 HOST_BUILD_PARALLEL:=1
 HOST_PATCH_DIR:=
 
-PKG_BUILD_DEPENDS:=$(HOST_BUILD_DEPENDS) getrandom-0216 getrandom-034
+PKG_BUILD_DEPENDS:=$(HOST_BUILD_DEPENDS) getrandom-0217 getrandom-034 rustc-dev
 
 PKG_BUILD_FLAGS:=no-mips16
 

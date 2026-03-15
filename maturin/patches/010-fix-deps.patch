@@ -10,16 +10,16 @@ ERROR Backend subprocess exited when trying to invoke build_wheel
 
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -959,8 +959,6 @@ dependencies = [
+@@ -1119,8 +1119,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
- version = "0.2.16"
+ version = "0.2.17"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "335ff9f135e4384c8150d6f27c6daed433577f86b4750418338c01a1a2528592"
+-checksum = "ff2abc00be7fca6ebc474524697ae276ad847ad0a6b3faa4bcb027e9a4614ad0"
  dependencies = [
   "cfg-if",
   "libc",
-@@ -970,8 +968,6 @@ dependencies = [
+@@ -1130,8 +1128,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.3.4"
@@ -30,12 +30,12 @@ ERROR Backend subprocess exited when trying to invoke build_wheel
   "libc",
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -220,3 +220,8 @@ opt-level = 3
+@@ -224,3 +224,8 @@ opt-level = 3
  opt-level = 3
  [profile.dev.package.msi]
  opt-level = 3
 +
 +[patch.crates-io]
 +# all: no SYS_getrandom
-+getrandom2 = { path = "../../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom2 = { path = "../../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
 +getrandom3 = { path = "../../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
