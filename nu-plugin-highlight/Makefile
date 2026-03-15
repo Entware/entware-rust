@@ -5,15 +5,15 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-highlight
-PKG_VERSION:=1.4.8
-PKG_RELEASE:=2
+PKG_VERSION:=1.4.13
+PKG_RELEASE:=1
 
-NUSHELL_VERSION:=0.106.0
+NUSHELL_VERSION:=0.111.0
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)+$(NUSHELL_VERSION)
 PKG_SOURCE_URL:=https://github.com/cptpiepmatz/nu-plugin-highlight
-PKG_MIRROR_HASH:=cf7f5426f08a1d46c1984f58ef5a700b36de3d288462eaf37ba103c7709e2d1f
+PKG_MIRROR_HASH:=bbd315eec5d76a4cea1c6cdf7a35adbb0eb59b4ba3fdf71230bd24b3b601a6eb
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -25,7 +25,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0440 getrandom-0216 iana-time-zone-0161 nushell
+	chrono-0444 getrandom-0217 iana-time-zone-0164 nushell
 
 define Package/nu-plugin-highlight
   SECTION:=utils
