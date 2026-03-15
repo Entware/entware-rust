@@ -1,0 +1,115 @@
+--- a/metrics-exporter-prometheus/src/native_histogram.rs
++++ b/metrics-exporter-prometheus/src/native_histogram.rs
+@@ -4,7 +4,8 @@
+ //! to efficiently represent histogram data without requiring predefined bucket boundaries.
+ 
+ use std::collections::btree_map::Entry;
+-use std::sync::atomic::{AtomicI32, AtomicU64, Ordering};
++use std::convert::TryInto;
++use std::sync::atomic::{AtomicI32, AtomicUsize, Ordering};
+ 
+ /// IEEE 754 frexp implementation matching Go's math.Frexp behavior.
+ /// Returns (mantissa, exponent) such that f = mantissa × 2^exponent,
+@@ -678,11 +679,11 @@ impl NativeHistogramConfig {
+ pub struct NativeHistogram {
+     config: NativeHistogramConfig,
+     /// Count of observations
+-    count: AtomicU64,
++    count: AtomicUsize,
+     /// Sum of all observations (stored as atomic u64 bits)
+-    sum: AtomicU64,
++    sum: AtomicUsize,
+     /// Count of zero observations (values within `zero_threshold`)
+-    zero_count: AtomicU64,
++    zero_count: AtomicUsize,
+     /// Positive buckets: maps bucket index to count
+     positive_buckets: std::sync::RwLock<std::collections::BTreeMap<i32, u64>>,
+     /// Negative buckets: maps bucket index to count
+@@ -690,7 +691,7 @@ pub struct NativeHistogram {
+     /// Schema for bucket calculations (atomic for thread safety) - calculated from `bucket_factor`
+     schema: AtomicI32,
+     /// Number of buckets currently used (for limiting)
+-    bucket_count: AtomicU64,
++    bucket_count: AtomicUsize,
+ }
+ 
+ impl NativeHistogram {
+@@ -701,12 +702,12 @@ impl NativeHistogram {
+         Self {
+             schema: AtomicI32::new(schema),
+             config,
+-            count: AtomicU64::new(0),
+-            sum: AtomicU64::new((0.0f64).to_bits()),
+-            zero_count: AtomicU64::new(0),
++            count: AtomicUsize::new(0),
++            sum: AtomicUsize::new((0.0f64).to_bits().try_into().unwrap()),
++            zero_count: AtomicUsize::new(0),
+             positive_buckets: std::sync::RwLock::new(std::collections::BTreeMap::new()),
+             negative_buckets: std::sync::RwLock::new(std::collections::BTreeMap::new()),
+-            bucket_count: AtomicU64::new(0),
++            bucket_count: AtomicUsize::new(0),
+         }
+     }
+ 
+@@ -722,14 +723,14 @@ impl NativeHistogram {
+         // Atomically update the sum using compare-and-swap loop
+         loop {
+             let current_sum_bits = self.sum.load(Ordering::Relaxed);
+-            let current_sum = f64::from_bits(current_sum_bits);
++            let current_sum = f64::from_bits(current_sum_bits.try_into().unwrap());
+             let new_sum = current_sum + value;
+ 
+             if self
+                 .sum
+                 .compare_exchange_weak(
+                     current_sum_bits,
+-                    new_sum.to_bits(),
++                    new_sum.to_bits().try_into().unwrap(),
+                     Ordering::Relaxed,
+                     Ordering::Relaxed,
+                 )
+@@ -877,7 +878,7 @@ impl NativeHistogram {
+             // Update bucket count
+             let new_count = pos_buckets.len() as u64;
+             if new_count < old_count {
+-                self.bucket_count.fetch_sub(old_count - new_count, Ordering::Relaxed);
++                self.bucket_count.fetch_sub((old_count - new_count).try_into().unwrap(), Ordering::Relaxed);
+             }
+         }
+ 
+@@ -899,7 +900,7 @@ impl NativeHistogram {
+             // Update bucket count
+             let new_count = neg_buckets.len() as u64;
+             if new_count < old_count {
+-                self.bucket_count.fetch_sub(old_count - new_count, Ordering::Relaxed);
++                self.bucket_count.fetch_sub((old_count - new_count).try_into().unwrap(), Ordering::Relaxed);
+             }
+         }
+ 
+@@ -951,7 +952,7 @@ impl NativeHistogram {
+ 
+     /// Returns the total number of buckets currently in use.
+     fn bucket_count(&self) -> u64 {
+-        self.bucket_count.load(Ordering::Relaxed)
++        self.bucket_count.load(Ordering::Relaxed).try_into().unwrap()
+     }
+ }
+ 
+@@ -959,13 +960,13 @@ impl Clone for NativeHistogram {
+     fn clone(&self) -> Self {
+         Self {
+             config: self.config.clone(),
+-            count: AtomicU64::new(self.count.load(Ordering::Relaxed)),
+-            sum: AtomicU64::new(self.sum.load(Ordering::Relaxed)),
+-            zero_count: AtomicU64::new(self.zero_count.load(Ordering::Relaxed)),
++            count: AtomicUsize::new(self.count.load(Ordering::Relaxed)),
++            sum: AtomicUsize::new(self.sum.load(Ordering::Relaxed)),
++            zero_count: AtomicUsize::new(self.zero_count.load(Ordering::Relaxed)),
+             positive_buckets: std::sync::RwLock::new(self.positive_buckets.read().unwrap().clone()),
+             negative_buckets: std::sync::RwLock::new(self.negative_buckets.read().unwrap().clone()),
+             schema: AtomicI32::new(self.schema.load(Ordering::Relaxed)),
+-            bucket_count: AtomicU64::new(self.bucket_count()),
++            bucket_count: AtomicUsize::new(self.bucket_count().try_into().unwrap()),
+         }
+     }
+ }
