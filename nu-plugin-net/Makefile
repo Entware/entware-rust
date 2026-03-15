@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-net
 PKG_VERSION:=1.10.0
-PKG_RELEASE:=3
+PKG_RELEASE:=4
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0440 getrandom-0216 iana-time-zone-0161 nushell
+	chrono-0444 getrandom-0217 iana-time-zone-0164 nushell
 
 define Package/nu-plugin-net
   SECTION:=utils
