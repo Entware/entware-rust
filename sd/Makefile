@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sd
-PKG_VERSION:=1.0.0
-PKG_RELEASE:=3
+PKG_VERSION:=1.1.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/chmln/sd/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=2adc1dec0d2c63cbffa94204b212926f2735a59753494fca72c3cfe4001d472f
+PKG_SOURCE_URL:=https://codeload.github.com/chmln/sd/tar.gz/v$(PKG_VERSION)?
+PKG_HASH:=defdce484f8c92f265e1282490572575028967c2c55d356111d1e49a3ea9a88e
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE

@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -51,3 +51,7 @@ regex-automata = "0.4.3"
+@@ -30,3 +30,7 @@ rust-version = "1.86.0"
  opt-level = 3
  lto = true
  strip = true
