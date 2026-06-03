@@ -59,8 +59,6 @@ define Package/fish-shell/postinst
 #!/bin/sh
 
 grep -q 'fish' /opt/etc/shells || echo "/opt/bin/fish" >> /opt/etc/shells
-
-[ -d "/opt/share/fish" ] || fish --install -vn > /dev/null 2>&1
 endef
 
 $(eval $(call BuildPackage,fish-shell))
