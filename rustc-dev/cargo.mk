@@ -5,6 +5,10 @@
 rust_mk_path:=$(dir $(lastword $(MAKEFILE_LIST)))
 include $(rust_mk_path)rust.mk
 
+ifneq ($(findstring /deps-dev/,$(CURDIR)),)
+  override CONFIG_AUTOREMOVE=
+endif
+
 CARGO_ARGS += -Z unstable-options
 USE_CARGO_COMPILE ?= 1
 USE_CARGO_UPDATE ?= 0
