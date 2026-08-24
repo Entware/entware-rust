@@ -20,6 +20,8 @@ PKG_LICENSE_FILES:=COPYRIGHT LICENSE-APACHE LICENSE-MIT
 
 PKG_BUILD_DEPENDS:=rustc-dev/host
 
+override CONFIG_AUTOREMOVE:=
+
 include $(INCLUDE_DIR)/host-build.mk
 include $(INCLUDE_DIR)/package.mk
 
