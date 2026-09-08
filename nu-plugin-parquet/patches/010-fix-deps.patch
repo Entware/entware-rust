@@ -1,26 +1,17 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -27,6 +27,7 @@ parquet = "58.0.0"
+@@ -21,12 +21,13 @@ nu-path = "0.115.0"
+ # nu-path = { path = "../nushell/crates/nu-path", version = "0.98.0" }
+
+ bytes = "1.12.1"
+-chrono = { version = "0.4.45", features = ["serde"] }
++chrono = { version = "0.4.44", features = ["serde"] }
+ parquet = "59.2.0"
+
  [dev-dependencies]
- nu-plugin-test-support = "0.111.0"
+ nu-plugin-test-support = "0.115.0"
  # nu-plugin-test-support = { path = "../nushell/crates/nu-plugin-test-support" }
 +iana-time-zone = "=0.1.64"
- 
+
  [profile.release]
  opt-level = "s"     # Optimize for size
-@@ -35,3 +36,15 @@ lto = "thin"
- 
- [profile.dev]
- opt-level = 0
-+
-+[patch.crates-io]
-+nu-path = { path = "../nushell-0.111.0/crates/nu-path" }
-+nu-plugin = { path = "../nushell-0.111.0/crates/nu-plugin" }
-+nu-plugin-test-support = { path = "../nushell-0.111.0/crates/nu-plugin-test-support" }
-+nu-protocol = { path = "../nushell-0.111.0/crates/nu-protocol" }
-+# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.44" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.64" }
-+# all: no SYS_getrandom
-+getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
-+getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
