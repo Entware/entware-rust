@@ -9,7 +9,7 @@
              Arg::new("disable-drop-privileges")
                  .long("disable-drop-privileges")
                  .env("WG_SUDO")
-@@ -119,7 +119,7 @@ fn main() {
+@@ -141,7 +141,7 @@ fn main() {
              .init();
  
          let daemonize = Daemonize::new()

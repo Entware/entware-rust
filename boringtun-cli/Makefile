@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=boringtun-cli
-PKG_VERSION:=0.7.0
+PKG_VERSION:=0.7.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/cloudflare/boringtun/tar.gz/$(PKG_NAME)-$(PKG_VERSION)?
-PKG_HASH:=2a815b0668344cb096a03de62119fa2acdcce5fde7f6084c9d1ddfa50a76eeb8
+PKG_HASH:=0bfce9717e898533036c853e3433308770d9cd0a5f54b10e9d90f149947e355c
 
 PKG_LICENSE:=BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE.md
