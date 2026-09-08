@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=AdGuardian-Term
-PKG_VERSION:=1.6.0
-PKG_RELEASE:=5
+PKG_VERSION:=1.7.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/Lissy93/AdGuardian-Term/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=0bc7671411372b7b1a4439ff8081c4ce28c4db2c32fe9fac38ae3177cd54fea4
+PKG_HASH:=f99954da66aa25ee572af1de7b9c2a2337b13470ade3bfec21d357cdaa257f27
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0431 getrandom-0216 iana-time-zone-0159
+PKG_BUILD_DEPENDS += chrono-0444 getrandom-0217 getrandom-034 iana-time-zone-0164
 
 define Package/adguardian-term
   SECTION:=net
