@@ -3,7 +3,7 @@ https://github.com/gentoo/gentoo/pull/35246#discussion_r1484525497
 
 --- a/compiler/rustc_llvm/build.rs
 +++ b/compiler/rustc_llvm/build.rs
-@@ -244,12 +244,7 @@ fn main() {
+@@ -322,12 +322,7 @@ fn main() {
      let mut cmd = Command::new(&llvm_config);
      cmd.arg(llvm_link_arg).arg("--libs");
  
