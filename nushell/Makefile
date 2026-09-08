@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nushell
-PKG_VERSION:=0.111.0
+PKG_VERSION:=0.115.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/nushell/nushell/tar.gz/$(PKG_VERSION)?
-PKG_HASH:=e3a7980bb5532016036d9fdbbe0a2acc5a73f9549d1842ff6c8c0de2a6d1ddbe
+PKG_HASH:=06df93281a0f858019d09ea6cf821b19a7cd9017cdfb9e898cfe8dd4bd8101c2
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -22,8 +22,8 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0444 getrandom-0217 getrandom-034 getrandom-041 \
-	iana-time-zone-0164 openssl-probe-015 openssl-probe-021 rmcp-0160
+	chrono-0444 getrandom-0217 getrandom-034 getrandom-042 \
+	iana-time-zone-0164 openssl-probe-015 openssl-probe-021 rmcp-310
 
 define Package/nushell/Default
   SECTION:=utils

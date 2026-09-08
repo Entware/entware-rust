@@ -20,7 +20,7 @@ error: could not compile `nu_plugin_custom_values` (bin "nu_plugin_custom_values
              .map_err(|err| LabeledError::new(err.to_string()))?
 -            .insert(new_id, input.clone());
 +            .insert(new_id.try_into().unwrap(), input.clone());
- 
+
          Ok(Value::custom(
 -            Box::new(HandleCustomValue(new_id)),
 +            Box::new(HandleCustomValue(new_id.try_into().unwrap())),
@@ -35,7 +35,7 @@ error: could not compile `nu_plugin_custom_values` (bin "nu_plugin_custom_values
                      .map_err(|err| LabeledError::new(err.to_string()))?
 -                    .insert(new_id, new_value);
 +                    .insert(new_id.try_into().unwrap(), new_value);
- 
+
                  Ok(Value::custom(
 -                    Box::new(HandleCustomValue(new_id)),
 +                    Box::new(HandleCustomValue(new_id.try_into().unwrap())),
@@ -50,14 +50,14 @@ error: could not compile `nu_plugin_custom_values` (bin "nu_plugin_custom_values
 -    sync::{Mutex, atomic::AtomicU64},
 +    sync::{Mutex, atomic::AtomicUsize},
  };
- 
+
  use handle_custom_value::HandleCustomValue;
 @@ -31,7 +31,7 @@ use update_arg::UpdateArg;
- 
+
  #[derive(Default)]
  pub struct CustomValuePlugin {
 -    counter: AtomicU64,
 +    counter: AtomicUsize,
      handles: Mutex<BTreeMap<u64, Value>>,
  }
- 
+
