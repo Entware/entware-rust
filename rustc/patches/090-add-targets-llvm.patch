@@ -1,6 +1,6 @@
 --- a/src/llvm-project/clang/lib/Driver/ToolChains/Linux.cpp
 +++ b/src/llvm-project/clang/lib/Driver/ToolChains/Linux.cpp
-@@ -318,6 +318,16 @@ Linux::Linux(const Driver &D, const llvm
+@@ -337,6 +337,16 @@ Linux::Linux(const Driver &D, const llvm
    const std::string OSLibDir = std::string(getOSLibDir(Triple, Args));
    const std::string MultiarchTriple = getMultiarchTriple(D, Triple, SysRoot);
  
@@ -19,9 +19,9 @@
    if (Arch == llvm::Triple::mips || Arch == llvm::Triple::mipsel) {
 --- a/src/llvm-project/llvm/unittests/TargetParser/TripleTest.cpp
 +++ b/src/llvm-project/llvm/unittests/TargetParser/TripleTest.cpp
-@@ -776,6 +776,18 @@ TEST(TripleTest, ParsedIDs) {
-   EXPECT_EQ(Triple::Linux, T.getOS());
-   EXPECT_EQ(Triple::UnknownEnvironment, T.getEnvironment());
+@@ -854,6 +854,18 @@ TEST(TripleTest, ParsedIDs) {
+   EXPECT_EQ(Triple::Hurd, T.getOS());
+   EXPECT_EQ(Triple::GNU, T.getEnvironment());
  
 +  T = Triple("armv7-openwrt-linux-gnueabi");
 +  EXPECT_EQ(Triple::arm, T.getArch());
@@ -38,7 +38,7 @@
    T = Triple("armv7hl-suse-linux-gnueabi");
    EXPECT_EQ(Triple::arm, T.getArch());
    EXPECT_EQ(Triple::SUSE, T.getVendor());
-@@ -930,6 +942,18 @@ TEST(TripleTest, ParsedIDs) {
+@@ -1008,6 +1020,18 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::GNUABIN32, T.getEnvironment());
    EXPECT_EQ(Triple::MipsSubArch_r6, T.getSubArch());
  
@@ -57,7 +57,7 @@
    T = Triple("mipsel-unknown-linux-gnu");
    EXPECT_EQ(Triple::mipsel, T.getArch());
    EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
-@@ -942,6 +966,18 @@ TEST(TripleTest, ParsedIDs) {
+@@ -1020,6 +1044,18 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::GNU, T.getEnvironment());
    EXPECT_EQ(Triple::NoSubArch, T.getSubArch());
  
@@ -76,7 +76,7 @@
    T = Triple("mips-unknown-linux-gnu");
    EXPECT_EQ(Triple::mips, T.getArch());
    EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
-@@ -1043,6 +1079,13 @@ TEST(TripleTest, ParsedIDs) {
+@@ -1121,6 +1157,13 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::MuslABIN32, T.getEnvironment());
    EXPECT_EQ(Triple::MipsSubArch_r6, T.getSubArch());
  
@@ -90,7 +90,7 @@
    T = Triple("mipsel-unknown-linux-musl");
    EXPECT_EQ(Triple::mipsel, T.getArch());
    EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
-@@ -1050,6 +1093,13 @@ TEST(TripleTest, ParsedIDs) {
+@@ -1128,6 +1171,13 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::Musl, T.getEnvironment());
    EXPECT_EQ(Triple::NoSubArch, T.getSubArch());
  
@@ -104,7 +104,7 @@
    T = Triple("mips-unknown-linux-musl");
    EXPECT_EQ(Triple::mips, T.getArch());
    EXPECT_EQ(Triple::UnknownVendor, T.getVendor());
-@@ -1084,6 +1134,20 @@ TEST(TripleTest, ParsedIDs) {
+@@ -1162,6 +1212,20 @@ TEST(TripleTest, ParsedIDs) {
    EXPECT_EQ(Triple::UnknownEnvironment, T.getEnvironment());
    EXPECT_TRUE(T.isArch64Bit());
  
@@ -125,7 +125,7 @@
    T = Triple("arm64_32-apple-ios");
    EXPECT_EQ(Triple::aarch64_32, T.getArch());
    EXPECT_EQ(Triple::IOS, T.getOS());
-@@ -1638,6 +1702,8 @@ TEST(TripleTest, Normalization) {
+@@ -1727,6 +1791,8 @@ TEST(TripleTest, Normalization) {
    // is given in the comment.
    EXPECT_EQ("i386-unknown-windows-gnu",
              Triple::normalize("i386-mingw32")); // i386-pc-mingw32

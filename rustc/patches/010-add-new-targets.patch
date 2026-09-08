@@ -2,8 +2,8 @@
 +++ b/compiler/rustc_target/src/spec/base/mod.rs
 @@ -28,6 +28,9 @@ pub(crate) mod msvc;
  pub(crate) mod netbsd;
- pub(crate) mod nto_qnx;
  pub(crate) mod openbsd;
+ pub(crate) mod qnx_sdp;
 +pub(crate) mod openwrt_linux;
 +pub(crate) mod openwrt_linux_gnu;
 +pub(crate) mod openwrt_linux_musl;
@@ -157,7 +157,7 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/arm_openwrt_linux_gnueabi.rs
 @@ -0,0 +1,25 @@
-+use crate::spec::{Abi, Arch, FloatAbi, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, CfgAbi, FloatAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -172,7 +172,7 @@
 +        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
 +        arch: Arch::Arm,
 +        options: TargetOptions {
-+            abi: Abi::Eabi,
++            cfg_abi: CfgAbi::Eabi,
 +            llvm_floatabi: Some(FloatAbi::Soft),
 +            features: "+soft-float,+strict-align,+v6".into(),
 +            max_atomic_width: Some(64),
@@ -185,7 +185,7 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/arm_openwrt_linux_musleabi.rs
 @@ -0,0 +1,28 @@
-+use crate::spec::{Abi, Arch, FloatAbi, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, CfgAbi, FloatAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -200,7 +200,7 @@
 +        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
 +        arch: Arch::Arm,
 +        options: TargetOptions {
-+            abi: Abi::Eabi,
++            cfg_abi: CfgAbi::Eabi,
 +            llvm_floatabi: Some(FloatAbi::Soft),
 +            // Most of these settings are copied from the arm_unknown_linux_gnueabi
 +            // target.
@@ -216,7 +216,7 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/armv5te_openwrt_linux_gnueabi.rs
 @@ -0,0 +1,27 @@
-+use crate::spec::{Abi, Arch, FloatAbi, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, CfgAbi, FloatAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -231,7 +231,7 @@
 +        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
 +        arch: Arch::Arm,
 +        options: TargetOptions {
-+            abi: Abi::Eabi,
++            cfg_abi: CfgAbi::Eabi,
 +            llvm_floatabi: Some(FloatAbi::Soft),
 +            features: "+soft-float,+strict-align".into(),
 +            // Atomic operations provided by compiler-builtins
@@ -246,7 +246,7 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/armv7_openwrt_linux_gnueabi.rs
 @@ -0,0 +1,28 @@
-+use crate::spec::{Abi, Arch, FloatAbi, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, CfgAbi, FloatAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +// This target is for glibc Linux on ARMv7 without thumb-mode, NEON or
 +// hardfloat.
@@ -264,7 +264,7 @@
 +        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
 +        arch: Arch::Arm,
 +        options: TargetOptions {
-+            abi: Abi::Eabi,
++            cfg_abi: CfgAbi::Eabi,
 +            llvm_floatabi: Some(FloatAbi::Soft),
 +            features: "+v7,+thumb2,+soft-float,-neon".into(),
 +            max_atomic_width: Some(64),
@@ -487,7 +487,7 @@
 +}
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -1432,6 +1432,21 @@ macro_rules! supported_targets {
+@@ -1438,6 +1438,21 @@ macro_rules! supported_targets {
  }
  
  supported_targets! {
@@ -509,8 +509,8 @@
      ("x86_64-unknown-linux-gnu", x86_64_unknown_linux_gnu),
      ("x86_64-unknown-linux-gnux32", x86_64_unknown_linux_gnux32),
      ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
---- a/vendor/target-lexicon-0.13.3/src/targets.rs
-+++ b/vendor/target-lexicon-0.13.3/src/targets.rs
+--- a/vendor/target-lexicon-0.13.4/src/targets.rs
++++ b/vendor/target-lexicon-0.13.4/src/targets.rs
 @@ -626,6 +626,7 @@ pub enum Vendor {
      Kmc,
      Nintendo,

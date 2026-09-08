@@ -3,7 +3,19 @@ https://github.com/gentoo/gentoo/pull/35246#discussion_r1484525497
 
 --- a/compiler/rustc_llvm/build.rs
 +++ b/compiler/rustc_llvm/build.rs
-@@ -244,12 +244,7 @@ fn main() {
+@@ -250,6 +250,11 @@ fn main() {
+         cfg.warnings_into_errors(true);
+     }
+     for flag in &cxxflags {
++        // The host LLVM's C++ ABI setting does not apply to the target toolchain.
++        if is_crossed && flag.starts_with("-D_GLIBCXX_USE_CXX11_ABI=") {
++            continue;
++        }
++
+         // Ignore flags like `-m64` when we're doing a cross build
+         if is_crossed && flag.starts_with("-m") {
+             continue;
+@@ -322,12 +327,7 @@ fn main() {
      let mut cmd = Command::new(&llvm_config);
      cmd.arg(llvm_link_arg).arg("--libs");
  
