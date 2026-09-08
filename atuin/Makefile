@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=atuin
-PKG_VERSION:=18.12.1
+PKG_VERSION:=18.21.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/atuinsh/atuin/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=8643a7df1e366e9ad3134514b9bcaf4d6440accb13c64340ec9ec1923d58eb6e
+PKG_HASH:=05b18e62430f12cf55cb33edae98eb494eefce9ee124d48d2777ee0b1b8abede
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0443 getrandom-0217 getrandom-034 iana-time-zone-0164 \
+	chrono-0444 getrandom-0217 getrandom-034 getrandom-042 iana-time-zone-0164 \
 	metrics-exporter-prometheus-0181
 
 define Package/atuin
@@ -29,6 +29,7 @@ define Package/atuin
   SUBMENU:=Shells
   TITLE:=magical shell history
   URL:=https://atuin.sh
+  DEPENDS:=+libopenssl
 endef
 
 define Package/atuin/description
@@ -39,6 +40,9 @@ endef
 ifeq ($(CONFIG_x86_64),y)
 RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
+
+# sqlx proc macro links against the target OpenSSL and is loaded during build
+RUSTC_VARS += LD_LIBRARY_PATH=/usr/lib/$(GNU_HOST_NAME):$(STAGING_DIR)/opt/lib:$(STAGING_DIR)/opt/lib/libintl-full/lib
 
 define Package/atuin/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
