@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=digs
-PKG_VERSION:=0.4.2
+PKG_VERSION:=0.4.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/BiznetGIO/digs/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=f1d3c65d268c6a74dfb3beadb14cd04c7fb51a26ba0ad779c38c3b61e6fc68e9
+PKG_HASH:=0e652045800721fea8ee7c879440702e7c60af99ebef848562ca98617e01dad5
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
@@ -36,7 +36,7 @@ endef
 
 define Package/digs/install
 	$(INSTALL_DIR) $(1)/opt/etc
-	$(INSTALL_DATA) $(PKG_BUILD_DIR)/tests/fixture/digs.toml $(1)/opt/etc
+	$(INSTALL_DATA) $(PKG_BUILD_DIR)/examples/config.toml $(1)/opt/etc/digs.toml
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/digs $(1)/opt/usr/bin
 endef
