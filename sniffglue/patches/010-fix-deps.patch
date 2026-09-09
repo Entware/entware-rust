@@ -1,10 +1,11 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -61,3 +61,7 @@ syscallz = "0.17"
+@@ -61,3 +61,8 @@ syscallz = "0.17"
  
  [dev-dependencies]
- boxxy = "0.13"
+ boxxy = "0.14"
 +
 +[patch.crates-io]
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.15" }
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }

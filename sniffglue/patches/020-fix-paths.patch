@@ -24,9 +24,9 @@
 -            chroot = "/var/empty"
 +            chroot = "/opt/var/empty"
              "#,
-         ).unwrap();
- 
-@@ -55,7 +54,7 @@ mod tests {
+         )
+         .unwrap();
+@@ -56,7 +55,7 @@ mod tests {
              Config {
                  sandbox: SandboxConfig {
                      user: Some(String::from("foo")),
