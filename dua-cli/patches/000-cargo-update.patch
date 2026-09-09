@@ -1,6 +1,43 @@
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -176,8 +176,6 @@ checksum = "9330f8b2ff13f34540b44e946ef3
+@@ -201,7 +201,7 @@ dependencies = [
+  "proc-macro-crate",
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -217,9 +217,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "bumpalo"
+-version = "3.19.0"
++version = "3.20.3"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "46c5e41b57b8bba42a04676d81cb89e9ee8e859a1a66f80a5a72e1cb76b34d43"
++checksum = "72f5acc6cb2ba439de613abc23857ec3d78374d8ed5ac84e9d11336e87da8649"
+ 
+ [[package]]
+ name = "by_address"
+@@ -284,12 +284,12 @@ dependencies = [
+ 
+ [[package]]
+ name = "cc"
+-version = "1.2.44"
++version = "1.4.5"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "37521ac7aabe3d13122dc382493e20c9416f299d2ccd5b3a5340a2570cdeb0f3"
++checksum = "005ec2760ca554fae18df7a11195552ec576cd665632a881bc011d5bb2fd4d80"
+ dependencies = [
+  "find-msvc-tools",
+- "shlex 1.3.0",
++ "shlex",
+ ]
+ 
+ [[package]]
+@@ -307,8 +307,6 @@ checksum = "f079e83a288787bcd14a6aea84ce
  [[package]]
  name = "chrono"
  version = "0.4.42"
@@ -9,7 +46,64 @@
  dependencies = [
   "iana-time-zone",
   "num-traits",
-@@ -456,8 +454,6 @@ checksum = "d9c4f5dac5e15c24eb999c26181a
+@@ -355,7 +353,7 @@ dependencies = [
+  "heck",
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -568,7 +566,7 @@ dependencies = [
+  "proc-macro2",
+  "quote",
+  "strsim",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -579,7 +577,7 @@ checksum = "ac3984ec7bd6cfa798e62b4a6424
+ dependencies = [
+  "darling_core",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -607,7 +605,7 @@ dependencies = [
+  "proc-macro2",
+  "quote",
+  "rustc_version",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -695,7 +693,7 @@ dependencies = [
+  "pretty_assertions",
+  "ratatui",
+  "serde",
+- "shlex 2.0.1",
++ "shlex",
+  "signal-hook",
+  "tempfile",
+  "toml",
+@@ -816,9 +814,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "find-msvc-tools"
+-version = "0.1.4"
++version = "0.1.12"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "52051878f80a721bb68ebfbc930e07b65ba72f2da88968ea5c06fd6ca3d3a127"
++checksum = "3e0f1c7c3a72c66fd80abe965175f7523475c0489a87d3ff9d6e8c87d87a9d2d"
+ 
+ [[package]]
+ name = "fnv"
+@@ -857,8 +855,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.2.17"
@@ -18,7 +112,16 @@
  dependencies = [
   "cfg-if",
   "libc",
-@@ -574,8 +570,6 @@ checksum = "5c3b1f728c459d27b12448862017
+@@ -1234,7 +1230,7 @@ checksum = "d3836b4b051393464a753c5a08fe
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -1679,8 +1675,6 @@ dependencies = [
  [[package]]
  name = "iana-time-zone"
  version = "0.1.64"
@@ -27,14 +130,7 @@
  dependencies = [
   "android_system_properties",
   "core-foundation-sys",
-@@ -583,14 +577,12 @@ dependencies = [
-  "js-sys",
-  "log",
-  "wasm-bindgen",
-- "windows-core 0.62.2",
-+ "windows-core",
- ]
- 
+@@ -1694,8 +1688,6 @@ dependencies = [
  [[package]]
  name = "iana-time-zone-haiku"
  version = "0.1.2"
@@ -43,103 +139,218 @@
  dependencies = [
   "cc",
  ]
-@@ -1431,7 +1423,7 @@ version = "0.56.0"
- source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "1de69df01bdf1ead2f4ac895dc77c9351aefff65b2f3db429a343f9cbf05e132"
+@@ -1755,7 +1747,7 @@ dependencies = [
+  "indoc",
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -1830,7 +1822,7 @@ checksum = "782d32378dddf207193ac91cefb8
  dependencies = [
-- "windows-core 0.56.0",
-+ "windows-core",
-  "windows-targets 0.52.6",
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
  ]
  
-@@ -1441,26 +1433,13 @@ version = "0.56.0"
+ [[package]]
+@@ -1850,9 +1842,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "js-sys"
+-version = "0.3.82"
++version = "0.3.85"
  source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "4698e52ed2d08f8658ab0c39512a7c00ee5fe2688c65f8c0a4f06750d729f2a6"
+-checksum = "b011eec8cc36da2aab2d5cff675ec18454fad408585853910a202391cf9f8e65"
++checksum = "8c942ebf8e95485ca0d52d97da7c5a2c387d0e7f0ba4c35e93bfcaee045955b3"
  dependencies = [
-- "windows-implement 0.56.0",
-- "windows-interface 0.56.0",
-- "windows-result 0.1.2",
-+ "windows-implement",
-+ "windows-interface",
-+ "windows-result",
-  "windows-targets 0.52.6",
+  "once_cell",
+  "wasm-bindgen",
+@@ -2118,7 +2110,7 @@ dependencies = [
+  "by_address",
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
  ]
  
  [[package]]
--name = "windows-core"
--version = "0.62.2"
--source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "b8e83a14d34d0623b51dce9581199302a221863196a1dde71a7663a4c2be9deb"
--dependencies = [
-- "windows-implement 0.60.2",
-- "windows-interface 0.59.3",
-- "windows-link",
-- "windows-result 0.4.1",
-- "windows-strings",
--]
--
--[[package]]
- name = "windows-implement"
- version = "0.56.0"
- source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -1472,17 +1451,6 @@ dependencies = [
+@@ -2203,7 +2195,7 @@ source = "registry+https://github.com/ru
+ checksum = "479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b"
+ dependencies = [
+  "proc-macro2",
+- "syn 2.0.108",
++ "syn 2.0.119",
  ]
  
  [[package]]
--name = "windows-implement"
--version = "0.60.2"
--source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "053e2e040ab57b9dc951b72c264860db7eb3b0200ba345b4e4c3b14f67855ddf"
--dependencies = [
-- "proc-macro2",
-- "quote",
-- "syn",
--]
--
--[[package]]
- name = "windows-interface"
- version = "0.56.0"
- source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -1494,17 +1462,6 @@ dependencies = [
+@@ -2577,7 +2569,7 @@ checksum = "d540f220d3187173da220f885ab6
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
  ]
  
  [[package]]
--name = "windows-interface"
--version = "0.59.3"
+@@ -2642,12 +2634,6 @@ checksum = "dc6fe69c597f9c37bfeeeeeb33da
+ 
+ [[package]]
+ name = "shlex"
+-version = "1.3.0"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "3f316c4a2570ba26bbec722032c4099d8c8bc095efccdc15688708623367e358"
--dependencies = [
-- "proc-macro2",
-- "quote",
-- "syn",
--]
+-checksum = "0fda2ff0d084019ba4d7c6f371c95d8fd75ce3524c3cb8fb653a3023f6323e64"
 -
 -[[package]]
- name = "windows-link"
- version = "0.2.1"
+-name = "shlex"
+ version = "2.0.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
-@@ -1520,24 +1477,6 @@ dependencies = [
+ checksum = "f8fadd59c855ef2080decdef8ff161eb6661b86933c9d82e5ba29dc602a55aba"
+@@ -2736,7 +2722,7 @@ dependencies = [
+  "heck",
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
  ]
  
  [[package]]
--name = "windows-result"
--version = "0.4.1"
--source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "7781fa89eaf60850ac3d2da7af8e5242a5ea78d1a11c49bf2910bb5a73853eb5"
--dependencies = [
-- "windows-link",
--]
--
--[[package]]
--name = "windows-strings"
--version = "0.5.1"
--source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "7837d08f69c77cf6b07689544538e017c1bfcf57e34b4c0ff58e6c2cd3b37091"
--dependencies = [
-- "windows-link",
--]
--
--[[package]]
- name = "windows-sys"
- version = "0.48.0"
+@@ -2752,9 +2738,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "syn"
+-version = "2.0.108"
++version = "2.0.119"
  source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "da58917d35242480a05c2897064da0a80589a2a0476c9a3f2fdc83b53502e917"
++checksum = "872831b642d1a07999a962a351ed35b955ea2cfc8f3862091e2a240a84f17297"
+ dependencies = [
+  "proc-macro2",
+  "quote",
+@@ -2808,7 +2794,7 @@ checksum = "ebc4ee7f67670e9b64d05fa4253e
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -3042,9 +3028,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "wasm-bindgen"
+-version = "0.2.105"
++version = "0.2.108"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "da95793dfc411fbbd93f5be7715b0578ec61fe87cb1a42b12eb625caa5c5ea60"
++checksum = "64024a30ec1e37399cf85a7ffefebdb72205ca1c972291c51512360d90bd8566"
+ dependencies = [
+  "cfg-if",
+  "once_cell",
+@@ -3055,9 +3041,9 @@ dependencies = [
+ 
+ [[package]]
+ name = "wasm-bindgen-macro"
+-version = "0.2.105"
++version = "0.2.108"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "04264334509e04a7bf8690f2384ef5265f05143a4bff3889ab7a3269adab59c2"
++checksum = "008b239d9c740232e71bd39e8ef6429d27097518b6b30bdf9086833bd5b6d608"
+ dependencies = [
+  "quote",
+  "wasm-bindgen-macro-support",
+@@ -3065,22 +3051,22 @@ dependencies = [
+ 
+ [[package]]
+ name = "wasm-bindgen-macro-support"
+-version = "0.2.105"
++version = "0.2.108"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "420bc339d9f322e562942d52e115d57e950d12d88983a14c79b86859ee6c7ebc"
++checksum = "5256bae2d58f54820e6490f9839c49780dff84c65aeab9e772f15d5f0e913a55"
+ dependencies = [
+  "bumpalo",
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+  "wasm-bindgen-shared",
+ ]
+ 
+ [[package]]
+ name = "wasm-bindgen-shared"
+-version = "0.2.105"
++version = "0.2.108"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "76f218a38c84bcb33c25ec7059b07847d465ce0e0a76b995e134a45adcb6af76"
++checksum = "1f01b580c9ac74c8d8f0c0e4afb04eeef2acf145458e52c03845ee9cd23e3d12"
+ dependencies = [
+  "unicode-ident",
+ ]
+@@ -3202,7 +3188,7 @@ checksum = "f6fc35f58ecd95a9b71c4f2329b9
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -3213,7 +3199,7 @@ checksum = "053e2e040ab57b9dc951b72c2648
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -3224,7 +3210,7 @@ checksum = "08990546bf4edef8f431fa6326e0
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -3235,7 +3221,7 @@ checksum = "3f316c4a2570ba26bbec722032c4
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
+@@ -3463,7 +3449,7 @@ dependencies = [
+  "heck",
+  "indexmap",
+  "prettyplease",
+- "syn 2.0.108",
++ "syn 2.0.119",
+  "wasm-metadata",
+  "wit-bindgen-core",
+  "wit-component",
+@@ -3479,7 +3465,7 @@ dependencies = [
+  "prettyplease",
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+  "wit-bindgen-core",
+  "wit-bindgen-rust",
+ ]
+@@ -3553,7 +3539,7 @@ checksum = "0fe976fb70c78cd64cccfe3a6fc1
+ dependencies = [
+  "proc-macro2",
+  "quote",
+- "syn 2.0.108",
++ "syn 2.0.119",
+ ]
+ 
+ [[package]]
