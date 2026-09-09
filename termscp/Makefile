@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=termscp
-PKG_VERSION:=0.19.1
+PKG_VERSION:=1.2.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/veeso/termscp/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=04248fc89e71a050463ad1824eccab4c04d34bff3126a8f9e26a77c75fe55b0f
+PKG_HASH:=fe35ae14d72a3e40f43532c44ffbced9667ca515c82b93ce2b4398b768fd1113
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,8 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 nucleo-050
+	chrono-0445 getrandom-0217 getrandom-034 getrandom-043 \
+	iana-time-zone-0164 nucleo-050
 
 define Package/termscp
   SECTION:=net
