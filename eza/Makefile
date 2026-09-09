@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=eza
-PKG_VERSION:=0.23.4
+PKG_VERSION:=0.23.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/eza-community/eza/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=9fbcad518b8a2095206ac385329ca62d216bf9fdc652dde2d082fcb37c309635
+PKG_HASH:=bbf179f2611c904014431740b559e8055276c12fcf978a7e31c271663548337f
 
 PKG_LICENSE:=EUPL-1.2
 PKG_LICENSE_FILES:=LICENSE.txt
@@ -19,7 +19,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0442 getrandom-0216 getrandom-033 iana-time-zone-0164
+PKG_BUILD_DEPENDS += chrono-0443 getrandom-0217 getrandom-034 getrandom-041 iana-time-zone-0164
 
 define Package/eza
   SECTION:=utils
