@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ouch
-PKG_VERSION:=0.6.1
-PKG_RELEASE:=3
+PKG_VERSION:=0.8.2
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/ouch-org/ouch/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=e6265071affab228ba7d3ca85f2206029445038b3a3d96036e9bf02b795ad651
+PKG_HASH:=803dd9d0bcdb0b4f94336bc1e9fbb5c878bf2867e03f58f266adc679c224698d
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0441 getrandom-0215 getrandom-031
+PKG_BUILD_DEPENDS += getrandom-0217 getrandom-034 getrandom-043
 
 define Package/ouch
   SECTION:=utils
