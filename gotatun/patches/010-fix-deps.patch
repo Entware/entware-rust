@@ -1,9 +1,9 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -24,3 +24,8 @@ strip = false
- [profile.bench]
- lto = true        # Enable full link-time optimization.
- codegen-units = 1 # Use only 1 codegen-unit to enable full optimizations.
+@@ -80,3 +80,8 @@ codegen-units = 1  # Use only 1 codegen-
+ inherits = "release"
+ debug = true
+ strip = false
 +
 +[patch.crates-io]
 +# all: no SYS_getrandom

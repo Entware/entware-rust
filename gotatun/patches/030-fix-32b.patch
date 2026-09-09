@@ -1,15 +1,15 @@
 --- a/gotatun/src/noise/rate_limiter.rs
 +++ b/gotatun/src/noise/rate_limiter.rs
-@@ -20,7 +20,7 @@ use constant_time_eq::constant_time_eq;
- use mock_instant::thread_local::Instant;
+@@ -21,7 +21,7 @@ use mock_instant::thread_local::Instant;
+ use rand::TryRngCore;
  use std::collections::HashMap;
- use std::net::IpAddr;
+ use std::net::{IpAddr, SocketAddr};
 -use std::sync::atomic::{AtomicU64, Ordering};
 +use std::sync::atomic::{AtomicUsize, Ordering};
  use std::time::Duration;
  
  #[cfg(not(feature = "mock_instant"))]
-@@ -62,7 +62,7 @@ pub struct RateLimiter {
+@@ -63,7 +63,7 @@ pub struct RateLimiter {
      secret_key: [u8; 16],
      start_time: Instant,
      /// A single 64 bit counter (should suffice for many years)
@@ -18,7 +18,7 @@
      mac1_key: [u8; 32],
      cookie_key: Key,
      limit: u64,
-@@ -84,7 +84,7 @@ impl RateLimiter {
+@@ -85,7 +85,7 @@ impl RateLimiter {
              nonce_key: Self::rand_bytes(),
              secret_key,
              start_time: Instant::now(),
@@ -27,18 +27,27 @@
              mac1_key: b2s_hash(LABEL_MAC1, public_key.as_bytes()),
              cookie_key: b2s_hash(LABEL_COOKIE, public_key.as_bytes()).into(),
              limit,
+@@ -132,7 +132,7 @@ impl RateLimiter {
+     }
+ 
+     fn nonce(&self) -> [u8; COOKIE_NONCE_SIZE] {
+-        let ctr = self.nonce_ctr.fetch_add(1, Ordering::Relaxed);
++        let ctr = self.nonce_ctr.fetch_add(1, Ordering::Relaxed) as u64;
+ 
+         b2s_mac_24(&self.nonce_key, &ctr.to_le_bytes())
+     }
 --- a/gotatun/src/noise/session.rs
 +++ b/gotatun/src/noise/session.rs
 @@ -18,7 +18,7 @@ use crate::{
+ };
  use bytes::{Buf, BytesMut};
  use parking_lot::Mutex;
- use ring::aead::{Aad, CHACHA20_POLY1305, LessSafeKey, Nonce, UnboundKey};
 -use std::sync::atomic::{AtomicU64, Ordering};
 +use std::sync::atomic::{AtomicUsize, Ordering};
  use zerocopy::FromBytes;
  
- pub struct Session {
-@@ -26,7 +26,7 @@ pub struct Session {
+ /// The maximum number of transport data messages that may be sent or received under a single
+@@ -33,7 +33,7 @@ pub struct Session {
      sending_index: u32,
      receiver: LessSafeKey,
      sender: LessSafeKey,
@@ -47,7 +56,7 @@
      receiving_key_counter: Mutex<ReceivingKeyCounterValidator>,
  }
  
-@@ -174,7 +174,7 @@ impl Session {
+@@ -193,7 +193,7 @@ impl Session {
                  UnboundKey::new(&CHACHA20_POLY1305, &receiving_key).unwrap(),
              ),
              sender: LessSafeKey::new(UnboundKey::new(&CHACHA20_POLY1305, &sending_key).unwrap()),
@@ -56,12 +65,27 @@
              receiving_key_counter: Mutex::new(Default::default()),
          }
      }
-@@ -212,7 +212,7 @@ impl Session {
-         // Initialize wireguard header.
-         data.header = WgDataHeader::new()
-             .with_receiver_idx(self.sending_index)
--            .with_counter(sending_key_counter);
-+            .with_counter(sending_key_counter.try_into().unwrap());
+@@ -218,7 +218,7 @@ impl Session {
+     /// exercised without actually sending billions of packets.
+     #[cfg(test)]
+     pub(super) fn set_sending_key_counter(&self, value: u64) {
+-        self.sending_key_counter.store(value, Ordering::Relaxed);
++        self.sending_key_counter.store(value.try_into().unwrap(), Ordering::Relaxed);
+     }
  
-         // Copy inner packet into place.
-         debug_assert_eq!(packet.len(), data.encrypted_encapsulated_packet_mut().len());
+     /// Encapsulate `packet` into a [`WgData`].
+@@ -229,10 +229,12 @@ impl Session {
+     pub(super) fn format_packet_data(&self, packet: Packet) -> Result<Packet<WgData>, Packet> {
+         // Check before incrementing so an exhausted counter is never advanced (and thus can never
+         // wrap back around to a previously used value).
+-        if self.sending_key_counter.load(Ordering::Relaxed) >= REJECT_AFTER_MESSAGES {
++        if self.sending_key_counter.load(Ordering::Relaxed) as u64 >= REJECT_AFTER_MESSAGES {
+             return Err(packet);
+         }
+-        let sending_key_counter = self.sending_key_counter.fetch_add(1, Ordering::Relaxed);
++        let sending_key_counter: u64 = self.sending_key_counter
++            .fetch_add(1, Ordering::Relaxed)
++            .try_into().unwrap();
+ 
+         let len = WgData::OVERHEAD + packet.len();
+ 

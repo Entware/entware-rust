@@ -1,11 +1,11 @@
 --- a/gotatun/Cargo.toml
 +++ b/gotatun/Cargo.toml
-@@ -100,7 +100,7 @@ test-log = "0.2.19"
- tokio-stream = { version = "0.1.18", features = ["sync"] }
+@@ -22,7 +22,7 @@ targets = [
+ rustdoc-args = ["--cfg", "docsrs"]
  
  [lib]
--crate-type = ["staticlib", "cdylib", "rlib"]
-+crate-type = ["staticlib", "rlib"]
+-crate-type = ["cdylib", "rlib", "staticlib"]
++crate-type = ["rlib", "staticlib"]
  
  [[bench]]
- name = "crypto_benches"
+ harness = false
