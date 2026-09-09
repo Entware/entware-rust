@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=xcompress
-PKG_VERSION:=0.12.5
-PKG_RELEASE:=2
+PKG_VERSION:=0.13.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/magiclen/xcompress/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=563deb96b3fda4d9957c808c26cb33f19fc893b89163bcefc12d52fb05216b4e
+PKG_HASH:=493bd2dffa16ff92d74d0f22ea4b583abd6d78d45cd4d7f66e653672f53e5d7a
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
