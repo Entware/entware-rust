@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hck
-PKG_VERSION:=0.11.5
+PKG_VERSION:=0.11.6
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/sstadick/hck/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=5ce5fc816e9e009dafe8c42a0bd6b9e6c8b7ca5a839af6a797fba9accc569242
+PKG_HASH:=b9821c4de35308d8d1d9e979da39f8a7effd82d2e0b1f4f7b1c83bc48ab8da20
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE-MIT UNLICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE-MIT UNLICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += getrandom-0216 getrandom-034
+PKG_BUILD_DEPENDS += getrandom-0217 getrandom-042
 
 define Package/hck
   SECTION:=utils
