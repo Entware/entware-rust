@@ -1,14 +1,15 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -77,3 +77,11 @@ lto = true
+@@ -76,3 +76,12 @@ lto = true
  codegen-units = 1
  panic = "abort"
  strip = "symbols"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.41" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++chrono = { path = "../chrono-0.4.44" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
-+getrandom3 = { path = "../getrandom-0.3.3", package = "getrandom", version = "0.3.3" }
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
++getrandom4 = { path = "../getrandom-0.4.2", package = "getrandom", version = "0.4.2" }
