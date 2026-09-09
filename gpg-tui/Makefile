@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gpg-tui
-PKG_VERSION:=0.11.1
-PKG_RELEASE:=2
+PKG_VERSION:=0.11.2
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/orhun/gpg-tui/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=ecc232b42ff07888eb12a43daf5a956791a21efc85f6e71fbed9b9769ec50b50
+PKG_HASH:=2cbd0186b76b7bb5b4a21c76b2f4b344c03194731729aac645465f33d665ef91
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0441 getrandom-0216 iana-time-zone-0163
+PKG_BUILD_DEPENDS += chrono-0444 getrandom-0216 getrandom-034 iana-time-zone-0164
 
 define Package/gpg-tui
   SECTION:=utils

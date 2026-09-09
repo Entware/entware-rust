@@ -1,13 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -88,3 +88,10 @@ codegen-units = 1
+@@ -88,3 +88,11 @@ codegen-units = 1
  [profile.bench]
  opt-level = 3
  debug = false
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.41" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.63" }
++chrono = { path = "../chrono-0.4.44" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
 +getrandom = { path = "../getrandom-0.2.16" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
