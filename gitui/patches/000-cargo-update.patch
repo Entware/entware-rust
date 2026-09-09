@@ -1,15 +1,15 @@
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -393,8 +393,6 @@ dependencies = [
+@@ -396,8 +396,6 @@ dependencies = [
  [[package]]
  name = "chrono"
- version = "0.4.42"
+ version = "0.4.44"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "145052bdd345b87320e369255277e3fb5152762ad123a901ef5c262dd38fe8d2"
+-checksum = "c673075a2e0e5f4a1dde27ce9dee1ea4558c7ffe648f576438a20ca1d2acc4b0"
  dependencies = [
   "iana-time-zone",
   "num-traits",
-@@ -1064,9 +1062,7 @@ dependencies = [
+@@ -1026,9 +1024,7 @@ dependencies = [
  
  [[package]]
  name = "getrandom"
@@ -20,7 +20,7 @@
  dependencies = [
   "cfg-if",
   "libc",
-@@ -1076,8 +1072,6 @@ dependencies = [
+@@ -1038,8 +1034,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.3.4"
@@ -29,7 +29,7 @@
  dependencies = [
   "cfg-if",
   "libc",
-@@ -2045,23 +2039,20 @@ dependencies = [
+@@ -2015,23 +2009,20 @@ dependencies = [
  
  [[package]]
  name = "iana-time-zone"
@@ -56,7 +56,7 @@
  dependencies = [
   "cc",
  ]
-@@ -3048,7 +3039,7 @@ version = "0.6.4"
+@@ -3009,7 +3000,7 @@ version = "0.6.4"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "ec0be4795e2f6a28069bec0b5ff3e2ac9bafc99e6a9a7dc3547996c5c816922c"
  dependencies = [
@@ -65,7 +65,7 @@
  ]
  
  [[package]]
-@@ -3108,7 +3099,7 @@ version = "0.5.0"
+@@ -3069,7 +3060,7 @@ version = "0.5.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "dd6f9d3d47bdd2ad6945c5015a226ec6155d0bcdfd8f7cd29f86b71f8de99d2b"
  dependencies = [
@@ -74,7 +74,7 @@
   "libredox",
   "thiserror",
  ]
-@@ -3786,8 +3777,6 @@ checksum = "1f3ccbac311fea05f86f61904b46
+@@ -3748,8 +3739,6 @@ checksum = "1f3ccbac311fea05f86f61904b46
  [[package]]
  name = "tui-textarea"
  version = "0.7.0"
@@ -83,7 +83,7 @@
  dependencies = [
   "crossterm",
   "ratatui",
-@@ -4065,16 +4054,7 @@ version = "0.57.0"
+@@ -4027,16 +4016,7 @@ version = "0.57.0"
  source = "registry+https://github.com/rust-lang/crates.io-index"
  checksum = "12342cb4d8e3b046f3d80effd474a7a02447231330ef77d71daa6fbc40681143"
  dependencies = [

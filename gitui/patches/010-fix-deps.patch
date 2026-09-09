@@ -1,15 +1,16 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -106,3 +106,13 @@ strip = "debuginfo"
- # makes their debug profile slow
- [profile.dev.package."ratatui"]
- opt-level = 3
+@@ -106,3 +106,14 @@ opt-level = "z"  # Optimize for size.
+ strip = "debuginfo"
+ lto = true
+ codegen-units = 1
++
 +
 +[patch.crates-io]
 +# mips/mipsel Atomic*64
 +tui-textarea = { path = "../tui-textarea-0.7.0" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.42" }
++chrono = { path = "../chrono-0.4.44" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
 +getrandom2 = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }

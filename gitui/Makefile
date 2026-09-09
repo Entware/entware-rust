@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gitui
-PKG_VERSION:=0.28.0
+PKG_VERSION:=0.28.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/extrawurst/gitui/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=3d7d1deef84b8cb3f59882b57b9a70d39ddd6491bd4539504d69b2b3924c044f
+PKG_HASH:=0400cbf59605490b5fb8779f9af41fa4d7a1bb748093ca0e13156a5dff31c7aa
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
@@ -19,7 +19,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 tui-textarea-070
+	chrono-0444 getrandom-0216 getrandom-034 iana-time-zone-0164 tui-textarea-070
 
 define Package/gitui
   SECTION:=net
