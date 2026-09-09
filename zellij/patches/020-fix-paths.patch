@@ -1,28 +1,17 @@
---- a/zellij-client/src/old_config_converter/old_config.rs
-+++ b/zellij-client/src/old_config_converter/old_config.rs
-@@ -234,7 +234,7 @@ fn options_yaml_to_options_kdl(options_y
-         scrollback_editor,
-         SCROLLBACK_EDITOR_DESCRIPTION,
-         "scrollback_editor {:?}",
--        "// scrollback_editor \"/usr/bin/vim\""
-+        "// scrollback_editor \"/opt/bin/vi\""
-     );
-     push_option!(
-         mirror_session,
 --- a/zellij-utils/src/consts.rs
 +++ b/zellij-utils/src/consts.rs
-@@ -15,7 +15,7 @@ pub const DEFAULT_SCROLL_BUFFER_SIZE: us
- pub static SCROLL_BUFFER_SIZE: OnceLock<usize> = OnceLock::new();
+@@ -16,7 +16,7 @@ pub static SCROLL_BUFFER_SIZE: OnceLock<
  pub static DEBUG_MODE: OnceLock<bool> = OnceLock::new();
  
+ #[cfg(not(windows))]
 -pub const SYSTEM_DEFAULT_CONFIG_DIR: &str = "/etc/zellij";
 +pub const SYSTEM_DEFAULT_CONFIG_DIR: &str = "/opt/etc/zellij";
+ #[cfg(windows)]
+ pub const SYSTEM_DEFAULT_CONFIG_DIR: &str = "C:\\ProgramData\\Zellij";
  pub const SYSTEM_DEFAULT_DATA_DIR_PREFIX: &str = system_default_data_dir();
- 
- pub static ZELLIJ_DEFAULT_THEMES: Dir = include_dir!("$CARGO_MANIFEST_DIR/assets/themes");
-@@ -52,7 +52,7 @@ const fn system_default_data_dir() -> &'
-     if let Some(data_dir) = std::option_env!("PREFIX") {
-         data_dir
+@@ -82,7 +82,7 @@ const fn system_default_data_dir() -> &'
+     } else if cfg!(windows) {
+         "C:\\ProgramData\\Zellij"
      } else {
 -        "/usr"
 +        "/opt"

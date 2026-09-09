@@ -9,12 +9,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=zellij
-PKG_VERSION:=0.43.1
-PKG_RELEASE:=2
+PKG_VERSION:=0.45.1
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/zellij-org/zellij/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=e9fd24190869be6e9e8d731df2ccd0b3b1dd368ae9dbb9d620ec905b83e325ec
+PKG_HASH:=5cbe711437d2a61afd9287165f6aca0bcccb9ab1473633665a5b11ed55467852
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
@@ -22,7 +22,9 @@ PKG_LICENSE_FILES:=LICENSE.md
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0441 getrandom-0216 getrandom-033 iana-time-zone-0163
+PKG_BUILD_DEPENDS += \
+	chrono-0445 getrandom-0217 getrandom-034 getrandom-043 \
+	iana-time-zone-0164
 
 define Package/zellij
   SECTION:=utils
