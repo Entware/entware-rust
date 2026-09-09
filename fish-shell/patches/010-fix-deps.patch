@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -227,3 +227,8 @@ print_stderr = "deny"
+@@ -257,3 +257,8 @@ print_stderr = "deny"
  
  [lints]
  workspace = true
