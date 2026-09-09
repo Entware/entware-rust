@@ -44,6 +44,12 @@ endif
 # sqlx proc macro links against the target OpenSSL and is loaded during build
 RUSTC_VARS += LD_LIBRARY_PATH=/usr/lib/$(GNU_HOST_NAME):$(STAGING_DIR)/opt/lib:$(STAGING_DIR)/opt/lib/libintl-full/lib
 
+# eye_declare and rmcp require 64-bit atomics
+ifneq ($(CONFIG_ARCH_64BIT),y)
+CARGO_ARGS += --package atuin --no-default-features \
+	--features client,sync,clipboard,check-update,daemon,pty-proxy
+endif
+
 define Package/atuin/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/atuin $(1)/opt/usr/bin
