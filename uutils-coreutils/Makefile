@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=coreutils
-PKG_VERSION:=0.7.0
+PKG_VERSION:=0.11.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/uutils/coreutils/tar.gz/$(PKG_VERSION)?
-PKG_HASH:=dc56a3c4632742357d170d60a7dcecb9693de710daeaafa3ad925750b1905522
+PKG_HASH:=a47966117783bef18650cc724f1b1d061b717ac91a0feaabdd34910703cf70a4
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0443 getrandom-0217 getrandom-034 iana-time-zone-0164
+PKG_BUILD_DEPENDS += chrono-0445 getrandom-0217 getrandom-043 iana-time-zone-0164
 
 # XXX without:  chcon & runcon (depends on SELinux);
 #		stdbuf (fail to compile on several platforms).
