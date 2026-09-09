@@ -1,6 +1,6 @@
 --- a/src/metrics/mod.rs
 +++ b/src/metrics/mod.rs
-@@ -256,7 +256,6 @@ pub struct CPUTimeApp {
+@@ -263,7 +263,6 @@ pub struct CPUTimeApp {
      pub started: chrono::DateTime<chrono::Local>,
      pub selected_process: Option<Box<ZProcess>>,
      pub max_pid_len: usize,
@@ -8,7 +8,7 @@
      pub uptime: Duration,
      #[cfg(all(target_os = "linux", feature = "nvidia"))]
      pub nvml: Option<nvml::Nvml>,
-@@ -343,7 +342,6 @@ impl CPUTimeApp {
+@@ -353,7 +352,6 @@ impl CPUTimeApp {
              started: chrono::Local::now(),
              selected_process: None,
              max_pid_len: get_max_pid_length(),
@@ -16,7 +16,7 @@
              top_pids: Top::default(),
              uptime: Duration::from_secs(0),
              gfx_devices: vec![],
-@@ -399,16 +397,6 @@ impl CPUTimeApp {
+@@ -409,16 +407,6 @@ impl CPUTimeApp {
          }
      }
  
@@ -33,7 +33,7 @@
      async fn get_nics(&mut self) {
          debug!("Updating Network Interfaces");
          self.network_interfaces.clear();
-@@ -818,7 +806,6 @@ impl CPUTimeApp {
+@@ -851,7 +839,6 @@ impl CPUTimeApp {
          self.update_disk().await;
          self.get_platform().await;
          self.get_nics().await;
@@ -43,7 +43,7 @@
          self.update_gpu_utilization();
 --- a/src/renderer/title.rs
 +++ b/src/renderer/title.rs
-@@ -11,9 +11,6 @@ use ratatui::style::{Color, Modifier, St
+@@ -12,9 +12,6 @@ use ratatui::style::{Color, Modifier, St
  use ratatui::text::{Line, Span};
  use ratatui::widgets::Paragraph;
  use ratatui::Frame;
@@ -53,7 +53,7 @@
  use std::ops::Mul;
  use std::time::Duration;
  use unicode_width::UnicodeWidthStr;
-@@ -43,72 +40,6 @@ fn display_time(start: DateTime<Local>,
+@@ -44,72 +41,6 @@ fn display_time(start: DateTime<Local>,
      )
  }
  
@@ -126,7 +126,7 @@
  pub fn render_top_title_bar(
      app: &CPUTimeApp,
      area: Rect,
-@@ -148,9 +79,6 @@ pub fn render_top_title_bar(
+@@ -149,9 +80,6 @@ pub fn render_top_title_bar(
      } else {
          String::from("")
      };
@@ -136,7 +136,7 @@
      let not_recording_warning = if app.writes_db_store() {
          ""
      } else {
-@@ -167,12 +95,6 @@ pub fn render_top_title_bar(
+@@ -168,12 +96,6 @@ pub fn render_top_title_bar(
              default_style,
          ),
          Span::styled(uptime, default_style),
