@@ -9,7 +9,7 @@
  		cfgparser.parse_file(configpaths.config_file());
  	} catch (const ConfigException& ex) {
  		LOG(Level::ERROR,
-@@ -923,7 +923,7 @@ Filepath Controller::write_temporary_ite
+@@ -937,7 +937,7 @@ Filepath Controller::write_temporary_ite
  		filename_template = Filepath::from_locale_string(tmpdir);
  		filename_template.push("newsboat-article.XXXXXX"_path);
  	} else {
