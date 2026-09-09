@@ -10,7 +10,7 @@ error: cannot construct `msghdr` with struct literal syntax due to private field
 
 --- a/src/monitor.rs
 +++ b/src/monitor.rs
-@@ -925,15 +925,7 @@ impl UdevMonitor {
+@@ -932,15 +932,7 @@ impl UdevMonitor {
              },
          ];
  

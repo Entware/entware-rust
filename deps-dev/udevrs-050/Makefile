@@ -7,12 +7,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=udevrs
-PKG_VERSION:=0.4.0
+PKG_VERSION:=0.5.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/cr8t/udev/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=9d1bacde189c207cbf4039021293a5c0c6dc36bd8fd5319d118d89f7a00c2ee7
+PKG_HASH:=ec9c7e50bda034b89f8aeb30631bd924418f2ba4b66373e89eb2c1d016b12103
 
 PKG_LICENSE:=LGPL-2.0-or-later
 PKG_LICENSE_FILES:=LICENSE

@@ -45,7 +45,7 @@ error[E0308]: mismatched types
                      unsafe { libc::close(sock) };
 --- a/src/monitor.rs
 +++ b/src/monitor.rs
-@@ -777,7 +777,7 @@ impl UdevMonitor {
+@@ -781,7 +781,7 @@ impl UdevMonitor {
              smsg.msg_iov = &mut iov as *mut libc::iovec as *mut _;
              smsg.msg_iovlen = 1;
              smsg.msg_control = cred_msg.as_mut_ptr() as *mut _;
@@ -54,16 +54,7 @@ error[E0308]: mismatched types
              smsg.msg_name = &mut snl as *mut libc::sockaddr_nl as *mut _;
              smsg.msg_namelen = mem::size_of::<libc::sockaddr_nl>() as u32;
  
-@@ -889,7 +889,7 @@ impl UdevMonitor {
- 
-                 // SAFETY: call to `poll` is safe because `pollfd` is properly initialized, and the
-                 // resulting mutable pointer references valid memory.
--                if unsafe { libc::poll(pfd.as_mut_ptr(), pfd_len, 0) } > 0 {
-+                if unsafe { libc::poll(pfd.as_mut_ptr(), pfd_len.try_into().unwrap(), 0) } > 0 {
-                     // retry with the next device
-                     Ok(())
-                 } else {
-@@ -927,7 +927,7 @@ impl UdevMonitor {
+@@ -934,7 +934,7 @@ impl UdevMonitor {
  
          let mut smsg = libc::msghdr {
              msg_iov: iov.as_mut_ptr() as *mut _,
