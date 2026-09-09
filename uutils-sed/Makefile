@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=sed
-PKG_VERSION:=0.1.1
-PKG_RELEASE:=3
+PKG_VERSION:=0.2.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/uutils/sed/tar.gz/$(PKG_VERSION)?
-PKG_HASH:=48356c208190ceb4e8bd98ffa98d4597111b000e471e4c8c284b0939f4bac3c1
+PKG_HASH:=a5a03b3871b963420d1408b11415c90d4d69df02ab4f2f82826b42899a61a87a
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -19,7 +19,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 \
+	chrono-0445 getrandom-042 iana-time-zone-0164 \
 	uutils-coreutils
 
 define Package/uutils-sed
