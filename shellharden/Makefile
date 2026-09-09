@@ -1,16 +1,16 @@
 # SPDX-License-Identifier: GPL-2.0-only
 #
-# Copyright (C) 2024 Entware
+# Copyright (C) 2024-2026 Entware
 
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=shellharden
-PKG_VERSION:=4.3.1
+PKG_VERSION:=4.3.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/anordal/shellharden/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=3c16a98502df01a2fa2b81467d5232cc1aa4c80427e2ecf9f7e74591d692e22c
+PKG_HASH:=3a6721c3409c70449c24a5b33f83d0d05026f2318fe052db5c6d0834e2b29c6c
 
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
