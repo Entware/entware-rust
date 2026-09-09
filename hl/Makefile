@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hl
-PKG_VERSION:=0.36.0
+PKG_VERSION:=0.36.3
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/pamburus/hl/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=533a33033fc15a65a3952c77466f25943a52744334dda8749e15168580f355e7
+PKG_HASH:=941780a2830f236037b9732c272e1ce2127a05191f257ce11e47b7a483414f3a
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0444 getrandom-0217 getrandom-034 getrandom-041 iana-time-zone-0164
+	chrono-0444 getrandom-0217 getrandom-034 getrandom-042 iana-time-zone-0164
 
 define Package/hl
   SECTION:=utils
