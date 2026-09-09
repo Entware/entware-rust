@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=suricata-update
-PKG_VERSION:=1.3.7
+PKG_VERSION:=1.3.8
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/OISF/suricata-update/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=28e4e7d4473fd008779e9b400bfd5a9440982e52bf70997a2dfeeac713c00ec7
+PKG_HASH:=b279578237a67c689d04bb3b017062c18f054859228cc6e8daf83b04edd23b45
 
 PKG_BUILD_DIR:=$(BUILD_DIR)/pypi/$(PKG_NAME)-$(PKG_VERSION)
 
