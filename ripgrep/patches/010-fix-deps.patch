@@ -7,4 +7,4 @@
 +
 +[patch.crates-io]
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.3.4" }
++getrandom = { path = "../getrandom-0.4.3" }

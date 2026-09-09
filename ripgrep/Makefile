@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ripgrep
-PKG_VERSION:=15.1.0
+PKG_VERSION:=15.2.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/BurntSushi/ripgrep/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=046fa01a216793b8bd2750f9d68d4ad43986eb9c0d6122600f993906012972e8
+PKG_HASH:=7605249d3eb0d5f170e3414498e3344e26b1e7a147aec518b57090b80036a562
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE-MIT
@@ -21,7 +21,7 @@ PKG_CONFIG_DEPENDS:= \
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += getrandom-034
+PKG_BUILD_DEPENDS += getrandom-043
 
 define Package/ripgrep
   SECTION:=utils
