@@ -338,10 +338,10 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mips_openwrt_linux_gnu.rs
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,28 @@
 +use rustc_abi::Endian;
 +
-+use crate::spec::{Arch, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, LlvmAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -357,6 +357,7 @@
 +        arch: Arch::Mips,
 +        options: TargetOptions {
 +            endian: Endian::Big,
++            llvm_abiname: LlvmAbi::O32,
 +            cpu: "mips32r2".into(),
 +            features: "+mips32r2,+soft-float".into(),
 +            max_atomic_width: Some(32),
@@ -368,16 +369,17 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mips_openwrt_linux_musl.rs
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,24 @@
 +use rustc_abi::Endian;
 +
-+use crate::spec::{Arch, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, LlvmAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    let mut base = base::openwrt_linux_musl::opts();
 +    base.cpu = "mips32r2".into();
 +    base.features = "+mips32r2,+soft-float".into();
 +    base.max_atomic_width = Some(32);
++    base.llvm_abiname = LlvmAbi::O32;
 +    Target {
 +        llvm_target: "mips-openwrt-linux-musl".into(),
 +        metadata: TargetMetadata {
@@ -394,8 +396,8 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mipsel_openwrt_linux_gnu.rs
-@@ -0,0 +1,25 @@
-+use crate::spec::{Arch, Target, TargetMetadata, TargetOptions, base};
+@@ -0,0 +1,26 @@
++use crate::spec::{Arch, LlvmAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -411,6 +413,7 @@
 +        arch: Arch::Mips,
 +
 +        options: TargetOptions {
++            llvm_abiname: LlvmAbi::O32,
 +            cpu: "mips32r2".into(),
 +            features: "+mips32r2,+soft-float".into(),
 +            max_atomic_width: Some(32),
@@ -422,14 +425,15 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mipsel_openwrt_linux_musl.rs
-@@ -0,0 +1,21 @@
-+use crate::spec::{Arch, Target, TargetMetadata, TargetOptions, base};
+@@ -0,0 +1,22 @@
++use crate::spec::{Arch, LlvmAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    let mut base = base::openwrt_linux_musl::opts();
 +    base.cpu = "mips32r2".into();
 +    base.features = "+mips32r2,+soft-float".into();
 +    base.max_atomic_width = Some(32);
++    base.llvm_abiname = LlvmAbi::O32;
 +    Target {
 +        llvm_target: "mipsel-openwrt-linux-musl".into(),
 +        metadata: TargetMetadata {
