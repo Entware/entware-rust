@@ -1,17 +1,13 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -56,3 +56,15 @@ const-str = "1.0.0"
+@@ -57,3 +57,11 @@ rbpf = "0.4.1"
  
  [target.'cfg(windows)'.dependencies]
  winapi = "0.3.9"
 +
 +[patch.crates-io]
-+# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
-+flurry = { path = "../flurry-0.5.2" }
-+russh-sftp = { path = "../russh-sftp-2.1.1" }
-+seize = { path = "../seize-0.3.3" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.43" }
++chrono = { path = "../chrono-0.4.45" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
 +getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
