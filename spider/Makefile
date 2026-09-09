@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=spider
-PKG_VERSION:=2.45.28
+PKG_VERSION:=2.52.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/spider-rs/spider/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=1aaacd07308fa2727a36b79ff765a13e8bb63f254ec566a9316e2fa94eb3ea3e
+PKG_HASH:=130a9d6040a05a3c4d219fcd296f7f20ba6f7c90a8e18914b7d0f647db7908fa
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -20,7 +20,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chromey-2384 chrono-0444 getrandom-0217 getrandom-034 getrandom-041 \
+	chrono-0445 getrandom-0217 getrandom-034 getrandom-043 \
 	iana-time-zone-0164
 
 define Package/spider/Default
