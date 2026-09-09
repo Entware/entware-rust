@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=tealdeer
-PKG_VERSION:=1.8.1
+PKG_VERSION:=1.9.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/dbrgn/tealdeer/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=8b9ea7ef8dd594d6fb8b452733b0c883a68153cec266b23564ce185bdf22fcfa
+PKG_SOURCE_URL:=https://codeload.github.com/tealdeer-rs/tealdeer/tar.gz/refs/tags/v$(PKG_VERSION)?
+PKG_HASH:=1387a04ddba714668ff0925377a2de0d0ab14533d44dd0766d673fbbd71e3119
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -18,13 +18,13 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += getrandom-0216 getrandom-033
+PKG_BUILD_DEPENDS += getrandom-0217 getrandom-043
 
 define Package/tealdeer
   SECTION:=utils
   CATEGORY:=Utilities
   TITLE:=a very fast implementation of tldr
-  URL:=https://github.com/dbrgn/tealdeer
+  URL:=https://github.com/tealdeer-rs/tealdeer
   DEPENDS:=+libopenssl
 endef
 
