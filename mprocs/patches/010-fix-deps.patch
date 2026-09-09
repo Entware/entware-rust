@@ -1,9 +1,9 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -12,3 +12,10 @@ members = ["helpers/print-key", "src"]
- 
- [workspace.lints.clippy]
- all = "allow"
+@@ -9,3 +9,10 @@ codegen-units = 1
+ resolver = "2"
+ default-members = ["src"]
+ members = ["helpers/print-key", "src"]
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
@@ -11,3 +11,14 @@
 +iana-time-zone = { path = "../iana-time-zone-0.1.59" }
 +# all: no SYS_getrandom
 +getrandom = { path = "../getrandom-0.3.2" }
+--- a/src/Cargo.toml
++++ b/src/Cargo.toml
+@@ -72,7 +72,7 @@ bytes = "1.5.0"
+ log-panics = { version = "2.1.0", features = ["with-backtrace"] }
+ scopeguard = "1.2.0"
+ itoa = "1"
+-rquickjs = { version = "0.11", features = ["full-async"] }
++rquickjs = { version = "0.11", features = ["full-async", "bindgen"] }
+ rustix = { version = "1", features = ["all-apis"] }
+ 
+ [target."cfg(unix)".dependencies]
