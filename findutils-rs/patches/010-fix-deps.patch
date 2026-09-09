@@ -1,13 +1,23 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -62,3 +62,10 @@ if_not_else = "warn"
- manual_let_else = "warn"
+@@ -11,7 +11,7 @@ authors = ["uutils developers"]
+ 
+ [dependencies]
+ argmax = "0.4.0"
+-chrono = "0.4.45"
++chrono = "0.4.44"
+ clap = { version = "4.6", features = ["env"] }
+ faccess = "0.2.4"
+ nix = { version = "0.31", features = ["fs", "user"] }
+@@ -121,3 +121,11 @@ from_iter_instead_of_collect = "allow"
+ large_types_passed_by_value = "allow"
  # Disable for now, we have a few occurrences
  # panic = "warn"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.40" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.62" }
++chrono = { path = "../chrono-0.4.44" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.3.1" }
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
++getrandom4 = { path = "../getrandom-0.4.2", package = "getrandom", version = "0.4.2" }
