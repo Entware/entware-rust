@@ -27,12 +27,17 @@ define Package/mprocs
   CATEGORY:=Utilities
   TITLE:=TUI for running multiple processes
   URL:=https://github.com/pvolok/mprocs
+  DEPENDS:=+libatomic
 endef
 
 define Package/mprocs/description
   mprocs runs multiple commands in parallel and shows output of
   each command separately.
 endef
+
+ifneq ($(CONFIG_ARCH_64BIT),y)
+RUSTFLAGS += -l dylib=atomic
+endif
 
 define Package/mprocs/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
