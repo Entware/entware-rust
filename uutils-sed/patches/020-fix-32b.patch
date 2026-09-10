@@ -1,0 +1,11 @@
+--- a/src/sed/fast_io.rs
++++ b/src/sed/fast_io.rs
+@@ -1037,7 +1037,7 @@ fn aligned_copy_file_range(
+         let head_len = head_align.min(pending);
+         reliable_write(out_fd.as_raw_fd(), in_ptr, head_len)?;
+         in_ptr = unsafe { in_ptr.add(head_len) };
+-        in_off += head_len as i64;
++        in_off += head_len as libc::off_t;
+         pending -= head_len;
+     }
+ 
