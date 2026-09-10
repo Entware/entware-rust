@@ -21,7 +21,7 @@ include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
 	chrono-0445 getrandom-0217 getrandom-034 getrandom-043 \
-	iana-time-zone-0164
+	iana-time-zone-0164 rmcp-170
 
 define Package/spider/Default
   SECTION:=net
