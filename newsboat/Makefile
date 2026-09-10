@@ -31,7 +31,7 @@ define Package/newsboat
   CATEGORY:=Network
   TITLE:=An RSS/Atom feed reader for text terminals
   URL:=https://newsboat.org/
-  DEPENDS:=+libcurl +libjson-c +libncursesw +libopenssl +libsqlite3 +libstdcpp +libstfl
+  DEPENDS:=+libcurl +libjson-c +libncursesw +libopenssl +libsqlite3 +libstdcpp
   DEPENDS+=+libstfl +libxml2 $(INTL_DEPENDS)
 endef
 
