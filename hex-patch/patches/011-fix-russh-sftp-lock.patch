@@ -1,0 +1,19 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -2951,8 +2951,6 @@ dependencies = [
+ [[package]]
+ name = "russh-sftp"
+ version = "2.4.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "9de67aace74530a29086db0671fa200c470a58eb380081f28ad512ffb0c5356b"
+ dependencies = [
+  "bitflags 2.13.1",
+  "bytes",
+@@ -4597,7 +4595,3 @@ name = "zmij"
+ version = "1.0.21"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "b8848ee67ecc8aedbaf3e4122217aff892639231befc6a1b58d29fff4c2cabaa"
+-
+-[[patch.unused]]
+-name = "getrandom"
+-version = "0.4.3"
