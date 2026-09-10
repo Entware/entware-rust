@@ -1,11 +1,13 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -57,3 +57,11 @@ rbpf = "0.4.1"
+@@ -57,3 +57,13 @@ rbpf = "0.4.1"
  
  [target.'cfg(windows)'.dependencies]
  winapi = "0.3.9"
 +
 +[patch.crates-io]
++# mips/mipsel Atomic*64
++russh-sftp = { path = "../russh-sftp-2.4.0" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.45" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.64" }

@@ -19,7 +19,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0445 getrandom-0217 getrandom-034 iana-time-zone-0164
+	chrono-0445 getrandom-0217 getrandom-034 iana-time-zone-0164 russh-sftp-240
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/hex-patch
