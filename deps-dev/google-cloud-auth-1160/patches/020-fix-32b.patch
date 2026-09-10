@@ -1,0 +1,24 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -125,6 +125,9 @@ features = [
+ optional = true
+ default-features = false
+ 
++[dependencies.portable-atomic]
++version = "1"
++
+ [dependencies.reqwest]
+ version = "0.13.4"
+ features = [
+--- a/src/credentials.rs
++++ b/src/credentials.rs
+@@ -25,7 +25,8 @@ use http::{Extensions, HeaderMap};
+ use serde_json::Value;
+ use std::future::Future;
+ use std::sync::Arc;
+-use std::sync::atomic::{AtomicU64, Ordering};
++use portable_atomic::AtomicU64;
++use std::sync::atomic::Ordering;
+ pub mod anonymous;
+ pub mod api_key_credentials;
+ pub(crate) mod crypto_provider;
