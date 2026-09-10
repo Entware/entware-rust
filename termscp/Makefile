@@ -20,7 +20,7 @@ include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
 	chrono-0445 getrandom-0217 getrandom-034 getrandom-043 \
-	iana-time-zone-0164 nucleo-050
+	iana-time-zone-0164 nucleo-050 russh-sftp-240
 
 define Package/termscp
   SECTION:=net
