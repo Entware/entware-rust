@@ -27,12 +27,16 @@ define Package/xplr
   SUBMENU:=Shells
   TITLE:=A hackable, minimal, fast TUI file explorer
   URL:=https://xplr.dev
-  DEPENDS:=@HAS_LUAJIT_ARCH +luajit
+  DEPENDS:=@HAS_LUAJIT_ARCH +libatomic +luajit
 endef
 
 define Package/xplr/description
   A hackable, minimal, fast TUI file explorer.
 endef
+
+ifneq ($(CONFIG_ARCH_64BIT),y)
+RUSTFLAGS += -l dylib=atomic
+endif
 
 define Package/xplr/conffiles
 /opt/etc/xplr/init.lua
