@@ -10,12 +10,13 @@
  open = "5"
  rand = "0.10"
  regex = "1"
-@@ -132,5 +133,17 @@ unnested_or_patterns = "warn"
+@@ -132,5 +133,18 @@ unnested_or_patterns = "warn"
  [profile.dev]
  incremental = true
  
 +
 +[patch.crates-io]
++google-cloud-auth = { path = "../google-cloud-auth-1.16.0" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.45" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.64" }
