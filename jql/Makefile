@@ -28,12 +28,17 @@ define Package/jql
   CATEGORY:=Utilities
   TITLE:=a JSON Query Language CLI tool
   URL:=https://github.com/yamafaktory/jql
+  DEPENDS:=+libatomic
 endef
 
 define Package/jql/description
   jql - JSON Query Language - is a fast and simple command-line tool
   to manipulate JSON data.
 endef
+
+ifneq ($(CONFIG_ARCH_64BIT),y)
+RUSTFLAGS += -l dylib=atomic
+endif
 
 define Package/jql/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
