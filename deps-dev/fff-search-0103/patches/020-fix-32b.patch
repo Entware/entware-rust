@@ -1,0 +1,55 @@
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -226,6 +226,9 @@ package = "fff-notify-debouncer-full"
+ [dependencies.parking_lot]
+ version = "0.12"
+ 
++[dependencies.portable-atomic]
++version = "1"
++
+ [dependencies.pathdiff]
+ version = "0.2.1"
+ 
+--- a/src/log.rs
++++ b/src/log.rs
+@@ -135,7 +135,7 @@ pub fn parse_log_level(level: Option<&st
+ const DEFAULT_RETAIN_RUNS: usize = 20;
+ 
+ pub fn generate_trace_id() -> String {
+-    use std::sync::atomic::{AtomicU64, Ordering};
++    use portable_atomic::{AtomicU64, Ordering};
+     static TRACE_COUNTER: AtomicU64 = AtomicU64::new(0);
+ 
+     let nanos = std::time::SystemTime::now()
+--- a/src/rescan_throttle.rs
++++ b/src/rescan_throttle.rs
+@@ -1,4 +1,4 @@
+-use std::sync::atomic::{AtomicU64, Ordering};
++use portable_atomic::{AtomicU64, Ordering};
+ use std::time::Instant;
+ 
+ use crate::constants::{
+--- a/src/types.rs
++++ b/src/types.rs
+@@ -2,7 +2,8 @@ use std::io::Read;
+ use std::path::{Path, PathBuf};
+ #[cfg(not(target_os = "windows"))]
+ use std::sync::OnceLock;
+-use std::sync::atomic::{AtomicI32, AtomicU8, AtomicU64, AtomicUsize, Ordering};
++use std::sync::atomic::{AtomicI32, AtomicU8, AtomicUsize, Ordering};
++use portable_atomic::AtomicU64;
+ 
+ #[cfg(not(target_os = "windows"))]
+ use crate::constants::{FRESH_MMAP_THRESHOLD, MMAP_THRESHOLD};
+--- a/src/watcher/watch.rs
++++ b/src/watcher/watch.rs
+@@ -3,7 +3,8 @@ use crate::index::constraints::{GlobPatt
+ use parking_lot::Mutex;
+ use std::path::{Path, PathBuf};
+ use std::sync::Arc;
+-use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
++use std::sync::atomic::{AtomicBool, Ordering};
++use portable_atomic::AtomicU64;
+ use std::sync::mpsc;
+ use tracing::{debug, error};
+ 
