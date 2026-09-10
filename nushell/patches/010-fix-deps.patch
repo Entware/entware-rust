@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -509,6 +509,20 @@ bench = false
+@@ -509,6 +509,21 @@ bench = false
 
  # Run all benchmarks with `cargo bench`
  # Run individual benchmarks like `cargo bench -- <regex>` e.g. `cargo bench -- parse`
@@ -16,6 +16,7 @@
 +getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
 +getrandom4 = { path = "../getrandom-0.4.2", package = "getrandom", version = "0.4.2" }
 +# mips/mipsel: error[E0432]: unresolved import `std::sync::atomic::AtomicU64`
++fff-search = { path = "../fff-search-0.10.3" }
 +rmcp = { path = "../rmcp-3.1.0/crates/rmcp" }
 +
  [[bench]]

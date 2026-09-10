@@ -1,0 +1,63 @@
+--- a/crates/nu-command/Cargo.toml
++++ b/crates/nu-command/Cargo.toml
+@@ -96,6 +96,7 @@ oem_cp = { workspace = true }
+ open = { workspace = true, optional = true }
+ os_pipe = { workspace = true, optional = true }
+ pathdiff = { workspace = true }
++portable-atomic = "1"
+ percent-encoding = { workspace = true }
+ print-positions = { workspace = true }
+ quick-xml = { workspace = true }
+--- a/crates/nu-command/src/filesystem/idx/state.rs
++++ b/crates/nu-command/src/filesystem/idx/state.rs
+@@ -14,7 +14,8 @@ use nu_protocol::{ListStream, PipelineMe
+ use nu_utils::time::Instant;
+ use pathdiff::diff_paths;
+ use std::path::{Path, PathBuf};
+-use std::sync::atomic::{AtomicBool, AtomicU64, Ordering};
++use std::sync::atomic::{AtomicBool, Ordering};
++use portable_atomic::AtomicU64;
+ use std::sync::mpsc::{Receiver, RecvTimeoutError, Sender, channel};
+ use std::sync::{Arc, Mutex, OnceLock};
+ use std::time::Duration;
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -4879,6 +4879,7 @@ dependencies = [
+  "os_pipe",
+  "pathdiff",
+  "percent-encoding",
++ "portable-atomic",
+  "pretty_assertions",
+  "print-positions",
+  "procfs",
+@@ -5368,6 +5369,7 @@ dependencies = [
+  "num-format",
+  "parking_lot",
+  "pastey",
++ "portable-atomic",
+  "rstest",
+  "serde_json",
+  "tempfile",
+--- a/crates/nu-test-support/Cargo.toml
++++ b/crates/nu-test-support/Cargo.toml
+@@ -67,6 +67,7 @@ nu-ansi-term = { workspace = true }
+ num-format = { workspace = true }
+ parking_lot = { workspace = true }
+ pastey = { workspace = true }
++portable-atomic = "1"
+ serde_json = { workspace = true }
+ tempfile = { workspace = true }
+ thiserror = { workspace = true }
+--- a/crates/nu-test-support/src/harness/group.rs
++++ b/crates/nu-test-support/src/harness/group.rs
+@@ -11,8 +11,9 @@ use std::{
+     fmt::Display,
+     hash::{DefaultHasher, Hash, Hasher},
+     ops::ControlFlow,
+-    sync::atomic::{AtomicBool, AtomicU64, Ordering},
++    sync::atomic::{AtomicBool, Ordering},
+ };
++use portable_atomic::AtomicU64;
+
+ use crate::{
+     harness::{deps::Dependency, test::Extra},

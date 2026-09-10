@@ -23,7 +23,7 @@ include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
 	chrono-0444 getrandom-0217 getrandom-034 getrandom-042 \
-	iana-time-zone-0164 openssl-probe-015 openssl-probe-021 rmcp-310
+	fff-search-0103 iana-time-zone-0164 openssl-probe-016 openssl-probe-021 rmcp-310
 
 define Package/nushell/Default
   SECTION:=utils
