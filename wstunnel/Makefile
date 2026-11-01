@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=wstunnel
-PKG_VERSION:=10.5.2
+PKG_VERSION:=10.5.5
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/erebe/wstunnel/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=0e717c8330af19157e8a867bed782df460d80ba285530a9a17fabaf14e941d37
+PKG_HASH:=c4b675bad8668cb86a99e96b6e343a8bce3c6382f54c266875333aaca209b1f9
 
 PKG_LICENSE:=BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE
@@ -19,8 +19,8 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0443 getrandom-0217 getrandom-034 iana-time-zone-0164 \
-	rust-bindgen/host
+	chrono-0444 getrandom-0217 getrandom-034 getrandom-042 \
+	iana-time-zone-0164 rust-bindgen/host
 
 define Package/wstunnel
   SECTION:=net
@@ -36,7 +36,7 @@ endef
 
 # cannot be used when making a shared object; recompile with -fPIC
 CARGO_ARGS += --no-default-features --features=ring
-RUSTFLAGS += -C relocation-model=pic
+PKG_RUSTFLAGS += -C relocation-model=pic
 
 define Package/wstunnel/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
