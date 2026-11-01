@@ -1,3 +1,14 @@
+--- a/application/http-server/Cargo.toml
++++ b/application/http-server/Cargo.toml
+@@ -15,7 +15,7 @@ serde_json = { version = "1", default-fe
+ ] }
+ axum = "0.6.10"
+ log = "0.4.0"
+-env_logger = "0.10.0"
++env_logger = "0.11"
+ 
+ [dependencies.tokio]
+ version = "1.4.0"
 --- a/application/xiu/Cargo.toml
 +++ b/application/xiu/Cargo.toml
 @@ -24,7 +24,8 @@ serde_json = { version = "1", default-fe
