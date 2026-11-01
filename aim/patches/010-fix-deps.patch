@@ -1,7 +1,7 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
 @@ -60,3 +60,12 @@ serial_test = "2.0.0"
- 
+
  [lints.rust]
  unexpected_cfgs = { level = "warn", check-cfg = ["cfg(tarpaulin_include)"] }
 +
