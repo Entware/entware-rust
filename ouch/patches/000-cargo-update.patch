@@ -1,31 +1,38 @@
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -335,9 +335,7 @@ checksum = "baf1de4339761588bc0619e3cbc0
- 
- [[package]]
- name = "chrono"
--version = "0.4.40"
--source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "1a7964611d71df112cb1730f2ee67324fcf4d0fc6606acbbe9bfe06df124637c"
-+version = "0.4.41"
- dependencies = [
-  "num-traits",
- ]
-@@ -657,8 +655,6 @@ dependencies = [
+@@ -713,8 +713,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
- version = "0.2.15"
+ version = "0.2.17"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "c4567c8db10ae91089c99af84c68c38da3ec2f087c3f82960bcdbf3656b6f4d7"
+-checksum = "ff2abc00be7fca6ebc474524697ae276ad847ad0a6b3faa4bcb027e9a4614ad0"
  dependencies = [
   "cfg-if",
   "js-sys",
-@@ -670,8 +666,6 @@ dependencies = [
+@@ -726,8 +724,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
- version = "0.3.1"
+ version = "0.3.4"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "43a49c392881ce6d5c3b8cb70f98717b7c07aabbdff06687b9030dbfbe2725f8"
+-checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
  dependencies = [
   "cfg-if",
   "libc",
+@@ -738,8 +734,6 @@ dependencies = [
+ [[package]]
+ name = "getrandom"
+ version = "0.4.3"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "300e883d756b2e4ec94e02791f39b04b522276138852cfc41d9fb7e904106099"
+ dependencies = [
+  "cfg-if",
+  "js-sys",
+@@ -1103,7 +1097,7 @@ checksum = "384b8ab6d37215f3c5301a95a4ac
+ 
+ [[package]]
+ name = "ouch"
+-version = "0.8.1"
++version = "0.8.2"
+ dependencies = [
+  "anyhow",
+  "assert_cmd",
