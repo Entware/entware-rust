@@ -1,11 +1,11 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -34,6 +34,7 @@ goblin = { version = "0.10.5", optional
+@@ -34,6 +34,7 @@ goblin = { version = "0.10.7", optional
  [dev-dependencies]
- nu-plugin-test-support = "0.111.0"
+ nu-plugin-test-support = "0.115.0"
  # nu-plugin-test-support = { path = "../nushell/crates/nu-plugin-test-support" }
 +chrono = "0.4.44"
- 
+
  [features]
  default = ["executables"]
 @@ -51,3 +52,16 @@ opt-level = 0
@@ -14,10 +14,10 @@
  lto = "thin"
 +
 +[patch.crates-io]
-+nu-path = { path = "../nushell-0.111.0/crates/nu-path" }
-+nu-plugin = { path = "../nushell-0.111.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.111.0/crates/nu-protocol" }
-+nu-plugin-test-support = { path = "../nushell-0.111.0/crates/nu-plugin-test-support" }
++nu-path = { path = "../nushell-0.115.1/crates/nu-path" }
++nu-plugin = { path = "../nushell-0.115.1/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.115.1/crates/nu-protocol" }
++nu-plugin-test-support = { path = "../nushell-0.115.1/crates/nu-plugin-test-support" }
 +# mips(el): error: could not compile `specta` (lib) due to 2 previous errors
 +specta = { path = "../specta-1.0.5" }
 +# localtime/zoneinfo
