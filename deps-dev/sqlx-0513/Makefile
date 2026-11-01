@@ -43,7 +43,7 @@ endef
 #CARGO_ARGS += --features runtime-actix-native-tls
 
 #ifneq ($(CONFIG_ARCH_64BIT),y)
-#RUSTFLAGS += --cfg crossbeam_no_atomic_64
+#PKG_RUSTFLAGS += --cfg crossbeam_no_atomic_64
 #endif
 
 Build/Compile:=:
