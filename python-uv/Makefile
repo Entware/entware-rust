@@ -5,16 +5,16 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=uv
-PKG_VERSION:=0.10.6
+PKG_VERSION:=0.11.6
 PKG_RELEASE:=1
 
 PYPI_NAME:=uv
-PKG_HASH:=de86e5e1eb264e74a20fccf56889eea2463edb5296f560958e566647c537b52e
+PKG_HASH:=e3b21b7e80024c95ff339fcd147ac6fc3dd98d3613c9d45d3a1f4fd1057f127b
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 
-PKG_BUILD_DEPENDS:=boxcar-027 getrandom-0216 getrandom-033 maturin/host
+PKG_BUILD_DEPENDS:=getrandom-0216 getrandom-033 getrandom-041 maturin/host
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
@@ -35,7 +35,7 @@ define Package/python3-uv
   EXTRA_DEPENDS:=coreutils-env, maturin
 endef
 
-RUSTFLAGS += -C relocation-model=pic
+PKG_RUSTFLAGS += -C relocation-model=pic
 
 define Package/python3-uv/description
   An extremely fast Python package and project manager, written in Rust.

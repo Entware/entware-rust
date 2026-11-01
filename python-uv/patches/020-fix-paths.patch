@@ -31,7 +31,7 @@
              Ok(false) => None,
 --- a/crates/uv-platform/src/libc.rs
 +++ b/crates/uv-platform/src/libc.rs
-@@ -291,7 +291,7 @@ fn find_ld_path() -> Result<PathBuf, Lib
+@@ -292,7 +292,7 @@ fn find_ld_path() -> Result<PathBuf, Lib
      // See: https://github.com/astral-sh/uv/pull/1493
      // See: https://github.com/astral-sh/uv/issues/1810
      // See: https://github.com/astral-sh/uv/issues/4242#issuecomment-2306164449
@@ -104,7 +104,7 @@
              ReplacementEntry { mode: ReplacementMode::Partial { from: "/usr/bin/loongarch64-linux-gnu-gcc".to_string() }, to: "cc".to_string() },
 --- a/crates/uv-scripts/src/lib.rs
 +++ b/crates/uv-scripts/src/lib.rs
-@@ -299,7 +299,7 @@ impl Pep723Script {
+@@ -300,7 +300,7 @@ impl Pep723Script {
                      warn_user!(
                          "If you execute {} directly, it might ignore its inline metadata.\nConsider replacing its shebang with: {}",
                          file.to_string_lossy().cyan(),
@@ -115,7 +115,7 @@
              }
 --- a/crates/uv-settings/src/settings.rs
 +++ b/crates/uv-settings/src/settings.rs
-@@ -1120,7 +1120,7 @@ pub struct PythonInstallMirrors {
+@@ -1161,7 +1161,7 @@ pub struct PythonInstallMirrors {
          value_type = "str",
          uv_toml_only = true,
          example = r#"
