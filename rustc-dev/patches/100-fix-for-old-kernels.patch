@@ -1,15 +1,3 @@
---- a/vendor/getrandom-0.2.8/src/lib.rs
-+++ b/vendor/getrandom-0.2.8/src/lib.rs
-@@ -205,6 +205,9 @@ cfg_if! {
-                  target_os = "redox"))] {
-         mod util_libc;
-         #[path = "use_file.rs"] mod imp;
-+    } else if #[cfg(all(target_os = "linux", target_vendor = "openwrt"))] {
-+        mod util_libc;
-+        #[path = "use_file.rs"] mod imp;
-     } else if #[cfg(any(target_os = "android", target_os = "linux"))] {
-         mod util_libc;
-         mod use_file;
 --- a/vendor/getrandom-0.2.15/src/lib.rs
 +++ b/vendor/getrandom-0.2.15/src/lib.rs
 @@ -235,6 +235,9 @@ cfg_if! {
@@ -24,6 +12,18 @@
          target_os = "openbsd",
 --- a/vendor/getrandom-0.2.16/src/lib.rs
 +++ b/vendor/getrandom-0.2.16/src/lib.rs
+@@ -238,6 +238,9 @@ cfg_if! {
+     if #[cfg(any(target_os = "haiku", target_os = "redox", target_os = "nto", target_os = "aix"))] {
+         mod util_libc;
+         #[path = "use_file.rs"] mod imp;
++    } else if #[cfg(all(target_os = "linux", target_vendor = "openwrt"))] {
++        mod util_libc;
++        #[path = "use_file.rs"] mod imp;
+     } else if #[cfg(any(
+         target_os = "macos",
+         target_os = "openbsd",
+--- a/vendor/getrandom-0.2.17/src/lib.rs
++++ b/vendor/getrandom-0.2.17/src/lib.rs
 @@ -238,6 +238,9 @@ cfg_if! {
      if #[cfg(any(target_os = "haiku", target_os = "redox", target_os = "nto", target_os = "aix"))] {
          mod util_libc;
@@ -106,3 +106,75 @@
  #[path = "../util_libc.rs"]
  pub(super) mod util_libc;
  
+--- a/vendor/getrandom-0.3.4/src/backends.rs
++++ b/vendor/getrandom-0.3.4/src/backends.rs
+@@ -15,6 +15,9 @@ cfg_if! {
+         mod getrandom;
+         mod sanitizer;
+         pub use getrandom::*;
++    } else if #[cfg(all(target_os = "linux", target_vendor = "openwrt"))] {
++        mod use_file;
++        pub use use_file::*;
+     } else if #[cfg(getrandom_backend = "linux_raw")] {
+         mod linux_raw;
+         mod sanitizer;
+--- a/vendor/getrandom-0.3.4/src/backends/use_file.rs
++++ b/vendor/getrandom-0.3.4/src/backends/use_file.rs
+@@ -9,6 +9,9 @@ use core::{
+ #[cfg(not(any(target_os = "android", target_os = "linux")))]
+ pub use crate::util::{inner_u32, inner_u64};
+ 
++#[cfg(all(target_os = "linux", target_vendor = "openwrt"))]
++pub use crate::util::{inner_u32, inner_u64};
++
+ #[path = "../util_libc.rs"]
+ pub(super) mod util_libc;
+ 
+--- a/vendor/getrandom-0.4.2/src/backends/use_file.rs
++++ b/vendor/getrandom-0.4.2/src/backends/use_file.rs
+@@ -9,6 +9,9 @@ use core::{
+ #[cfg(not(any(target_os = "android", target_os = "linux")))]
+ pub use crate::util::{inner_u32, inner_u64};
+ 
++#[cfg(all(target_os = "linux", target_vendor = "openwrt"))]
++pub use crate::util::{inner_u32, inner_u64};
++
+ #[path = "../utils/sys_fill_exact.rs"]
+ pub(super) mod utils;
+ 
+--- a/vendor/getrandom-0.4.2/src/backends.rs
++++ b/vendor/getrandom-0.4.2/src/backends.rs
+@@ -14,6 +14,9 @@ cfg_if! {
+     } else if #[cfg(getrandom_backend = "linux_getrandom")] {
+         mod getrandom;
+         pub use getrandom::*;
++    } else if #[cfg(all(target_os = "linux", target_vendor = "openwrt"))] {
++        mod use_file;
++        pub use use_file::*;
+     } else if #[cfg(getrandom_backend = "linux_raw")] {
+         mod linux_raw;
+         pub use linux_raw::*;
+--- a/vendor/getrandom-0.4.3/src/backends/use_file.rs
++++ b/vendor/getrandom-0.4.3/src/backends/use_file.rs
+@@ -9,6 +9,9 @@ use core::{
+ #[cfg(not(any(target_os = "android", target_os = "linux")))]
+ pub use crate::util::{inner_u32, inner_u64};
+ 
++#[cfg(all(target_os = "linux", target_vendor = "openwrt"))]
++pub use crate::util::{inner_u32, inner_u64};
++
+ #[path = "../utils/sys_fill_exact.rs"]
+ pub(super) mod utils;
+ 
+--- a/vendor/getrandom-0.4.3/src/backends.rs
++++ b/vendor/getrandom-0.4.3/src/backends.rs
+@@ -14,6 +14,9 @@ cfg_if! {
+     } else if #[cfg(getrandom_backend = "linux_getrandom")] {
+         mod getrandom;
+         pub use getrandom::*;
++    } else if #[cfg(all(target_os = "linux", target_vendor = "openwrt"))] {
++        mod use_file;
++        pub use use_file::*;
+     } else if #[cfg(getrandom_backend = "linux_raw")] {
+         mod linux_raw;
+         pub use linux_raw::*;

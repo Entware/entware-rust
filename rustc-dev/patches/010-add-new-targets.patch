@@ -2,8 +2,8 @@
 +++ b/compiler/rustc_target/src/spec/base/mod.rs
 @@ -28,6 +28,9 @@ pub(crate) mod msvc;
  pub(crate) mod netbsd;
- pub(crate) mod nto_qnx;
  pub(crate) mod openbsd;
+ pub(crate) mod qnx_sdp;
 +pub(crate) mod openwrt_linux;
 +pub(crate) mod openwrt_linux_gnu;
 +pub(crate) mod openwrt_linux_musl;
@@ -72,9 +72,10 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/aarch64_openwrt_linux_gnu.rs
-@@ -0,0 +1,39 @@
+@@ -0,0 +1,45 @@
 +use crate::spec::{
-+    Arch, FramePointer, SanitizerSet, StackProbeType, Target, TargetMetadata, TargetOptions, base,
++    Arch, Cc, FramePointer, LinkerFlavor, Lld, SanitizerSet, StackProbeType, Target,
++    TargetMetadata, TargetOptions, base,
 +};
 +
 +pub(crate) fn target() -> Target {
@@ -90,6 +91,11 @@
 +        data_layout: "e-m:e-p270:32:32-p271:32:32-p272:64:64-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128-Fn32".into(),
 +        arch: Arch::AArch64,
 +        options: TargetOptions {
++            // Enable the Cortex-A53 errata 843419 mitigation by default
++            pre_link_args: TargetOptions::link_args(
++                LinkerFlavor::Gnu(Cc::Yes, Lld::No),
++                &["-Wl,--fix-cortex-a53-843419"],
++            ),
 +            features: "+v8a".into(),
 +            // the AAPCS64 expects use of non-leaf frame pointers per
 +            // https://github.com/ARM-software/abi-aa/blob/4492d1570eb70c8fd146623e0db65b2d241f12e7/aapcs64/aapcs64.rst#the-frame-pointer
@@ -114,9 +120,10 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/aarch64_openwrt_linux_musl.rs
-@@ -0,0 +1,39 @@
+@@ -0,0 +1,45 @@
 +use crate::spec::{
-+    Arch, FramePointer, SanitizerSet, StackProbeType, Target, TargetMetadata, TargetOptions, base,
++    Arch, Cc, FramePointer, LinkerFlavor, Lld, SanitizerSet, StackProbeType, Target,
++    TargetMetadata, TargetOptions, base,
 +};
 +
 +pub(crate) fn target() -> Target {
@@ -146,6 +153,11 @@
 +        data_layout: "e-m:e-p270:32:32-p271:32:32-p272:64:64-i8:8:32-i16:16:32-i64:64-i128:128-n32:64-S128-Fn32".into(),
 +        arch: Arch::AArch64,
 +        options: TargetOptions {
++            // Enable the Cortex-A53 errata 843419 mitigation by default
++            pre_link_args: TargetOptions::link_args(
++                LinkerFlavor::Gnu(Cc::Yes, Lld::No),
++                &["-Wl,--fix-cortex-a53-843419"],
++            ),
 +            // the AAPCS64 expects use of non-leaf frame pointers per
 +            // https://github.com/ARM-software/abi-aa/blob/4492d1570eb70c8fd146623e0db65b2d241f12e7/aapcs64/aapcs64.rst#the-frame-pointer
 +            // and we tend to encounter interesting bugs in AArch64 unwinding code if we do not
@@ -157,7 +169,7 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/arm_openwrt_linux_gnueabi.rs
 @@ -0,0 +1,25 @@
-+use crate::spec::{Abi, Arch, FloatAbi, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, CfgAbi, FloatAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -172,7 +184,7 @@
 +        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
 +        arch: Arch::Arm,
 +        options: TargetOptions {
-+            abi: Abi::Eabi,
++            cfg_abi: CfgAbi::Eabi,
 +            llvm_floatabi: Some(FloatAbi::Soft),
 +            features: "+soft-float,+strict-align,+v6".into(),
 +            max_atomic_width: Some(64),
@@ -185,7 +197,7 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/arm_openwrt_linux_musleabi.rs
 @@ -0,0 +1,28 @@
-+use crate::spec::{Abi, Arch, FloatAbi, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, CfgAbi, FloatAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -200,7 +212,7 @@
 +        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
 +        arch: Arch::Arm,
 +        options: TargetOptions {
-+            abi: Abi::Eabi,
++            cfg_abi: CfgAbi::Eabi,
 +            llvm_floatabi: Some(FloatAbi::Soft),
 +            // Most of these settings are copied from the arm_unknown_linux_gnueabi
 +            // target.
@@ -216,7 +228,7 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/armv5te_openwrt_linux_gnueabi.rs
 @@ -0,0 +1,27 @@
-+use crate::spec::{Abi, Arch, FloatAbi, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, CfgAbi, FloatAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -231,7 +243,7 @@
 +        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
 +        arch: Arch::Arm,
 +        options: TargetOptions {
-+            abi: Abi::Eabi,
++            cfg_abi: CfgAbi::Eabi,
 +            llvm_floatabi: Some(FloatAbi::Soft),
 +            features: "+soft-float,+strict-align".into(),
 +            // Atomic operations provided by compiler-builtins
@@ -246,7 +258,7 @@
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/armv7_openwrt_linux_gnueabi.rs
 @@ -0,0 +1,28 @@
-+use crate::spec::{Abi, Arch, FloatAbi, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, CfgAbi, FloatAbi, Target, TargetMetadata, TargetOptions, base};
 +
 +// This target is for glibc Linux on ARMv7 without thumb-mode, NEON or
 +// hardfloat.
@@ -264,7 +276,7 @@
 +        data_layout: "e-m:e-p:32:32-Fi8-i64:64-v128:64:128-a:0:32-n32-S64".into(),
 +        arch: Arch::Arm,
 +        options: TargetOptions {
-+            abi: Abi::Eabi,
++            cfg_abi: CfgAbi::Eabi,
 +            llvm_floatabi: Some(FloatAbi::Soft),
 +            features: "+v7,+thumb2,+soft-float,-neon".into(),
 +            max_atomic_width: Some(64),
@@ -294,7 +306,7 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/i686_openwrt_linux_gnu.rs
-@@ -0,0 +1,41 @@
+@@ -0,0 +1,42 @@
 +use crate::spec::{
 +    Arch, Cc, LinkerFlavor, Lld, RustcAbi, SanitizerSet, StackProbeType, Target, TargetMetadata,
 +    base,
@@ -319,6 +331,7 @@
 +    base.supported_sanitizers = SanitizerSet::ADDRESS;
 +    base.add_pre_link_args(LinkerFlavor::Gnu(Cc::Yes, Lld::No), &["-m32"]);
 +    base.stack_probes = StackProbeType::Inline;
++    base.supports_fentry = true;
 +
 +    Target {
 +        llvm_target: "i686-openwrt-linux-gnu".into(),
@@ -338,10 +351,10 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mips_openwrt_linux_gnu.rs
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,29 @@
 +use rustc_abi::Endian;
 +
-+use crate::spec::{Arch, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, LlvmAbi, Target, TargetMetadata, TargetOptions, base, cvs};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -359,6 +372,8 @@
 +            endian: Endian::Big,
 +            cpu: "mips32r2".into(),
 +            features: "+mips32r2,+soft-float".into(),
++            llvm_abiname: LlvmAbi::O32,
++            llvm_args: cvs!["-mno-check-zero-division"],
 +            max_atomic_width: Some(32),
 +            mcount: "_mcount".into(),
 +
@@ -368,10 +383,10 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mips_openwrt_linux_musl.rs
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,29 @@
 +use rustc_abi::Endian;
 +
-+use crate::spec::{Arch, Target, TargetMetadata, TargetOptions, base};
++use crate::spec::{Arch, LlvmAbi, Target, TargetMetadata, TargetOptions, base, cvs};
 +
 +pub(crate) fn target() -> Target {
 +    let mut base = base::openwrt_linux_musl::opts();
@@ -389,13 +404,19 @@
 +        pointer_width: 32,
 +        data_layout: "E-m:m-p:32:32-i8:8:32-i16:16:32-i64:64-n32-S64".into(),
 +        arch: Arch::Mips,
-+        options: TargetOptions { endian: Endian::Big, mcount: "_mcount".into(), ..base },
++        options: TargetOptions {
++            endian: Endian::Big,
++            llvm_abiname: LlvmAbi::O32,
++            llvm_args: cvs!["-mno-check-zero-division"],
++            mcount: "_mcount".into(),
++            ..base
++        },
 +    }
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mipsel_openwrt_linux_gnu.rs
-@@ -0,0 +1,25 @@
-+use crate::spec::{Arch, Target, TargetMetadata, TargetOptions, base};
+@@ -0,0 +1,27 @@
++use crate::spec::{Arch, LlvmAbi, Target, TargetMetadata, TargetOptions, base, cvs};
 +
 +pub(crate) fn target() -> Target {
 +    Target {
@@ -413,6 +434,8 @@
 +        options: TargetOptions {
 +            cpu: "mips32r2".into(),
 +            features: "+mips32r2,+soft-float".into(),
++            llvm_abiname: LlvmAbi::O32,
++            llvm_args: cvs!["-mno-check-zero-division"],
 +            max_atomic_width: Some(32),
 +            mcount: "_mcount".into(),
 +
@@ -422,8 +445,8 @@
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/mipsel_openwrt_linux_musl.rs
-@@ -0,0 +1,21 @@
-+use crate::spec::{Arch, Target, TargetMetadata, TargetOptions, base};
+@@ -0,0 +1,26 @@
++use crate::spec::{Arch, LlvmAbi, Target, TargetMetadata, TargetOptions, base, cvs};
 +
 +pub(crate) fn target() -> Target {
 +    let mut base = base::openwrt_linux_musl::opts();
@@ -441,12 +464,17 @@
 +        pointer_width: 32,
 +        data_layout: "e-m:m-p:32:32-i8:8:32-i16:16:32-i64:64-n32-S64".into(),
 +        arch: Arch::Mips,
-+        options: TargetOptions { mcount: "_mcount".into(), ..base },
++        options: TargetOptions {
++            llvm_abiname: LlvmAbi::O32,
++            llvm_args: cvs!["-mno-check-zero-division"],
++            mcount: "_mcount".into(),
++            ..base
++        },
 +    }
 +}
 --- /dev/null
 +++ b/compiler/rustc_target/src/spec/targets/x86_64_openwrt_linux_gnu.rs
-@@ -0,0 +1,38 @@
+@@ -0,0 +1,39 @@
 +use crate::spec::{
 +    Arch, Cc, LinkerFlavor, Lld, SanitizerSet, StackProbeType, Target, TargetMetadata, base,
 +};
@@ -468,6 +496,7 @@
 +        | SanitizerSet::SAFESTACK
 +        | SanitizerSet::THREAD
 +        | SanitizerSet::REALTIME;
++    base.supports_fentry = true;
 +    base.supports_xray = true;
 +
 +    Target {
@@ -487,7 +516,7 @@
 +}
 --- a/compiler/rustc_target/src/spec/mod.rs
 +++ b/compiler/rustc_target/src/spec/mod.rs
-@@ -1432,6 +1432,21 @@ macro_rules! supported_targets {
+@@ -1439,6 +1439,21 @@ macro_rules! supported_targets {
  }
  
  supported_targets! {
@@ -509,8 +538,8 @@
      ("x86_64-unknown-linux-gnu", x86_64_unknown_linux_gnu),
      ("x86_64-unknown-linux-gnux32", x86_64_unknown_linux_gnux32),
      ("i686-unknown-linux-gnu", i686_unknown_linux_gnu),
---- a/vendor/target-lexicon-0.13.3/src/targets.rs
-+++ b/vendor/target-lexicon-0.13.3/src/targets.rs
+--- a/vendor/target-lexicon-0.13.5/src/targets.rs
++++ b/vendor/target-lexicon-0.13.5/src/targets.rs
 @@ -626,6 +626,7 @@ pub enum Vendor {
      Kmc,
      Nintendo,

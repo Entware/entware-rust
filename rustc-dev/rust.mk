@@ -21,7 +21,7 @@ RUSTFMT_BIN:=$(STAGING_DIR)/host/bin/rustfmt
 CARGO_ARGS ?=
 CARGO_VARS ?=
 RUSTC_VARS ?=
-RUSTFLAGS ?=
+PKG_RUSTFLAGS ?=
 
 ### target
 ifeq ($(CONFIG_TARGET_armv7_3_2),y)
@@ -40,13 +40,13 @@ endif
 
 ### https://blog.rust-lang.org/2025/12/11/Rust-1.92.0/#emit-unwind-tables-even-when-cpanic-abort-is-enabled-on-linux
 ifneq ($(CONFIG_DEBUG),y)
-  RUSTFLAGS += -C force-unwind-tables=no
+  PKG_RUSTFLAGS += -C force-unwind-tables=no
 endif
 
-RUSTFLAGS += -C relocation-model=static
+PKG_RUSTFLAGS += -C relocation-model=static
 
 ### add rpath
-RUSTFLAGS += -C link-args=-Wl,-rpath,/opt/lib
+PKG_RUSTFLAGS += -C link-args=-Wl,-rpath,/opt/lib
 
 ### env var for `*-sys` packages
 RUSTC_VARS_COMMON:= \
@@ -73,13 +73,14 @@ RUSTC_VARS += \
 	\
 	CARGO_BUILD_RUSTC=$(RUSTC_BIN) \
 	CARGO_BUILD_RUSTDOC=$(RUSTDOC_BIN) \
-	CARGO_BUILD_RUSTFLAGS="$(RUSTFLAGS)" \
+	CARGO_BUILD_RUSTFLAGS="$(PKG_RUSTFLAGS)" \
 	CARGO_BUILD_TARGET=$(RUSTC_TARGET_ARCH) \
 	CARGO_HOST_RUSTFLAGS="$(addprefix -C link-args=,$(HOST_LDFLAGS))" \
 	CARGO_INSTALL_ROOT=$(CARGO_INSTALL_ROOT) \
 	CARGO_TARGET_DIR=$(CARGO_TARGET_DIR) \
 	CARGO_TARGET_$(subst -,_,$(call toupper,$(RUSTC_TARGET_ARCH)))_LINKER=$(TARGET_CC) \
 	CARGO_TARGET_APPLIES_TO_HOST="false" \
+	RUSTFLAGS="$(PKG_RUSTFLAGS)" \
 	RUSTFMT=$(RUSTFMT_BIN) \
 	\
 	TARGET=$(RUSTC_TARGET_ARCH) \
@@ -103,10 +104,11 @@ CARGO_HOST_CONFIG_VARS = \
 
 CARGO_PKG_CONFIG_VARS = \
 	CARGO_HOME=$(CARGO_HOME) \
-	CARGO_BUILD_RUSTFLAGS="$(RUSTFLAGS)" \
+	CARGO_BUILD_RUSTFLAGS="$(PKG_RUSTFLAGS)" \
 	CARGO_BUILD_TARGET=$(RUSTC_TARGET_ARCH) \
 	CC=$(TARGET_CC_NOCACHE) \
 	CXX=$(TARGET_CXX_NOCACHE) \
+	RUSTFLAGS="$(PKG_RUSTFLAGS)" \
 	TARGET_CC=$(TARGET_CC_NOCACHE) \
 	TARGET_CXX=$(TARGET_CXX_NOCACHE) \
 	TARGET_CFLAGS="$(TARGET_CFLAGS) $(TARGET_CPPFLAGS) -I$(STAGING_DIR)/opt/include" \

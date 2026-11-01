@@ -24,9 +24,9 @@ Build/Configure/Cargo/Default:=:
 define Build/Configure/CargoGenetrate
 	# create the Cargo.lock
 	@( \
-		[ -f "$(PKG_BUILD_DIR)/Cargo.lock" ] || \
+		[ -f "$(CARGO_SOURCE_DIR)/Cargo.lock" ] || \
 		CARGO_HOME=$(CARGO_HOME) $(CARGO_BIN) generate-lockfile \
-		--manifest-path $(PKG_BUILD_DIR)/Cargo.toml \
+		--manifest-path $(CARGO_SOURCE_DIR)/Cargo.toml \
 		$(if $(findstring s,$(OPENWRT_VERBOSE)),--verbose); \
 	)
 endef
@@ -36,7 +36,7 @@ define Build/Configure/CargoUpdate
 	# update dependencies in the Cargo.lock
 	@( \
 		CARGO_HOME=$(CARGO_HOME) $(CARGO_BIN) update \
-		--manifest-path $(PKG_BUILD_DIR)/Cargo.toml \
+		--manifest-path $(CARGO_SOURCE_DIR)/Cargo.toml \
 		$(if $(findstring s,$(OPENWRT_VERBOSE)),--verbose); \
 	)
 endef

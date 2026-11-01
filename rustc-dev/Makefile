@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustc
-PKG_VERSION:=1.94.0
+PKG_VERSION:=1.99.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION)-src.tar.gz
 PKG_SOURCE_URL:=https://static.rust-lang.org/dist
-PKG_HASH:=b83f921cd3f321ff614f9c06a8b870d89299fc02888b48a5549683a36823474c
+PKG_HASH:=2035e4077b834a42ff8afd07f277ae3f06340098b86b1d2843aa234b4cfcae67
 
 HOST_BUILD_DIR:=$(BUILD_DIR_HOST)/$(PKG_NAME)-dev-$(PKG_VERSION)
 PKG_BUILD_DIR:=$(BUILD_DIR)/$(PKG_NAME)-dev-$(PKG_VERSION)
@@ -54,7 +54,7 @@ endif
 
 PRE_BUILD_VERSION:=$(PKG_VERSION)
 PRE_BUILD_FILE:=rust-dev-$(PRE_BUILD_VERSION)-$(RUSTC_HOST_ARCH).tar.xz
-PRE_COMMIT_HASH:=4a4ef493e3a1488c6e321570238084b38948f6db
+PRE_COMMIT_HASH:=b940084d7eb6a299eb4bfeb8e34901bc051e7ac4
 DL_LLVM_DIR:=llvm-$(PRE_COMMIT_HASH)-false
 
 define Download/rust-dev
@@ -62,7 +62,7 @@ define Download/rust-dev
   URL:= \
 	https://ci-artifacts.rust-lang.org/rustc-builds/$(PRE_COMMIT_HASH) \
 	https://src.entware.net
-  HASH:=7eeb14f306be9edd4b15a195d96dc7fe187746cd6a92a0cc63bd09360c6d89bc
+  HASH:=46ed0714244efd2a35eb39218a0a35dde58911acd27c7b0c340979812a1cc570
 endef
 
 define Host/Prepare
@@ -73,7 +73,7 @@ endef
 
 define Host/Configure
 	( \
-		echo 'change-id = 153313'; \
+		echo 'change-id = 163440'; \
 		echo '[llvm]'; \
 		echo 'download-ci-llvm = true'; \
 		echo '[build]'; \
@@ -85,7 +85,6 @@ define Host/Configure
 		echo 'python = "$(STAGING_DIR_HOST)/bin/python3"'; \
 		echo 'cargo-native-static = true'; \
 		echo 'compiler-docs = false'; \
-		echo 'compiletest-use-stage0-libtest = false'; \
 		echo 'docs = false'; \
 		echo 'extended = true'; \
 		echo 'submodules = false'; \
@@ -161,7 +160,7 @@ endef
 
 define Build/Configure
 	( \
-		echo 'change-id = 153313'; \
+		echo 'change-id = 163440'; \
 		echo 'profile = "library"'; \
 		echo '[llvm]'; \
 		echo 'download-ci-llvm = true'; \
@@ -175,7 +174,6 @@ define Build/Configure
 		echo 'rustc = "$(STAGING_DIR)/host/bin/rustc"'; \
 		echo 'rustfmt = "$(STAGING_DIR)/host/bin/rustfmt"'; \
 		echo 'compiler-docs = false'; \
-		echo 'compiletest-use-stage0-libtest = false'; \
 		echo 'docs = false'; \
 		echo 'extended = false'; \
 		echo 'full-bootstrap = false'; \
