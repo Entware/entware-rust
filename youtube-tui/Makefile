@@ -5,14 +5,14 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=youtube-tui
-PKG_REAL_VERSION:=0.9.3
+PKG_REAL_VERSION:=0.9.4
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
-PKG_SOURCE_DATE:=2026-03-11
-PKG_SOURCE_VERSION:=2fc2d5a43fb49dd32be1af7ad895fd3d697fbb1a
+PKG_SOURCE_DATE:=2026-05-29
+PKG_SOURCE_VERSION:=800b65178f3c6cc2b2afdfc28b3e04e0fc212769
 PKG_SOURCE_URL:=https://github.com/Siriusmart/youtube-tui
-PKG_MIRROR_HASH:=ab24063579219132c9e6ab708815348c9d820d07ac08a9a9183078f0f618bcef
+PKG_MIRROR_HASH:=0ac8121f53192d4d152f1dfd6b65195581d4034ad541098364447c80575fcd06
 
 PKG_VERSION:=$(PKG_REAL_VERSION)_git$(subst -,,$(PKG_SOURCE_DATE))~$(call version_abbrev,$(PKG_SOURCE_VERSION))
 
@@ -23,7 +23,8 @@ include $(INCLUDE_DIR)/package.mk
 include $(TOPDIR)/feeds/rustlang/rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164 rquickjs-090
+	chrono-0444 getrandom-0217 getrandom-034 getrandom-042 \
+	iana-time-zone-0164 rquickjs-090
 
 define Package/youtube-tui
   SECTION:=multimedia
