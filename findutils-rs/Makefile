@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=findutils
-PKG_VERSION:=0.8.0
-PKG_RELEASE:=2
+PKG_VERSION:=0.10.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/uutils/findutils/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=932f153d256f7a4cf40255a948689bf59a10f14c8804151817ab50fa1b46429a
+PKG_HASH:=e36ae3937f889bc59cfbd65820a642baa695c58d7fa1e387e41857e710f40419
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440 getrandom-031 iana-time-zone-0162
+PKG_BUILD_DEPENDS += chrono-0444 getrandom-0217 getrandom-042 iana-time-zone-0164
 
 define Package/findutils-rs
   SECTION:=utils
