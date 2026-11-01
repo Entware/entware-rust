@@ -1,26 +1,27 @@
 --- a/src/sandbox/mod.rs
 +++ b/src/sandbox/mod.rs
-@@ -10,14 +10,14 @@ use nix::unistd::{getgroups, setgroups};
+@@ -10,7 +10,7 @@ use nix::unistd::{getgroups, setgroups};
  
  pub mod config;
- #[cfg(target_os="linux")]
+ #[cfg(target_os = "linux")]
 -pub mod seccomp;
 +//pub mod seccomp;
  
  pub fn activate_stage1(disable_seccomp: bool) -> Result<()> {
      if disable_seccomp {
-         warn!("DANGER: seccomp sandbox is disabled, please report bugs at https://github.com/kpcyrd/sniffglue/issues if seccomp is causing issues");
+@@ -19,7 +19,7 @@ pub fn activate_stage1(disable_seccomp:
+         );
      } else {
-         #[cfg(target_os="linux")]
+         #[cfg(target_os = "linux")]
 -        seccomp::activate_stage1()?;
 +        warn!("INFO: seccomp sandbox is disabled");
      }
  
      info!("stage 1/2 is active");
-@@ -139,7 +139,7 @@ pub fn activate_stage2(disable_seccomp:
+@@ -134,7 +134,7 @@ pub fn activate_stage2(disable_seccomp:
  
      if !disable_seccomp {
-         #[cfg(target_os="linux")]
+         #[cfg(target_os = "linux")]
 -        seccomp::activate_stage2()?;
 +        warn!("INFO: seccomp sandbox is disabled");
      }
