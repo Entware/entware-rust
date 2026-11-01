@@ -144,7 +144,7 @@ RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
 # arm/mips(el): .../libatomic.so.1: error adding symbols: DSO missing from command line
 ifneq ($(CONFIG_ARCH_64BIT),y)
-RUSTFLAGS += -l dylib=atomic
+PKG_RUSTFLAGS += -l dylib=atomic
 endif
 
 define Package/shadowsocks-rust/install
