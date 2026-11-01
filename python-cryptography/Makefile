@@ -5,11 +5,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cryptography
-PKG_VERSION:=46.0.5
+PKG_VERSION:=46.0.7
 PKG_RELEASE:=1
 
 PYPI_NAME:=cryptography
-PKG_HASH:=abace499247268e3757271b2f1e244b36b06f8515cf27c4d49468fc9eb16e93d
+PKG_HASH:=e4cfd68c5f3e0bfdad0d38e023239b96a2fe84146481852dffbcca442c245aa5
 
 PKG_LICENSE:=Apache-2.0 BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE LICENSE.APACHE LICENSE.BSD LICENSE.PSF
@@ -36,7 +36,6 @@ define Package/python3-cryptography
 	+libopenssl \
 	+libopenssl-legacy \
 	+python3-cffi \
-	+python3-email \
 	+python3-urllib \
 	+python3-uuid
 endef
@@ -47,17 +46,15 @@ define Package/python3-cryptography/description
   library".
 endef
 
-CARGO_PKG_CONFIG_VARS += \
-	PYO3_CROSS_INCLUDE_DIR=$(PYTHON3_INC_DIR)
-
-RUSTFLAGS += -C relocation-model=pic
-
-define Package/python3-cryptography/postrm
-#!/bin/sh
-
-rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_NAME) || true
-rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_NAME)-$(PKG_VERSION).dist-info || true
+define Py3Package/python3-cryptography/filespec
++|$(PYTHON3_PKG_DIR)
+-|$(PYTHON3_PKG_DIR)/docs
+-|$(PYTHON3_PKG_DIR)/tests
+-|$(PYTHON3_PKG_DIR)/CHANGELOG.rst
+-|$(PYTHON3_PKG_DIR)/CONTRIBUTING.rst
 endef
+
+PKG_RUSTFLAGS += -C relocation-model=pic
 
 $(eval $(call Py3Package,python3-cryptography))
 $(eval $(call BuildPackage,python3-cryptography))
