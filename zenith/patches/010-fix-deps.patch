@@ -6,13 +6,13 @@
  gumdrop = { version = "~0.8.1", features = ["default_expr"] }
 -chrono = "~0.4.39"
 +chrono = "0.4.41"
- sysinfo = { git = "https://github.com/bvaisvil/sysinfo.git", branch = "zenith_changes_15.1_mem_fix" }
+ sysinfo = "0.37"
  dirs-next = "2.0.0"
  serde = { version = "~1.0.217", features = ["derive"] }
-@@ -44,3 +44,10 @@ nvml-wrapper = { version = "0.10.0", opt
- unicode-width = "0.2.0"
+@@ -45,3 +45,10 @@ unicode-width = "0.2.0"
  [target.'cfg(target_os = "linux")'.dependencies]
  linux-taskstats = { version = "0.7.0", default-features = false }
+ procfs = "0.17"
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
