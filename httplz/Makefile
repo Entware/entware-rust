@@ -8,12 +8,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=http
-PKG_VERSION:=2.5.0
+PKG_VERSION:=2.6.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/thecoshman/http/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=63ffb4a99684e7afdca6549191e4901cce1407d4b33a2ce6380883373585f044
+PKG_HASH:=abf41644f8ac7c6f4c9c8b630bbff3e9a698abc416391dd66303cbfe0bdc7979
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
