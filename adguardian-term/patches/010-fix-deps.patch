@@ -1,13 +1,14 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -35,3 +35,10 @@ semver = "1.0"
+@@ -35,3 +35,11 @@ semver = "1.0"
  tokio = { version = "1", features = ["full"] }
  # Terminal UI library
  tui = { package = "ratatui", version = "0.20.1" }
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.31" }
-+iana-time-zone = { path = "../iana-time-zone-0.1.59" }
++chrono = { path = "../chrono-0.4.44" }
++iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# all: no SYS_getrandom
-+getrandom = { path = "../getrandom-0.2.16", package = "getrandom", version = "0.2.16" }
++getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
++getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
