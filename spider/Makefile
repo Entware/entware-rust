@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=spider
-PKG_VERSION:=2.45.28
+PKG_VERSION:=2.52.2
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/spider-rs/spider/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=1aaacd07308fa2727a36b79ff765a13e8bb63f254ec566a9316e2fa94eb3ea3e
+PKG_HASH:=130a9d6040a05a3c4d219fcd296f7f20ba6f7c90a8e18914b7d0f647db7908fa
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -20,8 +20,8 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chromey-2384 chrono-0444 getrandom-0217 getrandom-034 getrandom-041 \
-	iana-time-zone-0164
+	chrono-0445 getrandom-0217 getrandom-034 getrandom-043 \
+	iana-time-zone-0164 rmcp-170
 
 define Package/spider/Default
   SECTION:=net
@@ -33,6 +33,11 @@ endef
 define Package/spider-cli
   $(call Package/spider/Default)
   TITLE:=The fastest web crawler CLI
+endef
+
+define Package/spider-mcp
+  $(call Package/spider/Default)
+  TITLE:=MCP (Model Context Protocol) server
 endef
 
 define Package/spider-worker
@@ -49,6 +54,12 @@ define Package/spider-cli/description
   A fast command line spider or crawler.
 endef
 
+define Package/spider-mcp/description
+  $(call Package/spider/description)
+  MCP (Model Context Protocol) server exposing Spider web crawler capabilities
+  as tools.
+endef
+
 define Package/spider-worker/description
   $(call Package/spider/description)
   A spider worker to decentralize the crawl lifting.
@@ -62,10 +73,16 @@ define Package/spider-cli/install
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/spider $(1)/opt/usr/bin
 endef
 
+define Package/spider-mcp/install
+	$(INSTALL_DIR) $(1)/opt/usr/bin
+	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/spider-mcp $(1)/opt/usr/bin
+endef
+
 define Package/spider-worker/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
 	$(INSTALL_BIN) $(PKG_INSTALL_DIR)/opt/bin/spider_worker $(1)/opt/usr/bin
 endef
 
 $(eval $(call BuildPackage,spider-cli))
+$(eval $(call BuildPackage,spider-mcp))
 $(eval $(call BuildPackage,spider-worker))

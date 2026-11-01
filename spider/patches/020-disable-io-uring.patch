@@ -1,0 +1,11 @@
+--- a/spider/Cargo.toml
++++ b/spider/Cargo.toml
+@@ -209,7 +209,7 @@ name = "streaming_link_extraction"
+ harness = false
+ 
+ [features]
+-default = ["basic", "io_uring", "tcp_fastopen", "splice", "numa", "zero_copy"]
++default = ["basic", "tcp_fastopen", "splice", "numa", "zero_copy"]
+ __basic = [
+     "sync",
+     "cookies",
