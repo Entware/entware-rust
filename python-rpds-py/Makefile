@@ -33,7 +33,7 @@ define Package/python3-rpds-py/description
 Python bindings to the Rust rpds crate for persistent data structures.
 endef
 
-RUSTFLAGS += -C relocation-model=pic
+PKG_RUSTFLAGS += -C relocation-model=pic
 
 define Package/python3-rpds-py/postrm
 #!/bin/sh
