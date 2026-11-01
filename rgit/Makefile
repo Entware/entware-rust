@@ -42,7 +42,7 @@ TARGET_CFLAGS:=$(filter-out -mcpu=%,$(TARGET_CFLAGS))
 
 # arm/mips(el): undefined reference to symbol '__atomic_load_8@@LIBATOMIC_1.0'
 ifneq ($(CONFIG_ARCH_64BIT),y)
-RUSTFLAGS += -l dylib=atomic
+PKG_RUSTFLAGS += -l dylib=atomic
 endif
 
 define Package/rgit/install
