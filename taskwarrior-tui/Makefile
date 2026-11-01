@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=taskwarrior-tui
-PKG_VERSION:=0.26.5
+PKG_VERSION:=0.27.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/kdheepak/taskwarrior-tui/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=9eebb2f736693cbb64b3a79b88d3e5bbae8603ef9206d47e555c9a9cf9077708
+PKG_HASH:=e4f5d10428dc1917b6084b5b0ed502ffe691cb14908cedd04ffff3940f9ffceb
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0440 getrandom-0215 iana-time-zone-0161
+PKG_BUILD_DEPENDS += chrono-0444 getrandom-0217 getrandom-034 getrandom-042 iana-time-zone-0164
 
 define Package/taskwarrior-tui
   SECTION:=utils
