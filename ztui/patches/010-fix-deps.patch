@@ -1,9 +1,20 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -32,3 +32,12 @@ nix = "0.24"
+@@ -22,7 +22,7 @@ reqwest = "^0.11.0"
+ serde_json = "^1.0"
+ serde = "^1.0"
+ directories = "^5.0.0"
+-bat = { version = "^0.23.0", default-features = false, features = [ "minimal-application" ] }
++bat = { version = "^0.26.0", default-features = false, features = [ "minimal-application" ] }
+ byte-unit = "^4.0.0"
+ portable-pty = "^0.8.0"
+ fancy-duration = "^0.2.0"
+@@ -31,4 +31,13 @@ lazy_static = "^1.4.0"
+ nix = "0.24"
  signal = "^0.7.0"
  openssl = { version = "^0.10.0", features = [ "vendored" ] }
- tempfile = "^3.5.0"
+-tempfile = "^3.5.0"
++tempfile = "^3.6"
 +
 +[patch.crates-io]
 +# aarch64/arm: error[E0308]: mismatched types

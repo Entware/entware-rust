@@ -8,7 +8,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ztui
 PKG_VERSION:=0.1.7
-PKG_RELEASE:=6
+PKG_RELEASE:=7
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/erikh/ztui/tar.gz/refs/tags/v$(PKG_VERSION)?
