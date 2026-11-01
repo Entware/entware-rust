@@ -37,7 +37,7 @@ define Package/python3-bcrypt/description
   Good password hashing for your software and your servers.
 endef
 
-RUSTFLAGS += -C relocation-model=pic
+PKG_RUSTFLAGS += -C relocation-model=pic
 
 define Package/python3-bcrypt/postrm
 #!/bin/sh
