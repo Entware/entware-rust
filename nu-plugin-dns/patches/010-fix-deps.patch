@@ -1,22 +1,22 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -28,7 +28,7 @@ codegen-units = 1
+@@ -24,7 +24,7 @@ codegen-units = 1
  lto = "thin"
- 
+
  [dependencies]
 -chrono = { version = "0.4", features = [ "std" ], default-features = false }
 +chrono = { version = "0.4.44", features = [ "std" ], default-features = false }
- futures-util = "0.3.32"
- nu-plugin = "0.111.0"
- nu-protocol = "0.111.0"
-@@ -87,3 +87,13 @@ features = [
+ futures-util = "0.3.34"
+ nu-plugin = "0.115.1"
+ nu-protocol = "0.115.1"
+@@ -99,3 +99,13 @@ features = [
    "quic-ring",
    "h3-ring",
  ]
 +
 +[patch.crates-io]
-+nu-plugin = { path = "../nushell-0.111.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.111.0/crates/nu-protocol" }
++nu-plugin = { path = "../nushell-0.115.1/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.115.1/crates/nu-protocol" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.44" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.64" }

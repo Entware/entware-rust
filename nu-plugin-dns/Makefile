@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-dns
-PKG_VERSION:=4.0.8
+PKG_VERSION:=4.0.12
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=v$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/dead10ck/nu_plugin_dns
-PKG_MIRROR_HASH:=a4fe9375ceaac9345c6530fec8118252204396a882583b34d36b42ff08f77650
+PKG_MIRROR_HASH:=050160123857ef902a22649749202ca12f3d565a0ab0075aff881eef2604f409
 
 PKG_LICENSE:=MPL-2.0
 PKG_LICENSE_FILES:=LICENSE
@@ -41,7 +41,7 @@ endef
 
 # x86_64: undefined reference to `__stack_chk_guard'
 ifeq ($(CONFIG_x86_64),y)
-RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+PKG_RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 
 define Package/nu-plugin-dns/install

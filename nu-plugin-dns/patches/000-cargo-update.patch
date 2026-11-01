@@ -1,17 +1,17 @@
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -471,9 +471,7 @@ dependencies = [
- 
+@@ -594,9 +594,7 @@ dependencies = [
+
  [[package]]
  name = "chrono"
--version = "0.4.43"
+-version = "0.4.45"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "fac4744fb15ae8337dc853fee7fb3f4e48c0fbaa23d0afe49c447b4fab126118"
+-checksum = "1aa79e62e7697b8e29b513a68abacf485adcd1fe8284a4316c5ae868e6633327"
 +version = "0.4.44"
  dependencies = [
   "iana-time-zone",
   "js-sys",
-@@ -1337,8 +1335,6 @@ dependencies = [
+@@ -1681,8 +1679,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.2.17"
@@ -20,7 +20,7 @@
  dependencies = [
   "cfg-if",
   "js-sys",
-@@ -1350,8 +1346,6 @@ dependencies = [
+@@ -1694,8 +1690,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.3.4"
@@ -28,17 +28,19 @@
 -checksum = "899def5c37c4fd7b2664648c28120ecec138e4d395b459e5ca34f9cce2dd77fd"
  dependencies = [
   "cfg-if",
-  "js-sys",
-@@ -1722,8 +1716,6 @@ dependencies = [
+  "libc",
+@@ -2179,9 +2173,7 @@ dependencies = [
+
  [[package]]
  name = "iana-time-zone"
- version = "0.1.64"
+-version = "0.1.65"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "33e57f83510bb73707521ebaffa789ec8caf86f9657cad665b092b581d40e9fb"
+-checksum = "e31bc9ad994ba00e440a8aa5c9ef0ec67d5cb5e5cb0cc7f8b744a35b389cc470"
++version = "0.1.64"
  dependencies = [
   "android_system_properties",
   "core-foundation-sys",
-@@ -1737,8 +1729,6 @@ dependencies = [
+@@ -2195,8 +2187,6 @@ dependencies = [
  [[package]]
  name = "iana-time-zone-haiku"
  version = "0.1.2"
@@ -47,158 +49,213 @@
  dependencies = [
   "cc",
  ]
-@@ -2529,9 +2519,9 @@ checksum = "5a772c2ef1c30886e85f4d8839e8
+@@ -3236,9 +3226,9 @@ checksum = "0fdd0693b2fdb2f05f69b7ce71f8
  dependencies = [
   "indexmap",
-  "miette",
+  "miette 7.6.0",
 - "nu-engine",
-+ "nu-engine 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-engine 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-parser",
 - "nu-path",
-+ "nu-path 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-path 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-protocol",
  ]
- 
-@@ -2543,11 +2533,11 @@ checksum = "c107248c529b6c9599396c21105b
+
+@@ -3250,11 +3240,11 @@ checksum = "3aa84663d0431c1bdac3ecada9ac
  dependencies = [
-  "itertools 0.14.0",
+  "itertools 0.15.0",
   "nu-cmd-base",
 - "nu-engine",
 - "nu-experimental",
-+ "nu-engine 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
-+ "nu-experimental 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-engine 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-experimental 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-parser",
   "nu-protocol",
 - "nu-utils",
-+ "nu-utils 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
+  "semver",
   "shadow-rs",
  ]
- 
-@@ -2558,7 +2548,7 @@ source = "registry+https://github.com/ru
- checksum = "58fb0a0c4b0bcb93f49530bb8d34c060db9479c0c7e17d16d25944243e91e9db"
+@@ -3266,7 +3256,7 @@ source = "registry+https://github.com/ru
+ checksum = "8f14bc08631933f365bf937d8c2c944d2c43825bbc1fc462cc9b86173a1a8615"
  dependencies = [
   "nu-ansi-term",
 - "nu-engine",
-+ "nu-engine 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-engine 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-json",
   "nu-protocol",
   "serde",
-@@ -2611,18 +2601,18 @@ dependencies = [
+@@ -3325,20 +3315,20 @@ dependencies = [
   "nu-ansi-term",
   "nu-cmd-base",
   "nu-color-config",
+- "nu-config",
 - "nu-engine",
 - "nu-experimental",
 - "nu-glob",
-+ "nu-engine 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
-+ "nu-experimental 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
-+ "nu-glob 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-config 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-engine 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-experimental 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-glob 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
+  "nu-heavy-utils",
   "nu-json",
   "nu-parser",
 - "nu-path",
-+ "nu-path 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-path 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-pretty-hex",
   "nu-protocol",
 - "nu-system",
-+ "nu-system 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-system 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-table",
   "nu-term-grid",
 - "nu-utils",
-+ "nu-utils 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
+  "nucleo-matcher",
   "num-format",
   "num-traits",
-  "nuon",
-@@ -2680,8 +2670,6 @@ dependencies = [
+@@ -3400,13 +3390,25 @@ dependencies = [
+ [[package]]
+ name = "nu-config"
+ version = "0.115.1"
++dependencies = [
++ "derive_more",
++ "derive_setters",
++ "dirs 6.0.0",
++ "nu-path 0.115.1",
++ "thiserror 2.0.20",
++ "windows-sys 0.61.2",
++]
++
++[[package]]
++name = "nu-config"
++version = "0.115.1"
+ source = "registry+https://github.com/rust-lang/crates.io-index"
+ checksum = "219459c5f5ee857447d19c989fd3aa44b6e56f8b8e38fc2a17a476f76f3178da"
+ dependencies = [
+  "derive_more",
+  "derive_setters",
+  "dirs 6.0.0",
+- "nu-path",
++ "nu-path 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
+  "thiserror 2.0.20",
+  "windows-sys 0.61.2",
+ ]
+@@ -3414,8 +3416,6 @@ dependencies = [
  [[package]]
  name = "nu-derive-value"
- version = "0.111.0"
+ version = "0.115.1"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "d71958b54c367bda033f7dcc4a73b61972fb52323f71a1e3533e290fa67148d1"
+-checksum = "f6166a78cf169252879ec5eee57b8628937787af6092a727f5eb6c69962da923"
  dependencies = [
   "heck",
   "proc-macro-error2",
-@@ -2693,16 +2681,37 @@ dependencies = [
+@@ -3427,16 +3427,37 @@ dependencies = [
  [[package]]
  name = "nu-engine"
- version = "0.111.0"
+ version = "0.115.1"
 +dependencies = [
 + "fancy-regex",
 + "log",
-+ "nu-experimental 0.111.0",
-+ "nu-glob 0.111.0",
-+ "nu-path 0.111.0",
++ "nu-experimental 0.115.1",
++ "nu-glob 0.115.1",
++ "nu-path 0.115.1",
 + "nu-protocol",
-+ "nu-utils 0.111.0",
++ "nu-utils 0.115.1",
 +]
 +
 +[[package]]
 +name = "nu-engine"
-+version = "0.111.0"
++version = "0.115.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "d41b3e3e2d25c30741a0761856258e22624c0d60064e4f0e12f86202a451d492"
+ checksum = "60d346479ba5b64fa93361735cda70010b3a0a179b03c8517e2fb69784014e1b"
  dependencies = [
   "fancy-regex",
   "log",
 - "nu-experimental",
 - "nu-glob",
 - "nu-path",
-+ "nu-experimental 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
-+ "nu-glob 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
-+ "nu-path 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-experimental 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-glob 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-path 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-protocol",
 - "nu-utils",
-+ "nu-utils 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
 +]
 +
 +[[package]]
 +name = "nu-experimental"
-+version = "0.111.0"
++version = "0.115.1"
 +dependencies = [
-+ "itertools 0.14.0",
-+ "thiserror 2.0.18",
++ "itertools 0.15.0",
++ "thiserror 2.0.20",
  ]
- 
+
  [[package]]
-@@ -2718,6 +2727,10 @@ dependencies = [
+@@ -3452,12 +3473,22 @@ dependencies = [
  [[package]]
  name = "nu-glob"
- version = "0.111.0"
+ version = "0.115.1"
++dependencies = [
++ "anyhow",
++ "log",
++ "nu-experimental 0.115.1",
++ "rayon",
++]
 +
 +[[package]]
 +name = "nu-glob"
-+version = "0.111.0"
++version = "0.115.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "01ee787f61353c9c90581ddf4c0602a07b991cdd06c97dac8b6d323a1a52c43a"
- 
-@@ -2728,7 +2741,7 @@ source = "registry+https://github.com/ru
- checksum = "a045bd35a37372dcbb39f3cef78f27a1188b892e60a659d31ddd4184292fa8d9"
+ checksum = "788679a8ac0327a41af9da83a69a6caa65aebe007ec21f410bb58557480c9b3c"
+ dependencies = [
+  "anyhow",
+  "log",
+- "nu-experimental",
++ "nu-experimental 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
+  "rayon",
+ ]
+
+@@ -3472,7 +3503,7 @@ dependencies = [
+  "chrono",
+  "derive_setters",
+  "nu-protocol",
+- "nu-utils",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
+  "pastey",
+  "regex",
+  "scopeguard",
+@@ -3489,7 +3520,7 @@ checksum = "2a485d679b51c81753d81e6c9fc6
  dependencies = [
   "linked-hash-map",
+  "nu-protocol",
 - "nu-utils",
-+ "nu-utils 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "num-traits",
   "serde",
   "serde_json",
-@@ -2744,17 +2757,27 @@ dependencies = [
+@@ -3505,12 +3536,12 @@ dependencies = [
   "chrono",
-  "itertools 0.14.0",
+  "itertools 0.15.0",
   "log",
 - "nu-engine",
+- "nu-experimental",
 - "nu-path",
-+ "nu-engine 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
-+ "nu-path 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-engine 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-experimental 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-path 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-plugin-engine",
   "nu-protocol",
 - "nu-utils",
-+ "nu-utils 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
+  "semver",
   "serde_json",
  ]
- 
+@@ -3518,6 +3549,16 @@ dependencies = [
  [[package]]
  name = "nu-path"
- version = "0.111.0"
+ version = "0.115.1"
 +dependencies = [
-+ "dirs",
++ "dirs 6.0.0",
 + "omnipath",
 + "pwd",
 + "ref-cast",
@@ -206,39 +263,40 @@
 +
 +[[package]]
 +name = "nu-path"
-+version = "0.111.0"
++version = "0.115.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "c01d110cb931acf56237ce572e5b156e8e1134227c90deeffb92eedda9482c23"
+ checksum = "c089f4e8b5e67dfa45b468549477faaa2d68258cd9ffbb44d55a54384341c37e"
  dependencies = [
-@@ -2767,28 +2790,40 @@ dependencies = [
+@@ -3530,30 +3571,43 @@ dependencies = [
  [[package]]
  name = "nu-plugin"
- version = "0.111.0"
+ version = "0.115.1"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "c322531b1a7d6338c5ead1f454294f46babf8c99cd4716311cab1e88ba52b154"
+-checksum = "347f0fb6b328f6704a403cb5570872926a171026960ecf5208f0597244bb0514"
  dependencies = [
   "log",
   "nix",
 - "nu-engine",
 - "nu-plugin-core",
 - "nu-plugin-protocol",
-+ "nu-engine 0.111.0",
-+ "nu-plugin-core 0.111.0",
-+ "nu-plugin-protocol 0.111.0",
++ "nu-engine 0.115.1",
++ "nu-plugin-core 0.115.1",
++ "nu-plugin-protocol 0.115.1",
   "nu-protocol",
 - "nu-utils",
-+ "nu-utils 0.111.0",
-  "thiserror 2.0.18",
++ "nu-utils 0.115.1",
+  "thiserror 2.0.20",
  ]
- 
+
  [[package]]
  name = "nu-plugin-core"
- version = "0.111.0"
+ version = "0.115.1"
 +dependencies = [
 + "interprocess",
 + "log",
-+ "nu-plugin-protocol 0.111.0",
++ "nu-plugin-protocol 0.115.1",
 + "nu-protocol",
++ "nu-utils 0.115.1",
 + "rmp-serde",
 + "serde",
 + "serde_json",
@@ -247,42 +305,45 @@
 +
 +[[package]]
 +name = "nu-plugin-core"
-+version = "0.111.0"
++version = "0.115.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "38ee792aeb0d37e0ed55ca4304e434eece497914e27ae42616a8bb973f5d2720"
+ checksum = "d196dd9a016a90f0b893fa3d7ba3f7fbc84b61bf9b7abbf3ce07e61fa40c9319"
  dependencies = [
   "interprocess",
   "log",
 - "nu-plugin-protocol",
-+ "nu-plugin-protocol 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-plugin-protocol 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-protocol",
+- "nu-utils",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "rmp-serde",
   "serde",
-@@ -2803,12 +2838,12 @@ source = "registry+https://github.com/ru
- checksum = "321b29af417505540a6b8888cdd85074ce77ac4c599e0ce5966d84e16f9c56ba"
+  "serde_json",
+@@ -3567,12 +3621,12 @@ source = "registry+https://github.com/ru
+ checksum = "76a7336ab03035f7e5ac0790c917d9349a3eb197e700ae60966640f5a3467fb2"
  dependencies = [
   "log",
 - "nu-engine",
 - "nu-plugin-core",
 - "nu-plugin-protocol",
-+ "nu-engine 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
-+ "nu-plugin-core 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
-+ "nu-plugin-protocol 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-engine 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-plugin-core 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-plugin-protocol 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-protocol",
 - "nu-system",
 - "nu-utils",
-+ "nu-system 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
-+ "nu-utils 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-system 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "serde",
   "windows",
  ]
-@@ -2816,11 +2851,23 @@ dependencies = [
+@@ -3580,11 +3634,23 @@ dependencies = [
  [[package]]
  name = "nu-plugin-protocol"
- version = "0.111.0"
+ version = "0.115.1"
 +dependencies = [
 + "nu-protocol",
-+ "nu-utils 0.111.0",
++ "nu-utils 0.115.1",
 + "rmp-serde",
 + "semver",
 + "serde",
@@ -291,71 +352,75 @@
 +
 +[[package]]
 +name = "nu-plugin-protocol"
-+version = "0.111.0"
++version = "0.115.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "7725f341428db16dbef4392970de32705abc77ee80a902572c8da811dade3564"
+ checksum = "c016685179cff01b3612b2b8a9ac46adce5b74799c5f4671532f07e9272e9273"
  dependencies = [
   "nu-protocol",
 - "nu-utils",
-+ "nu-utils 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "rmp-serde",
   "semver",
   "serde",
-@@ -2835,12 +2882,12 @@ checksum = "c786f3d9b0a78c05abab48ae9303
+@@ -3599,12 +3665,12 @@ checksum = "3f7cf4d9bb697b6df65dc0debbba
  dependencies = [
   "nu-ansi-term",
   "nu-cmd-lang",
 - "nu-engine",
-+ "nu-engine 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-engine 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-parser",
   "nu-plugin",
 - "nu-plugin-core",
-+ "nu-plugin-core 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-plugin-core 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-plugin-engine",
 - "nu-plugin-protocol",
-+ "nu-plugin-protocol 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-plugin-protocol 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-protocol",
   "similar",
  ]
-@@ -2857,8 +2904,6 @@ dependencies = [
+@@ -3621,8 +3687,6 @@ dependencies = [
  [[package]]
  name = "nu-protocol"
- version = "0.111.0"
+ version = "0.115.1"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "f1c0e58cbeb46cbfd40156e6f4b9f90e4a77e774ca863fa158867a4726aab1d1"
+-checksum = "9a08bfd4a3f4f0fe63a9c6e17cd2a99cf56accd37151c7b7f2ae6b7af5ea5c13"
  dependencies = [
   "brotli",
-  "bytes",
-@@ -2875,11 +2920,11 @@ dependencies = [
-  "miette",
+  "bstr",
+@@ -3641,13 +3705,13 @@ dependencies = [
+  "memchr",
+  "miette 7.6.0",
   "nix",
+- "nu-config",
++ "nu-config 0.115.1",
   "nu-derive-value",
 - "nu-experimental",
 - "nu-glob",
 - "nu-path",
 - "nu-system",
 - "nu-utils",
-+ "nu-experimental 0.111.0",
-+ "nu-glob 0.111.0",
-+ "nu-path 0.111.0",
-+ "nu-system 0.111.0",
-+ "nu-utils 0.111.0",
++ "nu-experimental 0.115.1",
++ "nu-glob 0.115.1",
++ "nu-path 0.115.1",
++ "nu-system 0.115.1",
++ "nu-utils 0.115.1",
   "num-format",
   "os_pipe",
   "rmp-serde",
-@@ -2897,6 +2942,25 @@ dependencies = [
+@@ -3667,6 +3731,26 @@ dependencies = [
  [[package]]
  name = "nu-system"
- version = "0.111.0"
+ version = "0.115.1"
 +dependencies = [
 + "chrono",
-+ "itertools 0.14.0",
++ "itertools 0.15.0",
 + "libc",
 + "libproc",
 + "log",
 + "mach2",
 + "nix",
 + "ntapi",
++ "nu-utils 0.115.1",
 + "procfs",
 + "sysinfo",
 + "uucore",
@@ -365,38 +430,48 @@
 +
 +[[package]]
 +name = "nu-system"
-+version = "0.111.0"
++version = "0.115.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "62fe7847b65edbe362a0fcb67dedfab9fd7370e89c0313f7cb7d0a7ab8f9834b"
+ checksum = "154af0a4d67c6ee3419796e76a59a5b1404dc48d3aec101eb8b7b07abbcbe23b"
  dependencies = [
-@@ -2924,9 +2988,9 @@ dependencies = [
+@@ -3678,7 +3762,7 @@ dependencies = [
+  "mach2",
+  "nix",
+  "ntapi",
+- "nu-utils",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
+  "procfs",
+  "sysinfo",
+  "uucore",
+@@ -3695,9 +3779,9 @@ dependencies = [
   "fancy-regex",
   "nu-ansi-term",
   "nu-color-config",
 - "nu-engine",
-+ "nu-engine 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-engine 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-protocol",
 - "nu-utils",
-+ "nu-utils 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "tabled",
  ]
- 
-@@ -2936,13 +3000,34 @@ version = "0.111.0"
+
+@@ -3707,13 +3791,37 @@ version = "0.115.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "5027bbde5eb92b084dc2ad0760181c38aada10b99fdf713911c0c4ee699282a9"
+ checksum = "1a00c33e99f42ba7d8c53267c40addb83572e1731b32b634df91117c7b09c743"
  dependencies = [
 - "nu-utils",
-+ "nu-utils 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "unicode-width 0.2.2",
  ]
- 
+
  [[package]]
  name = "nu-utils"
- version = "0.111.0"
+ version = "0.115.1"
 +dependencies = [
 + "byteyarn",
 + "crossterm",
 + "crossterm_winapi",
++ "derive_more",
 + "fancy-regex",
 + "lean_string",
 + "log",
@@ -404,29 +479,40 @@
 + "memchr",
 + "nix",
 + "num-format",
++ "parking_lot",
 + "serde",
 + "serde_json",
 + "strip-ansi-escapes",
 + "sys-locale",
 + "unicase",
++ "web-time",
 +]
 +
 +[[package]]
 +name = "nu-utils"
-+version = "0.111.0"
++version = "0.115.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "df85a8a4bb28c84d5f7c096c02c859ac454dfac59fd0296ab5eb6ed86619219e"
+ checksum = "c01156a09e93513afbf1631db3b9e64cc65254a5687530a018cf2058a92f5103"
  dependencies = [
-@@ -3044,10 +3129,10 @@ version = "0.111.0"
+@@ -3839,10 +3947,10 @@ version = "0.115.1"
  source = "registry+https://github.com/rust-lang/crates.io-index"
- checksum = "537036d9904253e4982411574ee4bcb6a24f7c1011b72cb41bc5c5b49051ce24"
+ checksum = "e3a8c3c6f1034438b31e83b5596b325e1ccc728428faa8464fff0c6e105f13f2"
  dependencies = [
 - "nu-engine",
-+ "nu-engine 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-engine 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
   "nu-parser",
   "nu-protocol",
 - "nu-utils",
-+ "nu-utils 0.111.0 (registry+https://github.com/rust-lang/crates.io-index)",
++ "nu-utils 0.115.1 (registry+https://github.com/rust-lang/crates.io-index)",
  ]
- 
+
  [[package]]
+@@ -5425,7 +5533,7 @@ source = "registry+https://github.com/ru
+ checksum = "32497e9a4c7b38532efcdebeef879707aa9f794296a4f0244f6f69e9bc8574bd"
+ dependencies = [
+  "fastrand",
+- "getrandom 0.4.3",
++ "getrandom 0.3.4",
+  "once_cell",
+  "rustix",
+  "windows-sys 0.61.2",
