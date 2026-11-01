@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=ripcalc
-PKG_VERSION:=0.3.0
+PKG_VERSION:=0.3.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://gitlab.com/edneville/ripcalc/-/archive/v$(PKG_VERSION)
-PKG_HASH:=b0c03b0986caa8b6d9e0ce4c969aa253dacf39301916e4be4bbe6a2048ada8f3
+PKG_HASH:=d918c094b601dfc5ef3eb5c9b1a944d0182a9ee8dad31ea039fa9e5675aa3aba
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
