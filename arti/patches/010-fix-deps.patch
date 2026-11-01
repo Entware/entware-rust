@@ -1,21 +1,41 @@
+--- a/crates/arti-relay/Cargo.toml
++++ b/crates/arti-relay/Cargo.toml
+@@ -13,7 +13,6 @@ repository = "https://gitlab.torproject.
+ 
+ [features]
+ full = [
+-    "metrics",
+     "fs-mistrust/full",
+     "safelog/full",
+     "tor-chanmgr/full",
+@@ -42,6 +41,10 @@ full = [
+     "web-time-compat/full",
+ ]
+ 
++experimental = [
++    "metrics",
++]
++
+ metrics = ["dep:metrics-exporter-prometheus"]
+ 
+ [dependencies]
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -151,3 +151,18 @@ opt-level = 1
- # Inherits release build settings, but adds full debug symbols.
+@@ -164,3 +164,17 @@ opt-level = 1
  debug = 2
  strip = "none"
-+
+ 
 +[patch.crates-io]
 +# mips/mipsel Atomic*64
 +coarsetime = { path = "../coarsetime-0.1.37" }
 +# mips (big endian)
 +merlin = { path = "../merlin-3.0.0" }
 +# localtime/zoneinfo
-+chrono = { path = "../chrono-0.4.43" }
++chrono = { path = "../chrono-0.4.44" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.64" }
 +# openssl
 +openssl-probe = { path = "../openssl-probe-0.2.1" }
 +# all: no SYS_getrandom
 +getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
 +getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
-+getrandom4 = { path = "../getrandom-0.4.1", package = "getrandom", version = "0.4.1" }
++getrandom4 = { path = "../getrandom-0.4.2", package = "getrandom", version = "0.4.2" }

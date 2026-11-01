@@ -1,15 +1,15 @@
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -1173,8 +1173,6 @@ checksum = "613afe47fcd5fac7ccf1db93babc
+@@ -1224,8 +1224,6 @@ dependencies = [
  [[package]]
  name = "chrono"
- version = "0.4.43"
+ version = "0.4.44"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "fac4744fb15ae8337dc853fee7fb3f4e48c0fbaa23d0afe49c447b4fab126118"
+-checksum = "c673075a2e0e5f4a1dde27ce9dee1ea4558c7ffe648f576438a20ca1d2acc4b0"
  dependencies = [
   "iana-time-zone",
   "num-traits",
-@@ -1264,8 +1262,6 @@ checksum = "c3e64b0cc0439b12df2fa678eae8
+@@ -1330,8 +1328,6 @@ checksum = "3f88a43d011fc4a6876cb7344703
  [[package]]
  name = "coarsetime"
  version = "0.1.37"
@@ -18,16 +18,7 @@
  dependencies = [
   "libc",
   "wasix",
-@@ -1785,7 +1781,7 @@ source = "registry+https://github.com/ru
- checksum = "caef6056a5788d05d173cdc3c562ac28ae093828f851f69378b74e4e3d578e41"
- dependencies = [
-  "heck",
-- "indexmap 2.13.0",
-+ "indexmap 1.9.3",
-  "itertools 0.14.0",
-  "proc-macro-crate",
-  "proc-macro2",
-@@ -2642,8 +2638,6 @@ dependencies = [
+@@ -2806,8 +2802,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.2.17"
@@ -36,7 +27,7 @@
  dependencies = [
   "cfg-if",
   "js-sys",
-@@ -2655,8 +2649,6 @@ dependencies = [
+@@ -2819,8 +2813,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.3.4"
@@ -45,18 +36,16 @@
  dependencies = [
   "cfg-if",
   "js-sys",
-@@ -2668,9 +2660,7 @@ dependencies = [
- 
+@@ -2833,8 +2825,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
--version = "0.4.0"
+ version = "0.4.2"
 -source = "registry+https://github.com/rust-lang/crates.io-index"
--checksum = "cd66c162c2a0609c0507f49814877c621d00cb85978e6fbbf04e88b8048c07c8"
-+version = "0.4.1"
+-checksum = "0de51e6874e94e7bf76d726fc5d13ba782deca734ff60d5bb2fb2607c7406555"
  dependencies = [
   "cfg-if",
-  "libc",
-@@ -3048,9 +3038,7 @@ dependencies = [
+  "js-sys",
+@@ -3229,9 +3219,7 @@ dependencies = [
  
  [[package]]
  name = "iana-time-zone"
@@ -67,14 +56,7 @@
  dependencies = [
   "android_system_properties",
   "core-foundation-sys",
-@@ -3058,14 +3046,12 @@ dependencies = [
-  "js-sys",
-  "log",
-  "wasm-bindgen",
-- "windows-core 0.62.2",
-+ "windows-core 0.61.2",
- ]
- 
+@@ -3245,8 +3233,6 @@ dependencies = [
  [[package]]
  name = "iana-time-zone-haiku"
  version = "0.1.2"
@@ -83,7 +65,7 @@
  dependencies = [
   "cc",
  ]
-@@ -3595,8 +3581,6 @@ dependencies = [
+@@ -3865,8 +3851,6 @@ dependencies = [
  [[package]]
  name = "merlin"
  version = "3.0.0"
@@ -91,8 +73,8 @@
 -checksum = "58c38e2799fc0978b65dfff8023ec7843e2330bb462f19198840b34b6582397d"
  dependencies = [
   "byteorder",
-  "keccak",
-@@ -4018,8 +4002,6 @@ dependencies = [
+  "keccak 0.1.6",
+@@ -4284,8 +4268,6 @@ dependencies = [
  [[package]]
  name = "openssl-probe"
  version = "0.2.1"
@@ -101,21 +83,3 @@
  
  [[package]]
  name = "openssl-src"
-@@ -6520,7 +6502,7 @@ dependencies = [
-  "derive-deftly",
-  "digest",
-  "educe",
-- "getrandom 0.4.0",
-+ "getrandom 0.4.1",
-  "hex-literal",
-  "safelog",
-  "thiserror 2.0.18",
-@@ -7309,7 +7291,7 @@ dependencies = [
-  "digest",
-  "ed25519-dalek",
-  "educe",
-- "getrandom 0.4.0",
-+ "getrandom 0.4.1",
-  "hex",
-  "hex-literal",
-  "openssl",

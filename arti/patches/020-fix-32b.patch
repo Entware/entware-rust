@@ -9,7 +9,7 @@
  use tor_async_utils::oneshot;
  use tor_basic_utils::RngExt as _;
  use tor_cell::chancell::msg::PaddingNegotiate;
-@@ -116,17 +116,17 @@ pub(crate) struct OpenEntry<C> {
+@@ -126,17 +126,17 @@ pub(crate) struct OpenEntry<C> {
  
  /// A unique ID for a pending ([`PendingEntry`]) channel.
  #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -73,8 +73,8 @@
 -use std::sync::atomic::{AtomicU64, Ordering};
 +use std::sync::atomic::{AtomicUsize, Ordering};
  use std::task::{Context, Poll};
- use std::time::Instant;
  use tor_proto::ClockSkew;
+ use web_time_compat::Instant;
 @@ -258,10 +258,10 @@ impl RequestId {
      /// Panics if we have somehow exhausted a 64-bit space of request IDs.
      pub(crate) fn next() -> RequestId {
@@ -147,7 +147,7 @@
              selected_init_primary: false,
          };
  
-@@ -1210,7 +1210,7 @@ impl ConfluxSet {
+@@ -1202,7 +1202,7 @@ impl ConfluxSet {
  
      /// Check if the specified sequence number is the sequence number of the
      /// next message we're expecting to handle.
@@ -264,7 +264,7 @@
  use crate::circuit::UniqId;
  use derive_more::Display;
 @@ -10,7 +10,7 @@ use derive_more::Display;
- #[display("{}", _0)]
+ #[display("Tunnel {}", _0)]
  #[cfg_attr(feature = "relay", visibility::make(pub))]
  #[allow(unreachable_pub)] // TODO(#1447): use in ChanMgr's ChannelProvider impl
 -pub(crate) struct TunnelId(u64);

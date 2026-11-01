@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=arti
-PKG_VERSION:=2.1.0
+PKG_VERSION:=2.4.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_NAME)-v$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://gitlab.torproject.org/tpo/core/arti/-/archive/$(PKG_NAME)-v$(PKG_VERSION)
-PKG_HASH:=9187d6a7b789de4e6b09445c8f3ba63f3ec24bc080a36468b923cda38070208d
+PKG_HASH:=78dc7e42b814c232b7125499182fd945f4a21d61fd738f1d57e85cc2103ffe67
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=GPL-3 LGPL-3 LICENSE-APACHE LICENSE-MIT
@@ -23,7 +23,7 @@ include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
 PKG_BUILD_DEPENDS += \
-	chrono-0443 coarsetime-0137 getrandom-0217 getrandom-034 getrandom-041 \
+	chrono-0444 coarsetime-0137 getrandom-0217 getrandom-034 getrandom-042 \
 	iana-time-zone-0164 merlin-300 openssl-probe-021 rust-bindgen/host
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
@@ -139,7 +139,9 @@ endef
 CARGO_ARGS += --features 'full'
 
 # cannot be used when making a shared object; recompile with -fPIC
-RUSTFLAGS += -C relocation-model=pic
+PKG_RUSTFLAGS += -C relocation-model=pic
+TARGET_CFLAGS += $(FPIC)
+TARGET_LDFLAGS += $(FPIC)
 
 define Package/arti/install
 	$(INSTALL_DIR) $(1)/opt/usr/bin
