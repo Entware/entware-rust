@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -27,7 +27,7 @@ bat = { version = "0.24.0", default-feat
+@@ -27,7 +27,7 @@ bat = { version = "0.26.0", default-feat
  bitflags = "2.2.1"
  box_drawing = "0.1.2"
  bytelines = { version = "2.5.0", default-features = false }
@@ -9,7 +9,7 @@
  chrono-humanize = "0.2.2"
  clap_complete = "4.4.4"
  clap = { version = "4.3.14", features = [
-@@ -73,3 +73,10 @@ opt-level = 3
+@@ -76,3 +76,10 @@ opt-level = 3
  
  [profile.dev.package.similar]
  opt-level = 3
