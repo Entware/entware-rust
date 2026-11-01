@@ -1,0 +1,20 @@
+--- a/src/service.rs
++++ b/src/service.rs
+@@ -262,7 +262,7 @@ impl<R: ServiceRole, S: Service<R>> DynS
+ use std::{
+     collections::{HashMap, VecDeque},
+     ops::Deref,
+-    sync::{Arc, atomic::AtomicU64},
++    sync::{Arc, atomic::AtomicUsize},
+     time::Duration,
+ };
+ 
+@@ -281,7 +281,7 @@ pub type AtomicU32ProgressTokenProvider
+ 
+ #[derive(Debug, Default)]
+ pub struct AtomicU32Provider {
+-    id: AtomicU64,
++    id: AtomicUsize,
+ }
+ 
+ impl RequestIdProvider for AtomicU32Provider {
