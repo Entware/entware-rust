@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=static-web-server
-PKG_VERSION:=2.41.0
+PKG_VERSION:=2.43.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/joseluisq/static-web-server/tar.gz/v$(PKG_VERSION)?
-PKG_HASH:=d3b3f7144180b74db2a39f8a21df546e1321336b0cb85d97f6769b6235668d2b
+PKG_HASH:=bc88f3bf22fceab1eb49f8a81277f4d73348849fab7376fb746607e0063f0a73
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -19,7 +19,8 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0444 getrandom-0217 getrandom-034 iana-time-zone-0164
+PKG_BUILD_DEPENDS += \
+	chrono-0444 getrandom-0217 getrandom-034 getrandom-042 iana-time-zone-0164
 
 define Package/static-web-server
   SECTION:=net
@@ -39,7 +40,7 @@ RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
 # x86_64: undefined reference to `__stack_chk_guard'
 ifeq ($(CONFIG_x86_64),y)
-RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+PKG_RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 
 define Package/static-web-server/install

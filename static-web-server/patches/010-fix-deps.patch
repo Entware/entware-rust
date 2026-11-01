@@ -1,6 +1,15 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -68,7 +68,7 @@ async-compression = { version = "0.4", d
+@@ -38,7 +38,7 @@ doc = false
+ 
+ [features]
+ # All features enabled by default
+-default = ["compression", "http2-ring", "directory-listing", "directory-listing-download", "basic-auth", "fallback-page", "metrics"]
++default = ["compression", "http2-ring", "directory-listing", "directory-listing-download", "basic-auth", "fallback-page"]
+ # Include all features (used when building SWS binaries)
+ all = ["default", "experimental"]
+ # Default feature set with the FIPS crypto provider in place of ring.
+@@ -79,7 +79,7 @@ async-compression = { version = "0.4", d
  async-tar = { version = "0.5.1", optional = true }
  bcrypt = { version = "0.18.0", optional = true }
  bytes = "1.11.1"
@@ -9,7 +18,7 @@
  clap = { version = "4.5", features = ["derive", "env"] }
  clap_allgen = "0.2.1"
  compact_str = { version = "0.9.0", optional = true }
-@@ -142,3 +142,11 @@ pre-build = [
+@@ -163,3 +163,12 @@ pre-build = [
      "cp /tmp/netbsd/usr/lib/libexecinfo.so /usr/local/x86_64-unknown-netbsd/lib",
      "rm -rf base.tar.xz /tmp/netbsd",
  ]
@@ -21,3 +30,4 @@
 +# all: no SYS_getrandom
 +getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
 +getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
++getrandom4 = { path = "../getrandom-0.4.2", package = "getrandom", version = "0.4.2" }
