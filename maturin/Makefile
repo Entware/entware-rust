@@ -5,11 +5,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=maturin
-PKG_VERSION:=1.12.6
+PKG_VERSION:=1.13.3
 PKG_RELEASE:=1
 
 PYPI_NAME:=maturin
-PKG_HASH:=d37be3a811a7f2ee28a0fa0964187efa50e90f21da0c6135c27787fa0b6a89db
+PKG_HASH:=771e1e9e71a278e56db01552e0d1acfd1464259f9575b6e72842f893cd299079
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=license-apache license-mit
@@ -23,7 +23,12 @@ HOST_BUILD_DEPENDS:= \
 HOST_BUILD_PARALLEL:=1
 HOST_PATCH_DIR:=
 
-PKG_BUILD_DEPENDS:=$(HOST_BUILD_DEPENDS) getrandom-0217 getrandom-034 rustc-dev
+PKG_BUILD_DEPENDS:= \
+	$(HOST_BUILD_DEPENDS) \
+	getrandom-0217 \
+	getrandom-034 \
+	getrandom-042 \
+	rustc-dev
 
 PKG_BUILD_FLAGS:=no-mips16
 
