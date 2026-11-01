@@ -35,7 +35,7 @@
  
  use ntp_proto::{ProtocolVersion, SourceConfig, SourceNtsData};
  use serde::{Deserialize, Serialize};
-@@ -26,8 +26,8 @@ pub struct SpawnerId(u64);
+@@ -29,8 +29,8 @@ pub struct SpawnerId(u64);
  
  impl SpawnerId {
      pub fn new() -> SpawnerId {
@@ -46,7 +46,7 @@
      }
  }
  
-@@ -45,8 +45,8 @@ pub struct SourceId(u64);
+@@ -48,8 +48,8 @@ pub struct SourceId(u64);
  
  impl SourceId {
      pub fn new() -> SourceId {

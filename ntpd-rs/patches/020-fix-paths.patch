@@ -22,7 +22,7 @@
  # for more information
 --- a/ntpd/src/ctl.rs
 +++ b/ntpd/src/ctl.rs
-@@ -197,7 +197,7 @@ pub fn main() -> std::io::Result<ExitCod
+@@ -202,7 +202,7 @@ pub fn main() -> std::io::Result<ExitCod
              let observation = config
                  .observability
                  .observation_path
@@ -31,7 +31,7 @@
  
              Builder::new_current_thread()
                  .enable_all()
-@@ -409,7 +409,7 @@ mod tests {
+@@ -448,7 +448,7 @@ mod tests {
          Ok(())
      }
  
@@ -42,7 +42,7 @@
      fn cli_config() {
 --- a/ntpd/src/daemon/config/mod.rs
 +++ b/ntpd/src/daemon/config/mod.rs
-@@ -393,7 +393,7 @@ impl Config {
+@@ -395,7 +395,7 @@ impl Config {
          }
  
          // for the global file we also ignore it when there are permission errors
@@ -51,7 +51,7 @@
          if global_path.exists() {
              info!("using config file at default location `{:?}`", global_path);
              match Config::from_file(global_path) {
-@@ -738,14 +738,14 @@ mod tests {
+@@ -740,14 +740,14 @@ mod tests {
  
      #[test]
      fn cli_external_config() {
@@ -68,7 +68,7 @@
          let parsed_empty = NtpDaemonOptions::try_parse_from(arguments).unwrap();
  
          assert_eq!(parsed_empty.config, Some("other.toml".into()));
-@@ -755,13 +755,13 @@ mod tests {
+@@ -757,13 +757,13 @@ mod tests {
  
      #[test]
      fn cli_log_level() {
@@ -86,7 +86,7 @@
          assert!(parsed_empty.config.is_none());
 --- a/ntpd/src/metrics/exporter.rs
 +++ b/ntpd/src/metrics/exporter.rs
-@@ -23,7 +23,7 @@ const DESCRIPTOR: &str = "ntp-metrics-ex
+@@ -24,7 +24,7 @@ const DESCRIPTOR: &str = "ntp-metrics-ex
  
  const HELP_MSG: &str = "Options:
    -c, --config=CONFIG                  ntpd-rs configuration file (default:
@@ -95,7 +95,7 @@
    -h, --help                           display this help text
    -v, --version                        display version information";
  
-@@ -302,7 +302,7 @@ mod tests {
+@@ -314,7 +314,7 @@ mod tests {
  
      use super::*;
  
