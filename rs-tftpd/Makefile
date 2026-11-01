@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rs-tftpd
-PKG_VERSION:=0.5.1
+PKG_VERSION:=1.0.0
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/altugbakan/rs-tftpd/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=ed6c384b5da77c5080bce3a9fe6b774321e31da6e9d447f2c72d40f6bd62ed73
+PKG_HASH:=bd82b264501bf35bbd2fd219297e7bd385eb740906058157eb5a1bf2fcdf2b00
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE.md
