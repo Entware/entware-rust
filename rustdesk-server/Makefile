@@ -5,13 +5,13 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rustdesk-server
-PKG_VERSION:=1.1.15
+PKG_VERSION:=1.1.16
 PKG_RELEASE:=1
 
 PKG_SOURCE_PROTO:=git
 PKG_SOURCE_VERSION:=$(PKG_VERSION)
 PKG_SOURCE_URL:=https://github.com/rustdesk/rustdesk-server
-PKG_MIRROR_HASH:=d1419cca878bb6d0e3079bd62c7508430d1a3f92f00bcada51d38c9ca8bb148c
+PKG_MIRROR_HASH:=aa2427442ae3b78a52bd1d00203aaa2a1ffca082c48b171aa0cb81fcea363f1d
 
 PKG_LICENSE:=AGPL-3.0
 PKG_LICENSE_FILES:=LICENSE
@@ -36,15 +36,15 @@ define Package/rustdesk-server/description
 endef
 
 # cannot be used when making a shared object; recompile with -fPIC
-RUSTFLAGS += -C relocation-model=pic
+PKG_RUSTFLAGS += -C relocation-model=pic
 
 ifneq ($(CONFIG_ARCH_64BIT),y)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
+PKG_RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
 
 # x86_64: undefined reference to `__stack_chk_guard'
 ifeq ($(CONFIG_x86_64),y)
-RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+PKG_RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 
 define Package/rustdesk-server/install
