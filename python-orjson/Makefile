@@ -5,18 +5,19 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=orjson
-PKG_VERSION:=3.11.5
+PKG_VERSION:=3.11.7
 PKG_RELEASE:=1
 
 PYPI_NAME:=orjson
-PKG_HASH:=82393ab47b4fe44ffd0a7659fa9cfaacc717eb617c93cde83795f14af5c2e9d5
+PKG_HASH:=9b1a67243945819ce55d24a30b59d6a168e86220452d2c96f4d1f093e71c0c49
 
-PKG_LICENSE:=Apache-2.0 MIT
-PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
+PKG_LICENSE:=Apache-2.0 MIT MPL-2.0
+PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT LICENSE-MPL-2.0
 PKG_MAINTAINER:=Entware team, https://entware.net
 
 PKG_BUILD_DEPENDS:= \
-	getrandom-0215 getrandom-0216 getrandom-031 getrandom-034 maturin/host
+	getrandom-0215 getrandom-0216 getrandom-0217 getrandom-031 \
+	getrandom-034 maturin/host
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
@@ -35,7 +36,7 @@ define Package/python3-orjson/description
   Fast, correct Python JSON library supporting dataclasses, datetimes, and numpy.
 endef
 
-RUSTFLAGS += -C relocation-model=pic
+PKG_RUSTFLAGS += -C relocation-model=pic
 
 define Build/Prepare
 	$(call Build/Prepare/Default)
