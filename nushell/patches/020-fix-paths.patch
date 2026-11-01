@@ -2,21 +2,21 @@
 +++ b/crates/nu-path/src/tilde.rs
 @@ -9,7 +9,7 @@ const FALLBACK_USER_HOME_BASE_DIR: &str
  const FALLBACK_USER_HOME_BASE_DIR: &str = "C:\\Users\\";
- 
+
  #[cfg(all(unix, not(target_os = "macos"), not(target_os = "android")))]
 -const FALLBACK_USER_HOME_BASE_DIR: &str = "/home";
 +const FALLBACK_USER_HOME_BASE_DIR: &str = "/opt/home";
- 
+
  #[cfg(all(unix, target_os = "android"))]
  const FALLBACK_USER_HOME_BASE_DIR: &str = "/data";
---- a/crates/nu-protocol/src/eval_const.rs
-+++ b/crates/nu-protocol/src/eval_const.rs
-@@ -320,7 +320,7 @@ pub fn get_vendor_autoload_dirs(_engine_
-                     }
-                 })
-             })
--            .unwrap_or_else(|| std::ffi::OsString::from("/usr/local/share/:/usr/share/"))
-+            .unwrap_or_else(|| std::ffi::OsString::from("/opt/usr/share:/opt/share:/usr/local/share/:/usr/share/"))
-             .as_encoded_bytes()
-             .split(|b| *b == b':')
-             .map(|split| into_autoload_path_fn(PathBuf::from(std::ffi::OsStr::from_bytes(split))))
+--- a/crates/nu-config/src/resolve.rs
++++ b/crates/nu-config/src/resolve.rs
+@@ -215,7 +215,7 @@ fn resolve_vendor_autoload_dirs(env: &im
+
+         let data_dirs: OsString = env.var_os("XDG_DATA_DIRS").unwrap_or_else(|| {
+             option_env!("PREFIX").map_or_else(
+-                || OsString::from("/usr/local/share/:/usr/share/"),
++                || OsString::from("/opt/usr/share:/opt/share:/usr/local/share/:/usr/share/"),
+                 |prefix| {
+                     if prefix.ends_with("local") {
+                         OsString::from(format!("{prefix}/share"))

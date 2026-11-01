@@ -1,0 +1,19 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -2418,8 +2418,6 @@ checksum = "4845927ba8f3f2e2f4d9ea63084e
+ [[package]]
+ name = "fff-search"
+ version = "0.10.3"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "cdd36cdc5ffea9e87fb8879d064cbaa529c65421d1de7866d40c7f5ef2597b23"
+ dependencies = [
+  "ahash",
+  "aho-corasick",
+@@ -2441,6 +2439,7 @@ dependencies = [
+  "notify 9.0.0-rc.4",
+  "parking_lot",
+  "pathdiff",
++ "portable-atomic",
+  "rayon",
+  "regex",
+  "regex-syntax 0.8.11",
