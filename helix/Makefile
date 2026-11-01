@@ -6,10 +6,10 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=helix
 PKG_VERSION:=25.07.1
-PKG_RELEASE:=2
+PKG_RELEASE:=3
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
-PKG_SOURCE_URL:=https://codeload.github.com/helix-editor/helix/tar.gz/refs/tags/$(PKG_VERSION)?
+PKG_SOURCE_URL:=https://codeload.github.com/helix-editor/helix/tar.gz/$(PKG_VERSION)?
 PKG_HASH:=27c8bc3eba46bc7bab1e3629c6b28ff94882eeff17366b3ea69cd8ceffba7541
 
 PKG_LICENSE:=MPL-2.0
