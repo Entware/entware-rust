@@ -1,6 +1,6 @@
 --- a/Cargo.lock
 +++ b/Cargo.lock
-@@ -833,8 +833,6 @@ dependencies = [
+@@ -787,8 +787,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.2.16"
@@ -9,7 +9,7 @@
  dependencies = [
   "cfg-if",
   "libc",
-@@ -844,8 +842,6 @@ dependencies = [
+@@ -798,8 +796,6 @@ dependencies = [
  [[package]]
  name = "getrandom"
  version = "0.3.4"
