@@ -34,7 +34,7 @@ define Package/dexios/description
 endef
 
 ifneq ($(CONFIG_ARCH_64BIT),y)
-RUSTFLAGS += --cfg crossbeam_no_atomic_64
+PKG_RUSTFLAGS += --cfg crossbeam_no_atomic_64
 endif
 
 define Package/dexios/install
