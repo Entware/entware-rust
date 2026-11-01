@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=hickory-dns
-PKG_VERSION:=0.24.0
-PKG_RELEASE:=5
+PKG_VERSION:=0.26.2
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/hickory-dns/hickory-dns/tar.gz/refs/tags/v$(PKG_VERSION)?
-PKG_HASH:=e5158a8e412876768fc3d171ef4b2c3e0d4e99c1a1d082018b93bcda9fb31334
+PKG_HASH:=22feb683f4eae7f96901f141f88c0e06969504c238482798d1a91231f0ae13bb
 
 PKG_LICENSE:=Apache-2.0 MIT
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += getrandom-0215 quinn-0104
+PKG_BUILD_DEPENDS += getrandom-0217 getrandom-034 getrandom-042
 
 define Package/hickory-dns
   SECTION:=net
@@ -36,7 +36,7 @@ define Package/hickory-dns/description
 endef
 
 CARGO_ARGS += \
-	--features="dns-over-https-rustls"
+	--features="https-ring"
 
 define Package/hickory-dns/install
 	$(INSTALL_DIR) $(1)/opt/etc/hickory-dns

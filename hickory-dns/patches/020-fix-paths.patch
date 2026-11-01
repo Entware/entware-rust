@@ -1,0 +1,33 @@
+--- a/bin/src/lib.rs
++++ b/bin/src/lib.rs
+@@ -75,7 +75,7 @@ pub struct DnsServer {
+     #[clap(
+         short = 'c',
+         long = "config",
+-        default_value = "/etc/named.toml",
++        default_value = "/opt/etc/hickory-dns/named.toml",
+         value_name = "NAME",
+         value_hint=clap::ValueHint::FilePath,
+     )]
+--- a/bin/src/config/mod.rs
++++ b/bin/src/config/mod.rs
+@@ -795,7 +795,7 @@ fn default_http_endpoint() -> String {
+ }
+ 
+ fn default_directory() -> PathBuf {
+-    PathBuf::from("/var/named") // TODO what about windows (do I care? ;)
++    PathBuf::from("/opt/var/lib/named") // TODO what about windows (do I care? ;)
+ }
+ 
+ fn default_port() -> u16 {
+--- a/tests/test-data/test_configs/example.toml
++++ b/tests/test-data/test_configs/example.toml
+@@ -38,7 +38,7 @@
+ # ssl_keylog_enabled = false
+ 
+ ## directory: path on the host filesystem to where zone files are stored.
+-# directory = "/var/named"
++# directory = "/opt/var/lib/named"
+ 
+ ## Denied networks, a list of CIDRs in IPv4 or IPv6 formats,
+ ##  any request that does not originate from the specified networks will be allowed
