@@ -18,7 +18,7 @@
  dependencies = [
   "cfg-if",
   "libc",
-@@ -595,8 +591,6 @@ checksum = "9a3a5bfb195931eeb336b2a7b4d7
+@@ -601,8 +597,6 @@ checksum = "9a3a5bfb195931eeb336b2a7b4d7
  [[package]]
  name = "iana-time-zone"
  version = "0.1.60"
@@ -27,7 +27,7 @@
  dependencies = [
   "android_system_properties",
   "core-foundation-sys",
-@@ -609,8 +603,6 @@ dependencies = [
+@@ -615,8 +609,6 @@ dependencies = [
  [[package]]
  name = "iana-time-zone-haiku"
  version = "0.1.2"
