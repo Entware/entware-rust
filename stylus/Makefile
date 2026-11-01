@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0441 getrandom-033 iana-time-zone-0163 deno/host
+PKG_BUILD_DEPENDS += chrono-0441 getrandom-033 iana-time-zone-0163
 
 define Package/stylus
   SECTION:=net
@@ -32,23 +32,42 @@ define Package/stylus/description
   Stylus (style + status) is a lightweight status page for home infrastructure.
 endef
 
-define Build/Web
+FRONTEND:=$(PKG_NAME)-frontend-$(PKG_VERSION).tar.gz
+
+ifeq (,$(wildcard $(DL_DIR)/$(FRONTEND)))
+PKG_BUILD_DEPENDS += deno/host
+endif
+
+FILE_EXISTS:=$(PKG_BUILD_DIR)/crates/stylus-ui/src/compiled/stylus.js.map.gz
+
+define Build/Frontend
 	( \
-		cd $(PKG_BUILD_DIR)/crates/stylus-ui; \
-		rm -f web/deno.lock; \
-		DENO_DIR=$(TMP_DIR)/deno-cache \
-		deno install --config web/deno.json --reload; \
-		DENO_DIR=$(TMP_DIR)/deno-cache \
-		deno bundle --config web/deno.json --minify --platform browser \
-	        	--output src/compiled/stylus.js \
-			--sourcemap=external web/src/app.tsx; \
-		gzip -9 --force src/compiled/stylus.js.map; \
-		$(CP) web/src/style.css src/compiled/stylus.css; \
+		cd $(PKG_BUILD_DIR); \
+		if [ ! -f "$(DL_DIR)/$(FRONTEND)" ]; then \
+			cd crates/stylus-ui; \
+			rm -f web/deno.lock; \
+			DENO_DIR=$(TMP_DIR)/deno-cache \
+			deno install --config web/deno.json --reload; \
+			DENO_DIR=$(TMP_DIR)/deno-cache \
+				deno bundle --config web/deno.json \
+				--minify --platform browser \
+	        		--output src/compiled/stylus.js \
+				--sourcemap=external web/src/app.tsx; \
+			gzip -9 --force src/compiled/stylus.js.map; \
+			$(CP) web/src/style.css src/compiled/stylus.css; \
+			if [ -f "$(FILE_EXISTS)" ]; then \
+				cd $(PKG_BUILD_DIR) && \
+				$(TAR) -cf $(DL_DIR)/$(FRONTEND) \
+					crates/stylus-ui/src/compiled; \
+			fi; \
+		else \
+			$(TAR) -xf $(DL_DIR)/$(FRONTEND); \
+		fi; \
 	)
 endef
 
 define Build/Compile
-	$(call Build/Web)
+	$(call Build/Frontend)
 	$(call Build/Compile/Cargo)
 endef
 
