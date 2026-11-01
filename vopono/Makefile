@@ -7,12 +7,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=vopono
-PKG_VERSION:=0.10.15
+PKG_VERSION:=1.0.1
 PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/jamesmcm/vopono/tar.gz/refs/tags/$(PKG_VERSION)?
-PKG_HASH:=9394a3b1c68cacac09c6d9e9ae71fca9c9229a5bf381ccb0b5e408aeb77b5ff9
+PKG_HASH:=e6560d8845e734f2252df1f4a774921e4dde55cccb852dd4bba6e37f032a036d
 
 PKG_LICENSE:=GPL-3.0-or-later
 PKG_LICENSE_FILES:=LICENSE
@@ -21,7 +21,7 @@ PKG_MAINTAINER:=Entware team, https://entware.net
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0442 getrandom-0216 getrandom-034 iana-time-zone-0164
+PKG_BUILD_DEPENDS += chrono-0445 getrandom-0217 getrandom-043 iana-time-zone-0164
 
 define Package/vopono
   SECTION:=net
