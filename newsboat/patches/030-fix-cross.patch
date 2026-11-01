@@ -35,7 +35,7 @@
  MSGFMT=msgfmt
  RANLIB?=ranlib
  AR?=ar
-@@ -358,14 +361,14 @@ install-podboat: $(PODBOAT)
+@@ -364,14 +367,14 @@ install-podboat: $(PODBOAT)
  
  install-docs: doc
  	$(MKDIR) $(DESTDIR)$(docdir)
