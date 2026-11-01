@@ -41,7 +41,7 @@ endef
 
 # x86_64: undefined reference to `__stack_chk_guard'
 ifeq ($(CONFIG_x86_64),y)
-RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
+PKG_RUSTFLAGS += $(if $(CONFIG_GCC_LIBSSP),-l dylib=ssp)
 endif
 
 define Package/qsc/install
