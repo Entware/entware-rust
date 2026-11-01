@@ -5,12 +5,12 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=gping
-PKG_VERSION:=1.20.1
-PKG_RELEASE:=2
+PKG_VERSION:=1.21.0
+PKG_RELEASE:=1
 
 PKG_SOURCE:=$(PKG_NAME)-$(PKG_VERSION).tar.gz
 PKG_SOURCE_URL:=https://codeload.github.com/orf/gping/tar.gz/refs/tags/$(PKG_NAME)-v$(PKG_VERSION)?
-PKG_HASH:=0df965111429d5fcef832a4ff23b452a1ec8f683d51ed31ce9b10902c0a18a9c
+PKG_HASH:=350c091923f67fdc72847e12368b2f207015be200ea1d781bce422a2a884d1c6
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -18,7 +18,7 @@ PKG_LICENSE_FILES:=LICENSE
 include $(INCLUDE_DIR)/package.mk
 include ../rustc-dev/cargo.mk
 
-PKG_BUILD_DEPENDS += chrono-0441 getrandom-033 iana-time-zone-0163
+PKG_BUILD_DEPENDS += chrono-0444 getrandom-043 iana-time-zone-0164
 PKG_UNPACK += --strip-components=1 -C $(PKG_BUILD_DIR)
 
 define Package/gping
