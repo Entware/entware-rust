@@ -1,0 +1,19 @@
+--- a/Cargo.lock
++++ b/Cargo.lock
+@@ -2147,8 +2147,6 @@ dependencies = [
+ [[package]]
+ name = "google-cloud-auth"
+ version = "1.16.0"
+-source = "registry+https://github.com/rust-lang/crates.io-index"
+-checksum = "ff461519b1a948200f163574be072753bcfb462a323f0eb426629d89872dd685"
+ dependencies = [
+  "async-trait",
+  "aws-lc-rs",
+@@ -2160,6 +2158,7 @@ dependencies = [
+  "http 1.5.0",
+  "jiff",
+  "jsonwebtoken",
++ "portable-atomic",
+  "reqwest 0.13.4",
+  "rustc_version",
+  "rustls",
