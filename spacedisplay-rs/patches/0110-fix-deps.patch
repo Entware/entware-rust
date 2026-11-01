@@ -1,3 +1,14 @@
+--- a/app/Cargo.toml
++++ b/app/Cargo.toml
+@@ -17,7 +17,7 @@ diskscan = { path = "../lib", version =
+ 
+ anyhow = "1.0"
+ byte-unit = { version = "4.0", default-features = false, features = ["std"] }
+-clap = { version = "4.0.18", features = ["derive"] }
++clap = { version = "4.4", features = ["derive"] }
+ crossterm = { version = "0.26.1", features = ["serde"] }
+ derivative = "2.2.0"
+ lazy_static = "1.4.0"
 --- a/lib/Cargo.toml
 +++ b/lib/Cargo.toml
 @@ -23,7 +23,7 @@ ptree = { version = "0.4.0", default-fea
