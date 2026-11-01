@@ -1,9 +1,9 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -87,3 +87,10 @@ pretty_assertions = "1.0.0"
+@@ -126,3 +126,10 @@ pretty_assertions = "1.0.0"
  
- [lints.clippy]
- all = "deny"
+ [lints]
+ workspace = true
 +
 +[patch.crates-io]
 +# localtime/zoneinfo
