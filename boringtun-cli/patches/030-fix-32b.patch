@@ -1,16 +1,15 @@
 --- a/boringtun/src/noise/rate_limiter.rs
 +++ b/boringtun/src/noise/rate_limiter.rs
-@@ -4,8 +4,9 @@ use crate::noise::{HandshakeInit, Handsh
+@@ -4,7 +4,8 @@ use crate::noise::{HandshakeInit, Handsh
  
  #[cfg(feature = "mock-instant")]
  use mock_instant::Instant;
+-use portable_atomic::{AtomicU64, Ordering};
 +use std::convert::TryInto;
++use portable_atomic::{AtomicUsize, Ordering};
  use std::net::IpAddr;
--use std::sync::atomic::{AtomicU64, Ordering};
-+use std::sync::atomic::{AtomicUsize, Ordering};
  
  #[cfg(not(feature = "mock-instant"))]
- use crate::sleepyinstant::Instant;
 @@ -41,12 +42,12 @@ pub struct RateLimiter {
      secret_key: [u8; 16],
      start_time: Instant,
