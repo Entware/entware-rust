@@ -9,9 +9,9 @@
 +chrono = "0.4.44"
 +
 +[patch.crates-io]
-+nu-path = { path = "../nushell-0.111.0/crates/nu-path" }
-+nu-plugin = { path = "../nushell-0.111.0/crates/nu-plugin" }
-+nu-protocol = { path = "../nushell-0.111.0/crates/nu-protocol" }
++nu-path = { path = "../nushell-0.115.1/crates/nu-path" }
++nu-plugin = { path = "../nushell-0.115.1/crates/nu-plugin" }
++nu-protocol = { path = "../nushell-0.115.1/crates/nu-protocol" }
 +# localtime/zoneinfo
 +chrono = { path = "../chrono-0.4.44" }
 +iana-time-zone = { path = "../iana-time-zone-0.1.64" }
