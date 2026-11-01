@@ -43,7 +43,7 @@ endef
 
 # error: linking with `x86_64-*-linux-gnu-gcc` failed: exit status: 1
 ifeq ($(CONFIG_x86_64),y)
-RUSTFLAGS += -C relocation-model=pic
+PKG_RUSTFLAGS += -C relocation-model=pic
 endif
 
 define Package/python3-ruff/postrm
