@@ -142,6 +142,10 @@ CARGO_ARGS += --no-default-features --features "$(BINS) $(DEFAULT_FEATURES) $(EX
 # error: failed to run custom build command for `openssl-sys v0.9.102`
 RUSTC_VARS += OPENSSL_NO_VENDOR=1
 
+# Use target libc headers and floating-point ABI for RocksDB bindings.
+RUSTC_VARS += \
+	BINDGEN_EXTRA_CLANG_ARGS_$(subst -,_,$(RUSTC_TARGET_ARCH))="--sysroot=$(TOOLCHAIN_DIR) $(if $(CONFIG_SOFT_FLOAT),-msoft-float)"
+
 # arm/mips(el): .../libatomic.so.1: error adding symbols: DSO missing from command line
 ifneq ($(CONFIG_ARCH_64BIT),y)
 PKG_RUSTFLAGS += -l dylib=atomic
