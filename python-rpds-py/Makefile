@@ -5,11 +5,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=rpds-py
-PKG_VERSION:=0.26.0
+PKG_VERSION:=2026.9.1
 PKG_RELEASE:=1
 
 PYPI_NAME:=rpds_py
-PKG_HASH:=20dae58a859b0906f0685642e591056f1e787f3a8b39c8e8749a45dc7d26bdb0
+PKG_HASH:=4793ef7f78268b124b73fa933440f01d258bbae01de9fa53e9080c9ab0425a12
 
 PKG_LICENSE:=MIT
 PKG_LICENSE_FILES:=LICENSE
@@ -34,13 +34,6 @@ Python bindings to the Rust rpds crate for persistent data structures.
 endef
 
 PKG_RUSTFLAGS += -C relocation-model=pic
-
-define Package/python3-rpds-py/postrm
-#!/bin/sh
-
-rm -rf $(PYTHON3_PKG_DIR)/rpds || true
-rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_SOURCE_NAME)-$(PKG_VERSION).dist-info || true
-endef
 
 $(eval $(call Py3Package,python3-rpds-py))
 $(eval $(call BuildPackage,python3-rpds-py))
