@@ -5,19 +5,18 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=orjson
-PKG_VERSION:=3.11.7
+PKG_VERSION:=3.13.0
 PKG_RELEASE:=1
 
 PYPI_NAME:=orjson
-PKG_HASH:=9b1a67243945819ce55d24a30b59d6a168e86220452d2c96f4d1f093e71c0c49
+PKG_HASH:=d1de5eb04485110c5da4c657e49168995d55e076b1ce60f1a042e254f4186c4f
 
 PKG_LICENSE:=Apache-2.0 MIT MPL-2.0
 PKG_LICENSE_FILES:=LICENSE-APACHE LICENSE-MIT LICENSE-MPL-2.0
 PKG_MAINTAINER:=Entware team, https://entware.net
 
 PKG_BUILD_DEPENDS:= \
-	getrandom-0215 getrandom-0216 getrandom-0217 getrandom-031 \
-	getrandom-034 maturin/host
+	getrandom-0217 getrandom-043 maturin/host
 
 include $(TOPDIR)/feeds/packages/lang/python/pypi.mk
 include $(INCLUDE_DIR)/package.mk
@@ -43,13 +42,6 @@ define Build/Prepare
 	$(FIND) $(PKG_BUILD_DIR)/include/cargo \
 		-type f -name ".cargo-checksum.json" \
 		-exec $(SED) 's/\("files":{\)[^}]*/\1/' {} +
-endef
-
-define Package/python3-orjson/postrm
-#!/bin/sh
-
-rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_NAME) || true
-rm -rf $(PYTHON3_PKG_DIR)/$(PYPI_NAME)-$(PKG_VERSION).dist-info || true
 endef
 
 $(eval $(call Py3Package,python3-orjson))
