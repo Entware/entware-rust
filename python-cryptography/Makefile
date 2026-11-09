@@ -5,11 +5,11 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=cryptography
-PKG_VERSION:=46.0.7
+PKG_VERSION:=50.0.2
 PKG_RELEASE:=1
 
 PYPI_NAME:=cryptography
-PKG_HASH:=e4cfd68c5f3e0bfdad0d38e023239b96a2fe84146481852dffbcca442c245aa5
+PKG_HASH:=7b46165bb56eb4704e2eaaf86f3c940d19154535d9b0ca7d6d590b04060e00d5
 
 PKG_LICENSE:=Apache-2.0 BSD-3-Clause
 PKG_LICENSE_FILES:=LICENSE LICENSE.APACHE LICENSE.BSD LICENSE.PSF
@@ -44,14 +44,6 @@ define Package/python3-cryptography/description
   cryptography is a package which provides cryptographic recipes and primitives
   to Python developers. Our goal is for it to be your "cryptographic standard
   library".
-endef
-
-define Py3Package/python3-cryptography/filespec
-+|$(PYTHON3_PKG_DIR)
--|$(PYTHON3_PKG_DIR)/docs
--|$(PYTHON3_PKG_DIR)/tests
--|$(PYTHON3_PKG_DIR)/CHANGELOG.rst
--|$(PYTHON3_PKG_DIR)/CONTRIBUTING.rst
 endef
 
 PKG_RUSTFLAGS += -C relocation-model=pic
