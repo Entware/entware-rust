@@ -6,7 +6,7 @@ include $(TOPDIR)/rules.mk
 
 PKG_NAME:=nu-plugin-highlight
 PKG_VERSION:=1.4.17
-PKG_RELEASE:=1
+PKG_RELEASE:=2
 
 NUSHELL_VERSION:=0.115.1
 
