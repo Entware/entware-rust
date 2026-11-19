@@ -1,6 +1,6 @@
 --- a/share/config.fish
 +++ b/share/config.fish
-@@ -38,7 +38,7 @@ status get-file __fish_build_paths.fish
+@@ -21,7 +21,7 @@ status get-file __fish_build_paths.fish
  
  # Compute the directories for vendor configuration.  We want to include
  # all of XDG_DATA_DIRS, as well as the __extra_* dirs defined above.

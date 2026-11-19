@@ -1,6 +1,6 @@
 --- a/Cargo.toml
 +++ b/Cargo.toml
-@@ -257,3 +257,8 @@ print_stderr = "deny"
+@@ -257,3 +257,9 @@ print_stderr = "deny"
  
  [lints]
  workspace = true
@@ -9,3 +9,4 @@
 +# all: no SYS_getrandom
 +getrandom2 = { path = "../getrandom-0.2.17", package = "getrandom", version = "0.2.17" }
 +getrandom3 = { path = "../getrandom-0.3.4", package = "getrandom", version = "0.3.4" }
++getrandom4 = { path = "../getrandom-0.4.2", package = "getrandom", version = "0.4.2" }
